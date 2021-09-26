@@ -13,11 +13,11 @@ statement ::= (combinatory | component | haskell_type_def | haskell_data_def)
 
 Y combinatory ::= 'combinatory' OWS '{' haskell '}'
 
-Y component ::= 'component' WS identifier constantArgs '{' (iosStatement | WS)* haskell_where '}'
+Y component ::= 'component' WS identifier constantArgs '{' (isoStatement | WS)* haskell_where '}'
 X constantArgs ::= '(' (arg (',' arg)*)? ')'
 X arg ::= identifier
 
-Y iosStatement ::= 'state' WS identifier WS '=' WS constant_expr WS ':' WS haskell_type '\n'
+Y isoStatement ::= 'state' WS identifier WS '=' WS constant_expr WS ':' WS haskell_type '\n'
 							 | ioStatement
 -}
 
@@ -33,6 +33,7 @@ program = f <$> many (statement <* ows)
         f :: [Statement] -> Program
         f stats = foldl sorter (Program [] [] []) stats
 
+        -- later changed to record syntax, but that's just sugar for this stuff so this keeps working...
         sorter (Program defs combs comps) stat = case stat of
             CombinatoryStat comb -> Program defs ((Combinatory comb):combs) comps
             ComponentStat comp -> Program defs combs (comp:comps)
@@ -51,8 +52,8 @@ constExpr :: Parser ConstExpr
 constExpr = Constant <$> integer
     -- <|> iets met HaskellData of zo, komt wel
 
-iosStatement :: Parser IOSStat
-iosStatement
+isoStatement :: Parser ISOStat
+isoStatement
     =   try (SInput <$> (string "input"  *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n'))
     <|> try (SState <$> (string "state" *> ws *> identifier <* ows <* char '=' <* ows) <*> 
         (constExpr) <*> (ows *> char ':' *> ows *> haskell_type <* char '\n'))
@@ -62,5 +63,5 @@ component :: Parser Component
 component = Component
     <$> (string "component" *> ws *> identifier <* string "()" <* ows <* char '{' <* ws)
     <*> pure [] -- argument parsing part
-    <*> (many (iosStatement <* ows))
+    <*> (many (isoStatement <* ows))
     <*> (haskell_stat <* char '}')

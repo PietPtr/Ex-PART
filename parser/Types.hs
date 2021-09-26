@@ -6,13 +6,18 @@ data Combinatory = Combinatory String
     deriving Show
 
 type HaskellDef = String
-data Component = Component String [Argument] [IOSStat] WhereBlock
-    deriving Show
+
+data Component = Component {
+        cmp_name :: String,
+        cmp_args :: [Argument],
+        cmp_isoStats :: [ISOStat],
+        cmp_where :: WhereBlock
+    } deriving Show
 
 type Argument = String
 type WhereBlock = String
 
-data IOSStat
+data ISOStat
     = SInput String String
     | SState String ConstExpr String
     | SOutput String String
@@ -20,6 +25,8 @@ data IOSStat
 
 data Program = Program [HaskellDef] [Combinatory] [Component]
     deriving Show
+
+
 
 -- .expi result
 
