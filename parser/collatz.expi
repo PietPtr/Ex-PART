@@ -15,8 +15,8 @@ system in (6, 6) at (2, 2) {
         output val_out : Value
 
         router is router in (1, 4) at (0, 0)
-        onOdd is onOdd in (2, 3) at (router.w, 0)
-        onEven is onEven in (2, 3) at (router.w, onOdd.h)
+        onOdd is onOdd in (4, 2) at (router.w, 0)
+        onEven is onEven in (4, 2) at (router.w, onOdd.h)
         merger is merger in (1, 4) at (onOdd.x + onOdd.w, 0)
 
         router.val<-val_in
