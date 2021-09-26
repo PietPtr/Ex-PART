@@ -21,21 +21,30 @@ data IOSStat
 data Program = Program [HaskellDef] [Combinatory] [Component]
     deriving Show
 
-type Size = (Integer, Integer)
-type Coords = (Integer, Integer) -- tijdens parsen al reducen?
-
 -- .expi result
 
+type Size = (Integer, Integer)
+type Coords = (CoordExpr, CoordExpr)
+
+data CoordExpr
+    = CAdd CoordExpr CoordExpr
+    | CConst Integer
+    | CWidth String -- component identifier
+    | CHeight String
+    | CX String
+    | CY String
+    deriving Show
+
 data System = System {
-    flattened :: Bool,
+    sys_flattened :: Bool,
     sys_id :: String,
-    size :: Size,
-    coords :: Coords,
-    iodefs :: [IOStat],
-    instances :: [Instance],
-    connections :: [Connection],
-    repetitions :: [Repetition],
-    subsystems :: [System]
+    sys_size :: Size,
+    sys_coords :: Coords,
+    sys_iodefs :: [IOStat],
+    sys_instances :: [Instance],
+    sys_connections :: [Connection],
+    sys_repetitions :: [Repetition],
+    sys_subsystems :: [System]
     } deriving Show
 
 

@@ -3,26 +3,117 @@ module Parse_expi where
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Language
 
-import qualified Parse_shared as Shared
+import Parse_shared 
 import Types
 
 {-
 program ::= system # a program is exactly one system - the top entity.
 
-system ::= identifier WS 'in' WS size WS 'at' WS coords '{' 
+system ::= (flattened WS)? identifier WS 'in' WS size WS 'at' WS coords '{' 
 				(ioStatement | WS)* (instance | connection | system | WS)*  # waar is repitition hier?
 		'}'
 
-component_instantiation ::= identifier WS 'is' WS identifier '(' (arg (',' arg)*)? ')' WS 'in' WS size 
-instance ::= ('flattened' WS)? component_instantiation WS 'at' WS coords '\n'
-arg ::= haskell_type OWS ':' OWS 'Type'
+Y component_instantiation ::= identifier WS 'is' WS identifier '(' (arg (',' arg)*)? ')' WS 'in' WS size 
+Y instance ::=  component_instantiation WS 'at' WS coords '\n'
+X arg ::= haskell_type OWS ':' OWS 'Type'
 			| constant_expr OWS ':' OWS 'Const'
-size ::= '(' OWS number OWS ',' OWS number OWS ')'
-coords ::= '(' OWS coord_expr OWS ',' OWS coord_expr OWS ')'
-coord_expr ::= (number | identifier '.' ('w','h','x','h') | coord_expr '+' coord_expr)
+Y size ::= '(' OWS number OWS ',' OWS number OWS ')'
+Y coords ::= '(' OWS coord_expr OWS ',' OWS coord_expr OWS ')'
+Y coord_expr ::= (number | identifier '.' ('w','h','x','h') | coord_expr '+' coord_expr)
 
-connection ::= identifier ('.' identifier)? ('<-' | '->') identifier ('.' identifier)? '\n'
+Y connection ::= identifier ('.' identifier)? ('<-' | '->') identifier ('.' identifier)? '\n'
 
-repetition ::= identifier WS ('repeat' | 'chain') WS 'at' coords '{' (identifier OWS '=' OWS repeat_data '\n')* '}'
-repeat_data ::= coords | number | identifier | component_instantiation
+X repetition ::= identifier WS ('repeat' | 'chain') WS 'at' coords '{' (identifier OWS '=' OWS repeat_data '\n')* '}'
+X repeat_data ::= coords | number | identifier | component_instantiation
 -}
+
+data Statement
+    = InstanceStat Instance
+    | ConnectionStat Connection
+    | SystemStat System
+    | IOStatement IOStat
+    deriving Show
+
+
+system :: Parser System
+system = toSystem
+    <$> isFlatenned
+    <*> (identifier <* ws <* string "in" <* ws)
+    <*> (size <* ws <* string "at" <* ws)
+    <*> (coords <* ows) 
+    <*> (f <$> (char '{' *> system_body <* char '}'))
+    where
+        isFlatenned = option False (const True <$> (string "flatenned" <* ws))
+
+        f :: [Statement] -> ([IOStat], [Instance], [Connection], [System])
+        f stats = foldl sorter ([], [], [], []) stats
+
+        sorter (iostats, instances, connections, systems) statement = case statement of
+            (InstanceStat inst) -> (iostats, inst:instances, connections, systems)
+            (ConnectionStat conn) -> (iostats, instances, conn:connections, systems)
+            (SystemStat sys) -> (iostats, instances, connections, sys:systems)
+            (IOStatement ios) -> (ios:iostats, instances, connections, systems)
+
+        toSystem flattened name size coords (iostats, instances, connections, systems) =
+            System {
+                sys_flattened = flattened,
+                sys_id = name,
+                sys_size = size,
+                sys_coords = coords,
+                sys_iodefs = iostats,
+                sys_instances = instances,
+                sys_connections = connections,
+                sys_repetitions = [],
+                sys_subsystems = systems}
+
+system_body :: Parser [Statement]
+system_body = many1 (anystat <* ows)
+    where
+        anystat = try (IOStatement <$> (ows *> ioStatement))
+            <|> try (InstanceStat <$> (ows *> cmp_instance <* char '\n'))
+            <|> try (ConnectionStat <$> (ows *> connection <* char '\n'))
+            <|> (SystemStat <$> (ows *> system))
+
+cmp_instance :: Parser Instance
+cmp_instance = Instance
+    <$> (identifier <* ws <* string "is" <* ws) -- identifier
+    <*> (identifier <* ws <* string "in" <* ws) -- generic component name
+    <*> (pure []) -- arguments
+    <*> (size <* ws <* string "at" <* ws) -- size
+    <*> coords -- coords
+
+size :: Parser Size
+size = (,) <$> (char '(' *> integer <* char ',') <*> (integer <* char ')')
+
+coords :: Parser Coords
+coords = (,) 
+    <$> (char '(' *> ows *> coord_expr <* ows <* char ',') 
+    <*> (ows *> coord_expr <* ows <* char ')')
+
+coord_expr :: Parser CoordExpr
+coord_expr =
+    try (CAdd <$> (coord_bottom <|> coord_expr) <*> (ows *> char '+' *> ows *> (coord_bottom <|> coord_expr)))
+    <|> coord_bottom
+
+coord_bottom :: Parser CoordExpr
+coord_bottom
+    =   (CConst  <$> integer)
+    <|> try (CWidth  <$> identifier <* char '.' <* char 'w' )
+    <|> try (CHeight <$> identifier <* char '.' <* char 'h' )
+    <|> try (CX      <$> identifier <* char '.' <* char 'x' )
+    <|>     (CY      <$> identifier <* char '.' <* char 'y' )
+
+
+connection :: Parser Connection
+connection = try ltr <|> rtl
+    where
+        ltr = Connection
+            <$> (cid <* ows <* string "->" <* ows)
+            <*> (cid)
+        rtl = (\to from -> Connection from to)
+            <$> (cid <* ows <* string "<-" <* ows)
+            <*> (cid)
+
+cid :: Parser CID
+cid = try (CID <$> (identifier <* char '.') <*> identifier)
+    <|> ((CID "this") <$> identifier)
