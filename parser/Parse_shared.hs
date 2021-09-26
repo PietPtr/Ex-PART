@@ -2,7 +2,7 @@ module Parse_shared where
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Language
-import Text.ParserCombinators.Parsec.Token hiding (identifier)
+import qualified Text.Parsec.Token as P
 
 import Types
 
@@ -28,6 +28,14 @@ Y ioStatement ::=
   | 'output' WS identifier WS ':' WS haskell_type WS '\n'
 -}
 
+lexer       = P.makeTokenParser haskellDef
+
+parens      = P.parens lexer
+braces      = P.braces lexer
+reserved    = P.reserved lexer
+integer     = P.integer lexer
+float       = P.float lexer
+
 constant_expr = undefined
 constant_numeric_expr = undefined
 
@@ -42,8 +50,8 @@ ows = many (char ' ' <|> char '\t' <|> char '\n')
 
 ioStatement :: Parser IOStat
 ioStatement
-    =   Input  <$> (string "input"  *> ws *> identifier <* ows <* char ':' <* ows) <*> haskell_type
-    <|> Output <$> (string "output" *> ws *> identifier <* ows <* char ':' <* ows) <*> haskell_type
+    =   Input  <$> (string "input"  *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n')
+    <|> Output <$> (string "output" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n')
 
 -- TODO: there must be a better way to do the haskell parsing, either actually follow the grammar or find a library...
 
@@ -52,7 +60,7 @@ ioStatement
 -- let's specifically disallow list types for now, as clash won't be able to work with them anyway
 -- sadly also disallows record syntax
 haskell_type :: Parser String
-haskell_type = many1 $ oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',']
+haskell_type = many1 $ oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '|']
 
 haskell_data :: Parser String
 haskell_data = haskell_type
@@ -67,8 +75,15 @@ haskell_data_def = (\a b c d e -> a ++ b ++ c ++ d ++ e) <$>
 
 -- TODO: dit gaat enorm stuk straks op multiline definities, dus ga nou maar de haskell grammar bouwen >:(
 haskell_stat :: Parser String
-haskell_stat = (\block end -> block ++ [end]) <$> (many1 $ (oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '\t', '\n', '-', '>', '$', '+', '-'])) <*> char '\n'
+haskell_stat = (many1 $ (oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '\t', '\n', '-', '<', '>', '$', '+', '-', '\'', '=']))
 
 haskell_where :: Parser String
-haskell_where =  (\a b c d e -> a ++ b ++ c ++ d ++ e) <$>
+haskell_where = concat <$> many haskell_where_statement
+
+haskell_where_statement :: Parser String
+haskell_where_statement =  (\a b c d e -> a ++ b ++ c ++ d ++ e) <$>
     identifier <*> ows <*> string "=" <*> ows <*> haskell_stat
+
+-- geen records voor nu i guess...
+haskell :: Parser String
+haskell = many $ noneOf ['{', '}']

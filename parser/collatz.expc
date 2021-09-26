@@ -1,0 +1,61 @@
+combinatory {
+    (>>>) :: Bits a => a -> Int -> a
+    (>>>) = shiftR
+    
+    (<<<) :: Bits a => a -> Int -> a
+    (<<<) = shiftL
+}
+
+type Value = Unsigned 8
+
+component router() {
+    input val : Value
+    output odd : Maybe Value
+    output even : Maybe Value
+
+    odd  = if testBit val 0 then Nothing else Just val
+    even = if testBit val 0 then Just val else Nothing
+}
+
+component onEven() {
+    input val : Maybe Value
+    output res : Maybe Value
+
+    res = case value of
+        Just v -> Just $ v >>> 1
+        Nothing -> Nothing
+}
+
+component onOdd() {
+    input val : Maybe Value
+    output res : Maybe Value
+
+    res = case value of
+        Just v -> Just $ (v <<< 1 + v) + 1
+        Nothing -> Nothing
+}
+
+component merger() {
+    input vo : Maybe Value
+    input ve : Maybe Value
+    output res : Value
+    
+    res = case vo of
+        Just v -> v
+        Nothing -> case ve of
+            Just v -> v
+            Nothing -> 0
+}
+
+component control() {
+    input next_val : Value
+    input set_val : Maybe Value
+    state last_val = 0 : Value
+    output result_value : Value
+
+    last_val' = case set_val of
+        Just new_value -> new_value
+        Nothing -> next_val
+
+    result_value = last_val
+}

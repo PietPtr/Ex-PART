@@ -8,11 +8,13 @@ data Combinatory = Combinatory String
 type HaskellDef = String
 data Component = Component String [Argument] [IOSStat] WhereBlock
     deriving Show
+
 type Argument = String
 type WhereBlock = String
+
 data IOSStat
     = SInput String String
-    | State String ConstExpr String
+    | SState String ConstExpr String
     | SOutput String String
     deriving Show
 
@@ -46,7 +48,9 @@ data Instance = Instance String String [ConstExpr] Size Coords
     deriving Show
 data UnplacedInstance = UnplacedInstance String String [ConstExpr] Size
     deriving Show
-data ConstExpr = HaskellData String | Constant Integer -- hier ook al lekker reducen dan?
+data ConstExpr 
+    = Constant Integer -- hier ook al lekker reducen dan?
+    -- | HaskellData String -- komt in Version Two
     deriving Show
 
 data Connection = Connection CID CID
