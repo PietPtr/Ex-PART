@@ -1,4 +1,10 @@
+{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
+
 module Types where
+
+class Pretty a where
+    pretty :: a -> String
 
 -- .expc result
 
@@ -33,6 +39,9 @@ data Program = Program [HaskellDef] [Combinatory] [Component]
 type Size = (Integer, Integer)
 type Coords = (CoordExpr, CoordExpr)
 
+instance Pretty Coords where
+    pretty (ce, ce') = "(" ++ pretty ce ++ ", " ++ pretty ce' ++ ")"
+
 data CoordExpr
     = CAdd CoordExpr CoordExpr
     | CConst Integer
@@ -41,6 +50,14 @@ data CoordExpr
     | CX String
     | CY String
     deriving Show
+
+instance Pretty CoordExpr where
+    pretty (CAdd ce ce') = pretty ce ++ " + " ++ pretty ce'
+    pretty (CConst c) = show c
+    pretty (CWidth id) = id ++ ".w"
+    pretty (CHeight id) = id ++ ".h"
+    pretty (CX id) = id ++ ".x"
+    pretty (CY id) = id ++ ".y"
 
 data System = System {
     sys_flattened :: Bool,
@@ -54,14 +71,32 @@ data System = System {
     sys_subsystems :: [System]
     } deriving Show
 
+emptySystem :: System
+emptySystem = System {
+        sys_flattened = False,
+        sys_id = "",
+        sys_size = (0, 0),
+        sys_coords = (CConst 0, CConst 0),
+        sys_iodefs = [],
+        sys_instances = [],
+        sys_connections = [],
+        sys_repetitions = [],
+        sys_subsystems = []
+    }
 
 data IOStat
     = Input String String
     | Output String String
     deriving Show
 
-data Instance = Instance String String [ConstExpr] Size Coords
-    deriving Show
+data Instance = Instance {
+        ins_name :: String,
+        ins_cmp :: String,
+        ins_args :: [ConstExpr],
+        ins_size :: Size,
+        ins_coords :: Coords
+    } deriving Show
+
 data UnplacedInstance = UnplacedInstance String String [ConstExpr] Size
     deriving Show
 data ConstExpr 
