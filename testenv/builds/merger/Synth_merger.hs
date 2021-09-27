@@ -18,7 +18,7 @@ mergerM = mealy merger ()
   (Synthesize
     { t_name = "merger"
     , t_inputs = [ PortName "clk", PortName "rst", PortName "en", PortProduct "" [PortName "vo", PortName "ve"] ]
-    , t_output = PortProduct "" [PortName "res"]
+    , t_output = PortName "res"
     }) #-}
 
 topEntity

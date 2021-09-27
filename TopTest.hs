@@ -21,4 +21,7 @@ expi' = System {sys_flattened = False, sys_id = "system", sys_size = (6,6), sys_
 step2 = do
     program <- expc
     generateClash "testenv" program
--- step3 = 
+
+step3 = do
+    program <- expc -- natuurlijk gaat dit in het echt niet twee keer parsen
+    compileToVerilog "testenv" program

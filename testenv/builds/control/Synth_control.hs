@@ -18,7 +18,7 @@ controlM = mealy control (0)
   (Synthesize
     { t_name = "control"
     , t_inputs = [ PortName "clk", PortName "rst", PortName "en", PortProduct "" [PortName "next_val", PortName "set_val"] ]
-    , t_output = PortProduct "" [PortName "result_value"]
+    , t_output = PortName "result_value"
     }) #-}
 
 topEntity

@@ -6,24 +6,6 @@ import Data.List
 -- X step 1: fill in arguments
 -- Version Two: implement this
 
-inputs :: [ISOStat] -> [ISOStat]
-inputs [] = []
-inputs (stat:stats) = case stat of
-    (SInput _ _) -> stat : inputs stats
-    _ -> inputs stats
-
-states :: [ISOStat] -> [ISOStat]
-states [] = []
-states (stat:stats) = case stat of
-    (SState _ _ _) -> stat : states stats
-    _ -> states stats
-
-outputs :: [ISOStat] -> [ISOStat]
-outputs [] = []
-outputs (stat:stats) = case stat of
-    (SOutput _ _) -> stat : outputs stats
-    _ -> outputs stats
-
 -- step 2: create Haskell type signature from ISO
 haskellifyISO :: (ISOStat -> String) -> [ISOStat] -> String
 haskellifyISO func stats = "(" ++ (concat $ intersperse ", " $ map func stats) ++ ")"

@@ -14,7 +14,7 @@ routerM = mealy router ()
 {-# ANN topEntity
   (Synthesize
     { t_name = "router"
-    , t_inputs = [ PortName "clk", PortName "rst", PortName "en", PortProduct "" [PortName "val"] ]
+    , t_inputs = [ PortName "clk", PortName "rst", PortName "en", PortName "val" ]
     , t_output = PortProduct "" [PortName "odd", PortName "even"]
     }) #-}
 

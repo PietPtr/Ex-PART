@@ -1,0 +1,90 @@
+{
+    "components": [
+        "onOdd"
+    ],
+    "flags": [
+        20,
+        20,
+        false
+    ],
+    "hash": 3721640141359511058,
+    "dependencies": {
+        "transitive": []
+    },
+    "version": "unstable",
+    "files": [
+        {
+            "name": "onOdd.sdc",
+            "sha256": "13d4c1aafcc09a84d81d3b60d513cb901384a10e27e5a5a16572a600f15895f3"
+        },
+        {
+            "name": "onOdd.v",
+            "sha256": "4b7a97f72ccef5d5b5d82c4d0095ee8d2357004caea8be9c781cc2ca41ad9190"
+        }
+    ],
+    "top_component": {
+        "ports_flat": {
+            "in": [
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "clk",
+                    "is_clock": true,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "rst",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "en",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 9,
+                    "name": "value",
+                    "is_clock": false,
+                    "type_name": "[8:0]"
+                }
+            ],
+            "out": [
+                {
+                    "width": 9,
+                    "name": "res",
+                    "is_clock": false,
+                    "type_name": "[8:0]"
+                }
+            ]
+        },
+        "name": "onOdd"
+    },
+    "domains": {
+        "System": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "XilinxSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Synchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "IntelSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        }
+    }
+}

@@ -29,6 +29,24 @@ data ISOStat
     | SOutput String String
     deriving Show
 
+inputs :: [ISOStat] -> [ISOStat]
+inputs [] = []
+inputs (stat:stats) = case stat of
+    (SInput _ _) -> stat : inputs stats
+    _ -> inputs stats
+
+states :: [ISOStat] -> [ISOStat]
+states [] = []
+states (stat:stats) = case stat of
+    (SState _ _ _) -> stat : states stats
+    _ -> states stats
+
+outputs :: [ISOStat] -> [ISOStat]
+outputs [] = []
+outputs (stat:stats) = case stat of
+    (SOutput _ _) -> stat : outputs stats
+    _ -> outputs stats
+
 data Program = Program [HaskellDef] [Combinatory] [Component]
     deriving Show
 

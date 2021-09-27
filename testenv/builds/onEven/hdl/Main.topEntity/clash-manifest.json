@@ -1,0 +1,90 @@
+{
+    "components": [
+        "onEven"
+    ],
+    "flags": [
+        20,
+        20,
+        false
+    ],
+    "hash": -3586366851135424259,
+    "dependencies": {
+        "transitive": []
+    },
+    "version": "unstable",
+    "files": [
+        {
+            "name": "onEven.sdc",
+            "sha256": "13d4c1aafcc09a84d81d3b60d513cb901384a10e27e5a5a16572a600f15895f3"
+        },
+        {
+            "name": "onEven.v",
+            "sha256": "753173d84cc03921b046ea3abbadb1060928fd2b1d5461996fa692ea97e9d01d"
+        }
+    ],
+    "top_component": {
+        "ports_flat": {
+            "in": [
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "clk",
+                    "is_clock": true,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "rst",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "en",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 9,
+                    "name": "value",
+                    "is_clock": false,
+                    "type_name": "[8:0]"
+                }
+            ],
+            "out": [
+                {
+                    "width": 9,
+                    "name": "res",
+                    "is_clock": false,
+                    "type_name": "[8:0]"
+                }
+            ]
+        },
+        "name": "onEven"
+    },
+    "domains": {
+        "System": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "XilinxSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Synchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "IntelSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        }
+    }
+}
