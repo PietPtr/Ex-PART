@@ -23,6 +23,7 @@ data Component = Component {
 type Argument = String
 type WhereBlock = String
 
+-- TODO: maak hier iets records achtig van, iig dat je ziet welke type en welke name is.
 data ISOStat
     = SInput String String
     | SState String ConstExpr String

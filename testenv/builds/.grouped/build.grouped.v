@@ -201,20 +201,23 @@ module top(
     input clk,
     input rst,
     input en,
-    input [16:0] control_input,
-    input [16:0] merger_input,
-    input [16:0] onOdd_input,
-    input [16:0] onEven_input,
-    input [16:0] router_input,
-    output [16:0] control_output,
-    output [16:0] merger_output,
-    output [16:0] onOdd_output,
-    output [16:0] onEven_output,
-    output [16:0] router_output
+    input [7:0] control_input_next_val,
+    input [8:0] control_input_set_val,
+    input [8:0] merger_input_vo,
+    input [8:0] merger_input_ve,
+    input [8:0] onOdd_input_value,
+    input [8:0] onEven_input_value,
+    input [7:0] router_input_val,
+    output [7:0] control_output_result_value,
+    output [7:0] merger_output_res,
+    output [8:0] onOdd_output_res,
+    output [8:0] onEven_output_res,
+    output [8:0] router_output_odd,
+    output [8:0] router_output_even
     );
-    control controli(clk, rst, en, control_input, control_output);
-    merger mergeri(clk, rst, en, merger_input, merger_output);
-    onOdd onOddi(clk, rst, en, onOdd_input, onOdd_output);
-    onEven onEveni(clk, rst, en, onEven_input, onEven_output);
-    router routeri(clk, rst, en, router_input, router_output);
+    control controli(clk, rst, en, control_input_next_val, control_input_set_val, control_output_result_value);
+    merger mergeri(clk, rst, en, merger_input_vo, merger_input_ve, merger_output_res);
+    onOdd onOddi(clk, rst, en, onOdd_input_value, onOdd_output_res);
+    onEven onEveni(clk, rst, en, onEven_input_value, onEven_output_res);
+    router routeri(clk, rst, en, router_input_val, router_output_odd, router_output_even);
 endmodule

@@ -2,6 +2,7 @@ import Types
 import Parser
 import Generator
 import Preprocessing
+import Yosys
 
 import Data.Either
 
@@ -25,3 +26,9 @@ step2 = do
 step3 = do
     program <- expc -- natuurlijk gaat dit in het echt niet twee keer parsen
     compileToVerilog "testenv" program
+
+step4 = do
+    program <- expc
+    groupVerilogs "testenv" program
+    synthesizeTop "testenv"
+

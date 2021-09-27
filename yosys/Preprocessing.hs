@@ -8,10 +8,7 @@ import Types
 
 -- assumes that every folder in builds except ".grouped" needs to be compiled
 -- compileToVerilog :: FilePath -> IO ()
-compileToVerilog basedir (Program _ _ components) = 
-    mapM_ createProcess $ clashProcesses basedir cmpNames
-    where
-        cmpNames = map cmp_name components
+
 
 -- TODO: fragiel.
 clashProcesses :: FilePath -> [String] -> [CreateProcess]
@@ -24,17 +21,6 @@ clashProcesses basedir cmpNames = map
         "-i" ++ basedir]) 
     cmpNames
    
-
-
-groupVerilogs basedir (Program _ _ components) = do
-    createDirectoryIfMissing True $ basedir ++ "/builds/.grouped"
-    writeFile (basedir ++ "/builds/.grouped/build.grouped.v") ""
-    -- copyVerilogs basedir cmpNames
-    -- createProcess (shell $ "cat "++basedir++"/builds/.grouped/*.v > "++basedir++"/builds/.grouped/build.grouped.v") -- TODO: srsly?
-    mapM_ (readAndAppend basedir) (cmpNames)
-    appendFile (basedir ++ "/builds/.grouped/build.grouped.v") (dummyTop components)
-    where
-        cmpNames = map cmp_name components
 
 readAndAppend :: FilePath -> String -> IO ()
 readAndAppend basedir name = do
@@ -58,24 +44,60 @@ dummyTop components = moduleDef ++ inputstr ++ ",\n" ++ outputstr ++ "\n    );\n
             \    input rst,\n\
             \    input en,\n"
 
+        allCompInputs = concat $ 
+            map (\cmp -> map (\i -> (cmp_name cmp, i)) (inputs $ cmp_isoStats cmp)) components
         inputstr = intercalate ",\n" $
-            map (verilogLine "input") $ 
-            map (\cmp -> (cmp_name cmp, typeToBitwidth $ inputs $ cmp_isoStats cmp)) components
-        -- outputstr = ""
+            map (verilogLine "input") allCompInputs
+            
+        allCompOutputs = concat $
+            map (\cmp -> map (\o -> (cmp_name cmp, o)) (outputs $ cmp_isoStats cmp)) components
         outputstr = intercalate ",\n" $
-            map (verilogLine "output") $ 
-            map (\cmp -> (cmp_name cmp, typeToBitwidth $ outputs $ cmp_isoStats cmp)) components
+            map (verilogLine "output") allCompOutputs
+
         instantiationstr = intercalate "\n" $
-            map instantiationLine $ map cmp_name components
+            map instantiationLine components
 
-verilogLine :: String -> (String, Int) -> String
-verilogLine prefix (name, bitwidth) = "    "++prefix++" ["++ show bitwidth ++":0] " ++ name ++ "_" ++ prefix 
+verilogLine :: String -> (String, ISOStat) -> String
+verilogLine prefix (cmp, stat) = 
+    "    "++prefix++" ["++ show (bitwidth - 1) ++":0] " ++ cmp ++ "_" ++ prefix ++ "_" ++ name
+    where
+        bitwidth = typeToBitwidth stat
+        name = case stat of
+            (SInput name _) -> name
+            (SOutput name _) -> name
 
 
-instantiationLine :: String -> String
-instantiationLine name = "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++ name ++ "_input, " ++ name ++ "_output);"
+instantiationLine' :: String -> String
+instantiationLine' name = "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++ name ++ "_input, " ++ name ++ "_output);"
+
+instantiationLine :: Component -> String
+instantiationLine cmp = "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++
+    inputNames ++ ", " ++ outputNames ++ ");"
+    where
+        inps = inputs $ cmp_isoStats cmp
+        inputNames = intercalate ", " $ map inputName inps
+        inputName (SInput inp_name _) = name ++ "_input_" ++ inp_name
 
 
-typeToBitwidth :: [ISOStat] -> Int
-typeToBitwidth _ = 16 -- TODO: check clash implementatie
+        outs = outputs $ cmp_isoStats cmp
+        outputNames = intercalate ", " $ map outputName outs
+        outputName (SOutput out_name _) = name ++ "_output_" ++ out_name
 
+        name = cmp_name cmp
+
+typesToBitwidth :: [ISOStat] -> Int
+typesToBitwidth [] = 0
+typesToBitwidth (stat:stats) = typeToBitwidth stat + typesToBitwidth stats -- TODO: check clash implementatie
+
+
+typeToBitwidth :: ISOStat -> Int
+typeToBitwidth stat = case stat of
+    (SInput _ t) -> decider t
+    (SOutput _ t) -> decider t
+    _ -> error "Invalid ISOStatement for bitwidth (state not implemented)"
+    where
+    decider t = case t of
+        "Value" -> 8
+        "Maybe Value" -> 9
+        other -> error $ "did not find bitwidth of type " ++ other
+            

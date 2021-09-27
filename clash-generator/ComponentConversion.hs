@@ -62,9 +62,10 @@ createSynthesizable (Component name _ isoStats _) = concat $ intersperse "\n"
             -- "PortProduct \"\" [" ++ concat (intersperse ", " $ map toPortName $ outputs isoStats) ++ "]"
 
         generatePort :: ([ISOStat] -> [ISOStat]) -> String
-        generatePort f = if length (f isoStats) == 1 
-            then toPortName (head $ f isoStats)
-            else "PortProduct \"\" [" ++ concat (intersperse ", " $ map toPortName $ f isoStats) ++ "]"
+        generatePort f = 
+            if length (f isoStats) == 1 
+                then toPortName (head $ f isoStats)
+                else "PortProduct \"\" [" ++ concat (intersperse ", " $ map toPortName $ f isoStats) ++ "]"
 
         toPortName :: ISOStat -> String
         toPortName (SInput name _) = "PortName \""++name++"\""
