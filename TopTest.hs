@@ -1,8 +1,8 @@
 import Types
 import Parser
 import Generator
-import Preprocessing
 import Yosys
+import Postprocessing
 
 import Data.Either
 
