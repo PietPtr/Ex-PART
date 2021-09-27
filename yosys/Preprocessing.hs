@@ -61,7 +61,7 @@ verilogLine :: String -> (String, ISOStat) -> String
 verilogLine prefix (cmp, stat) = 
     "    "++prefix++" ["++ show (bitwidth - 1) ++":0] " ++ cmp ++ "_" ++ prefix ++ "_" ++ name
     where
-        bitwidth = typeToBitwidth stat
+        bitwidth = isoStatToBitwidth stat
         name = case stat of
             (SInput name _) -> name
             (SOutput name _) -> name
@@ -85,19 +85,5 @@ instantiationLine cmp = "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++
 
         name = cmp_name cmp
 
-typesToBitwidth :: [ISOStat] -> Int
-typesToBitwidth [] = 0
-typesToBitwidth (stat:stats) = typeToBitwidth stat + typesToBitwidth stats -- TODO: check clash implementatie
 
-
-typeToBitwidth :: ISOStat -> Int
-typeToBitwidth stat = case stat of
-    (SInput _ t) -> decider t
-    (SOutput _ t) -> decider t
-    _ -> error "Invalid ISOStatement for bitwidth (state not implemented)"
-    where
-    decider t = case t of
-        "Value" -> 8
-        "Maybe Value" -> 9
-        other -> error $ "did not find bitwidth of type " ++ other
             

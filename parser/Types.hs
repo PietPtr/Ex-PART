@@ -142,3 +142,18 @@ data Option
     | ChainOut String
     | OutputName String
     deriving Show
+
+
+
+isoStatToBitwidth :: ISOStat -> Integer
+isoStatToBitwidth stat = case stat of
+    (SInput _ t) -> typeToBitwidth t
+    (SOutput _ t) -> typeToBitwidth t
+    _ -> error "Invalid ISOStatement for bitwidth (state not implemented)"
+
+
+typeToBitwidth :: String -> Integer
+typeToBitwidth t = case t of
+        "Value" -> 8
+        "Maybe Value" -> 9
+        other -> error $ "did not find bitwidth of type " ++ other
