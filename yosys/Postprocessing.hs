@@ -103,12 +103,19 @@ makeModules isTop p@(Program _ _ components) system = mod :
             where
                 key = case port_direction port of
                     In -> cid
-                    Out -> case filter isDriver (sys_connections system) of
-                        ((Connection netCID _):_) -> netCID
-                        [] -> error "Could not find driver."
+                    Out -> findDriver system cid
                 isDriver (Connection from to) = to == cid
                 value = port_bits port
                 cid = (CID "this" (port_name port))
+
+findDriver :: System -> CID -> CID
+findDriver system cid = case filter isDriver (sys_connections system) of
+        ((Connection netCID _):_) -> netCID
+        [] -> error $ "Could not find driver " ++ show cid ++ " in " ++ show (sys_connections system)
+    where
+        isDriver (Connection from to) = to == cid
+
+
 
 
 -- bitCtr counts which netnumber is free
@@ -181,16 +188,92 @@ nets' comps system bitCtr ((Connection from to):connections) netmap =
             (SInput name _) -> name == from_port
             _ -> False
 
+-- TODO: unique integers aren't sequential (but that probably does not matter?)
 makeCells :: [Component] -> System -> Netmap -> [Cell]
-makeCells components system netmap = makeInstanceCells components system netmap (sys_instances system)
-    -- TODO: cells of subsystems
+makeCells components system netmap = 
+    -- makeInstanceCells components system netmap (sys_instances system) ++
+    -- makeSubsystemCells system netmap (sys_subsystems system)
+    makeCells' components system netmap (systemElems ++ instanceElems) 
+    where
+        systemElems = map sysElem (sys_subsystems system)
+        instanceElems = map (instElem components) (sys_instances system)
 
-makeInstanceCells :: [Component] -> System -> Netmap -> [Instance] -> [Cell]
-makeInstanceCells _ _ _ [] = []
-makeInstanceCells components system netmap (inst:instances) =
+-- abstracts over instance and system
+data Element = Element {
+        elem_name :: String,
+        elem_type :: String,
+        elem_io :: [IOStat]
+    }
+
+sysElem :: System -> Element
+sysElem system = Element {
+        elem_name = sys_id system,
+        elem_type = sys_id system,
+        elem_io = sys_iodefs system
+    }
+
+instElem :: [Component] -> Instance -> Element
+instElem components inst = Element {
+        elem_name = ins_name inst,
+        elem_type = ins_cmp inst,
+        elem_io = map isoToIO ports
+    }
+    where
+        component = case filter (\c -> cmp_name c == ins_cmp inst) components of
+            (x:_) -> x
+            [] -> error $ "Could not find component for instance " ++ show inst
+
+        ports = filter isIO (cmp_isoStats component)
+        isIO stat = case stat of
+            (SState _ _ _) -> False
+            _ -> True
+
+        isoToIO :: ISOStat -> IOStat
+        isoToIO (SInput name t) = (Input name t)
+        isoToIO (SOutput name t) = (Output name t)
+        isoToIO (SState _ _ _) = error "Cannot convert state to IO"
+
+
+makeSubsystemCells :: System -> Netmap -> [System] -> [Cell]
+makeSubsystemCells _ _ [] = []
+makeSubsystemCells top netmap (subsys:subsystems) = Cell {
+        cell_name = sys_id subsys,
+        cell_type = sys_id subsys,
+        cell_connections = [
+            CellConn "clk" [2],
+            CellConn "rst" [3],
+            CellConn "en" [4]
+        ] ++ map toCellConn (sys_iodefs subsys)
+    } : trace ("\n\n" ++ (unlines $ map show $ Map.toList netmap) ++ "\n\n")
+    makeSubsystemCells top netmap subsystems
+    where
+        
+
+        toCellConn stat = CellConn name net
+            where
+                (name, direction) = case stat of
+                    (Input n _) -> (n, In)
+                    (Output n _) -> (n, Out)
+
+                net = []
+
+
+
+                -- netCID = if direction == In
+                --     then cid
+                --     else findDriver top cid
+
+                -- cid = (CID (sys_id subsys) name)
+
+                -- net = Map.findWithDefault [] netCID netmap
+
+
+makeCells' :: [Component] -> System -> Netmap -> [Element] -> [Cell]
+makeCells' _ _ _ [] = []
+makeCells' components system netmap (elem:elements) =
     Cell {
-        cell_name = ins_name inst,
-        cell_type = ins_cmp inst,
+        cell_name = elem_name elem,
+        cell_type = elem_type elem,
         -- add clk rst en ports, then for every port in this component type (..new info), 
         -- add connections as specified in connection list
         cell_connections = [
@@ -198,36 +281,29 @@ makeInstanceCells components system netmap (inst:instances) =
             CellConn "rst" [3],
             CellConn "en" [4]
         ] ++ portCells
-    } : makeInstanceCells components system netmap instances
+    } : makeCells' components system netmap elements
     where
-        component = case filter (\c -> cmp_name c == ins_cmp inst) components of
-            (x:_) -> x
-            [] -> error $ "Could not find component for instance " ++ show inst
         relevantConnections = filter relevant connections
         relevant (Connection (CID from_cmp from_port) (CID to_cmp to_port)) =
-            from_cmp == ins_name inst || to_cmp == ins_name inst
+            from_cmp == elem_name elem || to_cmp == elem_name elem
         
         connections = sys_connections system
 
-        ports = filter isIO (cmp_isoStats component)
-        isIO stat = case stat of
-            (SState _ _ _) -> False
-            _ -> True
 
         toCellConn port = CellConn name net
             where
                 name = case port of
-                    (SInput n _) -> n
-                    (SOutput n _) -> n
+                    (Input n _) -> n
+                    (Output n _) -> n
 
                 netCID = case filter lookupCID relevantConnections of
                     ((Connection cid _):_) -> cid
-                    [] -> error $ "Cannot not find connection " ++ cmp_name component ++ "." ++ name
+                    [] -> error $ "Cannot not find connection ." ++ name
                 lookupCID (Connection (CID from_elem from_port) (CID to_elem to_port)) = 
-                    (from_port == name && from_elem == ins_name inst) || 
-                    (to_port == name && to_elem == ins_name inst)
+                    (from_port == name && from_elem == elem_name elem) || 
+                    (to_port == name && to_elem == elem_name elem)
 
                 net = Map.findWithDefault [] netCID netmap
                 
-        portCells = map toCellConn ports
+        portCells = map toCellConn (elem_io elem)
 
