@@ -5,6 +5,8 @@ import Yosys
 import Postprocessing
 
 import Data.Either
+import Data.Aeson
+import Data.Text (pack, unpack)
 import qualified Data.Map as Map
 
 expc :: IO Program

@@ -1,8 +1,11 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Postprocessing where
 
 import Data.Aeson
 import Debug.Trace
 import qualified Data.Map as Map
+import Data.Text (pack, unpack)
 
 import Types
 
@@ -38,6 +41,40 @@ data CellConn = CellConn String [Integer]
     deriving Show
 
 type Net = [Integer] -- directly a yosys "bits" entry
+
+instance ToJSON Module where
+    toJSON mod = object [ pack (mod_name mod) .= object [
+            "attributes" .= object [],
+            "ports" .= object (map (\p -> (pack $ port_name p) .= toJSON p) (mod_ports mod)),
+            "cells" .= object (map (\c -> (pack $ cell_name c) .= toJSON c ) (mod_cells mod))
+        ]]
+        where
+            cellName cell = (cell_type cell) ++ "__" ++ (cell_name cell)
+
+instance ToJSON Port where
+    toJSON port = object [
+            "direction" .= case port_direction port of
+                In -> pack "input"
+                Out -> pack "output",
+            "bits" .= port_bits port
+        ]
+
+instance ToJSON Cell where
+    toJSON cell = object [
+            "hide_name" .= Number 0,
+            "type" .= cell_type cell,
+            "parameters" .= object [],
+            "attributes" .= object [
+                "module_not_derived" .= Number 1
+            ],
+            "port_directions" .= object [],
+            "connections" .= (map (toJSON) (cell_connections cell)) -- does not follow json format, fix.
+        ]
+
+instance ToJSON CellConn where
+    toJSON (CellConn name bits) = object [
+            (pack name) .= bits
+        ]
 
 collatzer :: Module
 collatzer = Module {
@@ -78,8 +115,6 @@ parseTest = decodeFileStrict "testenv/synthesized.json"
 
 makeTopModule :: Program -> System -> [Module]
 makeTopModule program system = makeModules True program system
-
--- TODO: beware that it may be necessary to introduce a bookkeeping datastructure, create a record for this.
 
 makeModules :: Bool -> Program -> System -> [Module]
 makeModules isTop p@(Program _ _ components) system = mod : 
@@ -234,40 +269,6 @@ instElem components inst = Element {
         isoToIO (SState _ _ _) = error "Cannot convert state to IO"
 
 
-makeSubsystemCells :: System -> Netmap -> [System] -> [Cell]
-makeSubsystemCells _ _ [] = []
-makeSubsystemCells top netmap (subsys:subsystems) = Cell {
-        cell_name = sys_id subsys,
-        cell_type = sys_id subsys,
-        cell_connections = [
-            CellConn "clk" [2],
-            CellConn "rst" [3],
-            CellConn "en" [4]
-        ] ++ map toCellConn (sys_iodefs subsys)
-    } : trace ("\n\n" ++ (unlines $ map show $ Map.toList netmap) ++ "\n\n")
-    makeSubsystemCells top netmap subsystems
-    where
-        
-
-        toCellConn stat = CellConn name net
-            where
-                (name, direction) = case stat of
-                    (Input n _) -> (n, In)
-                    (Output n _) -> (n, Out)
-
-                net = []
-
-
-
-                -- netCID = if direction == In
-                --     then cid
-                --     else findDriver top cid
-
-                -- cid = (CID (sys_id subsys) name)
-
-                -- net = Map.findWithDefault [] netCID netmap
-
-
 makeCells' :: [Component] -> System -> Netmap -> [Element] -> [Cell]
 makeCells' _ _ _ [] = []
 makeCells' components system netmap (elem:elements) =
@@ -307,3 +308,115 @@ makeCells' components system netmap (elem:elements) =
                 
         portCells = map toCellConn (elem_io elem)
 
+
+
+
+
+
+test =
+  [ Module
+      { mod_name = "system"
+      , mod_top = True
+      , mod_ports =
+          [ Port
+              { port_name = "result"
+              , port_direction = Out
+              , port_bits = [5, 6, 7, 8, 9, 10, 11, 12]
+              }
+          , Port
+              { port_name = "setting"
+              , port_direction = In
+              , port_bits = [13, 14, 15, 16, 17, 18, 19, 20, 21]
+              }
+          ]
+      , mod_cells =
+          [ Cell
+              { cell_name = "collatzer"
+              , cell_type = "collatzer"
+              , cell_connections =
+                  [ CellConn "clk" [2]
+                  , CellConn "rst" [3]
+                  , CellConn "en" [4]
+                  , CellConn "val_out" [39, 40, 41, 42, 43, 44, 45, 46]
+                  , CellConn "val_in" [5, 6, 7, 8, 9, 10, 11, 12]
+                  ]
+              }
+          , Cell
+              { cell_name = "controller"
+              , cell_type = "control"
+              , cell_connections =
+                  [ CellConn "clk" [2]
+                  , CellConn "rst" [3]
+                  , CellConn "en" [4]
+                  , CellConn "next_val" [39, 40, 41, 42, 43, 44, 45, 46]
+                  , CellConn "set_val" [13, 14, 15, 16, 17, 18, 19, 20, 21]
+                  , CellConn "result_value" [5, 6, 7, 8, 9, 10, 11, 12]
+                  ]
+              }
+          ]
+      }
+  , Module
+      { mod_name = "collatzer"
+      , mod_top = False
+      , mod_ports =
+          [ Port
+              { port_name = "val_out"
+              , port_direction = Out
+              , port_bits = [5, 6, 7, 8, 9, 10, 11, 12]
+              }
+          , Port
+              { port_name = "val_in"
+              , port_direction = In
+              , port_bits = [13, 14, 15, 16, 17, 18, 19, 20]
+              }
+          ]
+      , mod_cells =
+          [ Cell
+              { cell_name = "merger"
+              , cell_type = "merger"
+              , cell_connections =
+                  [ CellConn "clk" [2]
+                  , CellConn "rst" [3]
+                  , CellConn "en" [4]
+                  , CellConn "vo" [38, 39, 40, 41, 42, 43, 44, 45, 46]
+                  , CellConn "ve" [29, 30, 31, 32, 33, 34, 35, 36, 37]
+                  , CellConn "res" [5, 6, 7, 8, 9, 10, 11, 12]
+                  ]
+              }
+          , Cell
+              { cell_name = "onEven"
+              , cell_type = "onEven"
+              , cell_connections =
+                  [ CellConn "clk" [2]
+                  , CellConn "rst" [3]
+                  , CellConn "en" [4]
+                  , CellConn "val" [47, 48, 49, 50, 51, 52, 53, 54, 55]
+                  , CellConn "res" [29, 30, 31, 32, 33, 34, 35, 36, 37]
+                  ]
+              }
+          , Cell
+              { cell_name = "onOdd"
+              , cell_type = "onOdd"
+              , cell_connections =
+                  [ CellConn "clk" [2]
+                  , CellConn "rst" [3]
+                  , CellConn "en" [4]
+                  , CellConn "val" [56, 57, 58, 59, 60, 61, 62, 63, 64]
+                  , CellConn "res" [38, 39, 40, 41, 42, 43, 44, 45, 46]
+                  ]
+              }
+          , Cell
+              { cell_name = "router"
+              , cell_type = "router"
+              , cell_connections =
+                  [ CellConn "clk" [2]
+                  , CellConn "rst" [3]
+                  , CellConn "en" [4]
+                  , CellConn "val" [13, 14, 15, 16, 17, 18, 19, 20]
+                  , CellConn "odd" [56, 57, 58, 59, 60, 61, 62, 63, 64]
+                  , CellConn "even" [47, 48, 49, 50, 51, 52, 53, 54, 55]
+                  ]
+              }
+          ]
+      }
+  ]
