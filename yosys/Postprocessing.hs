@@ -6,6 +6,8 @@ import qualified Data.Map as Map
 
 import Types
 
+type Netmap = Map.Map CID Net
+
 -- definieer een mooi datatype, bouw bestaande System/Program om hiernaartoe, het nice makend
 -- definieer dan een toJSON hiervoor, verander het naar een Value, en prop het in de bestaande JSON
 data Module = Module {
@@ -22,7 +24,7 @@ data Port = Port {
     } deriving Show
 
 data PortDir = In | Out
-    deriving Show
+    deriving (Show, Eq)
 
 data Cell = Cell {
     cell_name :: String,
@@ -70,6 +72,7 @@ collatzer = Module {
     ]
 }
 
+
 parseTest :: IO (Maybe Value)
 parseTest = decodeFileStrict "testenv/synthesized.json"
 
@@ -86,9 +89,27 @@ makeModules isTop p@(Program _ _ components) system = mod :
                 mod_name = sys_id system,
                 mod_top = isTop,
                 mod_ports = makePorts 5 $ sys_iodefs system,
-                mod_cells = makeCells nextBit components (sys_connections system) (sys_instances system)
+                mod_cells = makeCells components system netmap
             }
         nextBit = 1 + (last $ port_bits $ last $ mod_ports mod)
+        netmap = nets components system nextBit portNetmap
+            
+        portNetmap = portsToNetmap (mod_ports mod) Map.empty
+
+        portsToNetmap :: [Port] -> Netmap -> Netmap
+        portsToNetmap [] map = map
+        portsToNetmap (port:ports) netmap = portsToNetmap ports 
+            $ Map.insert key value netmap
+            where
+                key = case port_direction port of
+                    In -> cid
+                    Out -> case filter isDriver (sys_connections system) of
+                        ((Connection netCID _):_) -> netCID
+                        [] -> error "Could not find driver."
+                isDriver (Connection from to) = to == cid
+                value = port_bits port
+                cid = (CID "this" (port_name port))
+
 
 -- bitCtr counts which netnumber is free
 makePorts :: Integer -> [IOStat] -> [Port]
@@ -107,39 +128,46 @@ makePorts bitCtr (stat:stats) =
 
 
 -- creates a net map for this system (only the top system)
-nets :: [Component] -> System -> [Connection] -> Map.Map CID Net
-nets comps system connections = nets' comps system 6 connections Map.empty
+nets :: [Component] -> System -> Integer -> Netmap -> Netmap
+nets comps system bitCtr netmap = nets' comps system bitCtr (sys_connections system) netmap
 
-nets' :: [Component] -> System -> Integer -> [Connection] -> Map.Map CID Net -> Map.Map CID Net
+nets' :: [Component] -> System -> Integer -> [Connection] -> Netmap -> Netmap
 nets' _ _ _ [] map = map
-nets' comps system bitCtr ((Connection from to):connections) map = 
+nets' comps system bitCtr ((Connection from to):connections) netmap = 
     nets' comps system (bitCtr+netBitwidth) connections map'
     where
-        map' = Map.insert from net map
+        map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
         net = [bitCtr..(bitCtr+netBitwidth-1)]
-        (CID from_cmp_name from_port) = from
+        (CID from_elem_name from_port) = from
 
-        netBitwidth = if from_cmp_name == "this"
-            then ioStatToBitWidth io_statement
-            else isoStatToBitwidth iso_statement
-            -- TODO: subsystem connections kan hij niet vinden
+        netBitwidth = if from_elem_name == "this"
+            then ioStatToBitWidth (io_statement system)
+            else if isComponent from_elem_name
+                then isoStatToBitwidth iso_statement
+                else ioStatToBitWidth (io_statement subsystem)
 
-        ---- then part van de netbitwidth if statement
-        io_statement = case filter findIOStat (sys_iodefs system) of
+        isComponent name = name `elem` (map (ins_name) $ sys_instances system)
+
+        ---- vind de bitwidth voor een system IO
+        io_statement sys = case filter findIOStat (sys_iodefs sys) of
             (x:_) -> x
-            [] -> error "cannot find IO statement."
+            [] -> error $ "cannot find IO statement " ++ from_port ++ " in " ++ show (sys_iodefs sys)
         findIOStat stat = case stat of
             (Output name _) -> name == from_port
             (Input name _) -> name == from_port
 
-        ---- alle meuk voor de else part van de netbitwidth if statement
-        -- in instances from_cmp_name opzoeken
-        -- check `this` hier...
+        ---- vind de bitwidth voor een subsystem IO
+        subsystem = case filter (\s -> sys_id s == from_elem_name) (sys_subsystems system) of
+            (x:_) -> x
+            [] -> error $ "cannot find subsystem " ++ from_elem_name
+
+        ---- vind de bitwidth voor een bottom component IO
+        -- in instances from_elem_name opzoeken
         component_name = ins_cmp $ case filter 
-            (\i -> ins_name i == from_cmp_name) 
+            (\i -> ins_name i == from_elem_name) 
             (sys_instances system) of
                 (x:_) -> x
-                [] -> error $ "cannot find component name " ++ from_cmp_name ++ " in " ++ (show $ sys_instances system)
+                [] -> error $ "cannot find component name " ++ from_elem_name ++ " in " ++ (show $ sys_instances system)
         -- in components vind component met die naam
         component = case filter (\c -> cmp_name c == component_name) comps of
             (x:_) -> x
@@ -153,25 +181,53 @@ nets' comps system bitCtr ((Connection from to):connections) map =
             (SInput name _) -> name == from_port
             _ -> False
 
+makeCells :: [Component] -> System -> Netmap -> [Cell]
+makeCells components system netmap = makeInstanceCells components system netmap (sys_instances system)
+    -- TODO: cells of subsystems
 
-makeCells :: Integer -> [Component] -> [Connection] -> [Instance] -> [Cell]
-makeCells bitCtr _ connections [] = []
-makeCells bitCtr components connections (inst:instances) =
+makeInstanceCells :: [Component] -> System -> Netmap -> [Instance] -> [Cell]
+makeInstanceCells _ _ _ [] = []
+makeInstanceCells components system netmap (inst:instances) =
     Cell {
         cell_name = ins_name inst,
         cell_type = ins_cmp inst,
         -- add clk rst en ports, then for every port in this component type (..new info), 
         -- add connections as specified in connection list
-        -- mapM_ print $ sys_connections $ head $ sys_subsystems expi'
         cell_connections = [
             CellConn "clk" [2],
             CellConn "rst" [3],
             CellConn "en" [4]
-        ] 
-    } : (trace ("\n\n----\n" ++ (unlines $ map show connections) ++ "\n----\n") $ makeCells bitCtr components connections instances)
+        ] ++ portCells
+    } : makeInstanceCells components system netmap instances
     where
-        component = head $ filter (\c -> cmp_name c == ins_cmp inst) components
+        component = case filter (\c -> cmp_name c == ins_cmp inst) components of
+            (x:_) -> x
+            [] -> error $ "Could not find component for instance " ++ show inst
         relevantConnections = filter relevant connections
         relevant (Connection (CID from_cmp from_port) (CID to_cmp to_port)) =
             from_cmp == ins_name inst || to_cmp == ins_name inst
+        
+        connections = sys_connections system
+
+        ports = filter isIO (cmp_isoStats component)
+        isIO stat = case stat of
+            (SState _ _ _) -> False
+            _ -> True
+
+        toCellConn port = CellConn name net
+            where
+                name = case port of
+                    (SInput n _) -> n
+                    (SOutput n _) -> n
+
+                netCID = case filter lookupCID relevantConnections of
+                    ((Connection cid _):_) -> cid
+                    [] -> error $ "Cannot not find connection " ++ cmp_name component ++ "." ++ name
+                lookupCID (Connection (CID from_elem from_port) (CID to_elem to_port)) = 
+                    (from_port == name && from_elem == ins_name inst) || 
+                    (to_port == name && to_elem == ins_name inst)
+
+                net = Map.findWithDefault [] netCID netmap
+                
+        portCells = map toCellConn ports
 

@@ -4,8 +4,8 @@ system in (6, 6) at (2, 2) {
 
     controller is control in (6, 2) at (0, 0)
 
-    collatzer.input<-controller.result_value
-    collatzer.output->controller.next_val
+    collatzer.val_in<-controller.result_value
+    collatzer.val_out->controller.next_val
 
     controller.set_val<-setting
     controller.result_value->result
