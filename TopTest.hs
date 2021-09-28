@@ -5,6 +5,7 @@ import Yosys
 import Postprocessing
 
 import Data.Either
+import qualified Data.Map as Map
 
 expc :: IO Program
 expc = (fromRight (Program [] [] [])) <$> parse_expc "examples/collatz.expc"
@@ -32,3 +33,8 @@ step4 = do
     groupVerilogs "testenv" program
     synthesizeTop "testenv"
 
+-- helper dingetjes
+comps = case expc' of
+    (Program _ _ comps) -> comps
+insts = sys_instances $ head $ sys_subsystems expi'
+conns = sys_connections $ head $ sys_subsystems expi'

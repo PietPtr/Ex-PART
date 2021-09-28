@@ -52,7 +52,6 @@ data Program = Program [HaskellDef] [Combinatory] [Component]
     deriving Show
 
 
-
 -- .expi result
 
 type Size = (Integer, Integer)
@@ -124,9 +123,9 @@ data ConstExpr
     deriving Show
 
 data Connection = Connection CID CID
-    deriving Show
+    deriving (Show, Eq)
 data CID = CID String String
-    deriving Show
+    deriving (Show, Eq, Ord)
 
 data Repetition 
     = Chain [Option]
@@ -151,6 +150,10 @@ isoStatToBitwidth stat = case stat of
     (SOutput _ t) -> typeToBitwidth t
     _ -> error "Invalid ISOStatement for bitwidth (state not implemented)"
 
+ioStatToBitWidth :: IOStat -> Integer
+ioStatToBitWidth stat = case stat of
+    (Input _ t) -> typeToBitwidth t
+    (Output _ t) -> typeToBitwidth t
 
 typeToBitwidth :: String -> Integer
 typeToBitwidth t = case t of

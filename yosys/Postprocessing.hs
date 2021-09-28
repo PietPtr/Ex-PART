@@ -1,7 +1,10 @@
 module Postprocessing where
 
-import Types
 import Data.Aeson
+import Debug.Trace
+import qualified Data.Map as Map
+
+import Types
 
 -- definieer een mooi datatype, bouw bestaande System/Program om hiernaartoe, het nice makend
 -- definieer dan een toJSON hiervoor, verander het naar een Value, en prop het in de bestaande JSON
@@ -28,8 +31,11 @@ data Cell = Cell {
     cell_connections :: [CellConn]
     } deriving Show
 
+--                       portid  "bits"
 data CellConn = CellConn String [Integer]
     deriving Show
+
+type Net = [Integer] -- directly a yosys "bits" entry
 
 collatzer :: Module
 collatzer = Module {
@@ -56,7 +62,7 @@ collatzer = Module {
                 CellConn "rst" [3],
                 CellConn "en" [4],
                 CellConn "val" [ {- bepaalde nets, hier die van val_in -} ],
-                CellConn "odd" [ {- bepaalde nets -} ],
+                CellConn "odd" [ {- 'nieuwe' nets -} ],
                 CellConn "even" [ {--} ]
             ]
         }
@@ -67,30 +73,32 @@ collatzer = Module {
 parseTest :: IO (Maybe Value)
 parseTest = decodeFileStrict "testenv/synthesized.json"
 
-makeTopModule :: System -> [Module]
-makeTopModule system = makeModules True system
+makeTopModule :: Program -> System -> [Module]
+makeTopModule program system = makeModules True program system
 
 -- TODO: beware that it may be necessary to introduce a bookkeeping datastructure, create a record for this.
 
-makeModules :: Bool -> System -> [Module]
-makeModules isTop system = mod : (concat $ map (makeModules False) (sys_subsystems system))
+makeModules :: Bool -> Program -> System -> [Module]
+makeModules isTop p@(Program _ _ components) system = mod : 
+    (concat $ map (makeModules False p) (sys_subsystems system))
     where
         mod = Module {
                 mod_name = sys_id system,
                 mod_top = isTop,
                 mod_ports = makePorts 5 $ sys_iodefs system,
-                mod_cells = makeCells (sys_connections system) (sys_instances system)
+                mod_cells = makeCells nextBit components (sys_connections system) (sys_instances system)
             }
+        nextBit = 1 + (last $ port_bits $ last $ mod_ports mod)
 
--- bitctr counts which netnumber is free
+-- bitCtr counts which netnumber is free
 makePorts :: Integer -> [IOStat] -> [Port]
-makePorts bitctr [] = []
-makePorts bitctr (stat:stats) = 
+makePorts bitCtr [] = []
+makePorts bitCtr (stat:stats) = 
     Port {
         port_name = name,
         port_direction = direction,
-        port_bits = [bitctr..(bitctr+bitwidth-1)]
-    } : makePorts (bitctr+bitwidth) stats
+        port_bits = [bitCtr..(bitCtr+bitwidth-1)]
+    } : makePorts (bitCtr+bitwidth) stats
     where
         (direction, name, t) = case stat of
             (Input iname it) -> (In, iname, it)
@@ -98,15 +106,72 @@ makePorts bitctr (stat:stats) =
         bitwidth = typeToBitwidth t
 
 
-makeCells :: [Connection] -> [Instance] -> [Cell]
-makeCells connections [] = []
-makeCells connections (inst:instances) =
+-- creates a net map for this system (only the top system)
+nets :: [Component] -> System -> [Connection] -> Map.Map CID Net
+nets comps system connections = nets' comps system 6 connections Map.empty
+
+nets' :: [Component] -> System -> Integer -> [Connection] -> Map.Map CID Net -> Map.Map CID Net
+nets' _ _ _ [] map = map
+nets' comps system bitCtr ((Connection from to):connections) map = 
+    nets' comps system (bitCtr+netBitwidth) connections map'
+    where
+        map' = Map.insert from net map
+        net = [bitCtr..(bitCtr+netBitwidth-1)]
+        (CID from_cmp_name from_port) = from
+
+        netBitwidth = if from_cmp_name == "this"
+            then ioStatToBitWidth io_statement
+            else isoStatToBitwidth iso_statement
+            -- TODO: subsystem connections kan hij niet vinden
+
+        ---- then part van de netbitwidth if statement
+        io_statement = case filter findIOStat (sys_iodefs system) of
+            (x:_) -> x
+            [] -> error "cannot find IO statement."
+        findIOStat stat = case stat of
+            (Output name _) -> name == from_port
+            (Input name _) -> name == from_port
+
+        ---- alle meuk voor de else part van de netbitwidth if statement
+        -- in instances from_cmp_name opzoeken
+        -- check `this` hier...
+        component_name = ins_cmp $ case filter 
+            (\i -> ins_name i == from_cmp_name) 
+            (sys_instances system) of
+                (x:_) -> x
+                [] -> error $ "cannot find component name " ++ from_cmp_name ++ " in " ++ (show $ sys_instances system)
+        -- in components vind component met die naam
+        component = case filter (\c -> cmp_name c == component_name) comps of
+            (x:_) -> x
+            [] -> error $ "cannot find component " ++ component_name
+        -- in isostats, vind port: de bitwidth van de from_port ophalen
+        iso_statement = case filter findStat (cmp_isoStats component) of
+            (x:_) -> x
+            [] -> error $ "cannot find iso statement " ++ from_port
+        findStat stat = case stat of
+            (SOutput name _) -> name == from_port
+            (SInput name _) -> name == from_port
+            _ -> False
+
+
+makeCells :: Integer -> [Component] -> [Connection] -> [Instance] -> [Cell]
+makeCells bitCtr _ connections [] = []
+makeCells bitCtr components connections (inst:instances) =
     Cell {
         cell_name = ins_name inst,
         cell_type = ins_cmp inst,
         -- add clk rst en ports, then for every port in this component type (..new info), 
         -- add connections as specified in connection list
         -- mapM_ print $ sys_connections $ head $ sys_subsystems expi'
-        cell_connections = [] 
-    } : makeCells connections instances
-    -- where
+        cell_connections = [
+            CellConn "clk" [2],
+            CellConn "rst" [3],
+            CellConn "en" [4]
+        ] 
+    } : (trace ("\n\n----\n" ++ (unlines $ map show connections) ++ "\n----\n") $ makeCells bitCtr components connections instances)
+    where
+        component = head $ filter (\c -> cmp_name c == ins_cmp inst) components
+        relevantConnections = filter relevant connections
+        relevant (Connection (CID from_cmp from_port) (CID to_cmp to_port)) =
+            from_cmp == ins_name inst || to_cmp == ins_name inst
+
