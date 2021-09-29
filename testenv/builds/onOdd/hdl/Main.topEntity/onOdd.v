@@ -7,21 +7,21 @@ module onOdd
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [8:0] value
+    , input [16:0] val
 
       // Outputs
-    , output wire [8:0] res
+    , output wire [16:0] res
     );
-  wire [8:0] c$app_arg;
+  wire [16:0] c$app_arg;
   // testenv/builds/onOdd/Synth_onOdd.hs:5:1-5
-  wire [7:0] v;
-  wire [8:0] result;
+  wire [15:0] v;
+  wire [16:0] result;
 
   assign res = result;
 
-  assign c$app_arg = value[8:8] ? {1'b1,((v << (64'sd1)) + v) + 8'd1} : {1'b0,8'bxxxxxxxx};
+  assign c$app_arg = val[16:16] ? {1'b1,((v << (64'sd1)) + v) + 16'd1} : {1'b0,16'bxxxxxxxxxxxxxxxx};
 
-  assign v = value[7:0];
+  assign v = val[15:0];
 
   assign result = c$app_arg;
 

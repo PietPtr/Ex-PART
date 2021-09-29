@@ -2,9 +2,9 @@ import Clash.Prelude
 import Definitions
 
 onEven :: () -> (Maybe Value) -> ((), (Maybe Value))
-onEven () (value) = ((), (res))
+onEven () (val) = ((), (res))
     where
-        res = case value of
+        res = case val of
             Just v -> Just $ v >>> 1
             Nothing -> Nothing
 
@@ -15,7 +15,7 @@ onEvenM = mealy onEven ()
 {-# ANN topEntity
   (Synthesize
     { t_name = "onEven"
-    , t_inputs = [ PortName "clk", PortName "rst", PortName "en", PortName "value" ]
+    , t_inputs = [ PortName "clk", PortName "rst", PortName "en", PortName "val" ]
     , t_output = PortName "res"
     }) #-}
 

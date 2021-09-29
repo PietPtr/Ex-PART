@@ -7,7 +7,7 @@
         20,
         false
     ],
-    "hash": -7869030019657129894,
+    "hash": -4101223502458287886,
     "dependencies": {
         "transitive": []
     },
@@ -19,7 +19,7 @@
         },
         {
             "name": "router.v",
-            "sha256": "b1e2e1b5f30165364ddb15aa1309ddeee5ed5a66f6b6750a0b07a1e32e0a50d9"
+            "sha256": "d8dd574b1e4e404a699de186b3400f93f0699481fa1265257bd0adec4a6957e3"
         }
     ],
     "top_component": {
@@ -47,24 +47,24 @@
                     "type_name": ""
                 },
                 {
-                    "width": 8,
+                    "width": 16,
                     "name": "val",
                     "is_clock": false,
-                    "type_name": "[7:0]"
+                    "type_name": "[15:0]"
                 }
             ],
             "out": [
                 {
-                    "width": 9,
+                    "width": 17,
                     "name": "odd",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 },
                 {
-                    "width": 9,
+                    "width": 17,
                     "name": "even",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 }
             ]
         },

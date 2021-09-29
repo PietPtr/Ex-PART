@@ -2,6 +2,7 @@ import Types
 import Parser
 import Generator
 import Yosys
+import JSONBuilder
 import Postprocessing
 
 import Data.Either
@@ -23,7 +24,9 @@ expi' = System {sys_flattened = False, sys_id = "system", sys_size = (6,6), sys_
 
 step1 = do
     program <- expc
+    system <- expi
     generateClash "testenv" program
+    writeLocationsJSON "testenv" system
 
 step2 = do
     program <- expc -- natuurlijk gaat dit in het echt niet twee keer parsen
@@ -42,7 +45,7 @@ step4 = do
     combineJSONs "testenv"
 
 
--- helper dingetjes
+-- helper dingetjes voor ghci
 comps = case expc' of
     (Program _ _ comps) -> comps
 insts = sys_instances $ head $ sys_subsystems expi'

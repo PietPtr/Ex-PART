@@ -7,7 +7,7 @@
         20,
         false
     ],
-    "hash": -2667223649714122037,
+    "hash": 6795423472888398859,
     "dependencies": {
         "transitive": []
     },
@@ -19,7 +19,7 @@
         },
         {
             "name": "merger.v",
-            "sha256": "784c4b9014b46c96a131e44eb599e205dad5070d589cb7f73991e71af08bda07"
+            "sha256": "53556bad918087c4e15286c27ffddf4b80c1a98d94b9bcec4edbd8a7a4ae1da4"
         }
     ],
     "top_component": {
@@ -47,24 +47,24 @@
                     "type_name": ""
                 },
                 {
-                    "width": 9,
+                    "width": 17,
                     "name": "vo",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 },
                 {
-                    "width": 9,
+                    "width": 17,
                     "name": "ve",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 }
             ],
             "out": [
                 {
-                    "width": 8,
+                    "width": 16,
                     "name": "res",
                     "is_clock": false,
-                    "type_name": "[7:0]"
+                    "type_name": "[15:0]"
                 }
             ]
         },

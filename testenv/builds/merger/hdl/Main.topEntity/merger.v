@@ -7,39 +7,39 @@ module merger
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [8:0] vo
-    , input [8:0] ve
+    , input [16:0] vo
+    , input [16:0] ve
 
       // Outputs
-    , output wire [7:0] res
+    , output wire [15:0] res
     );
   // testenv/builds/merger/Synth_merger.hs:(13,1)-(14,63)
-  wire [7:0] c$ds_case_alt;
+  wire [15:0] c$ds_case_alt;
   // testenv/builds/merger/Synth_merger.hs:(13,1)-(14,63)
-  wire [7:0] c$ds_app_arg;
+  wire [15:0] c$ds_app_arg;
   // testenv/builds/merger/Synth_merger.hs:5:1-6
-  wire [8:0] vo_0;
+  wire [16:0] vo_0;
   // testenv/builds/merger/Synth_merger.hs:5:1-6
-  wire [8:0] ve_0;
+  wire [16:0] ve_0;
   // testenv/builds/merger/Synth_merger.hs:5:1-6
-  wire [7:0] v;
+  wire [15:0] v;
   // testenv/builds/merger/Synth_merger.hs:5:1-6
-  wire [7:0] v_0;
-  wire [17:0] eta;
+  wire [15:0] v_0;
+  wire [33:0] eta;
 
   assign eta = {vo,   ve};
 
-  assign c$ds_case_alt = ve_0[8:8] ? v_0 : 8'd0;
+  assign c$ds_case_alt = ve_0[16:16] ? v_0 : 16'd0;
 
-  assign c$ds_app_arg = vo_0[8:8] ? v : c$ds_case_alt;
+  assign c$ds_app_arg = vo_0[16:16] ? v : c$ds_case_alt;
 
-  assign vo_0 = eta[17:9];
+  assign vo_0 = eta[33:17];
 
-  assign ve_0 = eta[8:0];
+  assign ve_0 = eta[16:0];
 
-  assign v = vo_0[7:0];
+  assign v = vo_0[15:0];
 
-  assign v_0 = ve_0[7:0];
+  assign v_0 = ve_0[15:0];
 
   assign res = c$ds_app_arg;
 

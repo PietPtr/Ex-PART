@@ -7,7 +7,7 @@
         20,
         false
     ],
-    "hash": 3721640141359511058,
+    "hash": 6660697184158128238,
     "dependencies": {
         "transitive": []
     },
@@ -19,7 +19,7 @@
         },
         {
             "name": "onOdd.v",
-            "sha256": "4b7a97f72ccef5d5b5d82c4d0095ee8d2357004caea8be9c781cc2ca41ad9190"
+            "sha256": "2894f7a3e27eae0abc9e5b94223dda026cc715fbed7c27bb1f8aa5c7841f7568"
         }
     ],
     "top_component": {
@@ -47,18 +47,18 @@
                     "type_name": ""
                 },
                 {
-                    "width": 9,
-                    "name": "value",
+                    "width": 17,
+                    "name": "val",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 }
             ],
             "out": [
                 {
-                    "width": 9,
+                    "width": 17,
                     "name": "res",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 }
             ]
         },

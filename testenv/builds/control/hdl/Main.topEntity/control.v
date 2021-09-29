@@ -7,43 +7,43 @@ module control
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [7:0] next_val
-    , input [8:0] set_val
+    , input [15:0] next_val
+    , input [16:0] set_val
 
       // Outputs
-    , output wire [7:0] result_value
+    , output wire [15:0] result_value
     );
   // testenv/builds/control/Synth_control.hs:(13,1)-(14,57)
-  wire [7:0] c$ds_app_arg;
+  wire [15:0] c$ds_app_arg;
   // testenv/builds/control/Synth_control.hs:5:1-7
-  reg [7:0] last_val = 8'd0;
+  reg [15:0] last_val = 16'd0;
   // testenv/builds/control/Synth_control.hs:5:1-7
-  wire [7:0] next_val_0;
+  wire [15:0] next_val_0;
   // testenv/builds/control/Synth_control.hs:5:1-7
-  wire [8:0] set_val_0;
+  wire [16:0] set_val_0;
   // testenv/builds/control/Synth_control.hs:5:1-7
-  wire [7:0] new_value;
-  wire [16:0] c$arg;
+  wire [15:0] new_value;
+  wire [32:0] c$arg;
 
   assign c$arg = {next_val,   set_val};
 
-  assign c$ds_app_arg = set_val_0[8:8] ? new_value : next_val_0;
+  assign c$ds_app_arg = set_val_0[16:16] ? new_value : next_val_0;
 
   // register begin
   always @(posedge clk or  posedge  rst) begin : last_val_register
     if ( rst) begin
-      last_val <= 8'd0;
+      last_val <= 16'd0;
     end else if (en) begin
       last_val <= c$ds_app_arg;
     end
   end
   // register end
 
-  assign next_val_0 = c$arg[16:9];
+  assign next_val_0 = c$arg[32:17];
 
-  assign set_val_0 = c$arg[8:0];
+  assign set_val_0 = c$arg[16:0];
 
-  assign new_value = set_val_0[7:0];
+  assign new_value = set_val_0[15:0];
 
   assign result_value = last_val;
 

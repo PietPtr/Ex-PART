@@ -7,19 +7,19 @@ module onEven
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [8:0] value
+    , input [16:0] val
 
       // Outputs
-    , output wire [8:0] res
+    , output wire [16:0] res
     );
   // testenv/builds/onEven/Synth_onEven.hs:(11,1)-(12,56)
-  wire [8:0] c$ds_app_arg;
+  wire [16:0] c$ds_app_arg;
   // testenv/builds/onEven/Synth_onEven.hs:5:1-6
-  wire [7:0] v;
+  wire [15:0] v;
 
-  assign c$ds_app_arg = value[8:8] ? {1'b1,v >> (64'sd1)} : {1'b0,8'bxxxxxxxx};
+  assign c$ds_app_arg = val[16:16] ? {1'b1,v >> (64'sd1)} : {1'b0,16'bxxxxxxxxxxxxxxxx};
 
-  assign v = value[7:0];
+  assign v = val[15:0];
 
   assign res = c$ds_app_arg;
 

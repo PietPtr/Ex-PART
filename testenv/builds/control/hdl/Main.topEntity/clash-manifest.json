@@ -7,7 +7,7 @@
         20,
         false
     ],
-    "hash": -8578810282039381336,
+    "hash": 4334786322950813168,
     "dependencies": {
         "transitive": []
     },
@@ -19,7 +19,7 @@
         },
         {
             "name": "control.v",
-            "sha256": "1723b4f43257087ba861919f88e791ebdb0bba3b60b054727cb0610c92c64ae6"
+            "sha256": "ede5183938c290c0242dc46efd98a3b1ee6801779db531b83ec4d08e3f52c00b"
         }
     ],
     "top_component": {
@@ -47,24 +47,24 @@
                     "type_name": ""
                 },
                 {
-                    "width": 8,
+                    "width": 16,
                     "name": "next_val",
                     "is_clock": false,
-                    "type_name": "[7:0]"
+                    "type_name": "[15:0]"
                 },
                 {
-                    "width": 9,
+                    "width": 17,
                     "name": "set_val",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 }
             ],
             "out": [
                 {
-                    "width": 8,
+                    "width": 16,
                     "name": "result_value",
                     "is_clock": false,
-                    "type_name": "[7:0]"
+                    "type_name": "[15:0]"
                 }
             ]
         },

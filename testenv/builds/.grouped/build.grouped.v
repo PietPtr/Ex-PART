@@ -7,43 +7,43 @@ module control
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [7:0] next_val
-    , input [8:0] set_val
+    , input [15:0] next_val
+    , input [16:0] set_val
 
       // Outputs
-    , output wire [7:0] result_value
+    , output wire [15:0] result_value
     );
   // testenv/builds/control/Synth_control.hs:(13,1)-(14,57)
-  wire [7:0] c$ds_app_arg;
+  wire [15:0] c$ds_app_arg;
   // testenv/builds/control/Synth_control.hs:5:1-7
-  reg [7:0] last_val = 8'd0;
+  reg [15:0] last_val = 16'd0;
   // testenv/builds/control/Synth_control.hs:5:1-7
-  wire [7:0] next_val_0;
+  wire [15:0] next_val_0;
   // testenv/builds/control/Synth_control.hs:5:1-7
-  wire [8:0] set_val_0;
+  wire [16:0] set_val_0;
   // testenv/builds/control/Synth_control.hs:5:1-7
-  wire [7:0] new_value;
-  wire [16:0] c$arg;
+  wire [15:0] new_value;
+  wire [32:0] c$arg;
 
   assign c$arg = {next_val,   set_val};
 
-  assign c$ds_app_arg = set_val_0[8:8] ? new_value : next_val_0;
+  assign c$ds_app_arg = set_val_0[16:16] ? new_value : next_val_0;
 
   // register begin
   always @(posedge clk or  posedge  rst) begin : last_val_register
     if ( rst) begin
-      last_val <= 8'd0;
+      last_val <= 16'd0;
     end else if (en) begin
       last_val <= c$ds_app_arg;
     end
   end
   // register end
 
-  assign next_val_0 = c$arg[16:9];
+  assign next_val_0 = c$arg[32:17];
 
-  assign set_val_0 = c$arg[8:0];
+  assign set_val_0 = c$arg[16:0];
 
-  assign new_value = set_val_0[7:0];
+  assign new_value = set_val_0[15:0];
 
   assign result_value = last_val;
 
@@ -59,39 +59,39 @@ module merger
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [8:0] vo
-    , input [8:0] ve
+    , input [16:0] vo
+    , input [16:0] ve
 
       // Outputs
-    , output wire [7:0] res
+    , output wire [15:0] res
     );
   // testenv/builds/merger/Synth_merger.hs:(13,1)-(14,63)
-  wire [7:0] c$ds_case_alt;
+  wire [15:0] c$ds_case_alt;
   // testenv/builds/merger/Synth_merger.hs:(13,1)-(14,63)
-  wire [7:0] c$ds_app_arg;
+  wire [15:0] c$ds_app_arg;
   // testenv/builds/merger/Synth_merger.hs:5:1-6
-  wire [8:0] vo_0;
+  wire [16:0] vo_0;
   // testenv/builds/merger/Synth_merger.hs:5:1-6
-  wire [8:0] ve_0;
+  wire [16:0] ve_0;
   // testenv/builds/merger/Synth_merger.hs:5:1-6
-  wire [7:0] v;
+  wire [15:0] v;
   // testenv/builds/merger/Synth_merger.hs:5:1-6
-  wire [7:0] v_0;
-  wire [17:0] eta;
+  wire [15:0] v_0;
+  wire [33:0] eta;
 
   assign eta = {vo,   ve};
 
-  assign c$ds_case_alt = ve_0[8:8] ? v_0 : 8'd0;
+  assign c$ds_case_alt = ve_0[16:16] ? v_0 : 16'd0;
 
-  assign c$ds_app_arg = vo_0[8:8] ? v : c$ds_case_alt;
+  assign c$ds_app_arg = vo_0[16:16] ? v : c$ds_case_alt;
 
-  assign vo_0 = eta[17:9];
+  assign vo_0 = eta[33:17];
 
-  assign ve_0 = eta[8:0];
+  assign ve_0 = eta[16:0];
 
-  assign v = vo_0[7:0];
+  assign v = vo_0[15:0];
 
-  assign v_0 = ve_0[7:0];
+  assign v_0 = ve_0[15:0];
 
   assign res = c$ds_app_arg;
 
@@ -107,21 +107,21 @@ module onOdd
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [8:0] value
+    , input [16:0] val
 
       // Outputs
-    , output wire [8:0] res
+    , output wire [16:0] res
     );
-  wire [8:0] c$app_arg;
+  wire [16:0] c$app_arg;
   // testenv/builds/onOdd/Synth_onOdd.hs:5:1-5
-  wire [7:0] v;
-  wire [8:0] result;
+  wire [15:0] v;
+  wire [16:0] result;
 
   assign res = result;
 
-  assign c$app_arg = value[8:8] ? {1'b1,((v << (64'sd1)) + v) + 8'd1} : {1'b0,8'bxxxxxxxx};
+  assign c$app_arg = val[16:16] ? {1'b1,((v << (64'sd1)) + v) + 16'd1} : {1'b0,16'bxxxxxxxxxxxxxxxx};
 
-  assign v = value[7:0];
+  assign v = val[15:0];
 
   assign result = c$app_arg;
 
@@ -137,19 +137,19 @@ module onEven
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [8:0] value
+    , input [16:0] val
 
       // Outputs
-    , output wire [8:0] res
+    , output wire [16:0] res
     );
   // testenv/builds/onEven/Synth_onEven.hs:(11,1)-(12,56)
-  wire [8:0] c$ds_app_arg;
+  wire [16:0] c$ds_app_arg;
   // testenv/builds/onEven/Synth_onEven.hs:5:1-6
-  wire [7:0] v;
+  wire [15:0] v;
 
-  assign c$ds_app_arg = value[8:8] ? {1'b1,v >> (64'sd1)} : {1'b0,8'bxxxxxxxx};
+  assign c$ds_app_arg = val[16:16] ? {1'b1,v >> (64'sd1)} : {1'b0,16'bxxxxxxxxxxxxxxxx};
 
-  assign v = value[7:0];
+  assign v = val[15:0];
 
   assign res = c$ds_app_arg;
 
@@ -165,34 +165,34 @@ module router
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [7:0] val
+    , input [15:0] val
 
       // Outputs
-    , output wire [8:0] odd
-    , output wire [8:0] even
+    , output wire [16:0] odd
+    , output wire [16:0] even
     );
-  wire [17:0] result_0;
-  wire [8:0] c$app_arg;
-  wire [8:0] c$app_arg_0;
+  wire [33:0] result_0;
+  wire [16:0] c$app_arg;
+  wire [16:0] c$app_arg_0;
   wire  c$case_scrut;
-  wire [7:0] c$bv;
-  wire [17:0] result;
+  wire [15:0] c$bv;
+  wire [33:0] result;
 
   assign result = result_0;
 
   assign result_0 = {c$app_arg_0,   c$app_arg};
 
-  assign c$app_arg = c$case_scrut ? {1'b1,val} : {1'b0,8'bxxxxxxxx};
+  assign c$app_arg = c$case_scrut ? {1'b1,val} : {1'b0,16'bxxxxxxxxxxxxxxxx};
 
-  assign c$app_arg_0 = c$case_scrut ? {1'b0,8'bxxxxxxxx} : {1'b1,val};
+  assign c$app_arg_0 = c$case_scrut ? {1'b0,16'bxxxxxxxxxxxxxxxx} : {1'b1,val};
 
   assign c$bv = (val);
 
   assign c$case_scrut = (c$bv[(64'sd0)]) == (1'b1);
 
-  assign odd = result[17:9];
+  assign odd = result[33:17];
 
-  assign even = result[8:0];
+  assign even = result[16:0];
 
 
 endmodule
@@ -205,8 +205,8 @@ module top(
     input [8:0] control_input_set_val,
     input [8:0] merger_input_vo,
     input [8:0] merger_input_ve,
-    input [8:0] onOdd_input_value,
-    input [8:0] onEven_input_value,
+    input [8:0] onOdd_input_val,
+    input [8:0] onEven_input_val,
     input [7:0] router_input_val,
     output [7:0] control_output_result_value,
     output [7:0] merger_output_res,
@@ -217,7 +217,7 @@ module top(
     );
     control controli(clk, rst, en, control_input_next_val, control_input_set_val, control_output_result_value);
     merger mergeri(clk, rst, en, merger_input_vo, merger_input_ve, merger_output_res);
-    onOdd onOddi(clk, rst, en, onOdd_input_value, onOdd_output_res);
-    onEven onEveni(clk, rst, en, onEven_input_value, onEven_output_res);
+    onOdd onOddi(clk, rst, en, onOdd_input_val, onOdd_output_res);
+    onEven onEveni(clk, rst, en, onEven_input_val, onEven_output_res);
     router routeri(clk, rst, en, router_input_val, router_output_odd, router_output_even);
 endmodule

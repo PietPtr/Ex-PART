@@ -6,7 +6,7 @@ combinatory {
     (<<<) = shiftL
 }
 
-type Value = Unsigned 8
+type Value = Unsigned 16
 
 component router() {
     input val : Value
@@ -21,7 +21,7 @@ component onEven() {
     input val : Maybe Value
     output res : Maybe Value
 
-    res = case value of
+    res = case val of
         Just v -> Just $ v >>> 1
         Nothing -> Nothing
 }
@@ -30,7 +30,7 @@ component onOdd() {
     input val : Maybe Value
     output res : Maybe Value
 
-    res = case value of
+    res = case val of
         Just v -> Just $ (v <<< 1 + v) + 1
         Nothing -> Nothing
 }

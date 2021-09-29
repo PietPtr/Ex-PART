@@ -7,7 +7,7 @@
         20,
         false
     ],
-    "hash": -3586366851135424259,
+    "hash": -1338017319070331527,
     "dependencies": {
         "transitive": []
     },
@@ -19,7 +19,7 @@
         },
         {
             "name": "onEven.v",
-            "sha256": "753173d84cc03921b046ea3abbadb1060928fd2b1d5461996fa692ea97e9d01d"
+            "sha256": "e8ec0a6867e321af6dd06c91c28fde077025c0e3b3fb76b7e81b7a382a16f5d8"
         }
     ],
     "top_component": {
@@ -47,18 +47,18 @@
                     "type_name": ""
                 },
                 {
-                    "width": 9,
-                    "name": "value",
+                    "width": 17,
+                    "name": "val",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 }
             ],
             "out": [
                 {
-                    "width": 9,
+                    "width": 17,
                     "name": "res",
                     "is_clock": false,
-                    "type_name": "[8:0]"
+                    "type_name": "[16:0]"
                 }
             ]
         },

@@ -7,34 +7,34 @@ module router
       input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [7:0] val
+    , input [15:0] val
 
       // Outputs
-    , output wire [8:0] odd
-    , output wire [8:0] even
+    , output wire [16:0] odd
+    , output wire [16:0] even
     );
-  wire [17:0] result_0;
-  wire [8:0] c$app_arg;
-  wire [8:0] c$app_arg_0;
+  wire [33:0] result_0;
+  wire [16:0] c$app_arg;
+  wire [16:0] c$app_arg_0;
   wire  c$case_scrut;
-  wire [7:0] c$bv;
-  wire [17:0] result;
+  wire [15:0] c$bv;
+  wire [33:0] result;
 
   assign result = result_0;
 
   assign result_0 = {c$app_arg_0,   c$app_arg};
 
-  assign c$app_arg = c$case_scrut ? {1'b1,val} : {1'b0,8'bxxxxxxxx};
+  assign c$app_arg = c$case_scrut ? {1'b1,val} : {1'b0,16'bxxxxxxxxxxxxxxxx};
 
-  assign c$app_arg_0 = c$case_scrut ? {1'b0,8'bxxxxxxxx} : {1'b1,val};
+  assign c$app_arg_0 = c$case_scrut ? {1'b0,16'bxxxxxxxxxxxxxxxx} : {1'b1,val};
 
   assign c$bv = (val);
 
   assign c$case_scrut = (c$bv[(64'sd0)]) == (1'b1);
 
-  assign odd = result[17:9];
+  assign odd = result[33:17];
 
-  assign even = result[8:0];
+  assign even = result[16:0];
 
 
 endmodule

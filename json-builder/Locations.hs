@@ -26,8 +26,9 @@ instance ToJSON Pos where
     toJSON (Pos x y) = object ["x" .= x, "y" .= y]
 
 instance ToJSON AbsolutePositionTree where
-    toJSON (Leaf name tl br) = object ["tl" .= tl, "br" .= br]
+    toJSON (Leaf name tl br) = object [ pack name .= object ["tl" .= tl, "br" .= br]]
     toJSON (Node name children) = object [(pack name) .= toJSON children]
+    
 
 relToAbs :: [(String, Size, Pos)] -> Pos -> System -> AbsolutePositionTree
 relToAbs positions current system = Node (sys_id system) $ leaves ++ subsystems

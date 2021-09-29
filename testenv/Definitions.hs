@@ -1,7 +1,7 @@
 module Definitions where
 import Clash.Prelude
 
-type Value = Unsigned 8
+type Value = Unsigned 16
 
 
 (>>>) :: Bits a => a -> Int -> a

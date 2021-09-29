@@ -219,7 +219,8 @@ data Element = Element {
         elem_name :: String,
         elem_type :: String,
         elem_io :: [IOStat],
-        elem_ports :: [PortAndDir]
+        elem_ports :: [PortAndDir],
+        elem_isSubsys :: Bool
     }
 
 
@@ -233,7 +234,8 @@ sysElem system = Element {
         elem_name = sys_id system,
         elem_type = sys_id system,
         elem_io = sys_iodefs system,
-        elem_ports = map portWithDir $ sys_iodefs system
+        elem_ports = map portWithDir $ sys_iodefs system,
+        elem_isSubsys = True
     }
 
 instElem :: [Component] -> Instance -> Element
@@ -241,7 +243,8 @@ instElem components inst = Element {
         elem_name = ins_name inst,
         elem_type = ins_cmp inst,
         elem_io = elemio,
-        elem_ports = map portWithDir elemio
+        elem_ports = map portWithDir elemio,
+        elem_isSubsys = False
     }
     where
         elemio = map isoToIO ports
@@ -264,7 +267,7 @@ makeCells' :: [Component] -> System -> Netmap -> [Element] -> [Cell]
 makeCells' _ _ _ [] = []
 makeCells' components system netmap (elem:elements) =
     Cell {
-        cell_name = elem_name elem,
+        cell_name = elem_type elem ++ infix_name ++ elem_name elem,
         cell_type = elem_type elem,
         -- add clk rst en ports, then for every port in this component type (..new info), 
         -- add connections as specified in connection list
@@ -276,12 +279,15 @@ makeCells' components system netmap (elem:elements) =
         ] ++ portCells
     } : makeCells' components system netmap elements
     where
+        infix_name = if elem_isSubsys elem
+            then "_system_"
+            else "_instance_"
+
         relevantConnections = filter relevant connections
         relevant (Connection (CID from_cmp from_port) (CID to_cmp to_port)) =
             from_cmp == elem_name elem || to_cmp == elem_name elem
         
         connections = sys_connections system
-
 
         toCellConn port = CellConn name net
             where
