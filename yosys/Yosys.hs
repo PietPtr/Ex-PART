@@ -1,9 +1,12 @@
+{-# LANGUAGE BangPatterns #-}
+
 module Yosys where
 
 import Types
 import System.Directory
 import System.Process
 import Data.List
+import Data.Aeson
 
 import Preprocessing
 import Postprocessing
@@ -24,4 +27,11 @@ groupVerilogs basedir (Program _ _ components) = do
 
 synthesizeTop basedir = do
     setCurrentDirectory basedir
-    createProcess $ proc "yosys" ["../yosys/grouped.ys", "-v 0"] -- TODO: dit gaat echt instant stuk
+    createProcess $ proc "yosys" ["../yosys/grouped.ys"] -- TODO: dit gaat echt instant stuk
+    setCurrentDirectory ".."
+
+customConnect basedir program system = 
+    encodeFile (basedir ++ "/interconnect.json") (makeTopModule program system)
+
+combineJSONs basedir = do
+    createProcess $ proc "python3" ["yosys/merge_json.py", basedir] -- TODO: dit is ook kut op twee levels

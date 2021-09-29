@@ -18,7 +18,7 @@ component router() {
 }
 
 component onEven() {
-    input value : Maybe Value
+    input val : Maybe Value
     output res : Maybe Value
 
     res = case value of
@@ -27,7 +27,7 @@ component onEven() {
 }
 
 component onOdd() {
-    input value : Maybe Value
+    input val : Maybe Value
     output res : Maybe Value
 
     res = case value of
