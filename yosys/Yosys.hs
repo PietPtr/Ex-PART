@@ -27,7 +27,7 @@ groupVerilogs basedir (Program _ _ components) = do
 
 synthesizeTop basedir = do
     setCurrentDirectory basedir
-    createProcess $ proc "yosys" ["../yosys/grouped.ys"] -- TODO: dit gaat echt instant stuk
+    createProcess $ proc "yosys" ["-q", "-d", "../yosys/grouped.ys"] -- TODO: dit gaat echt instant stuk
     setCurrentDirectory ".."
 
 customConnect basedir program system = 
