@@ -49,6 +49,7 @@ def create_regions_system(system):
 
 print(f"------------------------ {os.path.basename(__file__)} --------------------------")
 
+# TODO: hoe laden we een arbitraire json in, zonder command line arguments?
 with open("../testenv/locations.json") as f:
     locations = json.load(f)
 
