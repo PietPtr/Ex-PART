@@ -40,7 +40,7 @@ def create_regions_system(system):
                 sys["tl"]["x"], sys["tl"]["y"],
                 sys["br"]["y"], sys["br"]["y"])
             # print("created a region for", regionID)
-            print(f"ctx.createRectangularRegion({regionID}, {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
+            # print(f"ctx.createRectangularRegion({regionID}, {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
             path.pop()
         else:
             subsystems = sys
@@ -57,9 +57,9 @@ create_regions_system_list([locations])
 
 for cell, cellinfo in ctx.cells:
     if 'BEL' in cellinfo.attrs or 'NEXTPNR_BEL' in cellinfo.attrs:
-        # print('IO Bel: ', cellinfo.attrs['BEL'])
         pass
     else:
+        # TODO: in dit stuk kunnen veel bugs zitten omdat de BEL filtering niet bijzonder specifiek is.
         json_path = cell_name_to_json_path(cell)
 
         if json_path:

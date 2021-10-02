@@ -1,13 +1,15 @@
 import json
 import sys
 
+# TODO: het is zo stom dat dit in python is, waarom kan dit niet even nice ook in Aeson :(
+
 with open(sys.argv[1] + "/interconnect.json") as f:
     new_modules = json.load(f)
 
 with open(sys.argv[1] + "/synthesized.json") as f:
     old_data = json.load(f)
 
-del old_data["modules"]["top"] #TODO: users can never call their top entity top now...
+del old_data["modules"]["top"] # TODO: users can never call their top entity top now...
 
 for module in new_modules:
     # always just one but whatever
