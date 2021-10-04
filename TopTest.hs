@@ -86,8 +86,21 @@ flow expcName expiName outDir = do
     compileToVerilog expc
     putStrLn "Compiled Clash code to Verilog."
 
-    putStrLn $ "Done, moving back to " ++ startDir ++ "."
+    groupVerilogs expc
+    putStrLn "Grouped Verilog files into one large file."
+
+    synthesizeTop
+    putStrLn "Synthesized top module to JSON."
+
+    customConnect expc expi
+    putStrLn "Connected synthesized JSON according."
+
+    combineJSONs outDir
+    putStrLn "Combined JSONs."
+
+    putStrLn $ "Synthesis done, place and route can be performed with []\n    moving back to " ++ startDir ++ "."
     setCurrentDirectory startDir
+
 
 
 make = flow "examples/collatz.expc" "examples/collatz.expi" "testenv"

@@ -15,7 +15,7 @@ clashProcesses cmpNames = map
         "--verilog", 
         "-outputdir .hs", 
         "-fclash-hdldir builds/"++name++"/hdl"
-        ]){std_out=CreatePipe}) 
+        ]){std_out=CreatePipe, std_err=CreatePipe}) 
     cmpNames
    
 

@@ -23,10 +23,12 @@ compileToVerilog (Program _ _ components) = do
 
 runClash :: (String, CreateProcess) -> IO ()
 runClash (cmpName, clash) = do
-    (_, Just handle, _, processHandle) <- createProcess clash
-    output <- hGetContents handle
+    (_, Just outHandle, Just errHandle, processHandle) <- createProcess clash
+    stdout <- hGetContents outHandle
+    stderr <- hGetContents errHandle
     _ <- waitForProcess processHandle
-    writeFile ("builds/"++cmpName++"/clash.log") output
+    writeFile ("builds/"++cmpName++"/clash.log") stdout
+    writeFile ("builds/"++cmpName++"/clash.err") stderr
 
 
 groupVerilogs :: Program -> IO ()
@@ -38,12 +40,13 @@ groupVerilogs (Program _ _ components) = do
     where
         cmpNames = map cmp_name components
 
--- synthesizeTop :: IO ()
 synthesizeTop = do
     createProcess $ proc "yosys" ["-q", "-d", "../yosys/grouped.ys"]
 
 customConnect program system = 
     encodeFile ("interconnect.json") (makeTopModule program system)
 
-combineJSONs = do
-    createProcess $ proc "python3" ["../yosys/merge_json.py"] -- TODO: dit is ook kut op twee levels
+combineJSONs basedir = do
+    (_, _, _, h) <- createProcess $ 
+        proc "python3" ["../yosys/merge_json.py", basedir] -- TODO: dit is ook kut op 1 level
+    waitForProcess h
