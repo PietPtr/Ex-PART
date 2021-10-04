@@ -12,6 +12,7 @@ import Preprocessing
 import Postprocessing
 
 
+-- TODO: fix dat het kan dat on termination pas er verder gegaan wordt met de volgende actie
 compileToVerilog basedir (Program _ _ components) = 
     mapM_ createProcess $ clashProcesses basedir cmpNames
     where

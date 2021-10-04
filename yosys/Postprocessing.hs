@@ -204,7 +204,7 @@ nets' comps system bitCtr ((Connection from to):connections) netmap =
             (SInput name _) -> name == from_port
             _ -> False
 
--- TODO: unique integers aren't sequential (but that probably does not matter?)
+-- WARN: unique integers aren't sequential (but that probably does not matter)
 makeCells :: [Component] -> System -> Netmap -> [Cell]
 makeCells components system netmap = 
     -- makeInstanceCells components system netmap (sys_instances system) ++

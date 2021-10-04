@@ -7,8 +7,14 @@ import Locations
 
 writeLocationsJSON :: FilePath -> System -> IO ()
 writeLocationsJSON basedir system = encodeFile (basedir ++ "/locations.json") $ 
-    relToAbs (reduceAll $ allInstsWithCoords system) startPos system -- TODO: twee keer system?
+    relToAbs (reduceAll $ allInstsWithCoords system) startPos system
     where
-        startPos = case sys_coords system of
-            (CConst x, CConst y) -> Pos x y
-            _ -> error "Top-level coordinates must be constants." -- TODO: en 4 + 4 dan?
+        startPos = if isConstExpr x && isConstExpr y
+            then Pos (reduceCoordExpr [] x) (reduceCoordExpr [] y)
+            else error "Top-level coordinates must be constants."
+        (x, y) = sys_coords system
+
+        isConstExpr :: CoordExpr -> Bool
+        isConstExpr (CConst _) = True
+        isConstExpr (CAdd left right) = isConstExpr left && isConstExpr right
+        isConstExpr _ = False

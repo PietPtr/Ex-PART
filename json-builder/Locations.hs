@@ -5,6 +5,7 @@ module Locations where
 import Data.Aeson
 import Debug.Trace
 import Data.Text (pack)
+import Data.Graph hiding (Node)
 
 import Types
 
@@ -35,11 +36,9 @@ relToAbs positions current system = Node (sys_id system) $ leaves ++ subsystems
     where
         leaves = map makeLeaf $ map ins_name $ sys_instances system
         subsystems = map nextCall $ sys_subsystems system
-        nextCall subsystem = relToAbs positions (current `addPos` subsyspos) subsystem -- TODO: hmmmm...
+        nextCall subsystem = relToAbs positions (current `addPos` subsyspos) subsystem
             where
                 subsyspos = (\(_, _, a) -> a) $ head $ filter (\(name, _, _) -> name == sys_id subsystem) positions
-
-        -- syspos = (\(_, _, a) -> a) $ head $ filter (\(name, _, _) -> name == sys_id system) positions
 
         makeLeaf :: String -> AbsolutePositionTree
         makeLeaf name = Leaf name tl br
@@ -79,15 +78,50 @@ reduceCoordExpr instances cexpr = reduce $ reduceCoordsToConsts constantInstance
 
 -- TODO: does not terminate on recursive definitions, add loop detections
 reduceCoordsToConsts :: [(String, Size, Coords)] -> CoordExpr -> CoordExpr
-reduceCoordsToConsts instances cexpr = case cexpr of
+reduceCoordsToConsts instances cexpr = trace ("iter") $ case cexpr of
     (CAdd ce ce') -> (CAdd (reduceCoordsToConsts instances ce) (reduceCoordsToConsts instances ce'))
     (CX id) -> (\(_, _, (xexpr, _)) -> reduceCoordsToConsts instances xexpr) $ findID instances id
     (CY id) -> (\(_, _, (_, yexpr)) -> reduceCoordsToConsts instances yexpr) $ findID instances id 
     others -> others
-    
--- TODO: iets van hashmaps doen hier?
+
+cyclegraph = [("a", ["b"]), ("b", ["c"]), ("c", [])]
+
+toGraphList :: [(String, Size, Coords)] -> [(Name, [Name])]
+toGraphList [] = []
+toGraphList ((name, _, (x, y)):rest) = (name, neighbors) : toGraphList rest
+    where
+        neighbors = references x ++ references y
+
+        references expr = case expr of
+            (CAdd l r) -> references l ++ references r
+            (CWidth name) -> [name]
+            (CHeight name) -> [name]
+            (CX name) -> [name]
+            (CY name) -> [name]
+            _ -> []
+
+toGraph :: [(Name, [Name])] -> (Graph, Name -> Maybe Vertex)
+toGraph graphlist = (graph, vertexFromKey)
+    where
+        (graph, _, vertexFromKey) = graphFromEdges (map (\(n, l) -> (n, n, l)) graphlist)
+
+isInCycle :: Graph -> Vertex -> [Bool]
+isInCycle graph vertex = map (\v -> vertex `elem` (reachable graph v)) reachables
+    where
+        reachables = reachable graph vertex
+
+hasCycle :: Graph -> [Bool]
+hasCycle graph = concat $ map (isInCycle graph) nodes
+    where
+        nodes = vertices graph
+
+
+
+-- IDEA: iets van hashmaps doen hier? (premature optimization)
 findID :: [(String, Size, Coords)] -> String -> (String, Size, Coords)
-findID instances id = head $ filter (\(name, _, _) -> name == id) instances
+findID instances id = case filter (\(name, _, _) -> name == id) instances of
+    (x:_) -> trace (show instances) x
+    [] -> error $ "Could not find ID " ++ id ++ " in provided list." ++ show instances
 
 
 allInstsWithCoords :: System -> [(String, Size, Coords)]

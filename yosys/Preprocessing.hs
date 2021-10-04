@@ -6,9 +6,6 @@ import Data.List
 
 import Types
 
--- assumes that every folder in builds except ".grouped" needs to be compiled
--- compileToVerilog :: FilePath -> IO ()
-
 
 -- TODO: fragiel.
 clashProcesses :: FilePath -> [String] -> [CreateProcess]

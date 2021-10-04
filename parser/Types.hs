@@ -23,11 +23,13 @@ data Component = Component {
 type Argument = String
 type WhereBlock = String
 
--- TODO: maak hier iets records achtig van, iig dat je ziet welke type en welke name is.
+type Type = String
+type Name = String
+
 data ISOStat
-    = SInput String String
-    | SState String ConstExpr String
-    | SOutput String String
+    = SInput Name Type
+    | SState Name ConstExpr Type
+    | SOutput Name Type
     deriving Show
 
 inputs :: [ISOStat] -> [ISOStat]
