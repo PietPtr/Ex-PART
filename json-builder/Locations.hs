@@ -15,9 +15,13 @@ type Y = Integer
 data Pos = Pos X Y
     deriving Show
 
--- TODO: num instance?
-addPos :: Pos -> Pos -> Pos
-addPos (Pos x y) (Pos x' y') = Pos (x+x') (y+y')
+instance Num Pos where
+    (+) (Pos x y) (Pos x' y') = Pos (x+x') (y+y')
+    (-) (Pos x y) (Pos x' y') = Pos (x-x') (y-y')
+    (*) (Pos x y) (Pos x' y') = Pos (x*x') (y*y')
+    abs (Pos x y) = Pos (abs x) (abs y)
+    signum (Pos x y) = 1 -- Nobody needs this right..?
+    fromInteger x = (Pos x 0)
 
 data AbsolutePositionTree 
     = Leaf String Pos Pos
@@ -37,15 +41,15 @@ relToAbs positions current system = Node (sys_id system) $ leaves ++ subsystems
     where
         leaves = map makeLeaf $ map ins_name $ sys_instances system
         subsystems = map nextCall $ sys_subsystems system
-        nextCall subsystem = relToAbs positions (current `addPos` subsyspos) subsystem
+        nextCall subsystem = relToAbs positions (current + subsyspos) subsystem
             where
                 subsyspos = (\(_, _, a) -> a) $ head $ filter (\(name, _, _) -> name == sys_id subsystem) positions
 
         makeLeaf :: String -> AbsolutePositionTree
         makeLeaf name = Leaf name tl br
             where
-                tl = (pos `addPos` current)
-                br = tl `addPos` (Pos (fst size - 1) (snd size - 1))
+                tl = (pos + current)
+                br = tl + (Pos (fst size - 1) (snd size - 1))
                 (_, size, pos) = head $ filter (\(name', _, _) -> name' == name) positions
 
 reduceAll' :: [(String, Size, Coords)] -> [(String, Size, Coords)] -> [(String, Size, Pos)]

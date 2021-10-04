@@ -9,7 +9,7 @@ with open(sys.argv[1] + "/interconnect.json") as f:
 with open(sys.argv[1] + "/synthesized.json") as f:
     old_data = json.load(f)
 
-del old_data["modules"]["top"] # TODO: users can never call their top entity top now...
+del old_data["modules"]["$top"]
 
 for module in new_modules:
     # always just one but whatever

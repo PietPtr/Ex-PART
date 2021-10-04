@@ -145,7 +145,7 @@ data Option
     deriving Show
 
 
-
+-- TODO: actually do this nicely instead of hardcoded widths for 2 types...
 isoStatToBitwidth :: ISOStat -> Integer
 isoStatToBitwidth stat = case stat of
     (SInput _ t) -> typeToBitwidth t

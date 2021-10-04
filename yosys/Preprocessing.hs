@@ -36,7 +36,7 @@ dummyTop :: [Component] -> String
 dummyTop components = moduleDef ++ inputstr ++ ",\n" ++ outputstr ++ "\n    );\n" ++ instantiationstr ++ "\nendmodule\n"
     where
         moduleDef = 
-            "module top(\n\
+            "module $top(\n\
             \    input clk,\n\
             \    input rst,\n\
             \    input en,\n"
