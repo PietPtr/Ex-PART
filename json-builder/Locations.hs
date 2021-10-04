@@ -6,6 +6,7 @@ import Data.Aeson
 import Debug.Trace
 import Data.Text (pack)
 import Data.Graph hiding (Node)
+import Data.Array
 
 import Types
 
@@ -48,7 +49,7 @@ relToAbs positions current system = Node (sys_id system) $ leaves ++ subsystems
                 (_, size, pos) = head $ filter (\(name', _, _) -> name' == name) positions
 
 reduceAll' :: [(String, Size, Coords)] -> [(String, Size, Coords)] -> [(String, Size, Pos)]
-reduceAll' []_  = []
+reduceAll' [] _  = []
 reduceAll' (inst:instances) all = solve inst : (reduceAll' instances all)
     where
         solve :: (String, Size, Coords) -> (String, Size, Pos)
@@ -76,15 +77,16 @@ reduceCoordExpr instances cexpr = reduce $ reduceCoordsToConsts constantInstance
         lookupHeight :: String -> Integer
         lookupHeight id = (\(_, (_, h), _) -> h) $ findID constantInstances id
 
--- TODO: does not terminate on recursive definitions, add loop detections
 reduceCoordsToConsts :: [(String, Size, Coords)] -> CoordExpr -> CoordExpr
-reduceCoordsToConsts instances cexpr = trace ("iter") $ case cexpr of
+reduceCoordsToConsts instances cexpr = case cexpr of
     (CAdd ce ce') -> (CAdd (reduceCoordsToConsts instances ce) (reduceCoordsToConsts instances ce'))
     (CX id) -> (\(_, _, (xexpr, _)) -> reduceCoordsToConsts instances xexpr) $ findID instances id
     (CY id) -> (\(_, _, (_, yexpr)) -> reduceCoordsToConsts instances yexpr) $ findID instances id 
     others -> others
 
-cyclegraph = [("a", ["b"]), ("b", ["c"]), ("c", [])]
+        
+
+cyclegraph = [("a", ["b"]), ("b", ["c"]), ("c", ["c"])]
 
 toGraphList :: [(String, Size, Coords)] -> [(Name, [Name])]
 toGraphList [] = []
@@ -100,27 +102,30 @@ toGraphList ((name, _, (x, y)):rest) = (name, neighbors) : toGraphList rest
             (CY name) -> [name]
             _ -> []
 
-toGraph :: [(Name, [Name])] -> (Graph, Name -> Maybe Vertex)
-toGraph graphlist = (graph, vertexFromKey)
+toGraph :: [(Name, [Name])] -> Graph
+toGraph graphlist = graph
     where
         (graph, _, vertexFromKey) = graphFromEdges (map (\(n, l) -> (n, n, l)) graphlist)
 
 isInCycle :: Graph -> Vertex -> [Bool]
 isInCycle graph vertex = map (\v -> vertex `elem` (reachable graph v)) reachables
     where
-        reachables = reachable graph vertex
+        (_:reachables) = reachable graph vertex
+        -- BUG? I assume here that the first node is always the node currently being looked at (trivially reachable)
 
-hasCycle :: Graph -> [Bool]
-hasCycle graph = concat $ map (isInCycle graph) nodes
+-- V2: return where exactly the cycle was found, and what the cycle is.
+hasCycle :: Graph -> Bool
+hasCycle graph = (or $ concat $ map (isInCycle graph) nodes) || hasLoop
     where
         nodes = vertices graph
 
+        hasLoop = any (\(v, ns) -> v `elem` ns) (assocs graph)
 
 
 -- IDEA: iets van hashmaps doen hier? (premature optimization)
 findID :: [(String, Size, Coords)] -> String -> (String, Size, Coords)
 findID instances id = case filter (\(name, _, _) -> name == id) instances of
-    (x:_) -> trace (show instances) x
+    (x:_) -> x
     [] -> error $ "Could not find ID " ++ id ++ " in provided list." ++ show instances
 
 
