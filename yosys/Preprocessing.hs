@@ -8,22 +8,22 @@ import Types
 
 
 -- TODO: fragiel.
-clashProcesses :: FilePath -> [String] -> [CreateProcess]
-clashProcesses basedir cmpNames = map 
-    (\name -> proc "clash" [
-        basedir ++ "/builds/"++name++"/Synth_" ++ name ++ ".hs", 
+clashProcesses :: [String] -> [CreateProcess]
+clashProcesses cmpNames = map 
+    (\name -> (proc "clash" [
+        "builds/"++name++"/Synth_" ++ name ++ ".hs", 
         "--verilog", 
-        "-outputdir "++basedir++"/.hs", 
-        "-fclash-hdldir "++basedir ++ "/builds/"++name++"/hdl", 
-        "-i" ++ basedir]) 
+        "-outputdir .hs", 
+        "-fclash-hdldir builds/"++name++"/hdl"
+        ]){std_out=CreatePipe}) 
     cmpNames
    
 
-readAndAppend :: FilePath -> String -> IO ()
-readAndAppend basedir name = do
+readAndAppend :: String -> IO ()
+readAndAppend name = do
     verilogSrc <- readFile 
-        $ basedir ++ "/builds/" ++ name ++ "/hdl/Main.topEntity/" ++ name ++ ".v" -- TODO: dit doe ik wel erg vaak handmatig
-    appendFile (basedir ++ "/builds/.grouped/build.grouped.v") verilogSrc
+        $ "builds/" ++ name ++ "/hdl/Main.topEntity/" ++ name ++ ".v" -- TODO: dit doe ik wel erg vaak handmatig
+    appendFile ("builds/.grouped/build.grouped.v") verilogSrc
 
 copyVerilogs :: FilePath -> [String] -> IO ()
 copyVerilogs basedir cmpNames = mapM_ (\name -> copyFile (source name) (dest name)) cmpNames

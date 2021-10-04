@@ -10,13 +10,13 @@ trim = f . f
     where f = reverse . dropWhile isSpace
 
 -- create builds folder
-makeBuild :: FilePath -> IO ()
-makeBuild basedir = createDirectoryIfMissing True $ basedir ++ "/builds/"
+makeBuild :: IO ()
+makeBuild = createDirectoryIfMissing True "builds/"
 
 -- create folder for every unique inst of component
-makeComponentDirs :: FilePath -> Program -> IO ()
-makeComponentDirs basedir (Program _ _ components) = 
-    mapM_ (\compName -> createDirectoryIfMissing True $ basedir ++ "/builds/" ++ compName ++ "/") compNames
+makeComponentDirs :: Program -> IO ()
+makeComponentDirs (Program _ _ components) = 
+    mapM_ (\compName -> createDirectoryIfMissing True $ "builds/" ++ compName ++ "/") compNames
     where
         compNames = map cmp_name components
 
@@ -40,12 +40,12 @@ genDefs (Program haskellDefs combinatories _) =
     concat (intersperse "\n" haskellDefs) ++ "\n\n" ++
     concatCombinatory combinatories
 
-writeDefs :: FilePath -> Program -> IO ()
-writeDefs basedir program = writeFile (basedir ++ "/Definitions.hs") $ genDefs program
+writeDefs ::Program -> IO ()
+writeDefs program = writeFile ("Definitions.hs") $ genDefs program
 
 -- chain the above functions to achieve actions described
 doPreliminaryProcessing :: FilePath -> Program -> IO ()
 doPreliminaryProcessing basedir program = do
-    makeBuild basedir
-    makeComponentDirs basedir program
-    writeDefs basedir program
+    makeBuild
+    makeComponentDirs program
+    writeDefs program

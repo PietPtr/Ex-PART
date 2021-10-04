@@ -5,10 +5,10 @@ import Data.Aeson
 import Types
 import Locations
 
-writeLocationsJSON :: FilePath -> System -> IO ()
-writeLocationsJSON basedir system = do
+writeLocationsJSON :: System -> IO ()
+writeLocationsJSON system = do
     if check
-        then encodeFile (basedir ++ "/locations.json") json
+        then encodeFile ("locations.json") json
         else putStrLn ("Error in Location JSON writing.")
     where
         json = relToAbs (reduceAll instances) startPos system
