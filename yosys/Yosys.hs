@@ -42,10 +42,11 @@ groupVerilogs (Program _ _ components) = do
 
 synthesizeTop :: IO ()
 synthesizeTop = do
-    (_, _, Just errHandle, processHandle) <- createProcess $ 
-        (proc "yosys" ["-q", "-d", "/usr/share/ex-part/yosys/grouped.ys"]){std_err=CreatePipe}
-    stderr <- hGetContents errHandle
-    writeFile "builds/.grouped/yosys.log" stderr
+    (_, Just outHandle, _, processHandle) <- createProcess $ 
+        (proc "yosys" ["/usr/share/ex-part/yosys/grouped.ys"])
+        {std_err=CreatePipe, std_out=CreatePipe}
+    stdout <- hGetContents outHandle
+    writeFile "builds/.grouped/yosys.log" stdout
 
 customConnect program system = 
     encodeFile "interconnect.json" (makeTopModule program system)
