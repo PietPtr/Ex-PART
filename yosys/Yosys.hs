@@ -40,13 +40,17 @@ groupVerilogs (Program _ _ components) = do
     where
         cmpNames = map cmp_name components
 
+synthesizeTop :: IO ()
 synthesizeTop = do
-    createProcess $ proc "yosys" ["-q", "-d", "../yosys/grouped.ys"]
+    (_, _, Just errHandle, processHandle) <- createProcess $ 
+        (proc "yosys" ["-q", "-d", "/usr/share/ex-part/yosys/grouped.ys"]){std_err=CreatePipe}
+    stderr <- hGetContents errHandle
+    writeFile "builds/.grouped/yosys.log" stderr
 
 customConnect program system = 
-    encodeFile ("interconnect.json") (makeTopModule program system)
+    encodeFile "interconnect.json" (makeTopModule program system)
 
 combineJSONs basedir = do
     (_, _, _, h) <- createProcess $ 
-        proc "python3" ["../yosys/merge_json.py", basedir] -- TODO: dit is ook kut op 1 level
+        proc "python3" ["/usr/share/ex-part/yosys/merge_json.py", basedir]
     waitForProcess h

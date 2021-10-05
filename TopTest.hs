@@ -1,9 +1,9 @@
 import Types
 import Parser
 import Generator
-import Yosys
 import JSONBuilder
-import Postprocessing
+import Yosys
+import Nextpnr
 
 import Data.Either
 import Data.Aeson
@@ -26,28 +26,6 @@ expi' :: System
 expi' = System {sys_flattened = False, sys_id = "system", sys_size = (6,6), sys_coords = (CConst 2,CConst 2), sys_iodefs = [Output "result" "Value",Input "setting" "Maybe Value"], sys_instances = [Instance {ins_name = "controller", ins_cmp = "control", ins_args = [], ins_size = (6,2), ins_coords = (CConst 0,CConst 0)}], sys_connections = [Connection (CID "controller" "result_value") (CID "this" "result"),Connection (CID "this" "setting") (CID "controller" "set_val"),Connection (CID "collatzer" "val_out") (CID "controller" "next_val"),Connection (CID "controller" "result_value") (CID "collatzer" "val_in")], sys_repetitions = [], sys_subsystems = [System {sys_flattened = False, sys_id = "collatzer", sys_size = (6,4), sys_coords = (CConst 0,CHeight "controller"), sys_iodefs = [Output "val_out" "Value",Input "val_in" "Value"], sys_instances = [Instance {ins_name = "merger", ins_cmp = "merger", ins_args = [], ins_size = (1,4), ins_coords = (CAdd (CX "onOdd") (CWidth "onOdd"),CConst 0)},Instance {ins_name = "onEven", ins_cmp = "onEven", ins_args = [], ins_size = (4,2), ins_coords = (CWidth "router",CHeight "onOdd")},Instance {ins_name = "onOdd", ins_cmp = "onOdd", ins_args = [], ins_size = (4,2), ins_coords = (CWidth "router",CConst 0)},Instance {ins_name = "router", ins_cmp = "router", ins_args = [], ins_size = (1,4), ins_coords = (CConst 0,CConst 0)}], sys_connections = [Connection (CID "merger" "res") (CID "this" "val_out"),Connection (CID "onEven" "res") (CID "merger" "ve"),Connection (CID "onOdd" "res") (CID "merger" "vo"),Connection (CID "router" "even") (CID "onEven" "val"),Connection (CID "router" "odd") (CID "onOdd" "val"),Connection (CID "this" "val_in") (CID "router" "val")], sys_repetitions = [], sys_subsystems = []}]}
 
 -- TODO: maak een main die dit goed aan elkaar knoopt
--- step1 = do
---     program <- expc
---     system <- expi
---     generateClash "testenv" program
---     writeLocationsJSON "testenv" system
-
--- step2 = do
---     program <- expc -- natuurlijk gaat dit in het echt niet twee keer parsen
---     compileToVerilog "testenv" program
-
--- step3 = do
---     program <- expc
---     system  <- expi
---     groupVerilogs "testenv" program
---     synthesizeTop "testenv"
-
--- step4 = do
---     program <- expc
---     system  <- expi
---     customConnect "testenv" program system
---     combineJSONs "testenv"
-
 
 -- helper dingetjes voor ghci
 comps = case expc' of
@@ -55,52 +33,55 @@ comps = case expc' of
 insts = sys_instances $ head $ sys_subsystems expi'
 conns = sys_connections $ head $ sys_subsystems expi'
 
-flow :: FilePath -> FilePath -> FilePath -> IO ()
-flow expcName expiName outDir = do
+flow :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+flow expcName expiName lpf outDir = do
     startDir <- getCurrentDirectory
+    lpfLoc <- makeAbsolute lpf
     parsed <- parse_expc expcName
     case parsed of
-        (Left error) -> putStrLn $ "Parse error: " ++ show error
-        (Right result) -> putStrLn "Succesfully parsed .expc"
+        (Left error) -> putStrLn $ "[Ex-PART] Parse error: " ++ show error
+        (Right result) -> putStrLn "[Ex-PART] Succesfully parsed .expc"
     guard (isRight parsed)
     expc <- pure $ fromRight undefined parsed
 
     parsed <- parse_expi expiName
     case parsed of
-        (Left error) -> putStrLn $ "Parse error: " ++ show error
-        (Right result) -> putStrLn "Succesfully parsed .expi"
+        (Left error) -> putStrLn $ "[Ex-PART] Parse error: " ++ show error
+        (Right result) -> putStrLn "[Ex-PART] Succesfully parsed .expi"
     guard (isRight parsed)
     expi <- pure $ fromRight undefined parsed
 
+    putStrLn $ "[Ex-PART] Creating directory " ++ outDir ++ "..."
     createDirectoryIfMissing True outDir
-    putStrLn $ "Created directory " ++ outDir
     threadDelay 1000 -- TODO: there is a dependence on these statements, but they're executed concurrently...
     setCurrentDirectory outDir
 
+    putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
-    putStrLn "Generated Clash code."
 
+    putStrLn "[Ex-PART] Generating locations.json..."
     writeLocationsJSON expi
-    putStrLn "Generated locations.json"
 
+    putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
     compileToVerilog expc
-    putStrLn "Compiled Clash code to Verilog."
 
+    putStrLn "[Ex-PART] Grouping Verilog files into one file..."
     groupVerilogs expc
-    putStrLn "Grouped Verilog files into one large file."
 
+    putStrLn "[Ex-PART] Synthesizing components to JSON..."
     synthesizeTop
-    putStrLn "Synthesized top module to JSON."
 
+    putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi
-    putStrLn "Connected synthesized JSON according."
 
+    putStrLn "[Ex-PART] Combining JSONs..."
     combineJSONs outDir
-    putStrLn "Combined JSONs."
 
-    putStrLn $ "Synthesis done, place and route can be performed with []\n    moving back to " ++ startDir ++ "."
+    putStrLn "[Ex-PART] Performing place and route using expi constraints..."
+    nextpnr lpfLoc
+
     setCurrentDirectory startDir
+    putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config "
 
 
-
-make = flow "examples/collatz.expc" "examples/collatz.expi" "testenv"
+make = flow "examples/collatz.expc" "examples/collatz.expi" "examples/collatz.lpf" "testenv"

@@ -25,12 +25,6 @@ readAndAppend name = do
         $ "builds/" ++ name ++ "/hdl/Main.topEntity/" ++ name ++ ".v" -- TODO: dit doe ik wel erg vaak handmatig
     appendFile ("builds/.grouped/build.grouped.v") verilogSrc
 
-copyVerilogs :: FilePath -> [String] -> IO ()
-copyVerilogs basedir cmpNames = mapM_ (\name -> copyFile (source name) (dest name)) cmpNames
-    where
-        source cmp = basedir ++ "/builds/" ++ cmp ++ "/hdl/Main.topEntity/" ++ cmp ++ ".v"
-        dest   cmp = basedir ++ "/builds/.grouped/"  ++ cmp ++ ".v"
-
 
 dummyTop :: [Component] -> String
 dummyTop components = moduleDef ++ inputstr ++ ",\n" ++ outputstr ++ "\n    );\n" ++ instantiationstr ++ "\nendmodule\n"

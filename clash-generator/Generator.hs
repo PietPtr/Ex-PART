@@ -13,5 +13,5 @@ generateComponent cmp = writeFile
 
 generateClash :: Program -> IO ()
 generateClash program@(Program _ _ components) = do
-    doPreliminaryProcessing "" program
+    doPreliminaryProcessing program
     mapM_ (generateComponent) components

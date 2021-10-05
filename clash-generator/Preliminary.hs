@@ -44,8 +44,8 @@ writeDefs ::Program -> IO ()
 writeDefs program = writeFile ("Definitions.hs") $ genDefs program
 
 -- chain the above functions to achieve actions described
-doPreliminaryProcessing :: FilePath -> Program -> IO ()
-doPreliminaryProcessing basedir program = do
+doPreliminaryProcessing :: Program -> IO ()
+doPreliminaryProcessing program = do
     makeBuild
     makeComponentDirs program
     writeDefs program
