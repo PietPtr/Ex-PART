@@ -159,6 +159,6 @@ ioStatToBitWidth stat = case stat of
 
 typeToBitwidth :: String -> Integer
 typeToBitwidth t = case t of
-        "Value" -> 8
-        "Maybe Value" -> 9
+        "Value" -> 16
+        "Maybe Value" -> 17
         other -> error $ "did not find bitwidth of type " ++ other

@@ -6,12 +6,20 @@ top_entity_name = str(ctx.top_module)
 
 def cell_name_to_json_path(cell_name):
     # mooi magic number, hopelijk is het in general ook correct <:]
-    expart_name = cell_name.split('.')[:-2] 
+    full_name = cell_name.split('.')
+    expart_name = full_name[:-2]
 
     if len(expart_name) == 0:
         return False
+
+    # if 'adff' in full_name[-1]:
+    #     return False
+
+    # if 'GND' in full_name[-1]:
+    #     return False
     
     assert '_instance_' in expart_name[-1]
+
     assert all(['_system_' in name for name in expart_name[:-1]])
 
     json_path = top_entity_name
@@ -40,7 +48,7 @@ def create_regions_system(system):
                 sys["tl"]["x"], sys["tl"]["y"],
                 sys["br"]["y"], sys["br"]["y"])
             # print("created a region for", regionID)
-            # print(f"ctx.createRectangularRegion({regionID}, {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
+            print(f"ctx.createRectangularRegion({regionID}, {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
             path.pop()
         else:
             subsystems = sys
@@ -49,12 +57,15 @@ def create_regions_system(system):
 
 print(f"------------------------ {os.path.basename(__file__)} --------------------------")
 
-# TODO: hoe laden we een arbitraire json in, zonder command line arguments?
 with open("../testenv/locations.json") as f:
     locations = json.load(f)
 
 create_regions_system_list([locations])
 
+for cell, cellinfo in ctx.cells:
+    print(cell)
+
+print("---")
 
 for cell, cellinfo in ctx.cells:
     if 'BEL' in cellinfo.attrs or 'NEXTPNR_BEL' in cellinfo.attrs:
@@ -67,6 +78,7 @@ for cell, cellinfo in ctx.cells:
             print(f"constrained cell to {json_path}")
             ctx.constrainCellToRegion(cell, json_path)
         else:
+            pass
             print(f"WARNING: did not constrain cell {cell} as it did not comply with Ex-PART namings.")
 
 

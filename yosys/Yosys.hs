@@ -13,7 +13,6 @@ import Preprocessing
 import Postprocessing
 
 
--- TODO: fix dat het kan dat on termination pas er verder gegaan wordt met de volgende actie
 compileToVerilog :: Program -> IO ()
 compileToVerilog (Program _ _ components) = do
     mapM_ runClash procsAndNames

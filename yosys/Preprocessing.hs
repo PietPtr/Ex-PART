@@ -7,7 +7,6 @@ import Data.List
 import Types
 
 
--- TODO: fragiel.
 clashProcesses :: [String] -> [CreateProcess]
 clashProcesses cmpNames = map 
     (\name -> (proc "clash" [

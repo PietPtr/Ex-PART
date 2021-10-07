@@ -45,20 +45,39 @@ data CellConn = CellConn String [Integer]
 
 type Net = [Integer] -- directly a yosys "bits" entry
 
+clockResetEnablePorts = [
+                    Port {
+                        port_name = "clk",
+                        port_direction = In,
+                        port_bits = [2]
+                    },
+                    Port {
+                        port_name = "rst",
+                        port_direction = In,
+                        port_bits = [3]
+                    },
+                    Port {
+                        port_name = "en",
+                        port_direction = In,
+                        port_bits = [4]
+                    }
+                ]
+
 instance ToJSON Module where
     toJSON mod = object [ pack (mod_name mod) .= object [
-            "attributes" .= object [],
-            "ports" .= object (map (\p -> (pack $ port_name p) .= toJSON p) (mod_ports mod)),
+            "attributes" .= object (if mod_top mod then ["top" .= Number 1] else []),
+            "ports" .= object (map (\p -> (pack $ port_name p) .= toJSON p) 
+                (mod_ports mod ++ clockResetEnablePorts)),
             "cells" .= object (map (\c -> (pack $ cell_name c) .= toJSON c ) (mod_cells mod)),
             "netnames" .= object [
                 "clk" .= object [
-                    "direction" .= pack "input",
-                    "bits" .= toJSON [Number 2]
+                    "bits" .= toJSON [Number 2],
+                    "hide_name" .= Number 0,
+                    "attributes" .= object []
                 ]
             ]
         ]]
-        where
-            cellName cell = (cell_type cell) ++ "__" ++ (cell_name cell)
+            
 
 instance ToJSON Port where
     toJSON port = object [
@@ -76,7 +95,7 @@ instance ToJSON Cell where
             "attributes" .= object [
                 "module_not_derived" .= Number 1
             ],
-            "port_directions" .= object (map dirs (cell_portDirections cell)),
+            "port_directions" .= object (map dirs (cell_portDirections cell ++ clkrsten)),
             "connections" .= object (map conn (cell_connections cell))
         ]
         where
@@ -84,6 +103,8 @@ instance ToJSON Cell where
             dirs (PortAndDir name dir) = (pack name) .= case dir of
                 In -> pack "input"
                 Out -> pack "output"
+            clkrsten = map (\port -> (PortAndDir (port_name port) (port_direction port))) 
+                clockResetEnablePorts
 
 instance ToJSON CellConn where
     toJSON (CellConn name bits) = object [
