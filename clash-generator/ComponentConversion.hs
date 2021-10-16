@@ -37,9 +37,9 @@ createWhereClause (Component _ _ _ whereBlock) = "    where\n    " ++
     (unlines $ map ("    " ++) $ lines whereBlock)
 
 -- step 5: prepare for synthesis
-createSynthesizable :: Component -> String
-createSynthesizable (Component name _ isoStats _) = concat $ intersperse "\n" 
-    [mealyType, mealyDef, "", annotation, "", topEntity]
+createMealy :: Component -> String
+createMealy (Component name _ isoStats _) = concat $ intersperse "\n" 
+    [mealyType, mealyDef, ""]
     where
         mealyType = name ++ "M :: HiddenClockResetEnable dom =>\n    Signal dom " ++ inputType isoStats ++
             " -> Signal dom " ++ outputType isoStats
@@ -47,6 +47,12 @@ createSynthesizable (Component name _ isoStats _) = concat $ intersperse "\n"
         mealyDef = name ++ "M = mealy " ++ name ++ " (" ++ initialStates ++ ")"
         initialStates = (concat $ intersperse ", " $
             map (\(SState _ init _) -> haskellifyConstExpr init) (states isoStats))
+
+createSynthesizable :: Component -> String
+createSynthesizable cmp@(Component name _ isoStats _) = concat $ intersperse "\n" 
+    [mealyString, annotation, "", topEntity]
+    where
+        mealyString = createMealy cmp
         
         annotation = 
             "{-# ANN topEntity\n\
@@ -84,8 +90,14 @@ haskellifyConstExpr :: ConstExpr -> String
 haskellifyConstExpr (Constant n) = show n
 
 -- step 6: add imports and combine everything
+toClash' :: Component -> String
+toClash' cmp = concat $ intersperse "\n" $
+    [ createTypeSignature cmp
+    , createEquation cmp
+    , createWhereClause cmp
+    , createSynthesizable cmp ]
+
 toClash :: Component -> String
-toClash cmp = concat $ intersperse "\n" $
-    [ imports, createTypeSignature cmp, createEquation cmp, createWhereClause cmp, createSynthesizable cmp ]
+toClash cmp = imports ++ toClash' cmp
     where
-        imports = "import Clash.Prelude\nimport Definitions\n"
+        imports = "import Clash.Prelude\nimport Definitions\n\n"

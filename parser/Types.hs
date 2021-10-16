@@ -50,9 +50,11 @@ outputs (stat:stats) = case stat of
     (SOutput _ _) -> stat : outputs stats
     _ -> outputs stats
 
-data Program = Program [HaskellDef] [Combinatory] [Component]
-    deriving Show
-
+data Program = Program {
+    prg_defs :: [HaskellDef],
+    prg_cmbs :: [Combinatory],
+    prg_cmps :: [Component]
+    } deriving Show
 
 -- .expi result
 
@@ -111,7 +113,7 @@ data IOStat
 
 data Instance = Instance {
         ins_name :: String,
-        ins_cmp :: String,
+        ins_cmp :: String,  -- TODO: Maak dit een Component
         ins_args :: [ConstExpr],
         ins_size :: Size,
         ins_coords :: Coords

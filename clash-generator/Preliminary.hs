@@ -40,7 +40,7 @@ genDefs (Program haskellDefs combinatories _) =
     concat (intersperse "\n" haskellDefs) ++ "\n\n" ++
     concatCombinatory combinatories
 
-writeDefs ::Program -> IO ()
+writeDefs :: Program -> IO ()
 writeDefs program = writeFile ("Definitions.hs") $ genDefs program
 
 -- chain the above functions to achieve actions described

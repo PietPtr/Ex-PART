@@ -6,6 +6,7 @@ import Generator
 import JSONBuilder
 import Yosys
 import Nextpnr
+import Flattener
 
 import Data.Either
 import Data.Aeson
