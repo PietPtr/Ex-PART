@@ -18,9 +18,9 @@ def cell_name_to_json_path(cell_name):
     # if 'GND' in full_name[-1]:
     #     return False
     
-    assert '_instance_' in expart_name[-1]
+    # assert '_instance_' in expart_name[-1]
 
-    assert all(['_system_' in name for name in expart_name[:-1]])
+    # assert all(['_system_' in name for name in expart_name[:-1]])
 
     json_path = top_entity_name
 
