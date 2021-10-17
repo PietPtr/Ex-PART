@@ -20,8 +20,10 @@ expc :: IO Program
 expc = (fromRight (Program [] [] [])) <$> parse_expc "examples/collatz.expc"
 
 expi :: IO System
-expi = (fromRight emptySystem) <$> parse_expi "examples/collatz.expi"
-
+expi = do
+    prog <- expc
+    syst <- parse_expi (prg_cmps prog) "examples/collatz.expi"
+    return (fromRight emptySystem syst)
 
 -- helper dingetjes voor ghci
 -- comps = case expc' of
@@ -40,7 +42,7 @@ flow expcName expiName lpf outDir = do
     guard (isRight parsed)
     expc <- pure $ fromRight undefined parsed
 
-    parsed <- parse_expi expiName
+    parsed <- parse_expi (prg_cmps expc) expiName
     case parsed of
         (Left error) -> putStrLn $ "[Ex-PART] Parse error: " ++ show error
         (Right result) -> putStrLn "[Ex-PART] Succesfully parsed .expi"

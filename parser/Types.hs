@@ -113,7 +113,7 @@ data IOStat
 
 data Instance = Instance {
         ins_name :: String,
-        ins_cmp :: String,  -- TODO: Maak dit een Component
+        ins_cmp :: Component,  -- TODO: Maak dit een Component
         ins_args :: [ConstExpr],
         ins_size :: Size,
         ins_coords :: Coords

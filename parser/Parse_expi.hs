@@ -35,13 +35,13 @@ data Statement
     deriving Show
 
 
-system :: Parser System
-system = toSystem
+system :: [Component] -> Parser System
+system components = toSystem
     <$> isFlatenned
     <*> (identifier <* ws <* string "in" <* ws)
     <*> (size <* ws <* string "at" <* ws)
     <*> (coords <* ows) 
-    <*> (f <$> (char '{' *> system_body <* char '}'))
+    <*> (f <$> (char '{' *> (system_body components) <* char '}'))
     where
         isFlatenned = option False (const True <$> (string "flatenned" <* ws))
 
@@ -66,21 +66,26 @@ system = toSystem
                 sys_repetitions = [],
                 sys_subsystems = systems}
 
-system_body :: Parser [Statement]
-system_body = many1 (anystat <* ows)
+system_body :: [Component] -> Parser [Statement]
+system_body components = many1 (anystat <* ows)
     where
         anystat = try (IOStatement <$> (ows *> ioStatement))
-            <|> try (InstanceStat <$> (ows *> cmp_instance <* char '\n'))
+            <|> try (InstanceStat <$> (ows *> (cmp_instance components) <* char '\n'))
             <|> try (ConnectionStat <$> (ows *> connection <* char '\n'))
-            <|> (SystemStat <$> (ows *> system))
+            <|> (SystemStat <$> (ows *> (system components)))
 
-cmp_instance :: Parser Instance
-cmp_instance = Instance
+cmp_instance :: [Component] -> Parser Instance
+cmp_instance components = Instance
     <$> (identifier <* ws <* string "is" <* ws) -- identifier
-    <*> (identifier <* ws <* string "in" <* ws) -- generic component name
+    <*> (findCmp <$> (identifier <* ws <* string "in" <* ws)) -- generic component name
     <*> (pure []) -- arguments
     <*> (size <* ws <* string "at" <* ws) -- size
     <*> coords -- coords
+    where
+        findCmp :: String -> Component
+        findCmp name = case filter (\c -> name == cmp_name c) components of
+            (x:_) -> x
+            _ -> error $ "Component " ++ name ++ " not in .expc file."
 
 size :: Parser Size
 size = (,) <$> (char '(' *> integer <* char ',') <*> (integer <* char ')')

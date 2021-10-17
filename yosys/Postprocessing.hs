@@ -206,16 +206,13 @@ nets' comps system bitCtr ((Connection from to):connections) netmap =
             [] -> error $ "cannot find subsystem " ++ from_elem_name
 
         ---- vind de bitwidth voor een bottom component IO
-        -- in instances from_elem_name opzoeken
-        component_name = ins_cmp $ case filter 
+        -- in instances from_elem_name opzoeken om het component te krijgen
+        component = ins_cmp $ case filter 
             (\i -> ins_name i == from_elem_name) 
             (sys_instances system) of
                 (x:_) -> x
                 [] -> error $ "cannot find component name " ++ from_elem_name ++ " in " ++ (show $ sys_instances system)
-        -- in components vind component met die naam
-        component = case filter (\c -> cmp_name c == component_name) comps of
-            (x:_) -> x
-            [] -> error $ "cannot find component " ++ component_name
+
         -- in isostats, vind port: de bitwidth van de from_port ophalen
         iso_statement = case filter findStat (cmp_isoStats component) of
             (x:_) -> x
@@ -262,16 +259,14 @@ sysElem system = Element {
 instElem :: [Component] -> Instance -> Element
 instElem components inst = Element {
         elem_name = ins_name inst,
-        elem_type = ins_cmp inst,
+        elem_type = cmp_name $ ins_cmp inst,
         elem_io = elemio,
         elem_ports = map portWithDir elemio,
         elem_isSubsys = False
     }
     where
         elemio = map isoToIO ports
-        component = case filter (\c -> cmp_name c == ins_cmp inst) components of
-            (x:_) -> x
-            [] -> error $ "Could not find component for instance " ++ show inst
+        component = ins_cmp inst
 
         ports = filter isIO (cmp_isoStats component)
         isIO stat = case stat of

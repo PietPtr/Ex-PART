@@ -16,16 +16,16 @@ flatten system allComponents = compDef
     where
         compDef = genComponentClash (usedComponentNames system) (allComponents)
 
-flat :: System -> String
-flat system = 
-    where
-        -- where_line instance 
+-- flat :: System -> String
+-- flat system = 
+--     where
+--         -- where_line instance 
         
 
 usedComponentNames :: System -> Set String
 usedComponentNames system = thisComps `union` otherComps
     where
-        thisComps = Set.fromList $ map ins_cmp (sys_instances system) 
+        thisComps = Set.fromList $ map (cmp_name . ins_cmp) (sys_instances system) 
         otherComps = unions $ map usedComponentNames (sys_subsystems system)
 
 genComponentClash :: Set String -> [Component] -> String
