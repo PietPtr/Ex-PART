@@ -6,7 +6,8 @@ import Generator
 import JSONBuilder
 import Yosys
 import Nextpnr
-import Flattener
+
+import Expi
 
 import Data.Either
 import Data.Aeson
@@ -56,6 +57,9 @@ flow expcName expiName lpf outDir = do
 
     putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
+
+    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
+    flatten expc expi
 
     putStrLn "[Ex-PART] Generating locations.json..."
     writeLocationsJSON expi

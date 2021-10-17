@@ -50,6 +50,19 @@ outputs (stat:stats) = case stat of
     (SOutput _ _) -> stat : outputs stats
     _ -> outputs stats
 
+inputs' :: [IOStat] -> [IOStat]
+inputs' [] = []
+inputs' (stat:stats) = case stat of
+    (Input _ _) -> stat : inputs' stats
+    _ -> inputs' stats
+
+outputs' :: [IOStat] -> [IOStat]
+outputs' [] = []
+outputs' (stat:stats) = case stat of
+    (Output _ _) -> stat : outputs' stats
+    _ -> outputs' stats
+
+
 data Program = Program {
     prg_defs :: [HaskellDef],
     prg_cmbs :: [Combinatory],
@@ -107,8 +120,8 @@ emptySystem = System {
     }
 
 data IOStat
-    = Input String String
-    | Output String String
+    = Input Name Type
+    | Output Name Type
     deriving Show
 
 data Instance = Instance {
