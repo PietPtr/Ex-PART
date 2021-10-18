@@ -1,6 +1,7 @@
 module Nextpnr where
 
 import System.Process
+import System.Exit
 
 import GHC.IO.Handle
 
@@ -22,9 +23,14 @@ nextpnr lpf = do
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess processDef
     stdout <- hGetContents outHandle
     stderr <- hGetContents errHandle
-    _ <- waitForProcess processHandle
-    writeFile ("nextpnr.log") stdout
-    writeFile ("nextpnr.err") stderr
-    putStr (unlines 
-        $ filter (\l -> ("WARNING" `isPrefixOf` l) || ("ERROR" `isPrefixOf` l)) 
-        $ lines stderr)
+    code <- waitForProcess processHandle
+    case code of
+        ExitFailure code -> do
+            putStr $ "[nextpnr] " ++ stdout
+            error $ "nextpnr terminated with code " ++ show code
+        ExitSuccess -> do
+            writeFile ("nextpnr.log") stdout
+            writeFile ("nextpnr.err") stderr
+            putStr (unlines 
+                $ filter (\l -> ("WARNING" `isPrefixOf` l) || ("ERROR" `isPrefixOf` l)) 
+                $ lines stderr)

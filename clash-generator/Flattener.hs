@@ -43,8 +43,11 @@ definition :: System -> String
 definition system = name ++ " (" ++ ins_str ++ ") = (" ++ out_str ++ ")"
     where
         name = sys_id system
-        ins_str = concat $ intersperse "," $ 
-            map (varName' "this") $ inputs' $ sys_iodefs system
+        iodefs = sys_iodefs system
+        ins_str = if length (inputs' iodefs) == 0
+            then "no_input"
+            else concat $ intersperse "," $ 
+                map (varName' "this") $ inputs' $ iodefs
         out_str = intercalate "," $ map varName $ 
             map (findIOConn (sys_connections system) "this") $ outputs' $ sys_iodefs system
 
@@ -71,7 +74,7 @@ instanceWhereStatement conns inst = whereStatement ins outs (cmpName ++ "M")
         findConn (SInput portname _) = case filter f conns of
             (c:_) -> c
             _ -> error $ "No connection specified for component " ++ 
-                (ins_name inst) ++ " : " ++ name ++ " port " ++ name
+                name ++ " : " ++ cmpName ++ " port `" ++ portname ++ "`"
             where
                 f (Connection _ (CID inst_name' portname')) = 
                     inst_name' == ins_name inst && 
@@ -106,7 +109,10 @@ whereStatement ins outs name = "        " ++
     unbundle ++ name ++ " " ++
     bundle   ++ in_str
     where
-        in_str = "(" ++ (concat $ intersperse ", " ins) ++ ")"
+        in_str = "(" ++ input_tuple_content ++ ")"
+        input_tuple_content = if length ins == 0
+            then "pure ()"
+            else (concat $ intersperse ", " ins)
         bundle = if length ins > 1
             then "$ bundle "
             else ""

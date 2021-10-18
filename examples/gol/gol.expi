@@ -1,0 +1,22 @@
+system in (12, 12) at (2, 2) {
+    output monitor : State
+
+    wall00 is wall in (1, 1) at (0, 0)
+    cells in (3, 3) at (1, 1) {
+
+        cell00 is cell in (1, 1) at (0, 0)
+        cell01 is cell in (1, 1) at (cell00.x, cell00.y + cell00.h)
+        cell02 is cell in (1, 1) at (cell00.x, cell01.y + cell01.h)
+        cell10 is cell in (1, 1) at (cell00.x + cell00.w, cell00.y)
+
+        wall00.constant->cell00.n
+        wall00.constant->cell00.ne
+        wall00.constant->cell00.e
+        wall00.constant->cell00.se
+        wall00.constant->cell00.s
+        wall00.constant->cell00.sw
+        wall00.constant->cell00.w
+        wall00.constant->cell00.nw
+    }
+
+}

@@ -49,8 +49,8 @@ combinatory :: Parser String
 combinatory = string "combinatory" *> ows *> char '{' *> haskell <* char '}'
 
 constExpr :: Parser ConstExpr
-constExpr = Constant <$> integer
-    -- <|> iets met HaskellData of zo, komt wel
+constExpr = (Constant <$> integer)
+    <|> (HaskellData <$> identifier)
 
 isoStatement :: Parser ISOStat
 isoStatement

@@ -87,7 +87,9 @@ createSynthesizable cmp@(Component name _ isoStats _) = concat $ intersperse "\n
             \topEntity = exposeClockResetEnable "++name++"M"
 
 haskellifyConstExpr :: ConstExpr -> String
-haskellifyConstExpr (Constant n) = show n
+haskellifyConstExpr expr = case expr of
+    (Constant n) -> show n
+    (HaskellData n) -> n
 
 -- step 6: add imports and combine everything
 toClash' :: Component -> String

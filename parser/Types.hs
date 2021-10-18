@@ -135,8 +135,8 @@ data Instance = Instance {
 data UnplacedInstance = UnplacedInstance String String [ConstExpr] Size
     deriving Show
 data ConstExpr 
-    = Constant Integer -- hier ook al lekker reducen dan?
-    -- | HaskellData String -- komt in Version Two
+    = Constant Integer 
+    | HaskellData String 
     deriving Show
 
 data Connection = Connection CID CID

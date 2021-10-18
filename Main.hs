@@ -7,8 +7,6 @@ import JSONBuilder
 import Yosys
 import Nextpnr
 
-import Expi
-
 import Data.Either
 import Data.Aeson
 import Data.Text (pack, unpack)
@@ -17,21 +15,25 @@ import Control.Monad
 import Control.Concurrent
 import System.Directory
 
-expc :: IO Program
-expc = (fromRight (Program [] [] [])) <$> parse_expc "examples/collatz.expc"
+-- expc :: String -> IO Program
+expc prj = (parse_expc ("examples/" ++ prj ++ "/" ++ prj ++ ".expc"))
 
-expi :: IO System
-expi = do
-    prog <- expc
-    syst <- parse_expi (prg_cmps prog) "examples/collatz.expi"
-    return (fromRight emptySystem syst)
+expi :: String -> IO System
+expi prj = do
+    prog <- expc prj
+    case prog of
+        (Right p) -> do
+            syst <- parse_expi (prg_cmps p) $ "examples/" ++ prj ++ "/" ++ prj ++ ".expi"
+            case syst of
+                (Right s) -> pure s
+                (Left err) -> do
+                    putStrLn (show err)
+                    return emptySystem
+        (Left err) -> do
+            putStrLn (show err)
+            return emptySystem
 
--- helper dingetjes voor ghci
--- comps = case expc' of
---     (Program _ _ comps) -> comps
--- insts = sys_instances $ head $ sys_subsystems expi'
--- conns = sys_connections $ head $ sys_subsystems expi'
-
+-- TODO: uit elkaar trekken zodat verschillende fases los van elkaar gedaan kunnen worden?
 flow :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 flow expcName expiName lpf outDir = do
     startDir <- getCurrentDirectory
@@ -55,14 +57,20 @@ flow expcName expiName lpf outDir = do
     threadDelay 1000 -- TODO: there is a dependence on these statements, but they're executed concurrently...
     setCurrentDirectory outDir
 
+    putStrLn "[Ex-PART] Generating locations.json..."
+    writeLocationsJSON expi
+
     putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
 
     putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
     flatten expc expi
 
-    putStrLn "[Ex-PART] Generating locations.json..."
-    writeLocationsJSON expi
+    -- debug stuff
+    setCurrentDirectory startDir
+    error "done :)"
+    -- debug stuff
+
 
     putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
     compileToVerilog expc
@@ -85,7 +93,16 @@ flow expcName expiName lpf outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config "
 
+make prj = flow
+    (path ++ ".expc")
+    (path ++ ".expi")
+    (path ++ ".lpf")
+    prj
+    where
+        path = "examples/" ++ prj ++ "/" ++ prj
 
-make = flow "examples/collatz.expc" "examples/collatz.expi" "examples/collatz.lpf" "testenv"
+collatz = make "collatz"
+gol = make "gol"
+up = setCurrentDirectory ".."
 
 main = pure ()
