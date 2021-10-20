@@ -6,9 +6,9 @@ combinatory {
 data State = Alive | Dead deriving (Show, Generic, NFDataX, Eq)
 
 component wall() {
-    output constant : State
+    output c : State
 
-    constant = Dead
+    c = Dead
 }
 
 component cell() {
@@ -44,4 +44,15 @@ component cell() {
         else if neighbor_count == 3
             then Alive
             else Dead
+}
+
+component grouper() {
+    input in1 : State
+    input in2 : State
+    input in3 : State
+    output o : Vec 3 State
+    output c : State
+
+    o = in1:>in2:>in3:>Nil
+    c = Dead
 }

@@ -1,22 +1,113 @@
 system in (12, 12) at (2, 2) {
-    output monitor : State
+    output result : Vec 3 State
 
-    wall00 is wall in (1, 1) at (0, 0)
-    cells in (3, 3) at (1, 1) {
+    wall_left is wall in (1, 3) at (0, 1)
+    wall_top is wall in (5, 1) at (0, 0)
+    wall_bot is wall in (5, 1) at (0, wall_left.h + 1)
+
+    cells.result->result
+
+    cells in (4, 3) at (1, 1) {
+        output result : Vec 3 State
 
         cell00 is cell in (1, 1) at (0, 0)
         cell01 is cell in (1, 1) at (cell00.x, cell00.y + cell00.h)
         cell02 is cell in (1, 1) at (cell00.x, cell01.y + cell01.h)
         cell10 is cell in (1, 1) at (cell00.x + cell00.w, cell00.y)
+        cell11 is cell in (1, 1) at (cell00.x + cell00.w, cell00.y + cell10.h)
+        cell12 is cell in (1, 1) at (cell00.x + cell00.w, cell01.y + cell11.h)
+        cell20 is cell in (1, 1) at (cell10.x + cell10.w, cell10.y)
+        cell21 is cell in (1, 1) at (cell10.x + cell10.w, cell10.y + cell20.h)
+        cell22 is cell in (1, 1) at (cell10.x + cell10.w, cell11.y + cell21.h)
 
-        wall00.constant->cell00.n
-        wall00.constant->cell00.ne
-        wall00.constant->cell00.e
-        wall00.constant->cell00.se
-        wall00.constant->cell00.s
-        wall00.constant->cell00.sw
-        wall00.constant->cell00.w
-        wall00.constant->cell00.nw
+        cell00.n<-wall_top.c
+        cell00.ne<-wall_top.c
+        cell00.nw<-wall_top.c
+        cell00.w<-wall_left.c
+        cell00.e<-cell10.lives
+        cell00.se<-cell11.lives
+        cell00.s<-cell01.lives
+        cell00.sw<-wall_left.c
+
+        cell01.nw<-wall_top.c
+        cell01.n<-wall_top.c
+        cell01.ne<-wall_top.c
+        cell01.e<-cell20.lives
+        cell01.se<-cell21.lives
+        cell01.s<-cell11.lives
+        cell01.sw<-cell01.lives
+        cell01.w<-cell00.lives
+
+        cell02.nw<-wall_top.c
+        cell02.n<-wall_top.c
+        cell02.ne<-wall_top.c
+        cell02.e<-grouper.c
+        cell02.se<-grouper.c
+        cell02.s<-cell21.lives
+        cell02.sw<-cell11.lives
+        cell02.w<-cell10.lives
+
+        cell10.nw<-
+        cell10.n<-
+        cell10.ne<-
+        cell10.e<-
+        cell10.se<-
+        cell10.s<-
+        cell10.sw<-
+        cell10.w<-
+
+        cell11.nw<-
+        cell11.n<-
+        cell11.ne<-
+        cell11.e<-
+        cell11.se<-
+        cell11.s<-
+        cell11.sw<-
+        cell11.w<-
+
+        cell12.nw<-
+        cell12.n<-
+        cell12.ne<-
+        cell12.e<-
+        cell12.se<-
+        cell12.s<-
+        cell12.sw<-
+        cell12.w<-
+
+        cell20.nw<-
+        cell20.n<-
+        cell20.ne<-
+        cell20.e<-
+        cell20.se<-
+        cell20.s<-
+        cell20.sw<-
+        cell20.w<-
+
+        cell21.nw<-
+        cell21.n<-
+        cell21.ne<-
+        cell21.e<-
+        cell21.se<-
+        cell21.s<-
+        cell21.sw<-
+        cell21.w<-
+
+        cell22.nw<-
+        cell22.n<-
+        cell22.ne<-
+        cell22.e<-
+        cell22.se<-
+        cell22.s<-
+        cell22.sw<-
+        cell22.w<-
+
+
+        grouper is grouper in (1, 3) at (cell22.x + cell22.w, 0)
+        grouper.in1<-cell20.lives
+        grouper.in2<-cell21.lives
+        grouper.in3<-cell22.lives
+        grouper.out->result
+
     }
 
 }

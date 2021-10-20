@@ -1,8 +1,9 @@
 import sys
 import pygame
 import time
-import sys
 import json
+import os
+import random
 from pprint import pprint
 
 pygame.init()
@@ -13,23 +14,44 @@ white = 255, 255, 255
 red = 255, 100, 100
 
 screen = pygame.display.set_mode(size)
+pygame.font.init() 
+myfont = pygame.font.SysFont('Courier', 14)
 
 view = [0, 0]
 zoom = 1
 
 SQUARE_SIZE = 50
 
+primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+mods = [random.choice(primes), random.choice(primes), random.choice(primes)]
 
 with open(sys.argv[1]) as loc_file:
     locations = [json.load(loc_file)]
+    last_load = time.time()
+    print(last_load)
+
+def try_load_locs():
+    global locations
+    global last_load
+    
+    last_mod = os.path.getmtime(sys.argv[1])
+
+    if (last_mod > last_load):
+        with open(sys.argv[1]) as loc_file:
+            try:
+                locations = [json.load(loc_file)]
+                last_load = time.time()
+                print("Reloaded", sys.argv[1])
+            except json.decoder.JSONDecodeError:
+                print("Tried reloading JSON, but found parse errors.")
 
 def color(name):
-    name = name + name + name + name + name + name
+    name = name + name + name
     n = [ord(n) % 16 for n in name]
     color = (
-        (n[0] + n[3] << 2) * 1.6,
-        (n[1] + n[4] << 2) * 1.6,
-        (n[2] + n[5] << 2) * 1.6
+        (sum(n[::3]) * mods[0]) % 255,
+        (sum(n[1::3]) * mods[1]) % 255,
+        (sum(n[2::3]) * mods[2]) % 255
     )
     return color
 
@@ -37,12 +59,18 @@ def draw_system(screen, system_list):
     for system in system_list:
         key = next(iter(system))
         if 'br' in system[key] and 'tl' in system[key]:
-            left = system[key]['tl']['x'] * SQUARE_SIZE * zoom
-            top = system[key]['tl']['y'] * SQUARE_SIZE * zoom
-            w = abs(system[key]['tl']['x'] - (system[key]['br']['x'] + 1)) * SQUARE_SIZE * zoom
-            h = abs(system[key]['tl']['y'] - (system[key]['br']['y'] + 1)) * SQUARE_SIZE * zoom
-            # print(left // SQUARE_SIZE, top // SQUARE_SIZE, w // SQUARE_SIZE, h // SQUARE_SIZE)
+            tl = system[key]['tl']
+            br = system[key]['br']
+            left = tl['x'] * SQUARE_SIZE * zoom
+            top = tl['y'] * SQUARE_SIZE * zoom
+            w = abs(tl['x'] - (br['x'] + 1)) * SQUARE_SIZE * zoom
+            h = abs(tl['y'] - (br['y'] + 1)) * SQUARE_SIZE * zoom
+            
             pygame.draw.rect(screen, color(key), pygame.Rect(left, top, w, h))
+            textsurface = myfont.render(key, True, (0, 0, 0))
+            if h > w:
+                textsurface = pygame.transform.rotate(textsurface, -90)
+            screen.blit(textsurface,(tl['x'] * SQUARE_SIZE + SQUARE_SIZE/10, tl['y'] * SQUARE_SIZE + SQUARE_SIZE / 10))
         else:
             for key in system:
                 draw_system(screen, system[key])
@@ -50,11 +78,11 @@ def draw_system(screen, system_list):
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 4:
-                zoom *= 1.1
-            if event.button == 5:
-                zoom /= 1.1
+        # if event.type == pygame.MOUSEBUTTONDOWN:
+        #     if event.button == 4:
+        #         zoom *= 1.1
+        #     if event.button == 5:
+        #         zoom /= 1.1
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F5:
                 with open(sys.argv[1]) as loc_file:
@@ -83,4 +111,5 @@ while True:
     draw_system(screen, locations)
 
     pygame.display.flip()
-    time.sleep(0.1)
+    # time.sleep(0.1)
+    try_load_locs()
