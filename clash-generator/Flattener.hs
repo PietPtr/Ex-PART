@@ -33,30 +33,36 @@ typeDef system = name ++ " :: HiddenClockResetEnable dom =>\n" ++
     "    Signal dom ("++ in_types ++") -> Signal dom ("++ out_types ++")\n"
     where
         name = sys_id system
-        in_types = intercalate "," $
+        in_types = intercalate ", " $
             map (\(Input _ t) -> t) $ inputs' $ sys_iodefs system
-        out_types = intercalate "," $
+        out_types = intercalate ", " $
             map (\(Output _ t) -> t) $ outputs' $ sys_iodefs system
 
 
 definition :: System -> String
-definition system = name ++ " (" ++ ins_str ++ ") = (" ++ out_str ++ ")"
+definition system = name ++ " input = (" ++ out_str ++ ")"
     where
         name = sys_id system
-        iodefs = sys_iodefs system
-        ins_str = if length (inputs' iodefs) == 0
-            then "no_input"
-            else concat $ intersperse "," $ 
-                map (varName' "this") $ inputs' $ iodefs
-        out_str = intercalate "," $ map varName $ 
+        out_str = intercalate ", " $ map varName $ 
             map (findIOConn (sys_connections system) "this") $ outputs' $ sys_iodefs system
 
 
 whereBlock :: System -> String
 whereBlock system = concat $ intersperse "\n" stats
     where
-        stats = (map (instanceWhereStatement (sys_connections system)) $ sys_instances system)
+        stats = [unpacked_input system]
+             ++ (map (instanceWhereStatement (sys_connections system)) $ sys_instances system)
              ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system)
+
+-- TODO: gebruik hier where_statement misschien?
+unpacked_input :: System -> String
+unpacked_input system = "        " ++ "(" ++ ins_str ++ ") = unbundle input"
+    where
+        iodefs = sys_iodefs system
+        ins_str = if length (inputs' iodefs) == 0
+            then "no_input"
+            else concat $ intersperse ", " $ 
+                map (varName' "this") $ inputs' $ iodefs
 
 
 instanceWhereStatement :: [Connection] -> Instance -> String
@@ -147,3 +153,6 @@ genComponentClash used comps = concat $ intersperse "\n" $
             [ createTypeSignature cmp
             , createEquation cmp
             , createWhereClause cmp ]
+
+
+-- TODO: genereer een top-entity, dit zou al semi moeten kunnen met iets in ComponentConversion
