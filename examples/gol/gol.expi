@@ -29,23 +29,23 @@ system in (12, 12) at (2, 2) {
         cell00.s<-cell01.lives
         cell00.sw<-wall_left.c
 
-        cell01.nw<-wall_top.c
-        cell01.n<-wall_top.c
-        cell01.ne<-wall_top.c
-        cell01.e<-cell20.lives
-        cell01.se<-cell21.lives
-        cell01.s<-cell11.lives
-        cell01.sw<-cell01.lives
-        cell01.w<-cell00.lives
+        cell01.nw<-
+        cell01.n<-
+        cell01.ne<-
+        cell01.e<-
+        cell01.se<-
+        cell01.s<-
+        cell01.sw<-
+        cell01.w<-
 
-        cell02.nw<-wall_top.c
-        cell02.n<-wall_top.c
-        cell02.ne<-wall_top.c
-        cell02.e<-grouper.c
-        cell02.se<-grouper.c
-        cell02.s<-cell21.lives
-        cell02.sw<-cell11.lives
-        cell02.w<-cell10.lives
+        cell02.nw<-
+        cell02.n<-
+        cell02.ne<-
+        cell02.e<-
+        cell02.se<-
+        cell02.s<-
+        cell02.sw<-
+        cell02.w<-
 
         cell10.nw<-
         cell10.n<-

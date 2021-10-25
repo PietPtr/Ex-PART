@@ -6,6 +6,10 @@ import os
 import random
 from pprint import pprint
 
+def randomize_colors():
+    global mods
+    mods = [random.choice(primes), random.choice(primes), random.choice(primes)]
+
 pygame.init()
 
 size = width, height = 1280, 720
@@ -23,7 +27,8 @@ zoom = 1
 SQUARE_SIZE = 50
 
 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
-mods = [random.choice(primes), random.choice(primes), random.choice(primes)]
+mods = []
+randomize_colors()
 
 with open(sys.argv[1]) as loc_file:
     locations = [json.load(loc_file)]
@@ -87,6 +92,8 @@ while True:
             if event.key == pygame.K_F5:
                 with open(sys.argv[1]) as loc_file:
                     locations = [json.load(loc_file)]
+            if event.key == pygame.K_F1:
+                randomize_colors()
 
     """
     Updates and logic
@@ -111,5 +118,5 @@ while True:
     draw_system(screen, locations)
 
     pygame.display.flip()
-    # time.sleep(0.1)
+    time.sleep(0.1)
     try_load_locs()
