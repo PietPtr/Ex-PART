@@ -46,7 +46,6 @@ component cell() {
             else Dead
 }
 
--- TODO: in de flattenned clash zit er nu een dependency issue via de grouper, die wel zou moeten gaan werken
 component grouper() {
     input in1 : State
     input in2 : State

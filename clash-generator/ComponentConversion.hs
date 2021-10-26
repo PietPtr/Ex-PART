@@ -48,12 +48,14 @@ createMealy (Component name _ isoStats _) = concat $ intersperse "\n"
         initialStates = (concat $ intersperse ", " $
             map (\(SState _ init _) -> haskellifyConstExpr init) (states isoStats))
 
-createSynthesizable :: Component -> String
-createSynthesizable cmp@(Component name _ isoStats _) = concat $ intersperse "\n" 
-    [mealyString, annotation, "", topEntity]
-    where
-        mealyString = createMealy cmp
-        
+createSynthesizableComponent :: Component -> String
+createSynthesizableComponent cmp@(Component name _ isoStats _) = intercalate "\n" $
+    [createMealy cmp, createSynthesizable isoStats name True]
+
+createSynthesizable :: [ISOStat] -> String -> Bool -> String
+createSynthesizable isoStats name isComponent = concat $ intersperse "\n" 
+    [annotation, "", topEntity]
+    where        
         annotation = 
             "{-# ANN topEntity\n\
             \  (Synthesize\n\
@@ -84,7 +86,7 @@ createSynthesizable cmp@(Component name _ isoStats _) = concat $ intersperse "\n
             \    -> Enable System\n\
             \    -> Signal System "++inputType isoStats++"\n\
             \    -> Signal System "++outputType isoStats++"\n\
-            \topEntity = exposeClockResetEnable "++name++"M"
+            \topEntity = exposeClockResetEnable "++name++(if isComponent then "M" else "")
 
 haskellifyConstExpr :: ConstExpr -> String
 haskellifyConstExpr expr = case expr of
@@ -97,7 +99,7 @@ toClash' cmp = concat $ intersperse "\n" $
     [ createTypeSignature cmp
     , createEquation cmp
     , createWhereClause cmp
-    , createSynthesizable cmp ]
+    , createSynthesizableComponent cmp ]
 
 toClash :: Component -> String
 toClash cmp = imports ++ toClash' cmp

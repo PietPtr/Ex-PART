@@ -13,11 +13,16 @@ import Data.List (intersperse, intercalate)
 -- flatten' system program = flatten (prg_cmps program) system
 
 flatten :: Program -> System -> String
-flatten program system = imports ++ "\n" ++ compDef ++ "\n" ++ systems
+flatten program system = intercalate "\n\n" $
+    [ imports
+    , compDef 
+    , systems 
+    ,topEntity ]
     where
         imports = "import Clash.Prelude\nimport Definitions\n\n"
         compDef = genComponentClash (usedComponentNames system) (prg_cmps program)
         systems = flatten' system
+        topEntity = createSynthesizable (map io2iso $ sys_iodefs system) (sys_id system) False
 
 flatten' :: System -> String
 flatten' system = subsysDefs ++ "\n\n\n" ++ sysdef
@@ -153,6 +158,7 @@ genComponentClash used comps = concat $ intersperse "\n" $
             [ createTypeSignature cmp
             , createEquation cmp
             , createWhereClause cmp ]
+
 
 
 -- TODO: genereer een top-entity, dit zou al semi moeten kunnen met iets in ComponentConversion

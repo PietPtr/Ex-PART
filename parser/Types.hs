@@ -62,6 +62,10 @@ outputs' (stat:stats) = case stat of
     (Output _ _) -> stat : outputs' stats
     _ -> outputs' stats
 
+io2iso :: IOStat -> ISOStat
+io2iso stat = case stat of
+    (Input name t) -> (SInput name t)
+    (Output name t) -> (SOutput name t)
 
 data Program = Program {
     prg_defs :: [HaskellDef],
@@ -176,4 +180,6 @@ typeToBitwidth :: String -> Integer
 typeToBitwidth t = case t of
         "Value" -> 16
         "Maybe Value" -> 17
+        "State" -> 1
+        "Vec 3 State" -> 3
         other -> error $ "did not find bitwidth of type " ++ other

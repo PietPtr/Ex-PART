@@ -67,8 +67,8 @@ flow expcName expiName lpf outDir = do
     flatten expc expi
 
     -- debug stuff
-    setCurrentDirectory startDir
-    error "done :)"
+    -- setCurrentDirectory startDir
+    -- error "done :)"
     -- debug stuff
 
 
