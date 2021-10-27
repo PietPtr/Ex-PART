@@ -33,7 +33,6 @@ randomize_colors()
 with open(sys.argv[1]) as loc_file:
     locations = [json.load(loc_file)]
     last_load = time.time()
-    print(last_load)
 
 def try_load_locs():
     global locations
@@ -75,7 +74,14 @@ def draw_system(screen, system_list):
             textsurface = myfont.render(key, True, (0, 0, 0))
             if h > w:
                 textsurface = pygame.transform.rotate(textsurface, -90)
-            screen.blit(textsurface,(tl['x'] * SQUARE_SIZE + SQUARE_SIZE/10, tl['y'] * SQUARE_SIZE + SQUARE_SIZE / 10))
+
+            text_offset = SQUARE_SIZE/10
+            if SQUARE_SIZE > 18:
+                screen.blit(
+                    textsurface,
+                    (tl['x'] * SQUARE_SIZE + text_offset, tl['y'] * SQUARE_SIZE + text_offset),
+                    area=pygame.Rect(0, 0, w - 2*text_offset, h - 2*text_offset))
+        
         else:
             for key in system:
                 draw_system(screen, system[key])
@@ -83,11 +89,11 @@ def draw_system(screen, system_list):
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
-        # if event.type == pygame.MOUSEBUTTONDOWN:
-        #     if event.button == 4:
-        #         zoom *= 1.1
-        #     if event.button == 5:
-        #         zoom /= 1.1
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 4:
+                SQUARE_SIZE = min(int(SQUARE_SIZE * 1.1), 500)
+            if event.button == 5:
+                SQUARE_SIZE = max(int(SQUARE_SIZE / 1.1), 10)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F5:
                 with open(sys.argv[1]) as loc_file:

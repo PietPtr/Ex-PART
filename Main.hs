@@ -7,6 +7,8 @@ import JSONBuilder
 import Yosys
 import Nextpnr
 
+import Connections
+
 import Data.Either
 import Data.Aeson
 import Data.Text (pack, unpack)
