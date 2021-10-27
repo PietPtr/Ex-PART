@@ -28,9 +28,11 @@ nextpnr lpf = do
     writeFile ("nextpnr.err") stderr
     case code of
         ExitFailure code -> do
-            putStr $ "[nextpnr] " ++ stdout
+            putStr $ "[nextpnr] " ++ warnsAndErrors stderr
             error $ "nextpnr terminated with code " ++ show code
         ExitSuccess -> do
-            putStr (unlines 
+            putStr (warnsAndErrors stderr)
+    where
+        warnsAndErrors stderr = (unlines 
                 $ filter (\l -> ("WARNING" `isPrefixOf` l) || ("ERROR" `isPrefixOf` l)) 
                 $ lines stderr)

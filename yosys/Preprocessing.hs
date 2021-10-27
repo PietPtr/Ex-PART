@@ -56,22 +56,19 @@ verilogLine prefix (cmp, stat) =
             (SInput name _) -> name
             (SOutput name _) -> name
 
-
-instantiationLine' :: String -> String
-instantiationLine' name = "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++ name ++ "_input, " ++ name ++ "_output);"
-
 instantiationLine :: Component -> String
 instantiationLine cmp = "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++
-    inputNames ++ ", " ++ outputNames ++ ");"
+    inputStr ++ outputNames ++ ");"
     where
         inps = inputs $ cmp_isoStats cmp
         inputNames = intercalate ", " $ map inputName inps
         inputName (SInput inp_name _) = name ++ "_input_" ++ inp_name
-
+        inputStr = if length inps == 0 then "" else inputNames ++ ", "
 
         outs = outputs $ cmp_isoStats cmp
         outputNames = intercalate ", " $ map outputName outs
         outputName (SOutput out_name _) = name ++ "_output_" ++ out_name
+        -- TODO: zero output component will generate incorrect verilog.
 
         name = cmp_name cmp
 

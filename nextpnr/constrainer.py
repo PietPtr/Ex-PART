@@ -57,7 +57,7 @@ def create_regions_system(system):
 
 print(f"------------------------ {os.path.basename(__file__)} --------------------------")
 
-with open("../testenv/locations.json") as f:
+with open("locations.json") as f:
     locations = json.load(f)
 
 create_regions_system_list([locations])

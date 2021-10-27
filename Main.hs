@@ -7,7 +7,7 @@ import JSONBuilder
 import Yosys
 import Nextpnr
 
-import Connections
+import ComponentInfo
 
 import Data.Either
 import Data.Aeson
@@ -82,6 +82,9 @@ flow expcName expiName lpf outDir = do
 
     putStrLn "[Ex-PART] Synthesizing components to JSON..."
     synthesizeTop
+
+    putStrLn "[Ex-PART] Generating resource usage report..." 
+    resourceReportJSON expc
 
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi
