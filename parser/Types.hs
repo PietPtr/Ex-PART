@@ -182,4 +182,4 @@ typeToBitwidth t = case t of
         "Maybe Value" -> 17
         "State" -> 1
         "Vec 3 State" -> 3
-        other -> error $ "did not find bitwidth of type " ++ other
+        other -> error $ "Cannot find bitwidth of type " ++ other

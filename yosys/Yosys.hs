@@ -5,6 +5,7 @@ module Yosys where
 import Types
 import System.Directory
 import System.Process
+import System.Exit
 import Data.List
 import Data.Aeson
 import GHC.IO.Handle
@@ -41,11 +42,20 @@ groupVerilogs (Program _ _ components) = do
 
 synthesizeTop :: IO ()
 synthesizeTop = do
-    (_, Just outHandle, _, processHandle) <- createProcess $ 
+    (_, Just outHandle, Just errHandle, processHandle) <- createProcess $ 
         (proc "yosys" ["/usr/share/ex-part/yosys/grouped.ys"])
         {std_err=CreatePipe, std_out=CreatePipe}
     stdout <- hGetContents outHandle
+    stderr <- hGetContents errHandle
     writeFile "builds/.grouped/yosys.log" stdout
+    writeFile "builds/.grouped/yosys.err" stderr
+    code <- waitForProcess processHandle
+
+    case code of
+        ExitFailure code -> do
+            putStr $ "[Yosys] " ++ stderr
+            error $ "Yosys terminated with code " ++ show code
+        ExitSuccess -> pure ()
 
 customConnect program system = 
     encodeFile "interconnect.json" (makeTopModule program system)

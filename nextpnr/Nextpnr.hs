@@ -24,13 +24,13 @@ nextpnr lpf = do
     stdout <- hGetContents outHandle
     stderr <- hGetContents errHandle
     code <- waitForProcess processHandle
+    writeFile ("nextpnr.log") stdout
+    writeFile ("nextpnr.err") stderr
     case code of
         ExitFailure code -> do
             putStr $ "[nextpnr] " ++ stdout
             error $ "nextpnr terminated with code " ++ show code
         ExitSuccess -> do
-            writeFile ("nextpnr.log") stdout
-            writeFile ("nextpnr.err") stderr
             putStr (unlines 
                 $ filter (\l -> ("WARNING" `isPrefixOf` l) || ("ERROR" `isPrefixOf` l)) 
                 $ lines stderr)
