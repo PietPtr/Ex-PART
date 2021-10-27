@@ -7,7 +7,7 @@ top_entity_name = str(ctx.top_module)
 def cell_name_to_json_path(cell_name):
     # mooi magic number, hopelijk is het in general ook correct <:]
     full_name = cell_name.split('.')
-    expart_name = full_name[:-2]
+    expart_name = full_name[:-1]
 
     if len(expart_name) == 0:
         return False
@@ -18,9 +18,8 @@ def cell_name_to_json_path(cell_name):
     # if 'GND' in full_name[-1]:
     #     return False
     
-    # assert '_instance_' in expart_name[-1]
-
-    # assert all(['_system_' in name for name in expart_name[:-1]])
+    assert '_instance_' in expart_name[-1]
+    assert all(['_system_' in name for name in expart_name[:-1]])
 
     json_path = top_entity_name
 
@@ -48,7 +47,7 @@ def create_regions_system(system):
                 sys["tl"]["x"], sys["tl"]["y"],
                 sys["br"]["y"], sys["br"]["y"])
             # print("created a region for", regionID)
-            print(f"ctx.createRectangularRegion({regionID}, {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
+            print(f"ctx.createRectangularRegion('{regionID}', {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
             path.pop()
         else:
             subsystems = sys
