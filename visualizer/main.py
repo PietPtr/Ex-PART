@@ -24,7 +24,7 @@ myfont = pygame.font.SysFont('Courier', 14)
 view = [0, 0]
 zoom = 1
 
-SQUARE_SIZE = 75
+SQUARE_SIZE = pygame.display.Info().current_w // 25
 
 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
 mods = []

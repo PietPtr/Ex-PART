@@ -2,6 +2,7 @@ import Clash.Prelude
 import Definitions
 
 
+
 grouper :: () -> (State, State, State) -> ((), (Vec 3 State, State))
 grouper () (in1, in2, in3) = ((), (o, c))
     where
@@ -51,6 +52,7 @@ wallM = mealy wall ()
 
 
 
+
 cells :: HiddenClockResetEnable dom =>
     Signal dom (State, State, State) -> Signal dom (Vec 3 State)
 cells input = (grouper_o)
@@ -77,3 +79,18 @@ system input = (cells_result)
         (wall_top_c) = wallM (pure ())
         (wall_left_c) = wallM (pure ())
         (cells_result) = cells $ bundle (wall_left_c, wall_bot_c, wall_top_c)
+
+{-# ANN topEntity
+  (Synthesize
+    { t_name = "system"
+    , t_inputs = [ PortName "clk", PortName "rst", PortName "en", PortProduct "" [] ]
+    , t_output = PortName "result"
+    }) #-}
+
+topEntity
+    :: Clock System
+    -> Reset System
+    -> Enable System
+    -> Signal System ()
+    -> Signal System (Vec 3 State)
+topEntity = exposeClockResetEnable system

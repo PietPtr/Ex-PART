@@ -1,6 +1,8 @@
 import Clash.Prelude
 import Definitions
 
+import Debug.Trace
+
 demealy :: (() -> i -> ((), o)) -> (i -> o)
 demealy f = f'
     where
@@ -10,20 +12,20 @@ demealy f = f'
 -- split this thing in two?
 -- needs to know stuff about dependencies :(((
 grouper_o :: () -> (State, State, State) -> ((), (Vec 3 State))
-grouper_o () (in1, in2, in3) = ((), (o))
+grouper_o () (in1, in2, in3) = trace "grouper_o" ((), o)
     where
         o = in1:>in2:>in3:>Nil
 
 
-grouper_c :: () -> (State, State, State) -> ((), (State))
-grouper_c () (in1, in2, in3) = ((), (c))
+grouper_c :: () -> () -> ((), (State))
+grouper_c () () = trace "grouper_c" ((), (c))
     where
         c = Dead
 
 cell :: (State) -> (State, State, State, State, State, State, State, State) -> ((State), (State))
-cell (cell_state) (n, ne, e, se, s, sw, w, nw) = ((cell_state'), (lives))
+cell (cell_state) (n, ne, e, se, s, sw, w, nw) = trace "cell" ((cell_state'), (lives))
     where
-        lives = cell_state'
+        lives = cell_state
     
         neighbor_count = 
             (if n == Alive then 1 else 0) +
@@ -44,7 +46,7 @@ cell (cell_state) (n, ne, e, se, s, sw, w, nw) = ((cell_state'), (lives))
                 else Dead
 
 wall :: () -> () -> ((), (State))
-wall () () = ((), (c))
+wall () () = trace "wall" ((), (c))
     where
         c = Dead
 
@@ -53,7 +55,7 @@ grouper_oM :: HiddenClockResetEnable dom =>
 grouper_oM = mealy grouper_o ()
 
 grouper_cM :: HiddenClockResetEnable dom =>
-    Signal dom (State, State, State) -> Signal dom (State)
+    Signal dom () -> Signal dom (State)
 grouper_cM = mealy grouper_c ()
 
 cellM :: HiddenClockResetEnable dom =>
@@ -69,26 +71,26 @@ wallM = mealy wall ()
 
 cells :: HiddenClockResetEnable dom =>
     Signal dom (State, State, State) -> Signal dom (Vec 3 State)
-cells input = (grouper_o)
+cells input = trace "cells" grouper_o
     where
         (this_left_const, this_bot_const, this_top_const) = unbundle input
-        (grouper_c) = grouper_cM $ bundle (cell20_lives, cell21_lives, cell22_lives)
+        (grouper_c) = grouper_cM $ pure ()
         (grouper_o) = grouper_oM $ bundle (cell20_lives, cell21_lives, cell22_lives)
         
-        (cell22_lives) = cellM $ bundle (cell21_lives, grouper_c, grouper_c, this_bot_const, this_bot_const, this_bot_const, cell12_lives, cell11_lives)
-        (cell21_lives) = cellM $ bundle (cell20_lives, grouper_c, grouper_c, grouper_c, cell22_lives, cell12_lives, cell11_lives, cell10_lives)
-        (cell20_lives) = cellM $ bundle (this_top_const, this_top_const, grouper_c, grouper_c, cell21_lives, cell11_lives, cell10_lives, this_top_const)
-        (cell12_lives) = cellM $ bundle (cell11_lives, cell21_lives, cell22_lives, this_bot_const, this_bot_const, this_bot_const, cell02_lives, cell01_lives)
-        (cell11_lives) = cellM $ bundle (cell10_lives, cell20_lives, cell21_lives, cell22_lives, cell12_lives, cell02_lives, cell01_lives, cell00_lives)
-        (cell10_lives) = cellM $ bundle (this_top_const, this_top_const, cell20_lives, cell21_lives, cell11_lives, cell01_lives, cell00_lives, this_top_const)
-        (cell02_lives) = cellM $ bundle (cell01_lives, cell11_lives, cell12_lives, this_bot_const, this_bot_const, this_bot_const, this_left_const, this_left_const)
-        (cell01_lives) = cellM $ bundle (cell00_lives, cell10_lives, cell11_lives, cell12_lives, cell02_lives, this_left_const, this_left_const, this_left_const)
-        (cell00_lives) = cellM $ bundle (this_top_const, this_top_const, cell10_lives, cell11_lives, cell01_lives, this_left_const, this_left_const, this_top_const)
+        (cell22_lives) = trace "cell22" $ cellM $ bundle (cell21_lives, grouper_c, grouper_c, this_bot_const, this_bot_const, this_bot_const, cell12_lives, cell11_lives)
+        (cell21_lives) = trace "cell21" $ pure Dead -- cellM $ bundle (cell20_lives, grouper_c, grouper_c, grouper_c, cell22_lives, cell12_lives, cell11_lives, cell10_lives)
+        (cell20_lives) = trace "cell20" $ pure Dead --cellM $ bundle (this_top_const, this_top_const, grouper_c, grouper_c, cell21_lives, cell11_lives, cell10_lives, this_top_const)
+        (cell12_lives) = trace "cell12" $ cellM $ bundle (cell11_lives, cell21_lives, cell22_lives, this_bot_const, this_bot_const, this_bot_const, cell02_lives, cell01_lives)
+        (cell11_lives) = trace "cell11" $ cellM $ bundle (cell10_lives, cell20_lives, cell21_lives, cell22_lives, cell12_lives, cell02_lives, cell01_lives, cell00_lives)
+        (cell10_lives) = trace "cell10" $ cellM $ bundle (this_top_const, this_top_const, cell20_lives, cell21_lives, cell11_lives, cell01_lives, cell00_lives, this_top_const)
+        (cell02_lives) = trace "cell02" $ cellM $ bundle (cell01_lives, cell11_lives, cell12_lives, this_bot_const, this_bot_const, this_bot_const, this_left_const, this_left_const)
+        (cell01_lives) = trace "cell01" $ cellM $ bundle (cell00_lives, cell10_lives, cell11_lives, cell12_lives, cell02_lives, this_left_const, this_left_const, this_left_const)
+        (cell00_lives) = trace "cell00" $ cellM $ bundle (this_top_const, this_top_const, cell10_lives, cell11_lives, cell01_lives, this_left_const, this_left_const, this_top_const)
 
 
 system :: HiddenClockResetEnable dom =>
     Signal dom () -> Signal dom (Vec 3 State)
-system input = (cells_result)
+system input = trace "system" (cells_result)
     where
         (no_input) = unbundle input
         (wall_bot_c) = wallM (pure ())
