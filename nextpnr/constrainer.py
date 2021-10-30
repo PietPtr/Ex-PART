@@ -74,8 +74,9 @@ for cell, cellinfo in ctx.cells:
         json_path = cell_name_to_json_path(cell)
 
         if json_path:
-            print(f"constrained cell to {json_path}")
-            ctx.constrainCellToRegion(cell, json_path)
+            if json_path == "system.cells.cell21":
+                print(f"constrained cell to {json_path}")
+                ctx.constrainCellToRegion(cell, json_path)
         else:
             pass
             print(f"WARNING: did not constrain cell {cell} as it did not comply with Ex-PART namings.")

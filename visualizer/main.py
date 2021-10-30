@@ -30,6 +30,9 @@ primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67
 mods = []
 randomize_colors()
 
+x_range = [i for i in range(124)]
+y_range = [i for i in range(93)]
+
 with open(sys.argv[1]) as loc_file:
     locations = [json.load(loc_file)]
     last_load = time.time()
@@ -86,6 +89,26 @@ def draw_system(screen, system_list):
             for key in system:
                 draw_system(screen, system[key])
 
+def draw_ranges(screen):
+    global x_range
+    global y_range
+
+    x = 0
+    for coord in x_range:
+        if SQUARE_SIZE > 15:
+            text = myfont.render(str(coord), True, (80, 80, 80))
+            screen.blit(text, 
+                (x * SQUARE_SIZE + SQUARE_SIZE - text.get_width(), 0))
+            x += 1
+
+    y = 0
+    for coord in x_range:
+        if SQUARE_SIZE > 15:
+            text = myfont.render(str(coord), True, (80, 80, 80))    
+            screen.blit(text, 
+                (0, y * SQUARE_SIZE + SQUARE_SIZE - text.get_height()))
+            y += 1
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
@@ -115,13 +138,18 @@ while True:
     screen.fill((201, 211, 221))
 
     for x in range(width // SQUARE_SIZE + 1):
-        pygame.draw.line(screen, 0xaaaaaa, (x * SQUARE_SIZE * zoom, 0), (x * SQUARE_SIZE * zoom, height))
+        pygame.draw.line(screen, 0xaaaaaa, 
+            (x * SQUARE_SIZE * zoom, 0), 
+            (x * SQUARE_SIZE * zoom, height))
 
     for y in range(height // SQUARE_SIZE + 1):
-        pygame.draw.line(screen, 0xaaaaaa, (0, y * SQUARE_SIZE * zoom), (width, y * SQUARE_SIZE * zoom))
-
+        pygame.draw.line(screen, 0xaaaaaa, 
+            (0, y * SQUARE_SIZE * zoom), 
+            (width, y * SQUARE_SIZE * zoom))
 
     draw_system(screen, locations)
+    draw_ranges(screen)
+
 
     pygame.display.flip()
     time.sleep(0.1)

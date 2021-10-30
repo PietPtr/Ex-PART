@@ -1,30 +1,30 @@
-system in (12, 12) at (2, 2) {
+system in (14, 14) at (2, 2) {
     output result : Vec 3 State
 
-    wall_left is wall in (1, 3) at (0, 1)
-    wall_top is wall in (5, 1) at (0, 0)
-    wall_bot is wall in (5, 1) at (0, wall_left.h + 1)
+    wall_left is wall in (1, 6) at (0, 1)
+    wall_top is wall in (8, 1) at (0, 0)
+    wall_bot is wall in (8, 1) at (0, wall_left.h + 1)
 
     cells.result -> result
     cells.top_const <- wall_top.c
     cells.bot_const <- wall_bot.c
     cells.left_const <- wall_left.c
 
-    cells in (4, 3) at (1, 1) {
+    cells in (6, 6) at (1, 1) {
         input top_const : State
         input bot_const : State
         input left_const : State
         output result : Vec 3 State
 
-        cell00 is cell in (1, 1) at (0, 0)
-        cell01 is cell in (1, 1) at (cell00.x, cell00.y + cell00.h)
-        cell02 is cell in (1, 1) at (cell00.x, cell01.y + cell01.h)
-        cell10 is cell in (1, 1) at (cell00.x + cell00.w, cell00.y)
-        cell11 is cell in (1, 1) at (cell00.x + cell00.w, cell00.y + cell10.h)
-        cell12 is cell in (1, 1) at (cell00.x + cell00.w, cell01.y + cell11.h)
-        cell20 is cell in (1, 1) at (cell10.x + cell10.w, cell10.y)
-        cell21 is cell in (1, 1) at (cell10.x + cell10.w, cell10.y + cell20.h)
-        cell22 is cell in (1, 1) at (cell10.x + cell10.w, cell11.y + cell21.h)
+        cell00 is cell in (2, 2) at (0, 0)
+        cell01 is cell in (2, 2) at (cell00.x, cell00.y + cell00.h)
+        cell02 is cell in (2, 2) at (cell00.x, cell01.y + cell01.h)
+        cell10 is cell in (2, 2) at (cell00.x + cell00.w, cell00.y)
+        cell11 is cell in (2, 2) at (cell00.x + cell00.w, cell00.y + cell10.h)
+        cell12 is cell in (2, 2) at (cell00.x + cell00.w, cell01.y + cell11.h)
+        cell20 is cell in (2, 2) at (cell10.x + cell10.w, cell10.y)
+        cell21 is cell in (2, 2) at (cell10.x + cell10.w, cell10.y + cell20.h)
+        cell22 is cell in (2, 2) at (cell10.x + cell10.w, cell11.y + cell21.h)
 
         cell00.n <- top_const
         cell00.ne <- top_const
@@ -108,7 +108,7 @@ system in (12, 12) at (2, 2) {
         cell22.w <- cell12.lives
 
 
-        grouper is grouper in (1, 3) at (cell22.x + cell22.w, 0)
+        grouper is grouper in (1, 6) at (cell22.x + cell22.w, 0)
         grouper.in1 <- cell20.lives
         grouper.in2 <- cell21.lives
         grouper.in3 <- cell22.lives
