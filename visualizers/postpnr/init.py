@@ -9,12 +9,11 @@ black = 0, 0, 0
 white = 255, 255, 255
 red = 255, 100, 100
 
-screen = pygame.display.set_mode(size)
 pygame.font.init() 
 myfont = pygame.font.SysFont('Courier', 14)
 
 
-SQUARE_SIZE = pygame.display.Info().current_w // 25
+SQUARE_SIZE = pygame.display.Info().current_w // 24
 
 
 def color(name):

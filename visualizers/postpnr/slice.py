@@ -1,7 +1,7 @@
 import json
 from pprint import pprint
 import pygame
-from init import *
+import init
 
 class Slice:
     def __init__(self, component_name, x, y, l):
@@ -11,14 +11,13 @@ class Slice:
         self.letter = l
 
     def draw(self, screen):
-        letter_offset = (ord(self.letter) - 65) * SQUARE_SIZE // 4
-        
+        letter_offset = (ord(self.letter) - 65) * init.SQUARE_SIZE // 4
 
-        pygame.draw.rect(screen, color(self.component_name), pygame.Rect(
-            self.x * SQUARE_SIZE, 
-            self.y * SQUARE_SIZE + letter_offset, 
-            SQUARE_SIZE, 
-            SQUARE_SIZE // 4))
+        pygame.draw.rect(screen, init.color(self.component_name), pygame.Rect(
+            self.x * init.SQUARE_SIZE,
+            self.y * init.SQUARE_SIZE + letter_offset, 
+            init.SQUARE_SIZE, 
+            init.SQUARE_SIZE // 4))
         pass
 
 slices = []

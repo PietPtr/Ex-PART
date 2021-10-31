@@ -6,17 +6,16 @@ import os
 import random
 from pprint import pprint
 import slice
-from init import *
+import init
 
-
-
+screen = pygame.display.set_mode(init.size)
 
 
 view = [0, 0]
 zoom = 1
 
 
-randomize_colors()
+init.randomize_colors()
 
 x_range = [i for i in range(124)]
 y_range = [i for i in range(93)]
@@ -54,18 +53,18 @@ def draw_ranges(screen):
 
     x = 0
     for coord in x_range:
-        if SQUARE_SIZE > 15:
-            text = myfont.render(str(coord), True, (80, 80, 80))
+        if init.SQUARE_SIZE > 15:
+            text = init.myfont.render(str(coord), True, (80, 80, 80))
             screen.blit(text, 
-                (x * SQUARE_SIZE + SQUARE_SIZE - text.get_width(), 0))
+                (x * init.SQUARE_SIZE + init.SQUARE_SIZE - text.get_width(), 0))
             x += 1
 
     y = 0
     for coord in x_range:
-        if SQUARE_SIZE > 15:
-            text = myfont.render(str(coord), True, (80, 80, 80))    
+        if init.SQUARE_SIZE > 15:
+            text = init.myfont.render(str(coord), True, (80, 80, 80))    
             screen.blit(text, 
-                (0, y * SQUARE_SIZE + SQUARE_SIZE - text.get_height()))
+                (0, y * init.SQUARE_SIZE + init.SQUARE_SIZE - text.get_height()))
             y += 1
 
 while True:
@@ -73,15 +72,15 @@ while True:
         if event.type == pygame.QUIT: sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 4:
-                SQUARE_SIZE = min(int(SQUARE_SIZE * 1.1), 500)
+                init.SQUARE_SIZE = min(int(init.SQUARE_SIZE * 1.1), 500)
             if event.button == 5:
-                SQUARE_SIZE = max(int(SQUARE_SIZE / 1.1), 10)
+                init.SQUARE_SIZE = max(int(init.SQUARE_SIZE / 1.1), 10)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F5:
                 with open(sys.argv[1]) as loc_file:
                     locations = [json.load(loc_file)]
             if event.key == pygame.K_F1:
-                randomize_colors()
+                init.randomize_colors()
 
     """
     Updates and logic
@@ -96,15 +95,15 @@ while True:
     """
     screen.fill((201, 211, 221))
 
-    for x in range(width // SQUARE_SIZE + 1):
+    for x in range(init.width // init.SQUARE_SIZE + 1):
         pygame.draw.line(screen, 0xaaaaaa, 
-            (x * SQUARE_SIZE * zoom, 0), 
-            (x * SQUARE_SIZE * zoom, height))
+            (x * init.SQUARE_SIZE * zoom, 0), 
+            (x * init.SQUARE_SIZE * zoom, init.height))
 
-    for y in range(height // SQUARE_SIZE + 1):
+    for y in range(init.height // init.SQUARE_SIZE + 1):
         pygame.draw.line(screen, 0xaaaaaa, 
-            (0, y * SQUARE_SIZE * zoom), 
-            (width, y * SQUARE_SIZE * zoom))
+            (0, y * init.SQUARE_SIZE * zoom), 
+            (init.width, y * init.SQUARE_SIZE * zoom))
 
 
     draw_ranges(screen)
