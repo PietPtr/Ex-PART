@@ -19,12 +19,12 @@ system in (14, 14) at (2, 2) {
         cell00 is cell in (2, 2) at (0, 0)
         cell01 is cell in (2, 2) at (cell00.x, cell00.y + cell00.h)
         cell02 is cell in (2, 2) at (cell00.x, cell01.y + cell01.h)
-        cell10 is cell in (2, 2) at (cell00.x + cell00.w, cell00.y)
-        cell11 is cell in (2, 2) at (cell00.x + cell00.w, cell00.y + cell10.h)
-        cell12 is cell in (2, 2) at (cell00.x + cell00.w, cell01.y + cell11.h)
-        cell20 is cell in (2, 2) at (cell10.x + cell10.w, cell10.y)
-        cell21 is cell in (2, 2) at (cell10.x + cell10.w, cell10.y + cell20.h)
-        cell22 is cell in (2, 2) at (cell10.x + cell10.w, cell11.y + cell21.h)
+        cell10 is cell in (2, 2) at (2, cell00.y)
+        cell11 is cell in (2, 2) at (2, cell00.y + cell10.h)
+        cell12 is cell in (2, 2) at (2, cell01.y + cell11.h)
+        cell20 is cell in (2, 2) at (4, cell10.y)
+        cell21 is cell in (2, 2) at (4, cell10.y + cell20.h)
+        cell22 is cell in (2, 2) at (4, cell11.y + cell21.h)
 
         cell00.n <- top_const
         cell00.ne <- top_const

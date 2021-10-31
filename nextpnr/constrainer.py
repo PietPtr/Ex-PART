@@ -1,6 +1,7 @@
 import json
 import sys
 import os
+from pprint import pprint
 
 top_entity_name = str(ctx.top_module)
 
@@ -44,9 +45,8 @@ def create_regions_system(system):
             # this is a bottom mealy
             regionID = ".".join(path)
             ctx.createRectangularRegion(regionID, 
-                sys["tl"]["x"], sys["tl"]["y"],
-                sys["br"]["y"], sys["br"]["y"])
-            # print("created a region for", regionID)
+                int(sys["tl"]["x"]), int(sys["tl"]["y"]),
+                int(sys["br"]["x"]), int(sys["br"]["y"]))
             print(f"ctx.createRectangularRegion('{regionID}', {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
             path.pop()
         else:
@@ -64,7 +64,15 @@ create_regions_system_list([locations])
 for cell, cellinfo in ctx.cells:
     print(cell)
 
-print("---")
+for (net, netinfo) in ctx.nets:
+    if "20" in net or "21" in net or "10" in net:
+        print(net)
+        # pprint(cellinfo.ports)
+        # for (port, portinfo) in cellinfo.ports:
+        #     print(port, portinfo)
+        # break
+
+print("\n-----\n")
 
 for cell, cellinfo in ctx.cells:
     if 'BEL' in cellinfo.attrs or 'NEXTPNR_BEL' in cellinfo.attrs:
@@ -74,9 +82,9 @@ for cell, cellinfo in ctx.cells:
         json_path = cell_name_to_json_path(cell)
 
         if json_path:
-            if json_path == "system.cells.cell21":
-                print(f"constrained cell to {json_path}")
-                ctx.constrainCellToRegion(cell, json_path)
+            # if json_path[-2:] in ["00", "01", "02", "11", "12", "22"]:
+            print(f"constrained cell: \n\t{cell} \n\t\tto \n\t{json_path}")
+            ctx.constrainCellToRegion(cell, json_path)
         else:
             pass
             print(f"WARNING: did not constrain cell {cell} as it did not comply with Ex-PART namings.")
