@@ -6,3 +6,4 @@ gol
 *.dyn_hi
 *.o
 *.dyn_o
+__pycache__/

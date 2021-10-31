@@ -5,62 +5,47 @@ import json
 import os
 import random
 from pprint import pprint
+import slice
+from init import *
 
-def randomize_colors():
-    global mods
-    mods = [random.choice(primes), random.choice(primes), random.choice(primes)]
 
-pygame.init()
 
-size = width, height = 1280, 720
-black = 0, 0, 0
-white = 255, 255, 255
-red = 255, 100, 100
 
-screen = pygame.display.set_mode(size)
-pygame.font.init() 
-myfont = pygame.font.SysFont('Courier', 14)
 
 view = [0, 0]
 zoom = 1
 
-SQUARE_SIZE = pygame.display.Info().current_w // 25
 
-primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
-mods = []
 randomize_colors()
 
 x_range = [i for i in range(124)]
 y_range = [i for i in range(93)]
 
-# with open(sys.argv[1]) as loc_file:
-#     locations = [json.load(loc_file)]
-#     last_load = time.time()
 
-# def try_load_locs():
-#     global locations
-#     global last_load
+with open(sys.argv[1]) as pnr_file:
+    pnr = json.load(pnr_file)
+    last_load = time.time()
+    try:
+        slice.build_slices(pnr["modules"]["top"]["cells"])
+    except KeyError:
+        print("Bitstream not in correct format.")
+
+def try_load_pnr():
+    global pnr
+    global last_load
     
-#     last_mod = os.path.getmtime(sys.argv[1])
+    last_mod = os.path.getmtime(sys.argv[1])
 
-#     if (last_mod > last_load):
-#         with open(sys.argv[1]) as loc_file:
-#             try:
-#                 locations = [json.load(loc_file)]
-#                 last_load = time.time()
-#                 print("Reloaded", sys.argv[1])
-#             except json.decoder.JSONDecodeError:
-#                 print("Tried reloading JSON, but found parse errors.")
+    if (last_mod > last_load):
+        with open(sys.argv[1]) as loc_file:
+            try:
+                pnr = json.load(loc_file)
+                last_load = time.time()
+                print("Reloaded", sys.argv[1])
+            except json.decoder.JSONDecodeError:
+                print("Tried reloading JSON, but found parse errors.")
 
-def color(name):
-    name = name + name + name
-    n = [ord(n) % 16 for n in name]
-    color = (
-        (sum(n[::3]) * mods[0]) % 255,
-        (sum(n[1::3]) * mods[1]) % 255,
-        (sum(n[2::3]) * mods[2]) % 255
-    )
-    return color
+
 
 
 def draw_ranges(screen):
@@ -124,7 +109,10 @@ while True:
 
     draw_ranges(screen)
 
+    for s in slice.slices:
+        s.draw(screen)
+
 
     pygame.display.flip()
     time.sleep(0.1)
-    # try_load_locs()
+    try_load_pnr()
