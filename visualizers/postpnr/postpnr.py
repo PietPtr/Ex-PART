@@ -7,44 +7,43 @@ import random
 from pprint import pprint
 import slice
 import init
+import legend
 
 screen = pygame.display.set_mode(init.size)
 
-
 view = [0, 0]
 zoom = 1
-
 
 init.randomize_colors()
 
 x_range = [i for i in range(124)]
 y_range = [i for i in range(93)]
 
+last_load = 0
 
-with open(sys.argv[1]) as pnr_file:
-    pnr = json.load(pnr_file)
-    last_load = time.time()
-    try:
-        slice.build_slices(pnr["modules"]["top"]["cells"])
-    except KeyError:
-        print("Bitstream not in correct format.")
+bitstream_filename = sys.argv[1] + "/bitstream.json"
 
 def try_load_pnr():
     global pnr
     global last_load
     
-    last_mod = os.path.getmtime(sys.argv[1])
+    last_mod = os.path.getmtime(bitstream_filename)
 
     if (last_mod > last_load):
-        with open(sys.argv[1]) as loc_file:
+        with open(bitstream_filename) as loc_file:
             try:
                 pnr = json.load(loc_file)
                 last_load = time.time()
-                print("Reloaded", sys.argv[1])
+                print("Reloaded", bitstream_filename)
             except json.decoder.JSONDecodeError:
                 print("Tried reloading JSON, but found parse errors.")
 
+            try:
+                slice.build_slices(pnr["modules"]["top"]["cells"])
+            except KeyError:
+                print("Bitstream not in correct format.")
 
+try_load_pnr()
 
 
 def draw_ranges(screen):
@@ -76,9 +75,9 @@ while True:
             if event.button == 5:
                 init.SQUARE_SIZE = max(int(init.SQUARE_SIZE / 1.1), 10)
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_F5:
-                with open(sys.argv[1]) as loc_file:
-                    locations = [json.load(loc_file)]
+            # if event.key == pygame.K_F5:
+            #     with open(sys.argv[1]) as loc_file:
+            #         locations = [json.load(loc_file)]
             if event.key == pygame.K_F1:
                 init.randomize_colors()
 
@@ -111,6 +110,7 @@ while True:
     for s in slice.slices:
         s.draw(screen)
 
+    legend.draw_legend(screen, slice.components)
 
     pygame.display.flip()
     time.sleep(0.1)

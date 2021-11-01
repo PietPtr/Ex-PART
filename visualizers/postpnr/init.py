@@ -1,6 +1,11 @@
 
 import pygame
 import random
+import sys
+
+if len(sys.argv) == 1:
+    print("Please provide the project folder name.")
+    quit()
 
 pygame.init()
 
@@ -12,9 +17,7 @@ red = 255, 100, 100
 pygame.font.init() 
 myfont = pygame.font.SysFont('Courier', 14)
 
-
 SQUARE_SIZE = pygame.display.Info().current_w // 24
-
 
 def color(name):
     global mods
@@ -34,3 +37,15 @@ mods = []
 def randomize_colors():
     global mods
     mods = [random.choice(primes), random.choice(primes), random.choice(primes)]
+
+def cell_name_to_json_path(cell_name):
+    expart_name = cell_name.split('.')
+
+    if len(expart_name) == 0:
+        return "NAME ERROR"
+
+
+    subnames = map(lambda s: s.split('_')[-1], expart_name)
+    json_path = ".".join(subnames)
+
+    return json_path

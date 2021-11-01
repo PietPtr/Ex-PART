@@ -12,10 +12,15 @@ def randomize_colors():
 
 pygame.init()
 
+locations_filename = sys.argv[1] + "/locations.json"
+
 size = width, height = 1280, 720
 black = 0, 0, 0
 white = 255, 255, 255
 red = 255, 100, 100
+
+SQUARE_SIZE = pygame.display.Info().current_w // 24
+print(SQUARE_SIZE, pygame.display.Info().current_w)
 
 screen = pygame.display.set_mode(size)
 pygame.font.init() 
@@ -24,7 +29,6 @@ myfont = pygame.font.SysFont('Courier', 14)
 view = [0, 0]
 zoom = 1
 
-SQUARE_SIZE = pygame.display.Info().current_w // 25
 
 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
 mods = []
@@ -33,7 +37,7 @@ randomize_colors()
 x_range = [i for i in range(124)]
 y_range = [i for i in range(93)]
 
-with open(sys.argv[1]) as loc_file:
+with open(locations_filename) as loc_file:
     locations = [json.load(loc_file)]
     last_load = time.time()
 
@@ -41,14 +45,14 @@ def try_load_locs():
     global locations
     global last_load
     
-    last_mod = os.path.getmtime(sys.argv[1])
+    last_mod = os.path.getmtime(locations_filename)
 
     if (last_mod > last_load):
-        with open(sys.argv[1]) as loc_file:
+        with open(locations_filename) as loc_file:
             try:
                 locations = [json.load(loc_file)]
                 last_load = time.time()
-                print("Reloaded", sys.argv[1])
+                print("Reloaded", locations_filename)
             except json.decoder.JSONDecodeError:
                 print("Tried reloading JSON, but found parse errors.")
 
@@ -119,7 +123,7 @@ while True:
                 SQUARE_SIZE = max(int(SQUARE_SIZE / 1.1), 10)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F5:
-                with open(sys.argv[1]) as loc_file:
+                with open(locations_filename) as loc_file:
                     locations = [json.load(loc_file)]
             if event.key == pygame.K_F1:
                 randomize_colors()

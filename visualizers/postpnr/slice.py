@@ -21,6 +21,7 @@ class Slice:
         pass
 
 slices = []
+components = set()
 
 def parse_nextpnr_bel(belstr):
     res = {}
@@ -32,6 +33,9 @@ def parse_nextpnr_bel(belstr):
 
 def build_slices(cells):
     global slices
+    global components
+    components = set()
+    slices = []
 
     for cellname, data in cells.items():
         cmp_name = ".".join(cellname.split(".")[:-1])
@@ -45,5 +49,9 @@ def build_slices(cells):
                 bel['y'],
                 bel['letter']
             ))
+
+            components.add(cmp_name)
         else:
             pass # probably not one of my cells
+
+    components = sorted(list(components))
