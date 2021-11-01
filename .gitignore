@@ -2,6 +2,7 @@
 testenv
 collatz
 gol
+repeat
 *.hi
 *.dyn_hi
 *.o

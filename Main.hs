@@ -1,13 +1,17 @@
 module Main where
 
+import Prelude hiding (repeat)
+
 import Types
 import Parser
+import Repetition
 import Generator
 import JSONBuilder
 import Yosys
 import Nextpnr
 
-import ComponentInfo
+import Text.ParserCombinators.Parsec
+-- import Parse_expi
 
 import Data.Either
 import Data.Aeson
@@ -46,13 +50,21 @@ flow expcName expiName lpf outDir = do
         (Right result) -> putStrLn "[Ex-PART] Succesfully parsed .expc"
     guard (isRight parsed)
     expc <- pure $ fromRight undefined parsed
+    print expc
 
     parsed <- parse_expi (prg_cmps expc) expiName
     case parsed of
         (Left error) -> putStrLn $ "[Ex-PART] Parse error: " ++ show error
         (Right result) -> putStrLn "[Ex-PART] Succesfully parsed .expi"
     guard (isRight parsed)
-    expi <- pure $ fromRight undefined parsed
+    expi_reps <- pure $ fromRight undefined parsed
+
+    putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
+    expi <- pure $ unroll expc expi_reps
+    mapM_ print $ (sys_repetitions expi)
+    mapM_ print $ (sys_multicons expi)
+    mapM_ print $ (sys_connections expi)
+    -- mapM_ print $ map ins_name $ (sys_instances expi)
 
     putStrLn $ "[Ex-PART] Creating directory " ++ outDir ++ "..."
     createDirectoryIfMissing True outDir
@@ -69,8 +81,8 @@ flow expcName expiName lpf outDir = do
     flatten expc expi
 
     -- debug stuff
-    -- setCurrentDirectory startDir
-    -- error "done :)"
+    setCurrentDirectory startDir
+    error "done :)"
     -- debug stuff
 
 
@@ -108,6 +120,7 @@ make prj = flow
 
 collatz = make "collatz"
 gol = make "gol"
+repeat = make "repeat"
 up = setCurrentDirectory ".."
 
 main = pure ()

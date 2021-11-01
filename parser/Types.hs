@@ -107,6 +107,7 @@ data System = System {
     sys_instances :: [Instance],
     sys_connections :: [Connection],
     sys_repetitions :: [Repetition],
+    sys_multicons :: [MultiConnection],
     sys_subsystems :: [System]
     } deriving Show
 
@@ -120,6 +121,7 @@ emptySystem = System {
         sys_instances = [],
         sys_connections = [],
         sys_repetitions = [],
+        sys_multicons = [],
         sys_subsystems = []
     }
 
@@ -130,14 +132,15 @@ data IOStat
 
 data Instance = Instance {
         ins_name :: String,
-        ins_cmp :: Component,  -- TODO: Maak dit een Component
+        ins_cmp :: Component,
         ins_args :: [ConstExpr],
         ins_size :: Size,
         ins_coords :: Coords
     } deriving Show
 
-data UnplacedInstance = UnplacedInstance String String [ConstExpr] Size
+data UnplacedInstance = UnplacedInstance String [ConstExpr] Size
     deriving Show
+
 data ConstExpr 
     = Constant Integer 
     | HaskellData String 
@@ -145,19 +148,41 @@ data ConstExpr
 
 data Connection = Connection CID CID
     deriving (Show, Eq)
-data CID = CID String String
+data CID = CID String String -- system port
     deriving (Show, Eq, Ord)
 
-data Repetition 
-    = Chain [Option]
-    | Fold [Option]
+data MultiConnection = MultiConn MCID MCID
+    deriving (Show, Eq)
+data MCID = MCID String String Range -- system port range
+    deriving (Show, Eq)
+data Range 
+    = Range Integer Integer -- from to
+    | All
+    deriving (Show, Eq)
+
+
+data RawRepetition 
+    = RawChain Name Coords [Option]
+    | RawRepeat Name Coords [Option]
     deriving Show
+
+data Repetition
+    = Chain {
+        
+    }
+    | Repeat {
+        rep_name :: String,
+        rep_coords :: Coords,
+        rep_unplacedInstance :: UnplacedInstance,
+        rep_amount :: Integer,
+        rep_layout :: String
+    } deriving Show
 
 data Option
     = Comp UnplacedInstance
     | Amount Integer
     | Layout String -- or layout expression maybe
-    | Initial (Either String Integer) -- supports both signals and constants
+    | Initial (Either String Integer) -- supports both signals and constant ints
     | ChainIn String
     | ChainOut String
     | OutputName String
@@ -182,4 +207,5 @@ typeToBitwidth t = case t of
         "Maybe Value" -> 17
         "State" -> 1
         "Vec 3 State" -> 3
+        "Unsigned 4" -> 4
         other -> error $ "Cannot find bitwidth of type " ++ other

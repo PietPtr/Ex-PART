@@ -1,0 +1,5 @@
+counters repeat at (0, 0) {
+    component = counter in (2, 2),
+    layout = vertical,
+    amount = 5
+}

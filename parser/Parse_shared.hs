@@ -35,6 +35,7 @@ braces      = P.braces lexer
 reserved    = P.reserved lexer
 integer     = P.integer lexer
 float       = P.float lexer
+symbol      = P.symbol lexer
 
 constant_expr = undefined
 constant_numeric_expr = undefined

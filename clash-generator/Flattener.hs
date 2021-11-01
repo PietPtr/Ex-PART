@@ -45,11 +45,16 @@ typeDef system = name ++ " :: HiddenClockResetEnable dom =>\n" ++
 
 
 definition :: System -> String
-definition system = name ++ " input = (" ++ out_str ++ ")"
+definition system = name ++ " input = "++ bundle ++"(" ++ out_str ++ ")"
     where
         name = sys_id system
         out_str = intercalate ", " $ map varName $ 
-            map (findIOConn (sys_connections system) "this") $ outputs' $ sys_iodefs system
+            map (findIOConn (sys_connections system) "this") $ outputs
+        bundle = if length outputs > 1
+            then "bundle $ "
+            else ""
+
+        outputs = outputs' $ sys_iodefs system
 
 
 whereBlock :: System -> String

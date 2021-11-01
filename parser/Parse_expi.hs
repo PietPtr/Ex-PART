@@ -1,16 +1,19 @@
 module Parse_expi where
 
+import Prelude hiding (repeat)
+
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Language
 
 import Parse_shared 
 import Types
+-- TODO: Waarom is er hier zo veel in snake_case?
 
 {-
 program ::= system # a program is exactly one system - the top entity.
 
 system ::= (flattened WS)? identifier WS 'in' WS size WS 'at' WS coords '{' 
-				(ioStatement | WS)* (instance | connection | system | WS)*  # waar is repitition hier?
+				(ioStatement | WS)* (instance | connection | system | WS)*  # waar is repetition hier?
 		'}'
 
 Y component_instantiation ::= identifier WS 'is' WS identifier '(' (arg (',' arg)*)? ')' WS 'in' WS size 
@@ -32,6 +35,8 @@ data Statement
     | ConnectionStat Connection
     | SystemStat System
     | IOStatement IOStat
+    | RepetitionStat RawRepetition
+    | MultiConnStat MultiConnection
     deriving Show
 
 
@@ -45,16 +50,18 @@ system components = toSystem
     where
         isFlatenned = option False (const True <$> (string "flatenned" <* ws))
 
-        f :: [Statement] -> ([IOStat], [Instance], [Connection], [System])
-        f stats = foldl sorter ([], [], [], []) stats
+        f :: [Statement] -> ([IOStat], [Instance], [Connection], [System], [RawRepetition], [MultiConnection])
+        f stats = foldl sorter ([], [], [], [], [], []) stats
 
-        sorter (iostats, instances, connections, systems) statement = case statement of
-            (InstanceStat inst) -> (iostats, inst:instances, connections, systems)
-            (ConnectionStat conn) -> (iostats, instances, conn:connections, systems)
-            (SystemStat sys) -> (iostats, instances, connections, sys:systems)
-            (IOStatement ios) -> (ios:iostats, instances, connections, systems)
+        sorter (iostats, instances, connections, systems, reps, mconns) statement = case statement of
+            (InstanceStat inst) -> (iostats, inst:instances, connections, systems, reps, mconns)
+            (ConnectionStat conn) -> (iostats, instances, conn:connections, systems, reps, mconns)
+            (SystemStat sys) -> (iostats, instances, connections, sys:systems, reps, mconns)
+            (IOStatement ios) -> (ios:iostats, instances, connections, systems, reps, mconns)
+            (RepetitionStat rep) -> (iostats, instances, connections, systems, rep:reps, mconns)
+            (MultiConnStat mconn) -> (iostats, instances, connections, systems, reps, mconn:mconns)
 
-        toSystem flattened name size coords (iostats, instances, connections, systems) =
+        toSystem flattened name size coords (iostats, instances, connections, systems, reps, mconns) =
             System {
                 sys_flattened = flattened,
                 sys_id = name,
@@ -63,16 +70,63 @@ system components = toSystem
                 sys_iodefs = iostats,
                 sys_instances = instances,
                 sys_connections = connections,
-                sys_repetitions = [],
-                sys_subsystems = systems}
+                sys_repetitions = map fitRepetition reps,
+                sys_multicons = mconns,
+                sys_subsystems = systems
+            }
+
+
+fitRepetition :: RawRepetition -> Repetition
+fitRepetition (RawRepeat name coords options) = Repeat {
+        rep_name = name,
+        rep_coords = coords,
+        rep_unplacedInstance = case [ x | Comp x <- options ] of
+            (x:_) -> x
+            [] -> error "Missing option `component` in a repeat statement.",
+        rep_amount = case [ x | Amount x <- options ] of
+            (x:_) -> x
+            [] -> error "Missing option `amount` in a repeat statement.",
+        rep_layout = case [x | Layout x <- options ] of
+            (x:_) -> x
+            [] -> error "Missing option `layout` in a repeat statement."
+    }
+fitRepetition (RawChain _ _ _) = error "Not implemented"
+
 
 system_body :: [Component] -> Parser [Statement]
 system_body components = many1 (anystat <* ows)
     where
         anystat = try (IOStatement <$> (ows *> ioStatement))
-            <|> try (InstanceStat <$> (ows *> (cmp_instance components) <* char '\n'))
+            <|> try (MultiConnStat <$> (ows *> multiconnection <* char '\n'))
             <|> try (ConnectionStat <$> (ows *> connection <* char '\n'))
+            <|> try (RepetitionStat <$> (ows *> repeat))
+            <|> try (InstanceStat <$> (ows *> (cmp_instance components) <* char '\n'))
             <|> (SystemStat <$> (ows *> (system components)))
+
+repeat :: Parser RawRepetition
+repeat = RawRepeat
+    <$> (string "repeat" *> ws *> identifier <* ws <* string "at" <* ws)
+    <*> (coords <* ows <* char '{' <* ows)
+    <*> (option_stats <* ows <* char '}')
+
+option_stats :: Parser [Option]
+option_stats = (ows *> option_stat <* ows) `sepBy` (char ',')
+
+option_stat :: Parser Option
+option_stat 
+    =   Amount <$> (string "amount" *> ows *> char '=' *> ows *> integer)
+    <|> Layout <$> (string "layout" *> ows *> char '=' *> ows *> layout)
+    <|> Comp <$> (string "component" *> ows *> char '=' *> ows *> unplaced_instance)
+
+-- TODO: layout expressions
+layout :: Parser String
+layout = string "vertical" <|> string "horizontal"
+
+unplaced_instance :: Parser UnplacedInstance
+unplaced_instance = UnplacedInstance
+    <$> (identifier <* ws <* string "in" <* ws)
+    <*> (pure [])
+    <*> (size)
 
 cmp_instance :: [Component] -> Parser Instance
 cmp_instance components = Instance
@@ -109,16 +163,35 @@ coord_bottom
     <|>     (CY      <$> identifier <* char '.' <* char 'y' )
 
 
-connection :: Parser Connection
-connection = try ltr <|> rtl
+ltr_rtl :: (a -> a -> b) -> Parser a -> Parser b
+ltr_rtl f p = try ltr <|> rtl
     where
-        ltr = Connection
-            <$> (cid <* ows <* string "->" <* ows)
-            <*> (cid)
-        rtl = (\to from -> Connection from to)
-            <$> (cid <* ows <* string "<-" <* ows)
-            <*> (cid)
+        ltr = f
+            <$> (p <* ows <* string "->" <* ows)
+            <*> p
+        rtl = (\b a -> f a b)
+            <$> (p <* ows <* string "<-" <* ows)
+            <*> p
+
+connection :: Parser Connection
+connection = ltr_rtl Connection cid
 
 cid :: Parser CID
-cid = try (CID <$> (identifier <* char '.') <*> identifier)
+cid = 
+    (try (CID <$> (subbedId <* char '.') <*> identifier))
     <|> ((CID "this") <$> identifier)
+    where
+        subbedId = (++) <$> identifier <*> (option "" subscript)
+        subscript = (\i -> '_' : show i) <$> (char '[' *> integer <* char ']')
+
+multiconnection :: Parser MultiConnection
+multiconnection = ltr_rtl MultiConn mcid
+
+mcid :: Parser MCID
+mcid = 
+    try (construct <$> identifier <*> (range <* char ':') <*> identifier)
+    <|> (construct <$> identifier <*> (pure All <* char ':') <*> identifier)
+    where
+        construct s r p = MCID s p r
+        range = Range <$> (char '[' *> integer) <*> (char '-' *> integer <* char ']')
+        

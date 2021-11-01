@@ -130,7 +130,7 @@ hasCycle graph = (or $ concat $ map (isInCycle graph) nodes) || hasLoop
 findID :: [(String, Size, Coords)] -> String -> (String, Size, Coords)
 findID instances id = case filter (\(name, _, _) -> name == id) instances of
     (x:_) -> x
-    [] -> error $ "Could not find ID " ++ id ++ " in provided list." ++ show instances
+    [] -> error $ "Could not find ID `" ++ id ++ "` in provided list." ++ show instances
 
 
 allInstsWithCoords :: System -> [(String, Size, Coords)]
