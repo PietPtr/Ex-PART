@@ -134,7 +134,6 @@ while True:
                     locations = [json.load(loc_file)]
             if event.key == pygame.K_F1:
                 randomize_colors()
-
     """
     Updates and logic
     """

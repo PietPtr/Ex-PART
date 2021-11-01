@@ -50,7 +50,6 @@ flow expcName expiName lpf outDir = do
         (Right result) -> putStrLn "[Ex-PART] Succesfully parsed .expc"
     guard (isRight parsed)
     expc <- pure $ fromRight undefined parsed
-    print expc
 
     parsed <- parse_expi (prg_cmps expc) expiName
     case parsed of
@@ -61,10 +60,6 @@ flow expcName expiName lpf outDir = do
 
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
     expi <- pure $ unroll expc expi_reps
-    mapM_ print $ (sys_repetitions expi)
-    mapM_ print $ (sys_multicons expi)
-    mapM_ print $ (sys_connections expi)
-    -- mapM_ print $ map ins_name $ (sys_instances expi)
 
     putStrLn $ "[Ex-PART] Creating directory " ++ outDir ++ "..."
     createDirectoryIfMissing True outDir
@@ -81,8 +76,8 @@ flow expcName expiName lpf outDir = do
     flatten expc expi
 
     -- debug stuff
-    setCurrentDirectory startDir
-    error "done :)"
+    -- setCurrentDirectory startDir
+    -- error "done :)"
     -- debug stuff
 
 

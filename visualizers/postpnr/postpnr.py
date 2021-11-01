@@ -80,6 +80,11 @@ while True:
             #         locations = [json.load(loc_file)]
             if event.key == pygame.K_F1:
                 init.randomize_colors()
+        
+        if event.type == pygame.VIDEORESIZE:
+            init.width = event.w
+            init.height = event.h
+
 
     """
     Updates and logic

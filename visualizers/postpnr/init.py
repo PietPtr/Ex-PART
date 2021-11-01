@@ -45,7 +45,7 @@ def cell_name_to_json_path(cell_name):
         return "NAME ERROR"
 
 
-    subnames = map(lambda s: s.split('_')[-1], expart_name)
+    subnames = map(lambda s: s.split('-')[-1], expart_name)
     json_path = ".".join(subnames)
 
     return json_path

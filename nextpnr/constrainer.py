@@ -14,14 +14,14 @@ def cell_name_to_json_path(cell_name):
         return False
 
     
-    assert '_instance_' in expart_name[-1]
-    assert all(['_system_' in name for name in expart_name[:-1]])
+    assert '-instance-' in expart_name[-1]
+    assert all(['-system-' in name for name in expart_name[:-1]])
 
     json_path = top_entity_name
 
     while len(expart_name) > 0:
         subname = expart_name.pop(0)
-        json_path += '.' + subname.split('_')[-1]
+        json_path += '.' + subname.split('-')[-1]
 
     return json_path
 

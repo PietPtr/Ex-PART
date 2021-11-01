@@ -208,4 +208,5 @@ typeToBitwidth t = case t of
         "State" -> 1
         "Vec 3 State" -> 3
         "Unsigned 4" -> 4
+        "Bool" -> 1
         other -> error $ "Cannot find bitwidth of type " ++ other

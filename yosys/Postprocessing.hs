@@ -46,22 +46,22 @@ data CellConn = CellConn String [Integer]
 type Net = [Integer] -- directly a yosys "bits" entry
 
 clockResetEnablePorts = [
-                    Port {
-                        port_name = "clk",
-                        port_direction = In,
-                        port_bits = [2]
-                    },
-                    Port {
-                        port_name = "rst",
-                        port_direction = In,
-                        port_bits = [3]
-                    },
-                    Port {
-                        port_name = "en",
-                        port_direction = In,
-                        port_bits = [4]
-                    }
-                ]
+        Port {
+            port_name = "clk",
+            port_direction = In,
+            port_bits = [2]
+        },
+        Port {
+            port_name = "rst",
+            port_direction = In,
+            port_bits = [3]
+        },
+        Port {
+            port_name = "en",
+            port_direction = In,
+            port_bits = [4]
+        }
+    ]
 
 instance ToJSON Module where
     toJSON mod = object [ pack (mod_name mod) .= object [
@@ -296,8 +296,8 @@ makeCells' components system netmap (elem:elements) =
     } : makeCells' components system netmap elements
     where
         infix_name = if elem_isSubsys elem
-            then "_system_"
-            else "_instance_"
+            then "-system-"
+            else "-instance-"
 
         relevantConnections = filter relevant connections
         relevant (Connection (CID from_cmp from_port) (CID to_cmp to_port)) =
@@ -312,13 +312,15 @@ makeCells' components system netmap (elem:elements) =
                     (Output n _) -> n
 
                 netCID = case filter lookupCID relevantConnections of
-                    ((Connection cid _):_) -> cid
-                    [] -> error $ "Cannot not find connection " ++ name ++ " in " ++ elem_name elem
+                    ((Connection cid _):_) -> Just cid
+                    [] -> Nothing -- error $ "Cannot find connection `" ++ name ++ "` in `" ++ elem_name elem ++ "`"
                 lookupCID (Connection (CID from_elem from_port) (CID to_elem to_port)) = 
                     (from_port == name && from_elem == elem_name elem) || 
                     (to_port == name && to_elem == elem_name elem)
 
-                net = Map.findWithDefault [] netCID netmap
+                net = case netCID of
+                    Just cid -> Map.findWithDefault [] cid netmap
+                    Nothing -> [] -- TODO: can we just leave stuff disconnected?
                 
         portCells = map toCellConn (elem_io elem)
 
