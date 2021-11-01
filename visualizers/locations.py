@@ -66,6 +66,10 @@ def color(name):
     )
     return color
 
+def is_bright(color_any):
+    color = pygame.Color(color_any)
+    return (color.r * 0.299 + color.g * 0.587 + color.b * 0.114) > 150
+
 def draw_system(screen, system_list):
     for system in system_list:
         key = next(iter(system))
@@ -77,8 +81,11 @@ def draw_system(screen, system_list):
             w = abs(tl['x'] - (br['x'] + 1)) * SQUARE_SIZE * zoom
             h = abs(tl['y'] - (br['y'] + 1)) * SQUARE_SIZE * zoom
             
-            pygame.draw.rect(screen, color(key), pygame.Rect(left, top, w, h))
-            textsurface = myfont.render(key, True, (0, 0, 0))
+            rect_color = color(key)
+            pygame.draw.rect(screen, rect_color, pygame.Rect(left, top, w, h))
+
+            text_color = (0, 0, 0) if is_bright(rect_color) else (255, 255, 255)
+            textsurface = myfont.render(key, True, text_color)
             if h > w:
                 textsurface = pygame.transform.rotate(textsurface, -90)
 
@@ -139,7 +146,7 @@ while True:
     """
     Drawing
     """
-    screen.fill((201, 211, 221))
+    screen.fill((221, 231, 251))
 
     for x in range(width // SQUARE_SIZE + 1):
         pygame.draw.line(screen, 0xaaaaaa, 

@@ -92,7 +92,7 @@ while True:
     """
     Drawing
     """
-    screen.fill((201, 211, 221))
+    screen.fill((221, 231, 251))
 
     for x in range(init.width // init.SQUARE_SIZE + 1):
         pygame.draw.line(screen, 0xaaaaaa, 
