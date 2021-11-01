@@ -1,0 +1,29 @@
+combinatory {
+
+
+}
+
+component extractEnable() {
+    input number : Unsigned 4
+    output enable : Bool
+
+    enable = testBit number 0
+}
+
+component constEnable() {
+    output enable : Bool
+    
+    enable = True
+}
+
+component counter() {
+    input enable : Bool
+    state count = 0 : Unsigned 4
+    output out : Unsigned 4
+
+    count' = if enable
+        then count + 1
+        else count
+    
+    out = count
+}

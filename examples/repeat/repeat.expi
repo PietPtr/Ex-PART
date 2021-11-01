@@ -1,0 +1,41 @@
+system in (26, 26) at (2, 2) {
+    output slowResult : Unsigned 4
+    output fastResult : Unsigned 4
+
+    repeat constEnabled at (0, 0) {
+        component = constEnable in (1, 1),
+        amount = 5,
+        layout = horizontal
+    }
+
+    constEnabled:enable->counters:enable
+
+    repeat counters at (0, 1) {
+        component = counter in (1, 2),
+        amount = 5,
+        layout = horizontal
+    }
+    
+    fastResult<-counters[0].out
+
+    repeat enablers at (0, 3) {
+        component = extractEnable in (1, 1),
+        amount = 5,
+        layout = horizontal
+    }
+
+    counters:out->enablers:number
+
+    repeat slowCounters at (0, enablers_0.y + enablers_0.h) {
+        component = counter in (1, 2),
+        amount = 6,
+        layout = horizontal
+    }
+
+    sixthEnabler is constEnable in (1, 1) at (slowCounters_5.x, 2)
+
+    enablers:enable->slowCounters[0-4]:enable
+    sixthEnabler.enable->slowCounters[5].enable
+    slowCounters[3].out->slowResult
+
+}
