@@ -77,20 +77,39 @@ system components = toSystem
 
 
 fitRepetition :: RawRepetition -> Repetition
-fitRepetition (RawRepeat name coords options) = Repeat {
-        rep_name = name,
-        rep_coords = coords,
-        rep_unplacedInstance = case [ x | Comp x <- options ] of
+fitRepetition rep = repetition
+    where
+        repetition = case rep of
+            (RawRepeat name coords options) -> Repeat {
+                    rep_name = name,
+                    rep_coords = coords,
+                    rep_unplacedInstance = unplacedInstance options,
+                    rep_amount = amount options,
+                    rep_layout = layout options
+                }
+            (RawChain name coords options) -> Chain {
+                    chn_name = name,
+                    chn_coords = coords,
+                    chn_unplacedInstance = unplacedInstance options,
+                    chn_amount = amount options,
+                    chn_layout = layout options,
+                    chn_chainIn = case [ x | ChainIn x <- options ] of
+                        [] -> error "Missing option `chain_in` in chain statement"
+                        (x:_) -> x,
+                    chn_chainOut = case [ x | ChainOut x <- options ] of
+                        [] -> error "Missing option `chain_out` in chain statement"
+                        (x:_) -> x
+            }
+
+        unplacedInstance options = case [ x | Comp x <- options ] of
+            [] -> error "Missing option `component` in repetition statement."
             (x:_) -> x
-            [] -> error "Missing option `component` in a repeat statement.",
-        rep_amount = case [ x | Amount x <- options ] of
+        amount options = case [ x | Amount x <- options ] of
+            [] -> error "Missing option `amount` in a repetition statement."
             (x:_) -> x
-            [] -> error "Missing option `amount` in a repeat statement.",
-        rep_layout = case [x | Layout x <- options ] of
+        layout options = case [x | Layout x <- options ] of
+            [] -> error "Missing option `layout` in a repetition statement."
             (x:_) -> x
-            [] -> error "Missing option `layout` in a repeat statement."
-    }
-fitRepetition (RawChain _ _ _) = error "Not implemented"
 
 
 system_body :: [Component] -> Parser [Statement]
@@ -99,9 +118,15 @@ system_body components = many1 (anystat <* ows)
         anystat = try (IOStatement <$> (ows *> ioStatement))
             <|> try (MultiConnStat <$> (ows *> multiconnection <* char '\n'))
             <|> try (ConnectionStat <$> (ows *> connection <* char '\n'))
-            <|> try (RepetitionStat <$> (ows *> repeat))
+            <|> try (RepetitionStat <$> (ows *> (repeat <|> chain)))
             <|> try (InstanceStat <$> (ows *> (cmp_instance components) <* char '\n'))
             <|> (SystemStat <$> (ows *> (system components)))
+
+chain :: Parser RawRepetition
+chain = RawChain
+    <$> (string "chain" *> ws *> identifier <* ws <* string "at" <* ws)
+    <*> (coords <* ows <* char '{' <* ows)
+    <*> (option_stats <* ows <* char '}')
 
 repeat :: Parser RawRepetition
 repeat = RawRepeat
@@ -114,9 +139,15 @@ option_stats = (ows *> option_stat <* ows) `sepBy` (char ',')
 
 option_stat :: Parser Option
 option_stat 
-    =   Amount <$> (string "amount" *> ows *> char '=' *> ows *> integer)
-    <|> Layout <$> (string "layout" *> ows *> char '=' *> ows *> layout)
-    <|> Comp <$> (string "component" *> ows *> char '=' *> ows *> unplaced_instance)
+    =   Amount <$> option_parser "amount" integer
+    <|> Layout <$> option_parser "layout" layout 
+    <|> Initial <$> option_parser "initial" identifier
+    <|> Result <$> option_parser "result" identifier 
+    <|> (try $ Comp <$> option_parser "component" unplaced_instance)
+    <|> (try $ ChainIn <$> option_parser "chain_in" identifier)
+    <|> ChainOut <$> option_parser "chain_out" identifier
+    where
+        option_parser str p = (string str *> ows *> char '=' *> ows *> p)
 
 -- TODO: layout expressions
 layout :: Parser String

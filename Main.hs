@@ -60,8 +60,12 @@ flow expcName expiName lpf outDir = do
 
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
     expi <- pure $ unroll expc expi_reps
+    -- mapM_ print $ sys_repetitions expi
+    -- mapM_ print $ map ins_name $ sys_instances expi
+    -- mapM_ print $ sys_multicons expi
+    -- mapM_ print $ sys_connections expi
 
-    putStrLn $ "[Ex-PART] Creating directory " ++ outDir ++ "..."
+    putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
     createDirectoryIfMissing True outDir
     threadDelay 1000 -- TODO: there is a dependence on these statements, but they're executed concurrently...
     setCurrentDirectory outDir
@@ -116,6 +120,7 @@ make prj = flow
 collatz = make "collatz"
 gol = make "gol"
 repeat = make "repeat"
+chain = make "chain"
 up = setCurrentDirectory ".."
 
 main = pure ()

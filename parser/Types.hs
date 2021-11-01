@@ -168,7 +168,13 @@ data RawRepetition
 
 data Repetition
     = Chain {
-        
+        chn_name :: String,
+        chn_coords :: Coords,
+        chn_unplacedInstance :: UnplacedInstance,
+        chn_amount :: Integer,
+        chn_layout :: String,
+        chn_chainIn :: String,
+        chn_chainOut :: String
     }
     | Repeat {
         rep_name :: String,
@@ -182,10 +188,10 @@ data Option
     = Comp UnplacedInstance
     | Amount Integer
     | Layout String -- or layout expression maybe
-    | Initial (Either String Integer) -- supports both signals and constant ints
+    | Initial String -- TODO: does not support both signals and constant ints, only signals
     | ChainIn String
     | ChainOut String
-    | OutputName String
+    | Result String
     deriving Show
 
 
@@ -207,6 +213,8 @@ typeToBitwidth t = case t of
         "Maybe Value" -> 17
         "State" -> 1
         "Vec 3 State" -> 3
+        "Unsigned 2" -> 2
         "Unsigned 4" -> 4
+        "Unsigned 6" -> 6
         "Bool" -> 1
         other -> error $ "Cannot find bitwidth of type " ++ other

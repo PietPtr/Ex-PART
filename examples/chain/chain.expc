@@ -1,0 +1,35 @@
+combinatory {
+
+}
+
+component sum_driver() {
+    state number = 0 : Unsigned 2
+    output out : Unsigned 2
+    
+    number' = number + 1
+    out = number
+}
+
+component summer() {
+    input partial : Unsigned 6
+    input next : Unsigned 2
+    output sum : Unsigned 6
+
+    sum = (fromIntegral next) + partial
+}
+
+component zero() {
+    output c : Unsigned 6
+
+    c = 0
+}
+
+component boundReg() {
+    input inp : Unsigned 6
+    state s = 0 : Unsigned 6
+    output out : Unsigned 6
+
+    s' = inp
+
+    out = s
+}

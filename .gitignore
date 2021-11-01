@@ -3,6 +3,7 @@ testenv
 collatz
 gol
 repeat
+chain
 *.hi
 *.dyn_hi
 *.o

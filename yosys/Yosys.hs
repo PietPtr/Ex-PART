@@ -24,6 +24,7 @@ compileToVerilog (Program _ _ components) = do
 
 runClash :: (String, CreateProcess) -> IO ()
 runClash (cmpName, clash) = do
+    putStrLn $ "        | ...of component " ++ cmpName
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess clash
     stdout <- hGetContents outHandle
     stderr <- hGetContents errHandle

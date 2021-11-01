@@ -12,7 +12,7 @@ unrollMulticonn reps (MultiConn from to) = if length from' == length to'
 
 unrollMCID :: [Repetition] -> MCID -> [CID] -- if resulting cid lists don't match higher up, error
 unrollMCID reps (MCID repName portName range) = case range of
-    All -> map makeCID [0..(rep_amount rep - 1)]
+    All -> map makeCID [0..(repetitionAmount rep - 1)]
     Range start end -> map makeCID [start..end]
     where
         
@@ -21,13 +21,18 @@ unrollMCID reps (MCID repName portName range) = case range of
             [] -> error $ "Cannot find repetition with name `" ++ repName ++ 
                 "` for multiconnection " ++ repName ++ ":" ++ portName ++ "."
 
-        makeCID i = CID (rep_name rep ++ "_" ++ show i) portName
+        makeCID i = CID (repetitionName rep ++ "_" ++ show i) portName
 
 
 repetitionName :: Repetition -> String
 repetitionName rep = case rep of
-    c@(Chain) -> error "not implemented."
-    r@(Repeat _ _ _ _ _) -> rep_name r
+    Chain {chn_name=n} -> n
+    Repeat {rep_name=n} -> n
+
+repetitionAmount :: Repetition -> Integer
+repetitionAmount rep = case rep of
+    Chain {chn_amount=a} -> a
+    Repeat {rep_amount=a} -> a
 
 {-
 CID "enablers_0" "enable",
