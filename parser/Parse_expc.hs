@@ -57,7 +57,7 @@ isoStatement
     =   try (SInput <$> (string "input" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n'))
     <|> try (SState <$> (string "state" *> ws *> identifier <* ows <* char '=' <* ows) <*> 
         (constExpr) <*> (ows *> char ':' *> ows *> haskell_type <* char '\n'))
-    <|> (SOutput <$> (string "output" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n'))
+    <|> try (SOutput <$> (string "output" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n'))
 
 component :: Parser Component
 component = Component
