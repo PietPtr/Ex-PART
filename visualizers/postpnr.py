@@ -16,7 +16,6 @@ last_load = 0
 bitstream_filename = sys.argv[1] + "/bitstream.json"
 
 def try_load_pnr():
-    global pnr
     global last_load
     
     last_mod = os.path.getmtime(bitstream_filename)

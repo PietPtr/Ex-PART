@@ -34,13 +34,12 @@ def color(name):
 
 # TODO: color module
 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
-mods = []
+mods = [59, 31, 97]
 
 def randomize_colors():
     global mods
     mods = [random.choice(primes), random.choice(primes), random.choice(primes)]
 
-randomize_colors()
 
 def cell_name_to_json_path(cell_name):
     expart_name = cell_name.split('.')
@@ -66,7 +65,7 @@ def reset_range():
 
 x_range = []
 y_range = []
-relative_coords = True
+relative_coords = False
 reset_range()
 
 

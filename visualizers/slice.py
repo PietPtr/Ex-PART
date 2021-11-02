@@ -5,7 +5,7 @@ import init
 
 class Slice:
     def __init__(self, component_name, x, y, l):
-        self.component_name = component_name
+        self.component_name = init.cell_name_to_json_path(component_name).split(".")[-1]
         self.x = x
         self.y = y
         self.letter = l
