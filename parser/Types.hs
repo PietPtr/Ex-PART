@@ -9,7 +9,7 @@ class Pretty a where
 -- .expc result
 
 data Combinatory = Combinatory String
-    deriving Show
+    deriving (Show, Eq)
 
 type HaskellDef = String
 
@@ -18,7 +18,7 @@ data Component = Component {
         cmp_args :: [Argument],
         cmp_isoStats :: [ISOStat],
         cmp_where :: WhereBlock
-    } deriving Show
+    } deriving (Show, Eq)
 
 type Argument = String
 type WhereBlock = String
@@ -30,7 +30,7 @@ data ISOStat
     = SInput Name Type
     | SState Name ConstExpr Type
     | SOutput Name Type
-    deriving Show
+    deriving (Show, Eq)
 
 inputs :: [ISOStat] -> [ISOStat]
 inputs [] = []
@@ -71,7 +71,7 @@ data Program = Program {
     prg_defs :: [HaskellDef],
     prg_cmbs :: [Combinatory],
     prg_cmps :: [Component]
-    } deriving Show
+    } deriving (Show, Eq)
 
 -- .expi result
 
@@ -88,7 +88,7 @@ data CoordExpr
     | CHeight String
     | CX String
     | CY String
-    deriving Show
+    deriving (Show, Eq)
 
 instance Pretty CoordExpr where
     pretty (CAdd ce ce') = pretty ce ++ " + " ++ pretty ce'
@@ -109,7 +109,7 @@ data System = System {
     sys_repetitions :: [Repetition],
     sys_multicons :: [MultiConnection],
     sys_subsystems :: [System]
-    } deriving Show
+    } deriving (Show, Eq)
 
 emptySystem :: System
 emptySystem = System {
@@ -128,7 +128,7 @@ emptySystem = System {
 data IOStat
     = Input Name Type
     | Output Name Type
-    deriving Show
+    deriving (Show, Eq)
 
 data Instance = Instance {
         ins_name :: String,
@@ -136,15 +136,15 @@ data Instance = Instance {
         ins_args :: [ConstExpr],
         ins_size :: Size,
         ins_coords :: Coords
-    } deriving Show
+    } deriving (Show, Eq)
 
 data UnplacedInstance = UnplacedInstance String [ConstExpr] Size
-    deriving Show
+    deriving (Show, Eq)
 
 data ConstExpr 
     = Constant Integer 
     | HaskellData String 
-    deriving Show
+    deriving (Show, Eq)
 
 data Connection = Connection CID CID
     deriving (Show, Eq)
@@ -164,7 +164,7 @@ data Range
 data RawRepetition 
     = RawChain Name Coords [Option]
     | RawRepeat Name Coords [Option]
-    deriving Show
+    deriving (Show, Eq)
 
 data Repetition
     = Chain {
@@ -182,7 +182,7 @@ data Repetition
         rep_unplacedInstance :: UnplacedInstance,
         rep_amount :: Integer,
         rep_layout :: String
-    } deriving Show
+    } deriving (Show, Eq)
 
 data Option
     = Comp UnplacedInstance
@@ -192,7 +192,7 @@ data Option
     | ChainIn String
     | ChainOut String
     | Result String
-    deriving Show
+    deriving (Show, Eq)
 
 
 -- TODO: actually do this nicely instead of hardcoded widths for 2 types...
