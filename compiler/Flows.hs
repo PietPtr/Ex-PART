@@ -22,8 +22,9 @@ import Data.List.Split
 clean :: Program -> System -> FilePath -> FilePath -> FilePath -> IO ()
 clean expc expi_reps expcPath expiPath outDir = do
     putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
-    createDirectory outDir
+    createDirectoryIfMissing True outDir
     threadDelay 1000 -- TODO: there is a dependence on these statements, but they're executed concurrently...
+
     setCurrentDirectory outDir
 
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."

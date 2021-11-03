@@ -3,7 +3,7 @@ system in (26, 26) at (2, 2) {
     output after_n : Unsigned 16
 
     chain compute_blocks at (0, 0) {
-        component = compute in (4, 7),
+        component = compute in (6, 8),
         amount = 7,
         layout = horizontal,
         chain_in = inp,

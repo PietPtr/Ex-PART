@@ -57,13 +57,6 @@ component grouper() {
     c = Dead
 }
 
-component dummy1() {
-    input a : State
-    output b : State
-
-    b = a
-}
-
 component dummy2() {
     input a : State
     output b : State
@@ -72,6 +65,16 @@ component dummy2() {
 }
 
 component dummy3() {
+    input a : State
+    state s : State
+    output b : State
+
+    s' = a
+
+    b = s
+}
+
+component dummy4() {
     input a : State
     output b : State
 

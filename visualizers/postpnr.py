@@ -18,7 +18,11 @@ bitstream_filename = sys.argv[1] + "/bitstream.json"
 def try_load_pnr():
     global last_load
     
-    last_mod = os.path.getmtime(bitstream_filename)
+    try:
+        last_mod = os.path.getmtime(bitstream_filename)
+    except FileNotFoundError:
+        
+        return 
 
     if (last_mod > last_load):
         with open(bitstream_filename) as loc_file:

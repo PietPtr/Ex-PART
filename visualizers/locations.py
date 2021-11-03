@@ -17,7 +17,11 @@ def try_load_locs():
     global locations
     global last_load
     
-    last_mod = os.path.getmtime(locations_filename)
+    try:
+        last_mod = os.path.getmtime(locations_filename)
+    except FileNotFoundError:
+        locations = []
+        return 
 
     if (last_mod > last_load):
         with open(locations_filename) as loc_file:

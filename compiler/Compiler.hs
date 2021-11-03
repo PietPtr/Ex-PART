@@ -29,16 +29,18 @@ auto expcPath expiPath lpfName outDir = do
     newExpiContent <- readFile expiPath
 
     outExists <- doesDirectoryExist outDir
+    sourcesExist <- doesFileExist (outDir ++ "/build.expc")
 
     -- TODO: there are nicer ways to structure this control right?
-    if not outExists
+    if (not outExists || not sourcesExist)
         then do
-            putStrLn $ "[Compile] No directory found, picking clean flow."
+            putStrLn $ "[Compile] No directory or old source files found, picking clean flow."
             Flows.clean expc expi_reps expcPath expiPath outDir
             finish lpfLoc outDir startDir
         else do
             putStrLn $ "[Compile] Build directory exists, investigating expc changes..."
             setCurrentDirectory outDir
+
             oldExpc <- parse parse_expc "build.expc"
             changed <- pure $ changedComponents (prg_cmps expc) (prg_cmps oldExpc)
             deleted <- pure $ deletedComponents (prg_cmps expc) (prg_cmps oldExpc)
