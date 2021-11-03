@@ -12,7 +12,7 @@ import GHC.IO.Handle
 
 import Preprocessing
 import Postprocessing
--- import ComponentInfo
+import ComponentInfo
 
 
 compileToVerilog :: Program -> IO ()
@@ -67,9 +67,9 @@ combineJSONs basedir = do
         proc "python3" ["/usr/share/ex-part/yosys/merge_json.py", basedir]
     waitForProcess h
 
--- resourceReportJSON :: Program -> IO ()
--- resourceReportJSON program = do
---     result <- loadSynthesized 
---     case result of
---         Nothing -> error "Cannot find synthesized.json"
---         Just j -> encodeFile "resources.json" (extractCInfo j program)
+resourceReportJSON :: Program -> IO ()
+resourceReportJSON program = do
+    result <- loadSynthesized 
+    case result of
+        Nothing -> error "Cannot find synthesized.json"
+        Just j -> encodeFile "resources.json" (extractCInfo j program)

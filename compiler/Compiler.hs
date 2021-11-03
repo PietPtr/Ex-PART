@@ -26,30 +26,55 @@ auto expcPath expiPath lpfName outDir = do
 
     expc <- parse parse_expc expcPath
     expi_reps <- parse (parse_expi $ prg_cmps expc) expiPath
+    newExpiContent <- readFile expiPath
 
     outExists <- doesDirectoryExist outDir
 
+    -- TODO: there are nicer ways to structure this control right?
     if not outExists
         then do
             putStrLn $ "[Compile] No directory found, picking clean flow."
             Flows.clean expc expi_reps expcPath expiPath outDir
             finish lpfLoc outDir startDir
         else do
-            putStrLn $ "[Ex-PART] Build directory exists, investigating changes..."
+            putStrLn $ "[Compile] Build directory exists, investigating expc changes..."
             setCurrentDirectory outDir
             oldExpc <- parse parse_expc "build.expc"
             changed <- pure $ changedComponents (prg_cmps expc) (prg_cmps oldExpc)
-            print (map cmp_name changed)
-
-
+            deleted <- pure $ deletedComponents (prg_cmps expc) (prg_cmps oldExpc)
+            newcmps <- pure $ newComponents (prg_cmps expc) (prg_cmps oldExpc)
+            if (changed /= [] || deleted /= [] || newcmps /= []) 
+                then do
+                    putStrLn $ "[Compile] Changes in expc file found, picking expc flow."
+                    Flows.expcChanged expc expi_reps changed deleted newcmps
+                    finish lpfLoc outDir startDir
+                else do
+                    putStrLn $ "[Compile] No changes in expc file, investigating expi changes... "
+                    oldExpiContent <- readFile "build.expi"
+                    if (newExpiContent /= oldExpiContent)
+                        then do
+                            putStrLn $ "[Compile] Changes in expi file found, picking expi flow."
+                            Flows.expiChanged expc expi_reps
+                            finish lpfLoc outDir startDir
+                        else do
+                            putStrLn "[Compile] No changes to expi. Nothing to do. Finished."
 
     where
         finish lpfLoc outDir startDir = do
+            putStrLn "[Ex-PART] Combining JSONs..."
+            combineJSONs outDir
+
             putStrLn "[Ex-PART] Performing place and route using expi constraints..."
             nextpnr lpfLoc
 
             setCurrentDirectory startDir
-            putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config "
+
+            putStrLn $ "[Ex-PART] Copying source files to build directory..."
+            copyFile expcPath (outDir ++ "/build.expc")
+            copyFile expiPath (outDir ++ "/build.expi")
+
+            putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
+
 
         parse parser path = do
             parsed <- parser path
@@ -80,8 +105,12 @@ auto expcPath expiPath lpfName outDir = do
                     [c'] -> if c' /= c then Just c' else Nothing
                     [] -> Nothing
                     _ -> error "How can there be several components with the same name?"
-        -- vergeet niet een keer een lijstje te maken van deleted components, daar moet ook wat mee
-             
+        
+        deletedComponents :: [Component] -> [Component] -> [Component]
+        deletedComponents news olds = [ c | c <- olds, not ((cmp_name c) `elem` (map cmp_name news)) ]
+            
+        newComponents :: [Component] -> [Component] -> [Component]
+        newComponents news olds = [ c | c <- news, not ((cmp_name c) `elem` (map cmp_name olds)) ]
 
 
 

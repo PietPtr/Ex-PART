@@ -9,7 +9,7 @@ import Data.List
 
 nextpnr :: FilePath -> IO ()
 nextpnr lpf = do
-    processDef <- pure $ (proc "/home/pieter/Education/Thesis/stables/nextpnr/nextpnr-ecp5"
+    processDef <- pure $ (proc "nextpnr-ecp5"
         ["--85k",
          "--json", "combined.json",
          "--lpf", lpf,
