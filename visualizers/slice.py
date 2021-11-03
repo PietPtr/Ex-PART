@@ -5,7 +5,8 @@ import init
 
 class Slice:
     def __init__(self, component_name, x, y, l):
-        self.component_name = init.cell_name_to_json_path(component_name).split(".")[-1]
+        self.component_name = component_name
+        self.display_name = init.cell_name_to_json_path(component_name).split(".")[-1]
         self.x = x
         self.y = y
         self.letter = l
@@ -13,11 +14,11 @@ class Slice:
     def draw(self, screen):
         letter_offset = (ord(self.letter) - 65) * init.SQUARE_SIZE // 4
 
-        pygame.draw.rect(screen, init.color(self.component_name), pygame.Rect(
+        pygame.draw.rect(screen, init.color(self.display_name), pygame.Rect(
             self.x * init.SQUARE_SIZE,
             self.y * init.SQUARE_SIZE + letter_offset, 
             init.SQUARE_SIZE, 
-            init.SQUARE_SIZE // 4))
+            init.SQUARE_SIZE // 4 + 1))
         pass
 
 slices = []
@@ -43,14 +44,16 @@ def build_slices(cells):
             belstr = data['attributes']['NEXTPNR_BEL']
             bel = parse_nextpnr_bel(belstr)
 
-            slices.append(Slice(
+            new_slice = Slice(
                 cmp_name,
                 bel['x'],
                 bel['y'],
                 bel['letter']
-            ))
+            )
 
-            components.add(cmp_name)
+            slices.append(new_slice)
+
+            components.add(new_slice.display_name)
         else:
             pass # probably not one of my cells
 

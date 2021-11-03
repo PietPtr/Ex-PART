@@ -4,6 +4,8 @@ collatz
 gol
 repeat
 chain
+rcgol
+pipeline
 *.hi
 *.dyn_hi
 *.o

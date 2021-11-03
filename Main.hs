@@ -76,9 +76,6 @@ flow expcName expiName lpf outDir = do
     putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
 
-    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
-
     -- debug stuff
     -- setCurrentDirectory startDir
     -- error "done :)"
@@ -96,6 +93,9 @@ flow expcName expiName lpf outDir = do
 
     putStrLn "[Ex-PART] Generating resource usage report..." 
     resourceReportJSON expc
+    
+    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
+    flatten expc expi
 
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi

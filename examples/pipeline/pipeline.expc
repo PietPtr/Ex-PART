@@ -1,0 +1,14 @@
+combinatory {
+
+}
+
+component compute() {
+    input inp : Unsigned 16
+    state s = 0 : Unsigned 16
+    output out : Unsigned 16
+
+    s' = inp
+
+    out = (s * 13) `mod` 17
+
+}

@@ -4,6 +4,7 @@ import time
 import json
 import os
 import random
+import init
 from init import *
 from pprint import pprint
 
@@ -35,10 +36,10 @@ def draw_system(screen, system_list):
         if 'br' in system[key] and 'tl' in system[key]:
             tl = system[key]['tl']
             br = system[key]['br']
-            left = tl['x'] * SQUARE_SIZE
-            top = tl['y'] * SQUARE_SIZE 
-            w = abs(tl['x'] - (br['x'] + 1)) * SQUARE_SIZE 
-            h = abs(tl['y'] - (br['y'] + 1)) * SQUARE_SIZE 
+            left = tl['x'] * init.SQUARE_SIZE
+            top = tl['y'] * init.SQUARE_SIZE 
+            w = abs(tl['x'] - (br['x'] + 1)) * init.SQUARE_SIZE 
+            h = abs(tl['y'] - (br['y'] + 1)) * init.SQUARE_SIZE 
             
             rect_color = color(key)
             pygame.draw.rect(screen, rect_color, pygame.Rect(left, top, w, h))
@@ -48,11 +49,11 @@ def draw_system(screen, system_list):
             if h > w:
                 textsurface = pygame.transform.rotate(textsurface, -90)
 
-            text_offset = SQUARE_SIZE/10
-            if SQUARE_SIZE > 18:
+            text_offset = init.SQUARE_SIZE/10
+            if init.SQUARE_SIZE > 18:
                 screen.blit(
                     textsurface,
-                    (tl['x'] * SQUARE_SIZE + text_offset, tl['y'] * SQUARE_SIZE + text_offset),
+                    (tl['x'] * init.SQUARE_SIZE + text_offset, tl['y'] * init.SQUARE_SIZE + text_offset),
                     area=pygame.Rect(0, 0, w - 2*text_offset, h - 2*text_offset))
         
         else:

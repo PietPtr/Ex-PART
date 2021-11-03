@@ -76,7 +76,7 @@ haskell_data_def = (\a b c d e -> a ++ b ++ c ++ d ++ e) <$>
 
 -- TODO: dit gaat enorm stuk straks op multiline definities, dus ga nou maar de haskell grammar bouwen >:(
 haskell_stat :: Parser String
-haskell_stat = (many1 $ (oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '\t', '\n', '-', '<', '>', '$', '+', '-', '\'', '=', '|', ':']))
+haskell_stat = (many1 $ (oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '\t', '\n', '-', '<', '>', '$', '+', '-', '\'', '=', '|', ':', '*', '`']))
 
 haskell_where :: Parser String
 haskell_where = concat <$> many haskell_where_statement

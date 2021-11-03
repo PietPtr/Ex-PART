@@ -28,6 +28,7 @@ def try_load_pnr():
                 print("Reloaded", bitstream_filename)
             except json.decoder.JSONDecodeError:
                 print("Tried reloading JSON, but found parse errors.")
+                return
 
             try:
                 slice.build_slices(pnr["modules"]["top"]["cells"])

@@ -1,0 +1,15 @@
+system in (26, 26) at (2, 2) {
+    input data_in : Unsigned 16
+    output after_n : Unsigned 16
+
+    chain compute_blocks at (0, 0) {
+        component = compute in (4, 7),
+        amount = 7,
+        layout = horizontal,
+        chain_in = inp,
+        chain_out = out
+    }
+
+    data_in->compute_blocks[0].inp
+    after_n<-compute_blocks[6].out
+}
