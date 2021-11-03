@@ -31,6 +31,7 @@ auto expcPath expiPath lpfName outDir = do
 
     if not outExists
         then do
+            putStrLn $ "[Compile] No directory found, picking clean flow."
             Flows.clean expc expi_reps expcPath expiPath outDir
             finish lpfLoc outDir startDir
         else do
@@ -38,7 +39,7 @@ auto expcPath expiPath lpfName outDir = do
             setCurrentDirectory outDir
             oldExpc <- parse parse_expc "build.expc"
             changed <- pure $ changedComponents (prg_cmps expc) (prg_cmps oldExpc)
-            mapM_ print (map cmp_name changed)
+            print (map cmp_name changed)
 
 
 
@@ -54,7 +55,7 @@ auto expcPath expiPath lpfName outDir = do
             parsed <- parser path
             case parsed of
                 (Left error) -> putStrLn $ "[Ex-PART] Parse error: " ++ show error
-                (Right result) -> putStrLn "[Ex-PART] Succesfully parsed .expi"
+                (Right result) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ path
             guard (isRight parsed)
             pure $ fromRight undefined parsed
 
