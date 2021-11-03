@@ -15,7 +15,8 @@ nextpnr lpf = do
          "--lpf", lpf,
          "--textcfg", "bitstream.config",
          "--write", "bitstream.json",
-         "--pre-place", "/usr/share/ex-part/nextpnr/constrainer.py"
+         "--pre-place", "/usr/share/ex-part/nextpnr/constrainer.py",
+         "--lpf-allow-unconstrained" -- TODO: this should be off by default
         --  "--pre-pack", "/usr/share/ex-part/nextpnr/constrainer.py", --"../debug/pre_pack.py",
         --  "--pre-route", "../debug/pre_route.py"
         ])

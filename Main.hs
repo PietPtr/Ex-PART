@@ -40,7 +40,6 @@ import System.Directory
 --             putStrLn (show err)
 --             return emptySystem
 
--- TODO: uit elkaar trekken zodat verschillende fases los van elkaar gedaan kunnen worden?
 -- flow :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 -- flow expcName expiName lpf outDir = do
 --     startDir <- getCurrentDirectory

@@ -56,34 +56,27 @@ with open("locations.json") as f:
 
 create_regions_system_list([locations])
 
-for cell, cellinfo in ctx.cells:
-    print(cell)
+print(f"Analyzing {len(ctx.cells)} cells.")
 
-for (net, netinfo) in ctx.nets:
-    if "20" in net or "21" in net or "10" in net:
-        print(net)
-        # pprint(cellinfo.ports)
-        # for (port, portinfo) in cellinfo.ports:
-        #     print(port, portinfo)
-        # break
 
-print("\n-----\n")
-
+constrained_ctr = 0
+unconstrained_ctr = 0
 for cell, cellinfo in ctx.cells:
     if 'BEL' in cellinfo.attrs or 'NEXTPNR_BEL' in cellinfo.attrs:
-        pass
+        unconstrained_ctr += 1
     else:
         # TODO: in dit stuk kunnen veel bugs zitten omdat de BEL filtering niet bijzonder specifiek is.
         json_path = cell_name_to_json_path(cell)
 
         if json_path:
-            # if json_path[-2:] in ["00", "01", "02", "11", "12", "22"]:
-            print(f"constrained cell: \n\t{cell} \n\t\tto \n\t{json_path}")
+            # print(f"constrained cell: \n\t{cell} \n\t\tto \n\t{json_path}") 
             ctx.constrainCellToRegion(cell, json_path)
+            constrained_ctr += 1
         else:
-            pass
-            print(f"WARNING: did not constrain cell {cell} as it did not comply with Ex-PART namings.")
+            # print(f"WARNING: did not constrain cell {cell} as it did not comply with Ex-PART namings.")
+            unconstrained_ctr += 1
 
 
+print(f"Constrained {constrained_ctr} cells, left {unconstrained_ctr} cells unconstrained.")
 
 print(f"------------------------ {os.path.basename(__file__)} --------------------------")
