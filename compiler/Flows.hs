@@ -24,7 +24,6 @@ clean expc expi_reps expcPath expiPath outDir = do
     putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
     createDirectoryIfMissing True outDir
     threadDelay 1000 -- TODO: there is a dependence on these statements, but they're executed concurrently...
-
     setCurrentDirectory outDir
 
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
@@ -53,7 +52,6 @@ clean expc expi_reps expcPath expiPath outDir = do
 
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi
-
 
 
 expcChanged :: Program -> System -> [Component] -> [Component] -> [Component] -> IO ()
@@ -103,3 +101,36 @@ expiChanged expc expi_reps = do
 
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi
+
+
+monolithic :: Program -> System -> FilePath -> FilePath -> IO ()
+monolithic expc expi_reps lpfPath outDir = do
+    let outDir' = (slashscrape outDir) ++ "_monolithic"
+
+    putStrLn $ "[Ex-PART] Creating directory `" ++ outDir' ++ "`..."
+    createDirectoryIfMissing True outDir'
+    threadDelay 1000
+    setCurrentDirectory outDir'
+
+    putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
+    expi <- pure $ unroll expc expi_reps
+
+    putStrLn "[Ex-PART] Generating Clash code..."
+    generateClash expc
+
+    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
+    flatten expc expi
+
+    putStrLn "[Ex-PART] Compiling full design to Verilog..."
+    compileFullToVerilog
+
+    putStrLn "[Ex-PART] Synthesizing full design..."
+    synthesizeMonolithic
+
+    putStrLn "[Ex-PART] Performing place and route without expi constraints..."
+    nextpnr False lpfPath
+
+
+    where
+        slashscrape "" = ""
+        slashscrape p = if last p == '/' then init (slashscrape p) else p

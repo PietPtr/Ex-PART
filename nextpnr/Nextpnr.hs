@@ -7,19 +7,18 @@ import GHC.IO.Handle
 
 import Data.List
 
-nextpnr :: FilePath -> IO ()
-nextpnr lpf = do
-    processDef <- pure $ (proc "/home/pieter/Education/Thesis/stables/nextpnr/nextpnr-ecp5"
+nextpnr :: Bool -> FilePath -> IO ()
+nextpnr constrain lpf = do
+    print "LPF is dit:"
+    print lpf
+    processDef <- pure $ (proc "/home/pieter/Education/Thesis/stables/nextpnr/nextpnr-ecp5" $
         ["--85k",
-         "--json", "combined.json",
+         "--json", "synthesized.json",
          "--lpf", lpf,
          "--textcfg", "bitstream.config",
          "--write", "bitstream.json",
-         "--pre-place", "/usr/share/ex-part/nextpnr/constrainer.py",
          "--lpf-allow-unconstrained" -- TODO: this should be off by default
-        --  "--pre-pack", "/usr/share/ex-part/nextpnr/constrainer.py", --"../debug/pre_pack.py",
-        --  "--pre-route", "../debug/pre_route.py"
-        ])
+        ] ++ constrainOptions)
          {std_out=CreatePipe, std_err=CreatePipe}
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess processDef
     stdout <- hGetContents outHandle
@@ -37,3 +36,7 @@ nextpnr lpf = do
         warnsAndErrors stderr = (unlines 
                 $ filter (\l -> ("WARNING" `isPrefixOf` l) || ("ERROR" `isPrefixOf` l)) 
                 $ lines stderr)
+
+        constrainOptions = if constrain
+            then ["--pre-place", "/usr/share/ex-part/nextpnr/constrainer.py"]
+            else []

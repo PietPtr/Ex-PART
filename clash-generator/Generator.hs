@@ -20,6 +20,6 @@ generateClash program@(Program _ _ components) = do
 
 flatten :: Program -> System -> IO ()
 flatten expc expi = do
-    writeFile ((toUpper f):topEntity ++ "_clash.hs") (F.flatten expc expi)
+    writeFile ("Clash.hs") (F.flatten expc expi)
     where
         (f:topEntity) = sys_id expi

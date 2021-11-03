@@ -25,7 +25,7 @@ instance ToJSON CInfo where
 
 
 loadSynthesized :: IO (Maybe Value)
-loadSynthesized = decodeFileStrict "synthesized.json"
+loadSynthesized = decodeFileStrict "base.json"
 
 -- TODO: Aeson heeft hele mooie parser-based manieren om dit te fixen, ipv hacken met hashmaps en filters
 extractCInfo :: Value -> Program -> [CInfo]

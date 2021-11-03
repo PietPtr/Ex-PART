@@ -19,6 +19,7 @@ import System.Directory
 import Data.List.Split
 
 
+
 auto :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 auto expcPath expiPath lpfName outDir = do
     startDir <- getCurrentDirectory
@@ -60,6 +61,7 @@ auto expcPath expiPath lpfName outDir = do
                             finish lpfLoc outDir startDir
                         else do
                             putStrLn "[Compile] No changes to expi. Nothing to do. Finished."
+                            setCurrentDirectory startDir
 
     where
         finish lpfLoc outDir startDir = do
@@ -67,7 +69,7 @@ auto expcPath expiPath lpfName outDir = do
             combineJSONs outDir
 
             putStrLn "[Ex-PART] Performing place and route using expi constraints..."
-            nextpnr lpfLoc
+            nextpnr True lpfLoc
 
             setCurrentDirectory startDir
 
@@ -78,23 +80,7 @@ auto expcPath expiPath lpfName outDir = do
             putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
 
 
-        parse parser path = do
-            parsed <- parser path
-            case parsed of
-                (Left error) -> putStrLn $ "[Ex-PART] Parse error: " ++ show error
-                (Right result) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ path
-            guard (isRight parsed)
-            pure $ fromRight undefined parsed
-
-        -- TODO: maak dus van een cmp list een set?
-        -- equalCmpLists :: [Component] -> [Component] -> Bool
-        -- equalCmpLists [] _ = True -- TODO: weird or dangerous notion of equality here...
-        -- equalCmpLists (c:cmps) cmps' = same && (equalCmpLists cmps cmps')
-        --     where
-        --         same = case [c' | c'@Component {cmp_name=name'} <- cmps', name' == cmp_name c] of
-        --             [c'] -> c' == c
-        --             [] -> False
-        --             _ -> error "How can there be several components with the same name?"
+        
 
         changedComponents :: [Component] -> [Component] -> [Component]
         changedComponents [] olds = error "No components in expc file..."
@@ -114,18 +100,40 @@ auto expcPath expiPath lpfName outDir = do
         newComponents :: [Component] -> [Component] -> [Component]
         newComponents news olds = [ c | c <- news, not ((cmp_name c) `elem` (map cmp_name olds)) ]
 
-
-
+parse :: Show a => (FilePath -> IO (Either a b)) -> FilePath -> IO b
+parse parser path = do
+    parsed <- parser path
+    case parsed of
+        (Left error) -> putStrLn $ "[Ex-PART] Parse error: " ++ show error
+        (Right result) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ path
+    guard (isRight parsed)
+    pure $ fromRight undefined parsed
 
 clean :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
-clean = undefined
+clean expcPath expiPath lpfName outDir = do
+    exists <- doesPathExist outDir
+    if exists
+        then removeDirectoryRecursive outDir
+        else pure ()
+    auto expcPath expiPath lpfName outDir
+
+monolithic :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+monolithic expcPath expiPath lpfPath outDir = do
+    -- TODO: doesn't absolutize paths, whose responsibility is that?
+    startDir <- getCurrentDirectory
+    expc <- parse parse_expc expcPath
+    expi_reps <- parse (parse_expi $ prg_cmps expc) expiPath
+
+    Flows.monolithic expc expi_reps lpfPath outDir
+
+    setCurrentDirectory startDir
+    putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
 
 
 -- Easy helper function for consistently named projects
-make prj = auto
-    (path ++ ".expc")
-    (path ++ ".expi")
-    (path ++ ".lpf")
-    prj
-    where
-        path = "examples/" ++ prj ++ "/" ++ prj
+make flow prj = do
+    let path = "examples/" ++ prj ++ "/" ++ prj
+    expcPath <- makeAbsolute (path ++ ".expc")
+    expiPath <- makeAbsolute (path ++ ".expi")
+    lpfPath <- makeAbsolute (path ++ ".lpf")
+    flow expcPath expiPath lpfPath prj

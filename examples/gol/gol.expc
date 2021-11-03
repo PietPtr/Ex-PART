@@ -56,27 +56,3 @@ component grouper() {
     o = in1:>in2:>in3:>Nil
     c = Dead
 }
-
-component dummy2() {
-    input a : State
-    output b : State
-
-    b = a
-}
-
-component dummy3() {
-    input a : State
-    state s : State
-    output b : State
-
-    s' = a
-
-    b = s
-}
-
-component dummy4() {
-    input a : State
-    output b : State
-
-    b = a
-}

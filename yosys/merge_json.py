@@ -6,7 +6,7 @@ import sys
 with open("interconnect.json") as f:
     new_modules = json.load(f)
 
-with open("synthesized.json") as f:
+with open("base.json") as f:
     old_data = json.load(f)
 
 del old_data["modules"]["\\$top"]
@@ -16,5 +16,5 @@ for module in new_modules:
     for (module_name, module_data) in module.items():
         old_data["modules"][module_name] = module_data
 
-with open("combined.json", 'w') as f:
+with open("synthesized.json", 'w') as f:
     json.dump(old_data, f)

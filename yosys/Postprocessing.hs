@@ -111,10 +111,6 @@ instance ToJSON CellConn where
             (pack name) .= bits
         ]
 
-
-parseTest :: IO (Maybe Value)
-parseTest = decodeFileStrict "testenv/synthesized.json"
-
 makeTopModule :: Program -> System -> [Module]
 makeTopModule program system = makeModules True program system
 

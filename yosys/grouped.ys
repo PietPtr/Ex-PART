@@ -1,2 +1,2 @@
 read_verilog builds/.grouped/build.grouped.v
-synth_ecp5 -noccu2 -nomux -nobram -nodram -noflatten -nodsp -json synthesized.json
+synth_ecp5 -noccu2 -nomux -nobram -nodram -noflatten -nodsp -json base.json
