@@ -219,4 +219,5 @@ typeToBitwidth t = case t of
         "Unsigned 8" -> 8
         "Unsigned 16" -> 16
         "Bool" -> 1
+        "Bitwidth" -> 16
         other -> error $ "Cannot find bitwidth of type " ++ other

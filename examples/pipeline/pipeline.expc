@@ -2,10 +2,12 @@ combinatory {
 
 }
 
+type Bitwidth = Unsigned 16
+
 component compute() {
-    input inp : Unsigned 16
-    state s = 0 : Unsigned 16
-    output out : Unsigned 16
+    input inp : Bitwidth
+    state s = 0 : Bitwidth
+    output out : Bitwidth
 
     s' = inp
 

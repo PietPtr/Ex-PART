@@ -62,10 +62,10 @@ while True:
     for s in slice.slices:
         s.draw(screen)
 
-    legend.draw_legend(screen, slice.components)
-
     draw_grid(screen)
     draw_ranges(screen)
+    
+    legend.draw_legend(screen, slice.components)
 
     pygame.display.flip()
     time.sleep(0.1)

@@ -9,6 +9,7 @@ import Data.List
 
 nextpnr :: Bool -> FilePath -> IO ()
 nextpnr constrain lpf = do
+    -- TODO: somehow somewhere _configure_ this instead of this crap
     processDef <- pure $ (proc "/home/pieter/Education/Thesis/stables/nextpnr/nextpnr-ecp5" $
         ["--85k",
          "--json", "synthesized.json",

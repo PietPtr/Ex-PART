@@ -1,9 +1,9 @@
 system in (26, 26) at (2, 2) {
-    input data_in : Unsigned 16
-    output after_n : Unsigned 16
+    input data_in : Bitwidth
+    output after_n : Bitwidth
 
     chain compute_blocks at (0, 0) {
-        component = compute in (6, 8),
+        component = compute in (5, 10),
         amount = 7,
         layout = horizontal,
         chain_in = inp,

@@ -47,9 +47,6 @@ clean expc expi_reps expcPath expiPath outDir = do
     putStrLn "[Ex-PART] Synthesizing components to JSON..."
     synthesizeTop
 
-    putStrLn "[Ex-PART] Generating resource usage report..." 
-    resourceReportJSON expc
-
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi
 
@@ -80,9 +77,6 @@ expcChanged expc expi_reps changed deleted newcmps = do
 
     putStrLn "[Ex-PART] Synthesizing components to JSON..."
     synthesizeTop
-
-    putStrLn "[Ex-PART] Generating resource usage report..." 
-    resourceReportJSON expc
 
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi

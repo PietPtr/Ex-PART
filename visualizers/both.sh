@@ -1,4 +1,4 @@
 #!/bin/bash
 
-python postpnr.py $1 &
-python locations.py $1 &
+python3.6 postpnr.py $1 &
+python3.6 locations.py $1 &
