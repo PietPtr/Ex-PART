@@ -9,8 +9,6 @@ import Data.List
 
 nextpnr :: Bool -> FilePath -> IO ()
 nextpnr constrain lpf = do
-    print "LPF is dit:"
-    print lpf
     processDef <- pure $ (proc "/home/pieter/Education/Thesis/stables/nextpnr/nextpnr-ecp5" $
         ["--85k",
          "--json", "synthesized.json",

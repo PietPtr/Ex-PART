@@ -58,13 +58,14 @@ while True:
     """
     screen.fill((221, 231, 251))
 
-    draw_grid(screen)
-    draw_ranges(screen)
 
     for s in slice.slices:
         s.draw(screen)
 
     legend.draw_legend(screen, slice.components)
+
+    draw_grid(screen)
+    draw_ranges(screen)
 
     pygame.display.flip()
     time.sleep(0.1)

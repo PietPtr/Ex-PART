@@ -4,17 +4,22 @@ import pygame
 import init
 
 class Slice:
-    def __init__(self, component_name, x, y, l):
+    def __init__(self, component_name, x, y, l, active):
         self.component_name = component_name
         self.display_name = init.cell_name_to_json_path(component_name).split(".")[-1]
         self.x = x
         self.y = y
         self.letter = l
+        self.active = active
 
     def draw(self, screen):
         letter_offset = (ord(self.letter) - 65) * init.SQUARE_SIZE // 4
 
-        pygame.draw.rect(screen, init.color(self.display_name), pygame.Rect(
+        color = pygame.Color(init.color(self.display_name))
+        gray = (color.r + color.g + color.b) // 3
+        color = color if self.active else (gray, gray, gray)
+
+        pygame.draw.rect(screen, color, pygame.Rect(
             self.x * init.SQUARE_SIZE,
             self.y * init.SQUARE_SIZE + letter_offset, 
             init.SQUARE_SIZE, 
@@ -48,13 +53,30 @@ def build_slices(cells):
                 cmp_name,
                 bel['x'],
                 bel['y'],
-                bel['letter']
+                bel['letter'],
+                True
             )
 
             slices.append(new_slice)
 
             components.add(new_slice.display_name)
         else:
-            pass # probably not one of my cells
+            belstr = data['attributes']['NEXTPNR_BEL']
+            try:
+                bel = parse_nextpnr_bel(belstr)
+            except KeyError:
+                print(f"Unknown BEL format {belstr}")
+            
+            if bel:
+                new_slice = Slice(
+                    cellname.split('_')[0],
+                    bel['x'],
+                    bel['y'],
+                    bel['letter'],
+                    False
+                )
+
+                slices.append(new_slice)
+
 
     components = sorted(list(components))
