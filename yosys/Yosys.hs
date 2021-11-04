@@ -65,8 +65,8 @@ synthesizeTop = do
         {std_err=CreatePipe, std_out=CreatePipe}
     stdout <- hGetContents outHandle
     stderr <- hGetContents errHandle
-    writeFile "builds/.grouped/yosys.log" stdout
-    writeFile "builds/.grouped/yosys.err" stderr
+    writeFile "yosys.log" stdout
+    writeFile "yosys.err" stderr
     code <- waitForProcess processHandle
 
     case code of
@@ -92,23 +92,6 @@ synthesizeMonolithic = do
             error $ "Yosys terminated with code " ++ show code
         ExitSuccess -> pure ()
 
-
--- synthesizeClash :: IO ()
--- synthesizeClash = do
---     (_, Just outHandle, Just errHandle, processHandle) <- createProcess $ 
---         (proc "yosys" ["/usr/share/ex-part/yosys/grouped.ys"])
---         {std_err=CreatePipe, std_out=CreatePipe}
---     stdout <- hGetContents outHandle
---     stderr <- hGetContents errHandle
---     writeFile "builds/.grouped/yosys.log" stdout
---     writeFile "builds/.grouped/yosys.err" stderr
---     code <- waitForProcess processHandle
-
---     case code of
---         ExitFailure code -> do
---             putStr $ "[Yosys] " ++ stderr
---             error $ "Yosys terminated with code " ++ show code
---         ExitSuccess -> pure ()
 
 
 customConnect program system = 

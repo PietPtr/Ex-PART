@@ -88,7 +88,6 @@ while True:
     draw_system(screen, locations)
     draw_ranges(screen)
 
-
     pygame.display.flip()
     time.sleep(0.1)
     try_load_locs()
