@@ -69,7 +69,7 @@ auto expcPath expiPath lpfName outDir = do
             combineJSONs outDir
 
             putStrLn "[Ex-PART] Performing place and route using expi constraints..."
-            nextpnr True lpfLoc
+            nextpnr lpfLoc ["--pre-place", "/usr/share/ex-part/nextpnr/constrainer.py"]
 
             setCurrentDirectory startDir
 
@@ -128,6 +128,16 @@ monolithic expcPath expiPath lpfPath outDir = do
 
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
+
+resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+resource expcPath expiPath lpfPath outDir = do
+    startDir <- getCurrentDirectory
+    expc <- parse parse_expc expcPath
+
+    Flows.resource expc lpfPath outDir
+
+    setCurrentDirectory startDir
+    putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
 
 -- Easy helper function for consistently named projects

@@ -11,6 +11,7 @@ import Nextpnr
 import Data.Either
 import Data.Aeson
 import Data.Text (pack, unpack)
+import Data.List
 import qualified Data.Map as Map
 import Control.Monad
 import Control.Concurrent
@@ -122,9 +123,59 @@ monolithic expc expi_reps lpfPath outDir = do
     synthesizeMonolithic
 
     putStrLn "[Ex-PART] Performing place and route without expi constraints..."
-    nextpnr False lpfPath
-
+    nextpnr lpfPath []
 
     where
         slashscrape "" = ""
         slashscrape p = if last p == '/' then init (slashscrape p) else p
+
+-- Compile flow that synthesizes/place & routes everything of all components separately s.t.
+-- resource usage of individual components can be analyzed
+-- Can be used as clean build, and after folder has been made.
+resource :: Program -> FilePath -> FilePath -> IO ()
+resource expc lpfPath outDir = do
+    lpfLoc <- makeAbsolute lpfPath
+    putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
+    createDirectoryIfMissing True outDir
+    threadDelay 1000
+    setCurrentDirectory outDir
+
+
+    buildsExist <- doesPathExist "builds"
+    if not buildsExist then do
+        putStrLn "[Ex-PART] Generating Clash code..."
+        generateClash expc
+
+        putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
+        compileToVerilog expc
+    else do
+        putStrLn "[Ex-PART] `builds` folder exists, skipping Clash compilation (run clean compile manually if outdated)"
+
+
+    setCurrentDirectory "builds/"
+    components' <- listDirectory "."
+    let components = filter (\path -> not $ isPrefixOf "." path) components'
+    
+    -- synthesize every component in builds/
+    putStrLn "[Ex-PART] Synthesizing component..."
+    mapM_ synthesizeIndividual components
+
+    -- place and route every component in builds/
+    putStrLn "[Ex-PART] Placing and routing component..."
+    mapM_ (pnrOne lpfLoc) components
+
+    where
+        runToolOn cmpName tool = do
+            putStrLn $ "        | ..." ++ cmpName
+            setCurrentDirectory cmpName
+            tool
+            setCurrentDirectory ".."
+
+        pnrOne lpfLoc cmpName = runToolOn cmpName $
+            nextpnr lpfLoc ["--out-of-context"]
+            
+        
+        synthesizeIndividual cmpName = runToolOn cmpName $
+            runYosys ["-p", 
+                "read_verilog hdl/Main.topEntity/" ++ cmpName ++ ".v; " 
+                ++ synth_ecp5 ++ " -json synthesized.json"]

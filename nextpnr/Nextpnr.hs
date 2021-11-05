@@ -7,17 +7,16 @@ import GHC.IO.Handle
 
 import Data.List
 
-nextpnr :: Bool -> FilePath -> IO ()
-nextpnr constrain lpf = do
+nextpnr :: FilePath -> [String] -> IO ()
+nextpnr lpf options = do
     -- TODO: somehow somewhere _configure_ this instead of this crap
     processDef <- pure $ (proc "/home/pieter/Education/Thesis/stables/nextpnr/nextpnr-ecp5" $
         ["--85k",
          "--json", "synthesized.json",
          "--lpf", lpf,
-         "--textcfg", "bitstream.config",
          "--write", "bitstream.json",
          "--lpf-allow-unconstrained" -- TODO: this should be off by default
-        ] ++ constrainOptions)
+        ] ++ options ++ bitstreamOptions)
          {std_out=CreatePipe, std_err=CreatePipe}
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess processDef
     stdout <- hGetContents outHandle
@@ -36,6 +35,6 @@ nextpnr constrain lpf = do
                 $ filter (\l -> ("WARNING" `isPrefixOf` l) || ("ERROR" `isPrefixOf` l)) 
                 $ lines stderr)
 
-        constrainOptions = if constrain
-            then ["--pre-place", "/usr/share/ex-part/nextpnr/constrainer.py"]
-            else []
+        bitstreamOptions = if ("--out-of-context" `elem` options)
+            then []
+            else ["--textcfg", "bitstream.config"]

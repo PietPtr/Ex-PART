@@ -13,6 +13,8 @@ import GHC.IO.Handle
 import Preprocessing
 import Postprocessing
 
+synth_ecp5 = "synth_ecp5 -noccu2 -nomux -nobram -nodram -noflatten -nodsp"
+
 
 compileToVerilog :: Program -> IO ()
 compileToVerilog (Program _ _ components) = do
@@ -58,26 +60,18 @@ groupVerilogs (Program _ _ components) = do
         cmpNames = map cmp_name components
 
 synthesizeTop :: IO ()
-synthesizeTop = do
-    (_, Just outHandle, Just errHandle, processHandle) <- createProcess $ 
-        (proc "yosys" ["/usr/share/ex-part/yosys/grouped.ys"])
-        {std_err=CreatePipe, std_out=CreatePipe}
-    stdout <- hGetContents outHandle
-    stderr <- hGetContents errHandle
-    writeFile "yosys.log" stdout
-    writeFile "yosys.err" stderr
-    code <- waitForProcess processHandle
-
-    case code of
-        ExitFailure code -> do
-            putStr $ "[Yosys] " ++ stderr
-            error $ "Yosys terminated with code " ++ show code
-        ExitSuccess -> pure ()
+synthesizeTop =
+    runYosys ["/usr/share/ex-part/yosys/grouped.ys"]
 
 synthesizeMonolithic :: IO ()
-synthesizeMonolithic = do
+synthesizeMonolithic =
+    runYosys ["/usr/share/ex-part/yosys/monolithic.ys"]
+
+
+runYosys :: [String] -> IO ()
+runYosys args = do
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess $ 
-        (proc "yosys" ["/usr/share/ex-part/yosys/monolithic.ys"])
+        (proc "yosys" args)
         {std_err=CreatePipe, std_out=CreatePipe}
     stdout <- hGetContents outHandle
     stderr <- hGetContents errHandle
@@ -90,7 +84,6 @@ synthesizeMonolithic = do
             putStr $ "[Yosys] " ++ stderr
             error $ "Yosys terminated with code " ++ show code
         ExitSuccess -> pure ()
-
 
 
 customConnect program system = 
