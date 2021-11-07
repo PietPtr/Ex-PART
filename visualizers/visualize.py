@@ -87,10 +87,10 @@ while True:
     """
     screen.fill((221, 231, 251))
 
-    systems.draw_system_rects(screen, locations)
 
     for s in slice.slices:
         s.draw(screen)
+    systems.draw_system_rects(screen, locations)
         
     draw_grid(screen)
     draw_ranges(screen)
