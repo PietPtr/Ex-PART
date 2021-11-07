@@ -1,0 +1,10 @@
+stat              Ex-PART     Monolithic
+----------------  ----------  ------------
+LUT usage         55          9
+Slice usage       30          6
+Max frequency     510.20 MHz  537.63 MHz
+Flip-flop usage   88          16
+Synthesis time    0.51s       0.47s
+HeAP placer time  0.03s       0.03s
+SA placer time    0.01s       0.00s
+Router1 time      0.05s       0.01s

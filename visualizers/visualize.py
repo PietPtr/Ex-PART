@@ -9,65 +9,9 @@ import slice
 import legend
 from init import *
 import systems
+import files
 
 screen = pygame.display.set_mode(size)
-
-last_load_pnr = 0
-last_load_loc = 0
-locations = []
-
-bitstream_filename = sys.argv[1] + "/bitstream.json"
-locations_filename = sys.argv[1] + "/locations.json"
-
-def try_load_pnr():
-    global last_load_pnr
-    
-    try:
-        last_mod = os.path.getmtime(bitstream_filename)
-    except FileNotFoundError:
-        
-        return 
-
-    if (last_mod > last_load_pnr):
-        with open(bitstream_filename) as loc_file:
-            try:
-                pnr = json.load(loc_file)
-                last_load_pnr = time.time()
-                print("Reloaded", bitstream_filename)
-            except json.decoder.JSONDecodeError:
-                print("Tried reloading JSON, but found parse errors.")
-                return
-
-            try:
-                slice.build_slices(pnr["modules"]["top"]["cells"])
-            except KeyError:
-                print("Bitstream not in correct format.")
-
-
-def try_load_locs():
-    global locations
-    global last_load_loc
-    
-    try:
-        last_mod = os.path.getmtime(locations_filename)
-    except FileNotFoundError:
-        locations = []
-        return 
-
-    if (last_mod > last_load_loc):
-        with open(locations_filename) as loc_file:
-            try:
-                locations = [json.load(loc_file)]
-                last_load_loc = time.time()
-                print("Reloaded", locations_filename)
-            except json.decoder.JSONDecodeError:
-                print("Tried reloading JSON, but found parse errors.")
-
-
-try_load_pnr()
-try_load_locs()
-
-
 
 
 while True:
@@ -90,16 +34,17 @@ while True:
 
     for s in slice.slices:
         s.draw(screen)
-    systems.draw_system_rects(screen, locations)
+    systems.draw_system_rects(screen, files.locations)
         
     draw_grid(screen)
     draw_ranges(screen)
 
-    systems.draw_system_labels(screen, locations)
+    systems.draw_system_labels(screen, files.locations)
     
     legend.draw_legend(screen, slice.components)
+    files.draw_file_indicators(screen)
 
     pygame.display.flip()
     time.sleep(0.1)
-    try_load_pnr()
-    try_load_locs()
+    files.try_load_pnr()
+    files.try_load_locs()

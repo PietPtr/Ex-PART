@@ -6,5 +6,5 @@ install:
 	mkdir -p /usr/share/ex-part/yosys
 	cp yosys/merge_json.py /usr/share/ex-part/yosys/
 	cp yosys/grouped.ys /usr/share/ex-part/yosys/
-	cp yosys/monolithic.ys /usr/share/ex-part/yosys/
+	cp yosys/monolithic.ys /usr/share/ex-part/yosys/ # TODO: misschien gewoon met -p doen?
 	cp nextpnr/constrainer.py /usr/share/ex-part/nextpnr/

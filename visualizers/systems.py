@@ -2,6 +2,7 @@
 import pygame
 import init
 from init import *
+import files
 
 def draw_system_rects(screen, system_list):
     for system in system_list:
