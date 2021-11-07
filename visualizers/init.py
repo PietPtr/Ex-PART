@@ -30,7 +30,14 @@ def color(name):
         (sum(n[1::3]) * mods[1]) % 255,
         (sum(n[2::3]) * mods[2]) % 255
     )
-    return color
+    return pygame.Color(color)
+
+def mute(color):
+    mute_one = lambda c : min(c + 100, 255)
+    r = mute_one(color.r)
+    g = mute_one(color.g)
+    b = mute_one(color.b)
+    return pygame.Color((r, g, b))
 
 # TODO: color module
 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
