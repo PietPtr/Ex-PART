@@ -1,4 +1,4 @@
-system in (26, 26) at (2, 2) {
+system in (26, 26) at (3, 2) {
     output slowResult : Unsigned 4
     output fastResult : Unsigned 4
 

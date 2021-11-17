@@ -1,0 +1,16 @@
+combinatory {
+
+}
+
+type Bitwidth = Unsigned 16
+
+component compute() {
+    input inp : Bitwidth
+    state s = 0 : Bitwidth
+    output out : Bitwidth
+
+    s' = inp
+
+    out = (s * 13) `mod` 17
+
+}

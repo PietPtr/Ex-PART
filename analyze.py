@@ -94,10 +94,10 @@ def rout1_time(logs):
 
 # TODO: zet een * bij de beste?
 stats = [
-    Statistic("LUT usage", lut_usage),
-    Statistic("Slice usage", slice_usage),
+    Statistic("LUTs used", lut_usage),
+    Statistic("Slices used", slice_usage),
     Statistic("Max frequency", max_frequency),
-    Statistic("Flip-flop usage", ff_usage),
+    Statistic("Flip-flops used", ff_usage),
     Statistic("Synthesis time", synth_time),
     Statistic("HeAP placer time", heap_time),
     Statistic("SA placer time", sa_time),

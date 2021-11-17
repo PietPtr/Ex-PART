@@ -41,7 +41,7 @@ while True:
 
     systems.draw_system_labels(screen, files.locations)
     
-    legend.draw_legend(screen, slice.components)
+    # legend.draw_legend(screen, slice.components)
     files.draw_file_indicators(screen)
 
     pygame.display.flip()
