@@ -1,9 +1,10 @@
-module Repetition where
+module Unroll where
 
 import Types
 import Chain
 import Repeat
 import Multiconnection
+-- import Constant
 
 -- Ensures all repetitions and multiconnections are unrolled into instances and connections
 -- TODO: split up data types such that this guarantee is type-checkable?
@@ -30,3 +31,4 @@ unrollRepetition :: Repetition -> ([Component] -> [Instance])
 unrollRepetition rep = case rep of
     Chain {} -> (\cs -> unrollChain cs rep)
     Repeat {} -> (\cs -> unrollRepeat cs rep)
+

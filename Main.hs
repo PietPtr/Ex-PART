@@ -7,7 +7,7 @@ import Compiler
 
 import Types
 import Parser
-import Repetition
+import Unroll
 import Generator
 import JSONBuilder
 import Yosys

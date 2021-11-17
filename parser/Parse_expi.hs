@@ -7,6 +7,7 @@ import Text.ParserCombinators.Parsec.Language
 
 import Parse_shared 
 import Types
+import Debug.Trace
 -- TODO: Waarom is er hier zo veel in snake_case?
 
 {-
@@ -194,18 +195,21 @@ coord_bottom
     <|>     (CY      <$> identifier <* char '.' <* char 'y' )
 
 
-ltr_rtl :: (a -> a -> b) -> Parser a -> Parser b
-ltr_rtl f p = try ltr <|> rtl
+ltr_rtl :: (a -> a -> b) -> Parser a -> Parser a -> Parser b
+ltr_rtl f p_from p_to = try ltr <|> rtl
     where
         ltr = f
-            <$> (p <* ows <* string "->" <* ows)
-            <*> p
+            <$> (p_from <* ows <* string "->" <* ows)
+            <*> p_to
         rtl = (\b a -> f a b)
-            <$> (p <* ows <* string "<-" <* ows)
-            <*> p
+            <$> (p_to <* ows <* string "<-" <* ows)
+            <*> p_from
 
 connection :: Parser Connection
-connection = ltr_rtl Connection cid
+connection = ltr_rtl Connection p_from cid
+    where
+        p_from = cid <|> constant_driver
+
 
 cid :: Parser CID
 cid = 
@@ -216,7 +220,7 @@ cid =
         subscript = (\i -> '_' : show i) <$> (char '[' *> integer <* char ']')
 
 multiconnection :: Parser MultiConnection
-multiconnection = ltr_rtl MultiConn mcid
+multiconnection = ltr_rtl MultiConn mcid mcid
 
 mcid :: Parser MCID
 mcid = 
@@ -226,3 +230,16 @@ mcid =
         construct s r p = MCID s p r
         range = Range <$> (char '[' *> integer) <*> (char '-' *> integer <* char ']')
         
+constant_driver :: Parser CID
+constant_driver = (\pl c pr -> ConstantDriver $ pl ++ c ++ pr) <$> 
+    (string "(") <*> const <*> (string ")")
+    where
+
+        symbols = ['0'..'9'] ++ ['a'..'z'] ++ ['A'..'Z'] ++ [' ']
+        text = (many1 $ oneOf symbols)
+
+        const = 
+            try ((\tl pl c pr tr -> tl ++ pl ++ c ++ pr ++ tr) <$> 
+                (option "" text) <*> string "(" <*> const <*> string ")" <*> (option "" text))
+            <|> text
+

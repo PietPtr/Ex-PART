@@ -148,7 +148,9 @@ data ConstExpr
 
 data Connection = Connection CID CID
     deriving (Show, Eq)
-data CID = CID String String -- system port
+data CID 
+    = CID String String -- system port
+    | ConstantDriver String
     deriving (Show, Eq, Ord)
 
 data MultiConnection = MultiConn MCID MCID

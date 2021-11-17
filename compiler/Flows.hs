@@ -2,7 +2,7 @@ module Flows where
 
 import Types
 import Parser
-import Repetition
+import Unroll
 import Generator
 import JSONBuilder
 import Yosys
@@ -141,15 +141,15 @@ resource expc lpfPath outDir = do
     setCurrentDirectory outDir
 
 
-    buildsExist <- doesPathExist "builds"
-    if not buildsExist then do
-        putStrLn "[Ex-PART] Generating Clash code..."
-        generateClash expc
+    -- buildsExist <- doesPathExist "builds"
+    -- if not buildsExist then do
+    putStrLn "[Ex-PART] Generating Clash code..."
+    generateClash expc
 
-        putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
-        compileToVerilog expc
-    else do
-        putStrLn "[Ex-PART] `builds` folder exists, skipping Clash compilation (run clean compile manually if outdated)"
+    putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
+    compileToVerilog expc
+    -- else do
+    --     putStrLn "[Ex-PART] `builds` folder exists, skipping Clash compilation (run clean compile manually if outdated)"
 
 
     setCurrentDirectory "builds/"

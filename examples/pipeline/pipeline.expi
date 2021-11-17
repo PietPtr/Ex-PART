@@ -4,12 +4,12 @@ system in (26, 26) at (2, 2) {
 
     chain compute_blocks at (0, 0) {
         component = compute in (7, 4),
-        amount = 7,
+        amount = 8,
         layout = horizontal,
         chain_in = inp,
         chain_out = out
     }
 
     data_in->compute_blocks[1].inp
-    after_n<-compute_blocks[7].out
+    after_n<-compute_blocks[8].out
 }

@@ -2,7 +2,7 @@ module Compiler where
 
 import Types
 import Parser
-import Repetition
+import Unroll
 import Generator
 import JSONBuilder
 import Yosys
@@ -35,11 +35,11 @@ auto expcPath expiPath lpfName outDir = do
     -- TODO: there are nicer ways to structure this control right?
     if (not outExists || not sourcesExist)
         then do
-            putStrLn $ "[Compile] No directory or old source files found, picking clean flow."
+            putStrLn $ "[Ex-PART] No directory or old source files found, picking clean flow."
             Flows.clean expc expi_reps expcPath expiPath outDir
             finish lpfLoc outDir startDir
         else do
-            putStrLn $ "[Compile] Build directory exists, investigating expc changes..."
+            putStrLn $ "[Ex-PART] Build directory exists, investigating expc changes..."
             setCurrentDirectory outDir
 
             oldExpc <- parse parse_expc "build.expc"
@@ -48,19 +48,19 @@ auto expcPath expiPath lpfName outDir = do
             newcmps <- pure $ newComponents (prg_cmps expc) (prg_cmps oldExpc)
             if (changed /= [] || deleted /= [] || newcmps /= []) 
                 then do
-                    putStrLn $ "[Compile] Changes in expc file found, picking expc flow."
+                    putStrLn $ "[Ex-PART] Changes in expc file found, picking expc flow."
                     Flows.expcChanged expc expi_reps changed deleted newcmps
                     finish lpfLoc outDir startDir
                 else do
-                    putStrLn $ "[Compile] No changes in expc file, investigating expi changes... "
+                    putStrLn $ "[Ex-PART] No changes in expc file, investigating expi changes... "
                     oldExpiContent <- readFile "build.expi"
                     if (newExpiContent /= oldExpiContent)
                         then do
-                            putStrLn $ "[Compile] Changes in expi file found, picking expi flow."
+                            putStrLn $ "[Ex-PART] Changes in expi file found, picking expi flow."
                             Flows.expiChanged expc expi_reps
                             finish lpfLoc outDir startDir
                         else do
-                            putStrLn "[Compile] No changes to expi. Nothing to do. Finished."
+                            putStrLn "[Ex-PART] No changes to expi. Nothing to do. Finished."
                             setCurrentDirectory startDir
 
     where
