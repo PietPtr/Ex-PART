@@ -7,10 +7,10 @@ import Repeat -- chain is a specialization of repeat
 
 -- todo: swap arguments here instead of in lambda?
 unrollChain :: [Component] -> Repetition -> [Instance]
-unrollChain cmps chain = map (makeInstance cmps chain) [0..(chn_amount chain - 1)]
+unrollChain cmps chain = map (makeInstance cmps chain) [1..(chn_amount chain)]
 
 chainConnections :: Repetition -> [Connection]
-chainConnections chain = map makeConnection [0..(chn_amount - 2)]
+chainConnections chain = map makeConnection [1..(chn_amount - 1)]
     where
         Chain {..} = chain
 

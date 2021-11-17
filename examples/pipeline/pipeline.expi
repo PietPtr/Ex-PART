@@ -10,6 +10,6 @@ system in (26, 26) at (2, 2) {
         chain_out = out
     }
 
-    data_in->compute_blocks[0].inp
-    after_n<-compute_blocks[6].out
+    data_in->compute_blocks[1].inp
+    after_n<-compute_blocks[7].out
 }

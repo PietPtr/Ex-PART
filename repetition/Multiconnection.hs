@@ -12,10 +12,9 @@ unrollMulticonn reps (MultiConn from to) = if length from' == length to'
 
 unrollMCID :: [Repetition] -> MCID -> [CID] -- if resulting cid lists don't match higher up, error
 unrollMCID reps (MCID repName portName range) = case range of
-    All -> map makeCID [0..(repetitionAmount rep - 1)]
+    All -> map makeCID [1..(repetitionAmount rep)]
     Range start end -> map makeCID [start..end]
     where
-        
         rep = case filter (\r -> repetitionName r == repName) reps of
             (x:_) -> x
             [] -> error $ "Cannot find repetition with name `" ++ repName ++ 

@@ -5,7 +5,7 @@ import Types
 
 
 unrollRepeat :: [Component] -> Repetition -> [Instance]
-unrollRepeat cmps rep = map (makeInstance cmps rep) [0..(rep_amount rep - 1)]
+unrollRepeat cmps rep = map (makeInstance cmps rep) [1..(rep_amount rep)]
      
 
 makeInstance :: [Component] -> Repetition -> Integer -> Instance
@@ -32,7 +32,7 @@ makeInstance cmps rep i = Instance {
 
 
 makeCoords :: String -> String -> Coords -> Integer -> Coords
-makeCoords name layout coords 0 = coords
+makeCoords name layout coords 1 = coords
 makeCoords name layout coords i = case layout of
     "horizontal" -> (CAdd prevX (CWidth n), y)
     "vertical" -> (x, CAdd prevY (CHeight n))
