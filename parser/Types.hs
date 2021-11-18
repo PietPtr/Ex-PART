@@ -143,7 +143,7 @@ data UnplacedInstance = UnplacedInstance String [ConstExpr] Size
 
 data ConstExpr 
     = Constant Integer 
-    -- | HaskellData String 
+    | HaskellData String 
     deriving (Show, Eq)
 
 data Connection = Connection CID CID
