@@ -21,14 +21,14 @@ import Data.List.Split
 -- All compile flows in this file assume that they are in the correct output directory
 -- except for clean, which creates the directory.
 clean :: Program -> System -> FilePath -> FilePath -> FilePath -> IO ()
-clean expc expi_reps expcPath expiPath outDir = do
+clean expc_rolled expi_rolled expcPath expiPath outDir = do
     putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
     createDirectoryIfMissing True outDir -- TODO: maak dit misschien een functie zodat de drie statements niet gekopieerd hoeven?
     threadDelay 1000 -- TODO: there is a dependence on these statements, but they're executed concurrently...
     setCurrentDirectory outDir
 
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
-    expi <- pure $ unroll expc expi_reps
+    (expc, expi) <- pure $ unroll expc_rolled expi_rolled
 
     putStrLn "[Ex-PART] Generating locations.json..."
     writeLocationsJSON expi
@@ -53,10 +53,10 @@ clean expc expi_reps expcPath expiPath outDir = do
 
 
 expcChanged :: Program -> System -> [Component] -> [Component] -> [Component] -> IO ()
-expcChanged expc expi_reps changed deleted newcmps = do
-    expc_current <- pure $ expc {prg_cmps=(changed ++ newcmps)}
+expcChanged expc_rolled expi_rolled changed deleted newcmps = do
+    expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
     putStrLn "[Ex-PART] Unrolling repeat & chain statements..."
-    expi <- pure $ unroll expc expi_reps
+    (expc, expi) <- pure $ unroll expc_rolled expi_rolled
 
     putStrLn "[Ex-PART] Generating locations.json..."
     writeLocationsJSON expi
@@ -84,9 +84,9 @@ expcChanged expc expi_reps changed deleted newcmps = do
 
 
 expiChanged :: Program -> System -> IO ()
-expiChanged expc expi_reps = do
+expiChanged expc_rolled expi_rolled = do
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
-    expi <- pure $ unroll expc expi_reps
+    (expc, expi) <- pure $ unroll expc_rolled expi_rolled
 
     putStrLn "[Ex-PART] Generating locations.json..."
     writeLocationsJSON expi
@@ -99,7 +99,7 @@ expiChanged expc expi_reps = do
 
 
 monolithic :: Program -> System -> FilePath -> FilePath -> IO ()
-monolithic expc expi_reps lpfPath outDir = do
+monolithic expc_rolled expi_rolled lpfPath outDir = do
     let outDir' = (slashscrape outDir) ++ "_monolithic"
 
     putStrLn $ "[Ex-PART] Creating directory `" ++ outDir' ++ "`..."
@@ -108,7 +108,7 @@ monolithic expc expi_reps lpfPath outDir = do
     setCurrentDirectory outDir'
 
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
-    expi <- pure $ unroll expc expi_reps
+    (expc, expi) <- pure $ unroll expc_rolled expi_rolled
 
     putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc

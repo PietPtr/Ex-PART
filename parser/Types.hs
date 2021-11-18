@@ -143,7 +143,7 @@ data UnplacedInstance = UnplacedInstance String [ConstExpr] Size
 
 data ConstExpr 
     = Constant Integer 
-    | HaskellData String 
+    -- | HaskellData String 
     deriving (Show, Eq)
 
 data Connection = Connection CID CID
@@ -190,14 +190,13 @@ data Option
     = Comp UnplacedInstance
     | Amount Integer
     | Layout String -- or layout expression maybe
-    | Initial String -- TODO: does not support both signals and constant ints, only signals
+    | Initial String 
     | ChainIn String
     | ChainOut String
     | Result String
     deriving (Show, Eq)
 
 
--- TODO: actually do this nicely instead of hardcoded widths for 2 types...
 isoStatToBitwidth :: ISOStat -> Integer
 isoStatToBitwidth stat = case stat of
     (SInput _ t) -> typeToBitwidth t
@@ -209,6 +208,7 @@ ioStatToBitWidth stat = case stat of
     (Input _ t) -> typeToBitwidth t
     (Output _ t) -> typeToBitwidth t
 
+-- TODO: actually do this nicely instead of hardcoded widths for some types...
 typeToBitwidth :: String -> Integer
 typeToBitwidth t = case t of
         "Value" -> 16
@@ -220,6 +220,7 @@ typeToBitwidth t = case t of
         "Unsigned 6" -> 6
         "Unsigned 8" -> 8
         "Unsigned 16" -> 16
+        "Unsigned 24" -> 24
         "Bool" -> 1
         "Bitwidth" -> 16
         other -> error $ "Cannot find bitwidth of type " ++ other
