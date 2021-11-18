@@ -5,7 +5,7 @@ import Parse_expi (system)
 import Parse_expc (program)
 import qualified Types
 
-
+-- TODO: voeg comments toe aan Ex-PART (kan dat makkelijk in parsec?)
 parse_expc :: FilePath -> IO (Either ParseError Types.Program)
 parse_expc file = parse program "" <$> readFile file
 

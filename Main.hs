@@ -122,5 +122,5 @@ import System.Directory
 -- repeat = make "repeat"
 -- chain = make "chain"
 up = setCurrentDirectory ".."
-
+-- TODO: schoon dit op, maak misschien zelfs een echte main die make $arg1 $arg2 doet of zo
 main = pure ()

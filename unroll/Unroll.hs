@@ -20,6 +20,7 @@ unroll program system = (program', system')
                 unrolledConnections ++ 
                 allChainConnections 
                 -- constConns
+            -- TODO: this is not recursive?! Everything in a nested system is broken now :P
         }
         program' = program {
             prg_cmps = prg_cmps program -- ++ constCmps
