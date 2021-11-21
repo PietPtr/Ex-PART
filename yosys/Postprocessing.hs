@@ -7,6 +7,9 @@ import Debug.Trace
 import qualified Data.Map as Map
 import Data.Text (pack, unpack)
 import Data.List
+import Numeric (showHex, showIntAtBase)
+import Data.Char (intToDigit)
+import Data.Maybe
 
 import Types
 
@@ -78,15 +81,20 @@ instance ToJSON Module where
                 ]
             ]
         ]]
-            
+
 
 instance ToJSON Port where
     toJSON port = object [
             "direction" .= case port_direction port of
                 In -> pack "input"
                 Out -> pack "output",
-            "bits" .= port_bits port
+            "bits" .= (map fix01 $ port_bits port)
         ]
+        where
+            fix01 :: Integer -> Value
+            fix01 0 = String "0"
+            fix01 1 = String "1"
+            fix01 c = Number (fromIntegral c)
 
 instance ToJSON Cell where
     toJSON cell = object [
@@ -115,6 +123,41 @@ instance ToJSON CellConn where
 makeTopModule :: Program -> System -> [Module]
 makeTopModule program system = makeModules True program system
 
+makeConstModules :: Program -> System -> [Module]
+makeConstModules program system = case driver of
+    Just driver -> constDriverModule bitwidth driver : (makeConstModules program system')
+    Nothing -> []
+    where
+        -- TODO: constcons is een lelijke naam
+        (driver, drivers) = case sys_constcons system of
+            (d:ds) -> (Just d, Just ds)
+            [] -> (Nothing, Nothing)
+        system' = system {sys_constcons=(fromJust drivers)} -- only used in the just case, type system cannot prove this tho
+        Just (ConstantDriver value cid) = driver
+
+        bitwidth = findCIDBitwidth system cid 
+
+-- TODO: in the typing refactor, can the bitwidth not be annotated somewhere? saves a crapton of lookups
+findCIDBitwidth :: System -> CID -> Integer
+findCIDBitwidth system cid = isoStatToBitwidth iso_statement
+    where
+        (CID instName portName) = cid
+        component = ins_cmp $ case filter 
+            (\i -> ins_name i == instName) 
+            (sys_instances system) of
+                (x:_) -> x
+                [] -> error $ "Postprocessing.hs: cannot find component name " ++ instName ++ "."
+
+        iso_statement = case filter findStat (cmp_isoStats component) of
+            (x:_) -> x
+            [] -> error $ "Postprocessing.hs: cannot find iso statement " ++ portName
+
+        findStat stat = case stat of
+            (SOutput name _) -> name == portName
+            (SInput name _) -> name == portName
+            _ -> False
+
+
 makeModules :: Bool -> Program -> System -> [Module]
 makeModules isTop p@(Program _ _ components) system = mod : 
     (concat $ map (makeModules False p) (sys_subsystems system))
@@ -122,11 +165,11 @@ makeModules isTop p@(Program _ _ components) system = mod :
         mod = Module {
                 mod_name = sys_id system,
                 mod_top = isTop,
-                mod_ports = makePorts 5 $ sys_iodefs system,
-                mod_cells = makeCells components system netmap
+                mod_ports = makePorts 5 $ sys_iodefs system',
+                mod_cells = makeCells components system' netmap
             }
         nextBit = 1 + (last $ port_bits $ last $ mod_ports mod)
-        netmap = nets components system nextBit portNetmap
+        netmap = nets components system' nextBit portNetmap
             
         portNetmap = portsToNetmap (mod_ports mod) Map.empty
 
@@ -137,10 +180,37 @@ makeModules isTop p@(Program _ _ components) system = mod :
             where
                 key = case port_direction port of
                     In -> cid
-                    Out -> findDriver system cid
+                    Out -> findDriver system' cid
                 isDriver (Connection from to) = to == cid
                 value = port_bits port
-                cid = (CID "this" (port_name port))
+                cid = (CID "this" (port_name port)) -- TODO: snake case or camelcase, what is it?!
+
+        -- Add instances and connections to this system for the constant drivers
+        system' = system {
+            sys_instances=sys_instances system ++ cdInstances,
+            sys_connections=sys_connections system ++ cdConns
+        }
+
+        cdConns = map cdToConn (sys_constcons system)
+        cdInstances = map cdToInstance (sys_constcons system)
+
+        cdToConn :: ConstantDriver -> Connection
+        cdToConn (ConstantDriver value cid) = (Connection constCID cid)
+            where
+                constCID = (CID elemName "out")
+                elemName = constModuleName (ConstantDriver value cid)
+
+        cdToInstance :: ConstantDriver -> Instance
+        cdToInstance (ConstantDriver value cid) = Instance {
+                ins_name = elemName,
+                ins_cmp = Component elemName [] [SOutput "out" "CONSTANT"] "",
+                ins_size = (0, 0),
+                ins_coords = (CConst 0, CConst 0),
+                ins_args = []
+            }
+            where
+                elemName = constModuleName (ConstantDriver value cid)
+
 
 findDriver :: System -> CID -> CID
 findDriver system cid = case filter isDriver (sys_connections system) of
@@ -173,7 +243,7 @@ nets :: [Component] -> System -> Integer -> Netmap -> Netmap
 nets comps system bitCtr netmap = nets' comps system bitCtr (sys_connections system) netmap
 
 -- TODO: constant driver nets
-
+-- TODO: why is bitwidth determination here? could be elsewhere?
 nets' :: [Component] -> System -> Integer -> [Connection] -> Netmap -> Netmap
 nets' _ _ _ [] map = map
 nets' comps system bitCtr ((Connection from to):connections) netmap = trace (show system)
@@ -185,11 +255,11 @@ nets' comps system bitCtr ((Connection from to):connections) netmap = trace (sho
 
         netBitwidth = if from_elem_name == "this"
             then ioStatToBitWidth (io_statement system)
-            else if isComponent from_elem_name
-                then isoStatToBitwidth iso_statement
-                else if "$const_" `isPrefixOf` from_elem_name
-                    then 7
-                    else ioStatToBitWidth (io_statement subsystem)
+            else if "const_" `isPrefixOf` from_elem_name
+                then findCIDBitwidth system to -- assume the user connected the constant driver correctly
+                else if isComponent from_elem_name
+                    then findCIDBitwidth system from
+                    else  ioStatToBitWidth (io_statement subsystem)
 
         isComponent name = name `elem` (map (ins_name) $ sys_instances system)
 
@@ -206,22 +276,6 @@ nets' comps system bitCtr ((Connection from to):connections) netmap = trace (sho
             (x:_) -> x
             [] -> error $ "Postprocessing.hs: cannot find subsystem " ++ from_elem_name
 
-        ---- vind de bitwidth voor een bottom component IO
-        -- in instances from_elem_name opzoeken om het component te krijgen
-        component = ins_cmp $ case filter 
-            (\i -> ins_name i == from_elem_name) 
-            (sys_instances system) of
-                (x:_) -> x
-                [] -> error $ "Postprocessing.hs: cannot find component name " ++ from_elem_name ++ " in " ++ (show $ sys_instances system)
-
-        -- in isostats, vind port: de bitwidth van de from_port ophalen
-        iso_statement = case filter findStat (cmp_isoStats component) of
-            (x:_) -> x
-            [] -> error $ "Postprocessing.hs: cannot find iso statement " ++ from_port
-        findStat stat = case stat of
-            (SOutput name _) -> name == from_port
-            (SInput name _) -> name == from_port
-            _ -> False
 
 -- WARN: unique integers aren't sequential (but that probably does not matter)
 makeCells :: [Component] -> System -> Netmap -> [Cell]
@@ -279,12 +333,35 @@ instElem components inst = Element {
         isoToIO (SOutput name t) = (Output name t)
         isoToIO (SState _ _ _) = error "Cannot convert state to IO"
 
+
+
 -- TODO: make constant driver cell defs (module)
-constDriverModule :: [Component] -> ConstantDriver -> Module
-constDriverModule = undefined
+constDriverModule :: Integer -> ConstantDriver -> Module
+constDriverModule bitwidth (ConstantDriver value cid) = Module 
+    { mod_name = constModuleName (ConstantDriver value cid)
+    , mod_top = False
+    , mod_ports = clockResetEnablePorts ++ [outPort]
+    , mod_cells = [] }
+    where
+        outPort = Port {
+            port_name = "out",
+            port_direction = Out,
+            port_bits = toBinary value
+        }
+
+constModuleName :: ConstantDriver -> String
+constModuleName (ConstantDriver value _) = "const_" ++ value
+
+-- produces a list of ones and zero for the value given in the string
+-- only implements 10 integers
+toBinary :: String -> [Integer]
+toBinary value = map (\c -> read [c]) str
+    where
+        int = read value :: Integer
+        str = showIntAtBase 2 intToDigit int ""
 
 -- TODO: instantiate constant driver cells in system
-makeConstDriverCell :: [Component] -> ConstantDriver -> Cell -- TODO: [Component], of meteen de bitwidth, ergens boven gevonden
+makeConstDriverCell :: Integer -> ConstantDriver -> Cell
 makeConstDriverCell = undefined
 
 makeCells' :: [Component] -> System -> Netmap -> [Element] -> [Cell]

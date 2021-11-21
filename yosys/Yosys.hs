@@ -85,9 +85,14 @@ runYosys args = do
             error $ "Yosys terminated with code " ++ show code
         ExitSuccess -> pure ()
 
-
+-- TODO: no type signatures
+-- TODO: inconsistent variable names program and system
 customConnect program system = 
-    encodeFile "interconnect.json" (makeTopModule program system)
+    encodeFile "interconnect.json" (topModule ++ constModules)
+    where
+        topModule = makeTopModule program system
+        constModules = makeConstModules program system
+
 
 combineJSONs basedir = do
     (_, _, _, h) <- createProcess $ 

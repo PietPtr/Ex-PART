@@ -3,6 +3,6 @@ system in (21, 5) at (2, 2) {
 
     count is counter in (3, 3) at (0, 0)
 
-    count.out -> result
+    count.out->result
     (0001)->count.enable
 }

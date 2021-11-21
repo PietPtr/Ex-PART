@@ -98,9 +98,16 @@ instance Pretty CoordExpr where
     pretty (CX id) = id ++ ".x"
     pretty (CY id) = id ++ ".y"
 
+-- TODO: grote system/program refactor: 
+-- System kan na processen zijn (wat we nu 'unroll' noemen wordt dan iets uitgebreider),
+-- en Program wat er na parsen uitkomt. Dan werkt alles met alleen de System en haalt daar
+-- de componenten etc uit
+-- Dan moet er nog een recursive ding zijn, SystemTree of zo, die de subsystems opslaat
+-- Hmm of hiervan moet een postprocessed versie zijn juist... 
+
 data System = System {
-    sys_flattened :: Bool,
-    sys_id :: String,
+    sys_flattened :: Bool, 
+    sys_id :: String, 
     sys_size :: Size,
     sys_coords :: Coords,
     sys_iodefs :: [IOStat],
