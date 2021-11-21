@@ -9,11 +9,12 @@ component constTrue() {
 
 component counter() {
     input enable : Bool
+    input interval : Unsigned 24
     state count = 0 : Unsigned 24
     output out : Unsigned 24
 
     count' = if enable
-        then count + 1
+        then count + interval
         else count
     
     out = count
