@@ -36,8 +36,8 @@ clean expc_rolled expi_rolled expcPath expiPath outDir = do
     putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
 
-    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
+    -- putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
+    -- flatten expc expi
 
     putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
     compileToVerilog expc
@@ -56,19 +56,19 @@ expcChanged :: Program -> System -> [Component] -> [Component] -> [Component] ->
 expcChanged expc_rolled expi_rolled changed deleted newcmps = do
     expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
     putStrLn "[Ex-PART] Unrolling repeat & chain statements..."
-    (expc, expi) <- pure $ unroll expc_rolled expi_rolled
+    (expc, expi) <- pure $ unroll expc_current expi_rolled
 
     putStrLn "[Ex-PART] Generating locations.json..."
     writeLocationsJSON expi
 
     putStrLn "[Ex-PART] Generating Clash code..."
-    generateClash expc_current
+    generateClash expc
 
-    putStrLn "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
+    -- putStrLn "[Ex-PART] Flattening design for Clash simulation..."
+    -- flatten expc expi
 
     putStrLn "[Ex-PART] Compiling Clash code of changed components to Verilog..."
-    compileToVerilog expc_current
+    compileToVerilog expc
 
     putStrLn "[Ex-PART] Removing deleted components..."
     mapM_ (\c -> removeDirectoryRecursive $ "builds/" ++ cmp_name c) deleted
@@ -82,7 +82,7 @@ expcChanged expc_rolled expi_rolled changed deleted newcmps = do
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi
 
-
+-- TODO: fix flatenner and re-enable
 expiChanged :: Program -> System -> IO ()
 expiChanged expc_rolled expi_rolled = do
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
@@ -91,8 +91,8 @@ expiChanged expc_rolled expi_rolled = do
     putStrLn "[Ex-PART] Generating locations.json..."
     writeLocationsJSON expi
 
-    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
+    -- putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
+    -- flatten expc expi
 
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi

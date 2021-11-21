@@ -6,6 +6,7 @@ import Data.Aeson
 import Debug.Trace
 import qualified Data.Map as Map
 import Data.Text (pack, unpack)
+import Data.List
 
 import Types
 
@@ -23,7 +24,7 @@ data Module = Module {
 data Port = Port {
     port_name :: String,
     port_direction :: PortDir,
-    port_bits :: [Integer]
+    port_bits :: [Integer] -- TODO: extend JSON for the 0 & 1 case
     } deriving Show
 
 data PortDir = In | Out
@@ -171,9 +172,11 @@ makePorts bitCtr (stat:stats) =
 nets :: [Component] -> System -> Integer -> Netmap -> Netmap
 nets comps system bitCtr netmap = nets' comps system bitCtr (sys_connections system) netmap
 
+-- TODO: constant driver nets
+
 nets' :: [Component] -> System -> Integer -> [Connection] -> Netmap -> Netmap
 nets' _ _ _ [] map = map
-nets' comps system bitCtr ((Connection from to):connections) netmap = 
+nets' comps system bitCtr ((Connection from to):connections) netmap = trace (show system)
     nets' comps system (bitCtr+netBitwidth) connections map'
     where
         map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
@@ -184,14 +187,16 @@ nets' comps system bitCtr ((Connection from to):connections) netmap =
             then ioStatToBitWidth (io_statement system)
             else if isComponent from_elem_name
                 then isoStatToBitwidth iso_statement
-                else ioStatToBitWidth (io_statement subsystem)
+                else if "$const_" `isPrefixOf` from_elem_name
+                    then 7
+                    else ioStatToBitWidth (io_statement subsystem)
 
         isComponent name = name `elem` (map (ins_name) $ sys_instances system)
 
         ---- vind de bitwidth voor een system IO
         io_statement sys = case filter findIOStat (sys_iodefs sys) of
             (x:_) -> x
-            [] -> error $ "cannot find IO statement " ++ from_port ++ " in " ++ show (sys_iodefs sys)
+            [] -> error $ "Postprocessing.hs: cannot find IO statement " ++ from_port ++ " in " ++ show (sys_iodefs sys)
         findIOStat stat = case stat of
             (Output name _) -> name == from_port
             (Input name _) -> name == from_port
@@ -199,7 +204,7 @@ nets' comps system bitCtr ((Connection from to):connections) netmap =
         ---- vind de bitwidth voor een subsystem IO
         subsystem = case filter (\s -> sys_id s == from_elem_name) (sys_subsystems system) of
             (x:_) -> x
-            [] -> error $ "cannot find subsystem " ++ from_elem_name
+            [] -> error $ "Postprocessing.hs: cannot find subsystem " ++ from_elem_name
 
         ---- vind de bitwidth voor een bottom component IO
         -- in instances from_elem_name opzoeken om het component te krijgen
@@ -207,12 +212,12 @@ nets' comps system bitCtr ((Connection from to):connections) netmap =
             (\i -> ins_name i == from_elem_name) 
             (sys_instances system) of
                 (x:_) -> x
-                [] -> error $ "cannot find component name " ++ from_elem_name ++ " in " ++ (show $ sys_instances system)
+                [] -> error $ "Postprocessing.hs: cannot find component name " ++ from_elem_name ++ " in " ++ (show $ sys_instances system)
 
         -- in isostats, vind port: de bitwidth van de from_port ophalen
         iso_statement = case filter findStat (cmp_isoStats component) of
             (x:_) -> x
-            [] -> error $ "cannot find iso statement " ++ from_port
+            [] -> error $ "Postprocessing.hs: cannot find iso statement " ++ from_port
         findStat stat = case stat of
             (SOutput name _) -> name == from_port
             (SInput name _) -> name == from_port
@@ -274,6 +279,13 @@ instElem components inst = Element {
         isoToIO (SOutput name t) = (Output name t)
         isoToIO (SState _ _ _) = error "Cannot convert state to IO"
 
+-- TODO: make constant driver cell defs (module)
+constDriverModule :: [Component] -> ConstantDriver -> Module
+constDriverModule = undefined
+
+-- TODO: instantiate constant driver cells in system
+makeConstDriverCell :: [Component] -> ConstantDriver -> Cell -- TODO: [Component], of meteen de bitwidth, ergens boven gevonden
+makeConstDriverCell = undefined
 
 makeCells' :: [Component] -> System -> Netmap -> [Element] -> [Cell]
 makeCells' _ _ _ [] = []

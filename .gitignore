@@ -8,6 +8,7 @@ chain
 rcgol
 pipeline
 constants
+md5
 pipe
 *.hi
 *.dyn_hi

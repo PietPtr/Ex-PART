@@ -38,6 +38,7 @@ data Statement
     | IOStatement IOStat
     | RepetitionStat RawRepetition
     | MultiConnStat MultiConnection
+    | ConstDriverStat ConstantDriver
     deriving Show
 
 
@@ -51,18 +52,19 @@ system components = toSystem
     where
         isFlatenned = option False (const True <$> (string "flatenned" <* ws))
 
-        f :: [Statement] -> ([IOStat], [Instance], [Connection], [System], [RawRepetition], [MultiConnection])
-        f stats = foldl sorter ([], [], [], [], [], []) stats
+        f :: [Statement] -> ([IOStat], [Instance], [Connection], [System], [RawRepetition], [MultiConnection], [ConstantDriver])
+        f stats = foldl sorter ([], [], [], [], [], [], []) stats
 
-        sorter (iostats, instances, connections, systems, reps, mconns) statement = case statement of
-            (InstanceStat inst) -> (iostats, inst:instances, connections, systems, reps, mconns)
-            (ConnectionStat conn) -> (iostats, instances, conn:connections, systems, reps, mconns)
-            (SystemStat sys) -> (iostats, instances, connections, sys:systems, reps, mconns)
-            (IOStatement ios) -> (ios:iostats, instances, connections, systems, reps, mconns)
-            (RepetitionStat rep) -> (iostats, instances, connections, systems, rep:reps, mconns)
-            (MultiConnStat mconn) -> (iostats, instances, connections, systems, reps, mconn:mconns)
+        sorter (iostats, instances, connections, systems, reps, mconns, cconns) statement = case statement of
+            (InstanceStat inst) -> (iostats, inst:instances, connections, systems, reps, mconns, cconns)
+            (ConnectionStat conn) -> (iostats, instances, conn:connections, systems, reps, mconns, cconns)
+            (SystemStat sys) -> (iostats, instances, connections, sys:systems, reps, mconns, cconns)
+            (IOStatement ios) -> (ios:iostats, instances, connections, systems, reps, mconns, cconns)
+            (RepetitionStat rep) -> (iostats, instances, connections, systems, rep:reps, mconns, cconns)
+            (MultiConnStat mconn) -> (iostats, instances, connections, systems, reps, mconn:mconns, cconns)
+            (ConstDriverStat cconn) -> (iostats, instances, connections, systems, reps, mconns, cconn:cconns)
 
-        toSystem flattened name size coords (iostats, instances, connections, systems, reps, mconns) =
+        toSystem flattened name size coords (iostats, instances, connections, systems, reps, mconns, cconns) =
             System {
                 sys_flattened = flattened,
                 sys_id = name,
@@ -73,7 +75,8 @@ system components = toSystem
                 sys_connections = connections,
                 sys_repetitions = map fitRepetition reps,
                 sys_multicons = mconns,
-                sys_subsystems = systems
+                sys_subsystems = systems,
+                sys_constcons = cconns
             }
 
 
@@ -119,6 +122,7 @@ system_body components = many1 (anystat <* ows)
         anystat = try (IOStatement <$> (ows *> ioStatement))
             <|> try (MultiConnStat <$> (ows *> multiconnection <* char '\n'))
             <|> try (ConnectionStat <$> (ows *> connection <* char '\n'))
+            <|> try (ConstDriverStat <$> (ows *> constant_driver_stat <* char '\n'))
             <|> try (RepetitionStat <$> (ows *> (repeat <|> chain)))
             <|> try (InstanceStat <$> (ows *> (cmp_instance components) <* char '\n'))
             <|> (SystemStat <$> (ows *> (system components)))
@@ -195,7 +199,7 @@ coord_bottom
     <|>     (CY      <$> identifier <* char '.' <* char 'y' )
 
 
-ltr_rtl :: (a -> a -> b) -> Parser a -> Parser a -> Parser b
+ltr_rtl :: (a -> b -> c) -> Parser a -> Parser b -> Parser c
 ltr_rtl f p_from p_to = try ltr <|> rtl
     where
         ltr = f
@@ -206,9 +210,7 @@ ltr_rtl f p_from p_to = try ltr <|> rtl
             <*> p_from
 
 connection :: Parser Connection
-connection = ltr_rtl Connection p_from cid
-    where
-        p_from = cid <|> constant_driver
+connection = ltr_rtl Connection cid cid
 
 
 cid :: Parser CID
@@ -229,13 +231,16 @@ mcid =
     where
         construct s r p = MCID s p r
         range = Range <$> (char '[' *> integer) <*> (char '-' *> integer <* char ']')
-        
-constant_driver :: Parser CID
-constant_driver = (\pl c pr -> ConstantDriver $ pl ++ c ++ pr) <$> 
-    (string "(") <*> const <*> (string ")")
+
+constant_driver_stat :: Parser ConstantDriver
+constant_driver_stat = ltr_rtl ConstantDriver constant_driver cid
+
+constant_driver :: Parser String
+constant_driver = (\pl c pr -> pl ++ c ++ pr) <$> 
+    (string "(") *> ((\c -> show (read c :: Int)) <$> const) <* (string ")")
     where
 
-        symbols = ['0'..'9'] ++ ['a'..'z'] ++ ['A'..'Z'] ++ [' ']
+        symbols = ['0'..'9']-- ++ ['a'..'z'] ++ ['A'..'Z'] ++ [' ']
         text = (many1 $ oneOf symbols)
 
         const = 

@@ -108,7 +108,8 @@ data System = System {
     sys_connections :: [Connection],
     sys_repetitions :: [Repetition],
     sys_multicons :: [MultiConnection],
-    sys_subsystems :: [System]
+    sys_subsystems :: [System],
+    sys_constcons :: [ConstantDriver]
     } deriving (Show, Eq)
 
 emptySystem :: System
@@ -122,7 +123,8 @@ emptySystem = System {
         sys_connections = [],
         sys_repetitions = [],
         sys_multicons = [],
-        sys_subsystems = []
+        sys_subsystems = [],
+        sys_constcons = []
     }
 
 data IOStat
@@ -150,8 +152,11 @@ data Connection = Connection CID CID
     deriving (Show, Eq)
 data CID 
     = CID String String -- system port
-    | ConstantDriver String
+    -- | ConstantDriver String
     deriving (Show, Eq, Ord)
+
+data ConstantDriver = ConstantDriver String CID
+    deriving (Show, Eq)
 
 data MultiConnection = MultiConn MCID MCID
     deriving (Show, Eq)
@@ -223,4 +228,5 @@ typeToBitwidth t = case t of
         "Unsigned 24" -> 24
         "Bool" -> 1
         "Bitwidth" -> 16
+        "UInt" -> 32
         other -> error $ "Cannot find bitwidth of type " ++ other

@@ -92,10 +92,12 @@ instanceWhereStatement conns inst = whereStatement ins outs (cmpName ++ "M")
             _ -> error $ "No connection specified for component " ++ 
                 name ++ " : " ++ cmpName ++ " port `" ++ portname ++ "`"
             where
-                f (Connection _ (CID inst_name' portname')) = 
+                f (Connection (CID _ _) (CID inst_name' portname')) = 
                     inst_name' == ins_name inst && 
                     portname' == portname
+                f _ = False
 
+-- TODO: constants aren't simulated at all now, add a line to system where statements for every ConstantDriver connection
 -- TODO: could be neater with an abstraction over IO/ISO statement and handling connection finding as such
 systemWhereStatement :: [Connection] -> System -> String
 systemWhereStatement conns system = whereStatement ins outs name
@@ -104,15 +106,17 @@ systemWhereStatement conns system = whereStatement ins outs name
         ins = map varName $ map (findIOConn conns name) $ inputs' $ sys_iodefs system
         outs = map (varName' $ sys_id system) $ outputs' $ sys_iodefs system
 
+
 findIOConn :: [Connection] -> String -> IOStat -> Connection
 findIOConn conns sysid io = 
     case filter f conns of
         (c:_) -> c
         _ -> error $ "No connection specified for io statement " ++ show io ++ " in system " ++ sysid
     where
-        f (Connection _ (CID sys_name' portname')) = 
+        f (Connection (CID _ _) (CID sys_name' portname')) = 
             sys_name' == sysid && 
             portname' == (portname io)
+        f _ = False
 
 portname :: IOStat -> String
 portname io = case io of
