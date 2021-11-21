@@ -1,0 +1,20 @@
+combinatory {
+
+}
+
+component constTrue() {
+    output out : Bool
+    out = True
+}
+
+component counter() {
+    input enable : Bool
+    state count = 0 : Unsigned 24
+    output out : Unsigned 24
+
+    count' = if enable
+        then count + 1
+        else count
+    
+    out = count
+}
