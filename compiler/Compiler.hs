@@ -92,7 +92,7 @@ auto expcPath expiPath lpfName outDir = do
                 other = case [c' | c'@Component {cmp_name=name} <- news, name == cmp_name c] of
                     [c'] -> if c' /= c then Just c' else Nothing
                     [] -> Nothing
-                    _ -> error "How can there be several components with the same name?"
+                    _ -> error "Compiler.hs: How can there be several components with the same name?"
         
         deletedComponents :: [Component] -> [Component] -> [Component]
         deletedComponents news olds = [ c | c <- olds, not ((cmp_name c) `elem` (map cmp_name news)) ]

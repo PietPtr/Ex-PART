@@ -215,7 +215,7 @@ makeModules isTop p@(Program _ _ components) system = mod :
 findDriver :: System -> CID -> CID
 findDriver system cid = case filter isDriver (sys_connections system) of
         ((Connection netCID _):_) -> netCID
-        [] -> error $ "Could not find driver " ++ show cid ++ " in " ++ show (sys_connections system)
+        [] -> error $ "Postprocessing.hs: Could not find driver " ++ show cid ++ " in " ++ show (sys_connections system)
     where
         isDriver (Connection from to) = to == cid
 
@@ -331,7 +331,7 @@ instElem components inst = Element {
         isoToIO :: ISOStat -> IOStat
         isoToIO (SInput name t) = (Input name t)
         isoToIO (SOutput name t) = (Output name t)
-        isoToIO (SState _ _ _) = error "Cannot convert state to IO"
+        isoToIO (SState _ _ _) = error "Postprocessing.hs: Cannot convert state to IO"
 
 
 
@@ -398,7 +398,7 @@ makeCells' components system netmap (elem:elements) =
 
                 netCID = case filter lookupCID relevantConnections of
                     ((Connection cid _):_) -> Just cid
-                    [] -> Nothing -- error $ "Cannot find connection `" ++ name ++ "` in `" ++ elem_name elem ++ "`"
+                    [] -> Nothing 
                 lookupCID (Connection (CID from_elem from_port) (CID to_elem to_port)) = 
                     (from_port == name && from_elem == elem_name elem) || 
                     (to_port == name && to_elem == elem_name elem)

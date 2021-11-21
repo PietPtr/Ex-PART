@@ -213,7 +213,7 @@ isoStatToBitwidth :: ISOStat -> Integer
 isoStatToBitwidth stat = case stat of
     (SInput _ t) -> typeToBitwidth t
     (SOutput _ t) -> typeToBitwidth t
-    _ -> error "Invalid ISOStatement for bitwidth (state not implemented)"
+    _ -> error "Types.hs: Invalid ISOStatement for bitwidth (state not implemented)"
 
 ioStatToBitWidth :: IOStat -> Integer
 ioStatToBitWidth stat = case stat of
@@ -236,4 +236,4 @@ typeToBitwidth t = case t of
         "Bool" -> 1
         "Bitwidth" -> 16
         "UInt" -> 32
-        other -> error $ "Cannot find bitwidth of type " ++ other
+        other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other

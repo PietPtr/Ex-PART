@@ -27,7 +27,7 @@ nextpnr lpf options = do
     case code of
         ExitFailure code -> do
             putStr $ "[nextpnr] " ++ warnsAndErrors stderr
-            error $ "nextpnr terminated with code " ++ show code
+            error $ "Nextpnr.hs: nextpnr terminated with code " ++ show code
         ExitSuccess -> do
             putStr (warnsAndErrors stderr)
     where

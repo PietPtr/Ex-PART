@@ -74,7 +74,7 @@ reduceCoordExpr instances cexpr = reduce $ reduceCoordsToConsts constantInstance
         reduce (CConst c) = c
         reduce (CWidth id) = lookupWidth id
         reduce (CHeight id) = lookupHeight id
-        reduce expr = error $ "Coordinate reduction found non-constant value ("++ (show expr) ++ "), good luck debugging! (JSONBuilder.hs, reduceCoords)"
+        reduce expr = error $ "Locations.hs: Coordinate reduction found non-constant value ("++ (show expr) ++ "), good luck debugging! (JSONBuilder.hs, reduceCoords)"
 
         lookupWidth :: String -> Integer
         lookupWidth id = (\(_, (w, _), _) -> w) $ findID constantInstances id
@@ -130,7 +130,7 @@ hasCycle graph = (or $ concat $ map (isInCycle graph) nodes) || hasLoop
 findID :: [(String, Size, Coords)] -> String -> (String, Size, Coords)
 findID instances id = case filter (\(name, _, _) -> name == id) instances of
     (x:_) -> x
-    [] -> error $ "Could not find ID `" ++ id ++ "` in provided list." ++ show instances
+    [] -> error $ "Locations.hs: Could not find ID `" ++ id ++ "` in provided list." ++ show instances
 
 
 allInstsWithCoords :: System -> [(String, Size, Coords)]

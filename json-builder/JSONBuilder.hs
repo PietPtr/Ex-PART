@@ -18,7 +18,7 @@ writeLocationsJSON system = do
 
         startPos = if isConstExpr x && isConstExpr y
             then Pos (reduceCoordExpr [] x) (reduceCoordExpr [] y)
-            else error "Top-level coordinates must be constants."
+            else error "JSONBuilder.hs: Top-level coordinates must be constants."
         (x, y) = sys_coords system
 
         isConstExpr :: CoordExpr -> Bool
@@ -27,7 +27,7 @@ writeLocationsJSON system = do
         isConstExpr _ = False
 
         check = if hasCycle graph
-            then error "expi file contains a cyclic coordinate definition, cannot generate location JSON."
+            then error "JSONBuilder.hs: expi file contains a cyclic coordinate definition, cannot generate location JSON."
             else True
             where
                 graph = toGraph $ toGraphList instances

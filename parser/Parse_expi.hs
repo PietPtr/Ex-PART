@@ -98,21 +98,21 @@ fitRepetition rep = repetition
                     chn_amount = amount options,
                     chn_layout = layout options,
                     chn_chainIn = case [ x | ChainIn x <- options ] of
-                        [] -> error "Missing option `chain_in` in chain statement"
+                        [] -> error "Parse_expi.hs: Missing option `chain_in` in chain statement"
                         (x:_) -> x,
                     chn_chainOut = case [ x | ChainOut x <- options ] of
-                        [] -> error "Missing option `chain_out` in chain statement"
+                        [] -> error "Parse_expi.hs: Missing option `chain_out` in chain statement"
                         (x:_) -> x
             }
 
         unplacedInstance options = case [ x | Comp x <- options ] of
-            [] -> error "Missing option `component` in repetition statement."
+            [] -> error "Parse_expi.hs: Missing option `component` in repetition statement."
             (x:_) -> x
         amount options = case [ x | Amount x <- options ] of
-            [] -> error "Missing option `amount` in a repetition statement."
+            [] -> error "Parse_expi.hs: Missing option `amount` in a repetition statement."
             (x:_) -> x
         layout options = case [x | Layout x <- options ] of
-            [] -> error "Missing option `layout` in a repetition statement."
+            [] -> error "Parse_expi.hs: Missing option `layout` in a repetition statement."
             (x:_) -> x
 
 
@@ -175,7 +175,7 @@ cmp_instance components = Instance
         findCmp :: String -> Component
         findCmp name = case filter (\c -> name == cmp_name c) components of
             (x:_) -> x
-            _ -> error $ "Component " ++ name ++ " not in .expc file."
+            _ -> error $ "Parse_expi.hs: Component " ++ name ++ " not in .expc file."
 
 size :: Parser Size
 size = (,) <$> (char '(' *> integer <* char ',') <*> (integer <* char ')')

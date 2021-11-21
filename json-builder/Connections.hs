@@ -41,12 +41,12 @@ refine system connective = if con_done connective
         subsysNames = (map sys_id $ sys_subsystems system)
         toSubsys = case filter (\s -> sys_id s == toSys) (sys_subsystems system) of
             (x:_) -> x
-            [] -> error $ "Could not find system " ++ toSys ++ 
+            [] -> error $ "Connections.hs: Could not find system " ++ toSys ++ 
                 " in subsystems of " ++ (sys_id system) ++ " (found :" ++ 
                 (intercalate "," subsysNames) ++ ")"
 
         nextConnections = case catMaybes (map continue (sys_connections toSubsys)) of
-            [] -> error $ "Connection " ++ (show connective) ++ 
+            [] -> error $ "Connections.hs: Connection " ++ (show connective) ++ 
                     "is passed to next subsystem but never ends up at a component..."
             c -> c 
 

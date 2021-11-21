@@ -28,7 +28,7 @@ makeInstance cmps rep i = Instance {
 
         component = case filter (\c -> (cmp_name c) == component_name) cmps of
             (x:_) -> x
-            [] -> error $ "Cannot find component " ++ component_name ++ " in .expc file."
+            [] -> error $ "Repeat.hs: Cannot find component " ++ component_name ++ " in .expc file."
 
 
 makeCoords :: String -> String -> Coords -> Integer -> Coords
@@ -36,7 +36,7 @@ makeCoords name layout coords 1 = coords
 makeCoords name layout coords i = case layout of
     "horizontal" -> (CAdd prevX (CWidth n), y)
     "vertical" -> (x, CAdd prevY (CHeight n))
-    _ -> error "Unknown layout procedure."
+    _ -> error "Repeat.hs: Unknown layout procedure."
     where
         (x, y) = coords
         n = name ++ "_" ++ show (i - 1)

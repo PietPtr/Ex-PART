@@ -89,7 +89,7 @@ instanceWhereStatement conns inst = whereStatement ins outs (cmpName ++ "M")
         findConn :: ISOStat -> Connection
         findConn (SInput portname _) = case filter f conns of
             (c:_) -> c
-            _ -> error $ "No connection specified for component " ++ 
+            _ -> error $ "Flattener.hs: No connection specified for component " ++ 
                 name ++ " : " ++ cmpName ++ " port `" ++ portname ++ "`"
             where
                 f (Connection (CID _ _) (CID inst_name' portname')) = 
@@ -111,7 +111,7 @@ findIOConn :: [Connection] -> String -> IOStat -> Connection
 findIOConn conns sysid io = 
     case filter f conns of
         (c:_) -> c
-        _ -> error $ "No connection specified for io statement " ++ show io ++ " in system " ++ sysid
+        _ -> error $ "Flattener.hs: No connection specified for io statement " ++ show io ++ " in system " ++ sysid
     where
         f (Connection (CID _ _) (CID sys_name' portname')) = 
             sys_name' == sysid && 

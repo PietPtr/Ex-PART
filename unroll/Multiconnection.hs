@@ -5,7 +5,7 @@ import Types
 unrollMulticonn :: [Repetition] -> MultiConnection -> [Connection]
 unrollMulticonn reps (MultiConn from to) = if length from' == length to'
     then zipWith Connection from' to'
-    else error $ "Cannot connect differing amount of ports: " ++ show from' ++ " -> " ++ show to'
+    else error $ "Multiconnection.hs: Cannot connect differing amount of ports: " ++ show from' ++ " -> " ++ show to'
     where
         from' = unrollMCID reps from
         to' = unrollMCID reps to
@@ -17,7 +17,7 @@ unrollMCID reps (MCID repName portName range) = case range of
     where
         rep = case filter (\r -> repetitionName r == repName) reps of
             (x:_) -> x
-            [] -> error $ "Cannot find repetition with name `" ++ repName ++ 
+            [] -> error $ "Multiconnection.hs: Cannot find repetition with name `" ++ repName ++ 
                 "` for multiconnection " ++ repName ++ ":" ++ portName ++ "."
 
         makeCID i = CID (repetitionName rep ++ "_" ++ show i) portName

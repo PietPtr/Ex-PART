@@ -82,7 +82,7 @@ runYosys args = do
     case code of
         ExitFailure code -> do
             putStr $ "[Yosys] " ++ stderr
-            error $ "Yosys terminated with code " ++ show code
+            error $ "Yosys.hs: Yosys terminated with code " ++ show code
         ExitSuccess -> pure ()
 
 -- TODO: no type signatures
