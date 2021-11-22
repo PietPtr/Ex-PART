@@ -22,8 +22,9 @@ import Data.List.Split
 -- except for clean, which creates the directory.
 clean :: Program -> System -> FilePath -> FilePath -> FilePath -> IO ()
 clean expc_rolled expi_rolled expcPath expiPath outDir = do
+    -- TODO: elke stap hier mag een losse functie worden, want het wordt zo vaak ge-copy-paste in flows
     putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
-    createDirectoryIfMissing True outDir -- TODO: maak dit misschien een functie zodat de drie statements niet gekopieerd hoeven?
+    createDirectoryIfMissing True outDir
     threadDelay 1000 -- TODO: there is a dependence on these statements, but they're executed concurrently...
     setCurrentDirectory outDir
 
@@ -36,8 +37,8 @@ clean expc_rolled expi_rolled expcPath expiPath outDir = do
     putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
 
-    -- putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    -- flatten expc expi
+    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
+    flatten expc expi
 
     putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
     compileToVerilog expc
@@ -64,8 +65,8 @@ expcChanged expc_rolled expi_rolled changed deleted newcmps = do
     putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
 
-    -- putStrLn "[Ex-PART] Flattening design for Clash simulation..."
-    -- flatten expc expi
+    putStrLn "[Ex-PART] Flattening design for Clash simulation..."
+    flatten expc expi
 
     putStrLn "[Ex-PART] Compiling Clash code of changed components to Verilog..."
     compileToVerilog expc
@@ -82,7 +83,6 @@ expcChanged expc_rolled expi_rolled changed deleted newcmps = do
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi
 
--- TODO: fix flatenner and re-enable
 expiChanged :: Program -> System -> IO ()
 expiChanged expc_rolled expi_rolled = do
     putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
@@ -91,8 +91,8 @@ expiChanged expc_rolled expi_rolled = do
     putStrLn "[Ex-PART] Generating locations.json..."
     writeLocationsJSON expi
 
-    -- putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    -- flatten expc expi
+    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
+    flatten expc expi
 
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect expc expi
@@ -140,17 +140,11 @@ resource expc lpfPath outDir = do
     threadDelay 1000
     setCurrentDirectory outDir
 
-
-    -- buildsExist <- doesPathExist "builds"
-    -- if not buildsExist then do
     putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
 
     putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
     compileToVerilog expc
-    -- else do
-    --     putStrLn "[Ex-PART] `builds` folder exists, skipping Clash compilation (run clean compile manually if outdated)"
-
 
     setCurrentDirectory "builds/"
     components' <- listDirectory "."

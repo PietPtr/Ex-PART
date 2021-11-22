@@ -239,7 +239,7 @@ constant_driver :: Parser String
 constant_driver = (\pl c pr -> pl ++ c ++ pr) <$> 
     (string "(") *> ((\c -> show (read c :: Int)) <$> const) <* (string ")")
     where
-
+        -- Only numeric constants are supported.
         symbols = ['0'..'9']-- ++ ['a'..'z'] ++ ['A'..'Z'] ++ [' ']
         text = (many1 $ oneOf symbols)
 

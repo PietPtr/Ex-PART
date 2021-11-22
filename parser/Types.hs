@@ -227,6 +227,7 @@ typeToBitwidth t = case t of
         "Maybe Value" -> 17
         "State" -> 1
         "Vec 3 State" -> 3
+        "Unsigned 1" -> 1
         "Unsigned 2" -> 2
         "Unsigned 4" -> 4
         "Unsigned 6" -> 6

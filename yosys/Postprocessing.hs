@@ -242,11 +242,12 @@ makePorts bitCtr (stat:stats) =
 nets :: [Component] -> System -> Integer -> Netmap -> Netmap
 nets comps system bitCtr netmap = nets' comps system bitCtr (sys_connections system) netmap
 
--- TODO: constant driver nets
+-- TODO: add a yosys optimization pass over the produced synthesized design? Is that possible?
+-- TODO: I _think_ we can just, instead of netnames, initialize constants here, so in the synthesized.json it will end up as "0" and "1" instead of nets, and saves generating const modules (doesn't seem to affect performance results.)
 -- TODO: why is bitwidth determination here? could be elsewhere?
 nets' :: [Component] -> System -> Integer -> [Connection] -> Netmap -> Netmap
 nets' _ _ _ [] map = map
-nets' comps system bitCtr ((Connection from to):connections) netmap = trace (show system)
+nets' comps system bitCtr ((Connection from to):connections) netmap = 
     nets' comps system (bitCtr+netBitwidth) connections map'
     where
         map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
@@ -256,6 +257,7 @@ nets' comps system bitCtr ((Connection from to):connections) netmap = trace (sho
         netBitwidth = if from_elem_name == "this"
             then ioStatToBitWidth (io_statement system)
             else if "const_" `isPrefixOf` from_elem_name
+                -- TODO: this bitwidth determination is correct, however all nets not supplied by the constant module must be set to zero, otherwise not all bits have drivers.
                 then findCIDBitwidth system to -- assume the user connected the constant driver correctly
                 else if isComponent from_elem_name
                     then findCIDBitwidth system from
@@ -335,7 +337,6 @@ instElem components inst = Element {
 
 
 
--- TODO: make constant driver cell defs (module)
 constDriverModule :: Integer -> ConstantDriver -> Module
 constDriverModule bitwidth (ConstantDriver value cid) = Module 
     { mod_name = constModuleName (ConstantDriver value cid)
@@ -346,7 +347,7 @@ constDriverModule bitwidth (ConstantDriver value cid) = Module
         outPort = Port {
             port_name = "out",
             port_direction = Out,
-            port_bits = toBinary value
+            port_bits = toBinary value 
         }
 
 constModuleName :: ConstantDriver -> String

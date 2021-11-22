@@ -48,3 +48,5 @@ while True:
     time.sleep(0.1)
     files.try_load_pnr()
     files.try_load_locs()
+
+# TODO: chillere naam voor dit bestand/mapje, en misschien nicer uitvoerbaar maken vanaf root

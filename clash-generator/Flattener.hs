@@ -61,11 +61,12 @@ whereBlock :: System -> String
 whereBlock system = concat $ intersperse "\n" stats
     where
         stats = [unpacked_input system]
-             ++ (map (instanceWhereStatement (sys_connections system)) $ sys_instances system)
-             ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system)
+             ++ (map (instanceWhereStatement (sys_connections system) (sys_constcons system)) $ sys_instances system)
+             ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system) -- TODO: No constant driver simulation for system :P (requires refactor?)
+             ++ (map (constantWhereStatement) (sys_constcons system))
 
 -- TODO: gebruik hier where_statement misschien?
-unpacked_input :: System -> String
+unpacked_input :: System -> String -- TODO >:( case inconsistentie
 unpacked_input system = "        " ++ "(" ++ ins_str ++ ") = unbundle input"
     where
         iodefs = sys_iodefs system
@@ -75,28 +76,34 @@ unpacked_input system = "        " ++ "(" ++ ins_str ++ ") = unbundle input"
                 map (varName' "this") $ inputs' $ iodefs
 
 
-instanceWhereStatement :: [Connection] -> Instance -> String
-instanceWhereStatement conns inst = whereStatement ins outs (cmpName ++ "M")
+instanceWhereStatement :: [Connection] -> [ConstantDriver] -> Instance -> String
+instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "M")
     where
         component = ins_cmp inst
         cmpName = cmp_name component
         name = ins_name inst
-        ins = map varName $ map findConn $ inputs $ cmp_isoStats component
+        ins = map findConn $ inputs $ cmp_isoStats component
         outs = map (\(SOutput portName _) -> name ++ "_" ++ portName) -- TODO: same logic as varName
             $ outputs $ cmp_isoStats component
 
-
-        findConn :: ISOStat -> Connection
+        findConn :: ISOStat -> String
         findConn (SInput portname _) = case filter f conns of
-            (c:_) -> c
-            _ -> error $ "Flattener.hs: No connection specified for component " ++ 
-                name ++ " : " ++ cmpName ++ " port `" ++ portname ++ "`"
+            (c:_) -> varName c
+            _ -> case filter g consts of
+                ((ConstantDriver value _):_) -> "const_" ++ value
+                _ -> error $ "Flattener.hs: No connection specified for component " ++ 
+                    name ++ " (is " ++ cmpName ++ "), port `" ++ portname ++ "`"
             where
                 f (Connection (CID _ _) (CID inst_name' portname')) = 
                     inst_name' == ins_name inst && 
-                    portname' == portname
-                f _ = False
+                    portname == portname' -- TODO: hier stond een tautologie, portname' == portname', gaat dat mis?
+                
+                g (ConstantDriver value (CID inst_name' portname')) = 
+                    inst_name' == ins_name inst &&
+                    portname == portname'
 
+
+                    
 -- TODO: constants aren't simulated at all now, add a line to system where statements for every ConstantDriver connection
 -- TODO: could be neater with an abstraction over IO/ISO statement and handling connection finding as such
 systemWhereStatement :: [Connection] -> System -> String
@@ -105,6 +112,10 @@ systemWhereStatement conns system = whereStatement ins outs name
         name = sys_id system
         ins = map varName $ map (findIOConn conns name) $ inputs' $ sys_iodefs system
         outs = map (varName' $ sys_id system) $ outputs' $ sys_iodefs system
+
+constantWhereStatement :: ConstantDriver -> String
+constantWhereStatement (ConstantDriver value cid) = 
+    "        const_" ++ value ++ " = pure " ++ value
 
 
 findIOConn :: [Connection] -> String -> IOStat -> Connection
@@ -116,7 +127,6 @@ findIOConn conns sysid io =
         f (Connection (CID _ _) (CID sys_name' portname')) = 
             sys_name' == sysid && 
             portname' == (portname io)
-        f _ = False
 
 portname :: IOStat -> String
 portname io = case io of

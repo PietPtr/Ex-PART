@@ -2,18 +2,14 @@ combinatory {
 
 }
 
-component constTrue() {
-    output out : Bool
-    out = True
-}
 
 component counter() {
-    input enable : Bool
+    input enable : Unsigned 1
     input interval : Unsigned 24
     state count = 0 : Unsigned 24
     output out : Unsigned 24
 
-    count' = if enable
+    count' = if enable == 1
         then count + interval
         else count
     
