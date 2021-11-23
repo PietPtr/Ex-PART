@@ -129,6 +129,7 @@ monolithic expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
 
+-- TODO: usage stats kunnen ook weer uit logs geplukt worden 
 resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 resource expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory

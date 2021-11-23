@@ -18,9 +18,9 @@ system in (26, 26) at (2, 2) {
         chain_out = sum
     }
 
-    sum_chain[0].partial<-zero.c
+    sum_chain[1].partial<-(0)
     sum_chain:next<-drivers:out
-    reg.inp<-sum_chain[5].sum
+    reg.inp<-sum_chain[6].sum
     summed<-reg.out
 
 }

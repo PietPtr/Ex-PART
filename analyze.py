@@ -3,6 +3,7 @@ import sys
 import os
 from pprint import pprint
 from tabulate import tabulate
+# TODO: if folder not found, don't render its stats (don't crash, render everything found)
 
 if len(sys.argv) == 1:
     print("Please provide the project folder name.")

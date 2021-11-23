@@ -230,6 +230,7 @@ typeToBitwidth t = case t of
         "Unsigned 1" -> 1
         "Unsigned 2" -> 2
         "Unsigned 4" -> 4
+        "Unsigned 5" -> 5
         "Unsigned 6" -> 6
         "Unsigned 8" -> 8
         "Unsigned 16" -> 16
@@ -237,4 +238,5 @@ typeToBitwidth t = case t of
         "Bool" -> 1
         "Bitwidth" -> 16
         "UInt" -> 32
+        "Hash" -> 128
         other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other

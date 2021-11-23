@@ -34,7 +34,7 @@ makeInstance cmps rep i = Instance {
 makeCoords :: String -> String -> Coords -> Integer -> Coords
 makeCoords name layout coords 1 = coords
 makeCoords name layout coords i = case layout of
-    "horizontal" -> (CAdd prevX (CWidth n), y)
+    "horizontal" -> (CAdd prevX (CWidth n), y) -- TODO: add reverse_horizontal and reverse_vertical
     "vertical" -> (x, CAdd prevY (CHeight n))
     _ -> error "Repeat.hs: Unknown layout procedure."
     where

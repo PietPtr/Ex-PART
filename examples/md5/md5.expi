@@ -1,0 +1,185 @@
+hash in (26, 26) at (2, 2) {
+    input data : UInt
+    output hash : UInt
+
+    prep is prep in (0, 0) at (0, 0)
+    prep.def_hash->first_stage[1].prev_hash
+
+    chain first_stage at (4, 0) {
+        component = stage1 in (5, 10),
+        amount = 16,
+        layout = horizontal,
+        chain_in = prev_hash,
+        chain_out = next_hash
+    }
+
+    first_stage[1].k<-(3614090360)
+    first_stage[2].k<-(3905402710)
+    first_stage[3].k<-(606105819)
+    first_stage[4].k<-(3250441966)
+    first_stage[5].k<-(4118548399)
+    first_stage[6].k<-(1200080426)
+    first_stage[7].k<-(2821735955)
+    first_stage[8].k<-(4249261313)
+    first_stage[9].k<-(1770035416)
+    first_stage[10].k<-(2336552879)
+    first_stage[11].k<-(4294925233)
+    first_stage[12].k<-(2304563134)
+    first_stage[13].k<-(1804603682)
+    first_stage[14].k<-(4254626195)
+    first_stage[15].k<-(2792965006)
+    first_stage[16].k<-(1236535329)
+
+    first_stage[1].s<-(7)
+    first_stage[2].s<-(12)
+    first_stage[3].s<-(17)
+    first_stage[4].s<-(22)
+    first_stage[5].s<-(7)
+    first_stage[6].s<-(12)
+    first_stage[7].s<-(17)
+    first_stage[8].s<-(22)
+    first_stage[9].s<-(7)
+    first_stage[10].s<-(12)
+    first_stage[11].s<-(17)
+    first_stage[12].s<-(22)
+    first_stage[13].s<-(7)
+    first_stage[14].s<-(12)
+    first_stage[15].s<-(17)
+    first_stage[16].s<-(22)
+
+    first_stage[16].next_hash->second_stage[1].prev_hash
+
+    chain second_stage at (4, 5) {
+        component = stage2 in (5, 5),
+        amount = 16,
+        layout = horizontal,
+        chain_in = prev_hash,
+        chain_out = next_hash
+    }
+
+    second_stage[1].k<-(4129170786)
+    second_stage[2].k<-(3225465664)
+    second_stage[3].k<-(643717713)
+    second_stage[4].k<-(3921069994)
+    second_stage[5].k<-(3593408605)
+    second_stage[6].k<-(38016083)
+    second_stage[7].k<-(3634488961)
+    second_stage[8].k<-(3889429448)
+    second_stage[9].k<-(568446438)
+    second_stage[10].k<-(3275163606)
+    second_stage[11].k<-(4107603335)
+    second_stage[12].k<-(1163531501)
+    second_stage[13].k<-(2850285829)
+    second_stage[14].k<-(4243563512)
+    second_stage[15].k<-(1735328473)
+    second_stage[16].k<-(2368359562)
+
+    second_stage[1].s<-(5)
+    second_stage[2].s<-(9)
+    second_stage[3].s<-(14)
+    second_stage[4].s<-(20)
+    second_stage[5].s<-(5)
+    second_stage[6].s<-(9)
+    second_stage[7].s<-(14)
+    second_stage[8].s<-(20)
+    second_stage[9].s<-(5)
+    second_stage[10].s<-(9)
+    second_stage[11].s<-(14)
+    second_stage[12].s<-(20)
+    second_stage[13].s<-(5)
+    second_stage[14].s<-(9)
+    second_stage[15].s<-(14)
+    second_stage[16].s<-(20)
+
+    second_stage[16].next_hash->third_stage[1].prev_hash
+
+    chain third_stage at (4, 10) {
+        component = stage3 in (5, 5),
+        amount = 16,
+        layout = horizontal,
+        chain_in = prev_hash,
+        chain_out = next_hash
+    }
+
+    third_stage[1].k<-(4294588738)
+    third_stage[2].k<-(2272392833)
+    third_stage[3].k<-(1839030562)
+    third_stage[4].k<-(4259657740)
+    third_stage[5].k<-(2763975236)
+    third_stage[6].k<-(1272893353)
+    third_stage[7].k<-(4139469664)
+    third_stage[8].k<-(3200236656)
+    third_stage[9].k<-(681279174)
+    third_stage[10].k<-(3936430074)
+    third_stage[11].k<-(3572445317)
+    third_stage[12].k<-(76029189)
+    third_stage[13].k<-(3654602809)
+    third_stage[14].k<-(3873151461)
+    third_stage[15].k<-(530742520)
+    third_stage[16].k<-(3299628645)
+
+    third_stage[1].s<-(4)
+    third_stage[2].s<-(11)
+    third_stage[3].s<-(16)
+    third_stage[4].s<-(23)
+    third_stage[5].s<-(4)
+    third_stage[6].s<-(11)
+    third_stage[7].s<-(16)
+    third_stage[8].s<-(23)
+    third_stage[9].s<-(4)
+    third_stage[10].s<-(11)
+    third_stage[11].s<-(16)
+    third_stage[12].s<-(23)
+    third_stage[13].s<-(4)
+    third_stage[14].s<-(11)
+    third_stage[15].s<-(16)
+    third_stage[16].s<-(23)
+
+    third_stage[16].next_hash->fourth_stage[1].prev_hash
+
+    chain fourth_stage at (4, 15) {
+        component = stage4 in (5, 5),
+        amount = 16,
+        layout = horizontal,
+        chain_in = prev_hash,
+        chain_out = next_hash
+    }
+
+    fourth_stage[1].k<-(4096336452)
+    fourth_stage[2].k<-(1126891415)
+    fourth_stage[3].k<-(2878612391)
+    fourth_stage[4].k<-(4237533241)
+    fourth_stage[5].k<-(1700485571)
+    fourth_stage[6].k<-(2399980690)
+    fourth_stage[7].k<-(4293915773)
+    fourth_stage[8].k<-(2240044497)
+    fourth_stage[9].k<-(1873313359)
+    fourth_stage[10].k<-(4264355552)
+    fourth_stage[11].k<-(2734768916)
+    fourth_stage[12].k<-(1309151649)
+    fourth_stage[13].k<-(4149444226)
+    fourth_stage[14].k<-(3174756917)
+    fourth_stage[15].k<-(718787259)
+    fourth_stage[16].k<-(3951481745)
+
+    fourth_stage[1].s<-(6)
+    fourth_stage[2].s<-(10)
+    fourth_stage[3].s<-(15)
+    fourth_stage[4].s<-(21)
+    fourth_stage[5].s<-(6)
+    fourth_stage[6].s<-(10)
+    fourth_stage[7].s<-(15)
+    fourth_stage[8].s<-(21)
+    fourth_stage[9].s<-(6)
+    fourth_stage[10].s<-(10)
+    fourth_stage[11].s<-(15)
+    fourth_stage[12].s<-(21)
+    fourth_stage[13].s<-(6)
+    fourth_stage[14].s<-(10)
+    fourth_stage[15].s<-(15)
+    fourth_stage[16].s<-(21)
+
+
+
+    hash<-first_stage[16].next_hash
+}

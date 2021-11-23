@@ -1,0 +1,61 @@
+combinatory {
+
+start :: Hash
+start = (0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476)
+
+zero_hash :: Hash
+zero_hash = (0, 0, 0, 0)
+
+}
+
+type UInt = Unsigned 32
+type Hash = (UInt, UInt, UInt, UInt)
+
+component prep() {
+    output def_hash : Hash
+
+    def_hash = (0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476)
+}
+
+component stage1() {
+    input k : UInt
+    input s : Unsigned 5
+    input prev_hash : Hash
+    state reg = zero_hash : Hash
+    output next_hash : Hash
+
+    reg' = prev_hash
+
+    next_hash = reg
+
+}
+
+component stage2() {
+    input k : UInt
+    input s : Unsigned 5
+    input prev_hash : Hash
+    output next_hash : Hash
+
+    next_hash = prev_hash
+
+}
+
+component stage3() {
+    input k : UInt
+    input s : Unsigned 5
+    input prev_hash : Hash
+    output next_hash : Hash
+
+    next_hash = prev_hash
+
+}
+
+component stage4() {
+    input k : UInt
+    input s : Unsigned 5
+    input prev_hash : Hash
+    output next_hash : Hash
+
+    next_hash = prev_hash
+
+}
