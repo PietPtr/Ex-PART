@@ -1,29 +1,18 @@
 module Main where
 
-import Prelude hiding (repeat)
+import Prelude
+import Compiler hiding (parse)
 
-
-import Compiler
-
-import Types
-import Parser
-import Unroll
-import Generator
-import JSONBuilder
-import Yosys
-import Nextpnr
-import Compiler
-
-import System.Directory
 import System.Environment
 
 -- Untested
+main :: IO ()
 main = do
     args <- getArgs
     parse args
     where
         parse [] = usage
-        parse [x] = usage
+        parse [_] = usage
         parse [flowName, dir] = make (flowMap flowName) dir
         parse _ = usage
 

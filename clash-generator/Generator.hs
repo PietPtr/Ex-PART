@@ -4,7 +4,6 @@ import Types
 import Preliminary (doPreliminaryProcessing)
 import ComponentConversion (toClash)
 import qualified Flattener as F
-import Data.Char
 
 generateComponent :: Component -> IO ()
 generateComponent cmp = writeFile 
@@ -21,5 +20,3 @@ generateClash program@(Program _ _ components) = do
 flatten :: Program -> System -> IO ()
 flatten expc expi = do
     writeFile ("Clash.hs") (F.flatten expc expi)
-    where
-        (f:topEntity) = sys_id expi

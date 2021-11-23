@@ -4,7 +4,6 @@ import Data.Aeson
 
 import Types
 import Locations
-import Connections
 
 writeLocationsJSON :: System -> IO ()
 writeLocationsJSON system = do

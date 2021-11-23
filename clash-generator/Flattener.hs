@@ -2,7 +2,6 @@ module Flattener where
 
 import Types
 import ComponentConversion
-import Preliminary
 
 import qualified Data.Set as Set
 import Data.Set (Set, union, unions)
@@ -96,9 +95,10 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
                     inst_name' == ins_name inst && 
                     portname == portname'
                 
-                g (ConstantDriver value (CID inst_name' portname')) = 
+                g (ConstantDriver _ (CID inst_name' portname')) = 
                     inst_name' == ins_name inst &&
                     portname == portname'
+        findConn _ = error "Flattener.hs: This case should not have happenned, only call this function with SInputs."
 
 
 
@@ -111,7 +111,7 @@ systemWhereStatement conns system = whereStatement ins outs name
         outs = map (varName' $ sys_id system) $ outputs' $ sys_iodefs system
 
 constantWhereStatement :: ConstantDriver -> String
-constantWhereStatement (ConstantDriver value cid) = 
+constantWhereStatement (ConstantDriver value _) = 
     "        const_" ++ value ++ " = pure " ++ value
 
 

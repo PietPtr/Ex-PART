@@ -4,7 +4,6 @@ import Types
 import Chain
 import Repeat
 import Multiconnection
-import Constant -- cancelled, but keeping in the parsing features if time is left over
 
 -- TODO (elab): Turn this in the elaboration phase
 -- Ensures all repetitions and multiconnections are unrolled into instances and connections

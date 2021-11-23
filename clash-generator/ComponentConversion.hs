@@ -16,8 +16,11 @@ createTypeSignature (Component name _ isoStats _) =
     inputType isoStats ++ " -> (" ++ stateType isoStats ++ 
     ", " ++ outputType isoStats ++ ")"
 
+inputType :: [ISOStat] -> String
 inputType isoStats = haskellifyISO (\(SInput _ t) -> t) (inputs isoStats)
+stateType :: [ISOStat] -> String
 stateType isoStats = haskellifyISO (\(SState _ _ t) -> t) (states isoStats)
+outputType :: [ISOStat] -> String
 outputType isoStats = haskellifyISO (\(SOutput _ t) -> t) (outputs isoStats)
 
 -- step 3: create skeleton Haskell def
@@ -65,10 +68,8 @@ createSynthesizable isoStats name isComponent = concat $ intersperse "\n"
             \    }) #-}"
 
         inPortProduct = generatePort inputs
-            -- "PortProduct \"\" [" ++ concat (intersperse ", " $ map toPortName $ inputs isoStats) ++ "]"
         outPortProduct = generatePort outputs
-            -- "PortProduct \"\" [" ++ concat (intersperse ", " $ map toPortName $ outputs isoStats) ++ "]"
-
+       
         generatePort :: ([ISOStat] -> [ISOStat]) -> String
         generatePort f = 
             if length (f isoStats) == 1 
@@ -78,6 +79,7 @@ createSynthesizable isoStats name isComponent = concat $ intersperse "\n"
         toPortName :: ISOStat -> String
         toPortName (SInput name _) = "PortName \""++name++"\""
         toPortName (SOutput name _) = "PortName \""++name++"\""
+        toPortName _ = error "ComponentConversion.hs: A state is not a port."
 
         topEntity =
             "topEntity\n\

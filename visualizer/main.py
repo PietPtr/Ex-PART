@@ -21,10 +21,7 @@ while True:
     """
     Updates and logic
     """
-    # mov = pygame.mouse.get_rel()
-    # if (pygame.mouse.get_pressed()[0]):
-    #     view[0] += mov[0] * 1 / zoom
-    #     view[1] += mov[1] * 1 / zoom
+    # TODO (feature): add panning
 
     """
     Drawing

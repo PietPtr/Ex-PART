@@ -3,7 +3,6 @@
 module Locations where
 
 import Data.Aeson
-import Debug.Trace
 import Data.Text (pack)
 import Data.Graph hiding (Node)
 import Data.Array
@@ -20,7 +19,7 @@ instance Num Pos where
     (-) (Pos x y) (Pos x' y') = Pos (x-x') (y-y')
     (*) (Pos x y) (Pos x' y') = Pos (x*x') (y*y')
     abs (Pos x y) = Pos (abs x) (abs y)
-    signum (Pos x y) = 1 -- Nobody needs this right..?
+    signum (Pos _ _) = 1 -- Nobody needs this right..?
     fromInteger x = (Pos x 0)
 
 data AbsolutePositionTree 
@@ -90,7 +89,6 @@ reduceCoordsToConsts instances cexpr = case cexpr of
 
         
 
-cyclegraph = [("a", ["b"]), ("b", ["c"]), ("c", ["c"])]
 
 toGraphList :: [(String, Size, Coords)] -> [(Name, [Name])]
 toGraphList [] = []
@@ -109,7 +107,7 @@ toGraphList ((name, _, (x, y)):rest) = (name, neighbors) : toGraphList rest
 toGraph :: [(Name, [Name])] -> Graph
 toGraph graphlist = graph
     where
-        (graph, _, vertexFromKey) = graphFromEdges (map (\(n, l) -> (n, n, l)) graphlist)
+        (graph, _, _) = graphFromEdges (map (\(n, l) -> (n, n, l)) graphlist)
 
 isInCycle :: Graph -> Vertex -> [Bool]
 isInCycle graph vertex = map (\v -> vertex `elem` (reachable graph v)) reachables
@@ -136,16 +134,9 @@ findID instances id = case filter (\(name, _, _) -> name == id) instances of
 allInstsWithCoords :: System -> [(String, Size, Coords)]
 allInstsWithCoords system = 
     [(sys_id system, sys_size system, sys_coords system)] ++
-    -- (map (addCoords $ sys_coords system) $
     map tuplize (sys_instances system) ++ 
     subInstances
     where
         tuplize ins = (ins_name ins, ins_size ins, ins_coords ins)
         subInstances = concat $ map allInstsWithCoords (sys_subsystems system)
 
-        addCoords :: Coords -> (String, Size, Coords) -> (String, Size, Coords)
-        addCoords coords' (name, size, coords) = (name, size, 
-            (CAdd (fst coords) (fst coords'),
-             CAdd (snd coords) (snd coords')))
-
--- ToJSON the APT

@@ -2,23 +2,15 @@ module Steps where
 
 import Types
 
-import Types
-import Parser
 import Unroll
 import Generator
 import JSONBuilder
 import Yosys
 import Nextpnr
 
-import Data.Either
-import Data.Aeson
-import Data.Text (pack, unpack)
 import Data.List
-import qualified Data.Map as Map
-import Control.Monad
 import Control.Concurrent
 import System.Directory
-import Data.List.Split
 
 createDirAndEnter :: FilePath -> IO ()
 createDirAndEnter outDir = do
@@ -107,6 +99,7 @@ synthesizeAndPnRIndividualComponents lpfLoc = do
         -- Defined here as it is very specific logic to the flow
         -- _may_ be better in Yosys.hs and Nextpnr.hs, but since its only used here
         -- it's probably better ot keep it only here.
+        runToolOn :: String -> IO () -> IO ()
         runToolOn cmpName tool = do
             putStrLn $ "        | ..." ++ cmpName
             setCurrentDirectory cmpName

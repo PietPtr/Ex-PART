@@ -2,21 +2,13 @@ module Compiler where
 
 import Types
 import Parser
-import Unroll
-import Generator
-import JSONBuilder
 import Yosys
 import Nextpnr
 import qualified Flows
 
 import Data.Either
-import Data.Aeson
-import Data.Text (pack, unpack)
-import qualified Data.Map as Map
 import Control.Monad
-import Control.Concurrent
 import System.Directory
-import Data.List.Split
 
 
 
@@ -37,7 +29,7 @@ auto expcPath expiPath lpfName outDir = do
     if (not outExists || not sourcesExist)
         then do
             putStrLn $ "[Ex-PART] No directory or old source files found, picking clean flow."
-            Flows.clean expc expi_reps expcPath expiPath outDir
+            Flows.clean expc expi_reps outDir
             finish lpfLoc outDir startDir
         else do
             putStrLn $ "[Ex-PART] Build directory exists, investigating expc changes..."
@@ -84,8 +76,8 @@ auto expcPath expiPath lpfName outDir = do
         
 
         changedComponents :: [Component] -> [Component] -> [Component]
-        changedComponents [] olds = error "No components in expc file..."
-        changedComponents news [] = []
+        changedComponents [] _ = error "No components in expc file..."
+        changedComponents _ [] = []
         changedComponents news (c:olds) = case other of
                 Just c' -> c' : (changedComponents news olds)
                 Nothing -> changedComponents news olds
@@ -105,8 +97,8 @@ parse :: Show a => (FilePath -> IO (Either a b)) -> FilePath -> IO b
 parse parser path = do
     parsed <- parser path
     case parsed of
-        (Left error) -> putStrLn $ "[Ex-PART] Parse error: " ++ show error
-        (Right result) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ path
+        (Left errMsg) -> putStrLn $ "[Ex-PART] Parse error: " ++ show errMsg
+        (Right _) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ path
     guard (isRight parsed)
     pure $ fromRight undefined parsed
 
@@ -129,9 +121,9 @@ monolithic expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
 
--- TODO feature: usage stats kunnen ook weer uit logs geplukt worden 
+-- TODO (feature): usage stats kunnen ook weer uit logs geplukt worden 
 resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
-resource expcPath expiPath lpfPath outDir = do
+resource expcPath _ lpfPath outDir = do
     startDir <- getCurrentDirectory
     expc <- parse parse_expc expcPath
 
@@ -140,8 +132,10 @@ resource expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
+type Flow = (FilePath -> FilePath -> FilePath -> String -> IO ())
 
 -- Easy helper function for consistently named projects
+make :: Flow -> String -> IO ()
 make flow prj = do
     let path = "examples/" ++ prj ++ "/" ++ prj
     expcPath <- makeAbsolute (path ++ ".expc")

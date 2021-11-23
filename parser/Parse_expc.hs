@@ -1,25 +1,10 @@
 module Parse_expc where
 
 import Text.ParserCombinators.Parsec
-import Text.ParserCombinators.Parsec.Language hiding (haskell) -- msch moet ik dit usen?
 
 import Parse_shared
 import Types
 
-{-
-program ::= (statement '\n')*
-
-statement ::= (combinatory | component | haskell_type_def | haskell_data_def)
-
-Y combinatory ::= 'combinatory' OWS '{' haskell '}'
-
-Y component ::= 'component' WS identifier constantArgs '{' (isoStatement | WS)* haskell_where '}'
-X constantArgs ::= '(' (arg (',' arg)*)? ')'
-X arg ::= identifier
-
-Y isoStatement ::= 'state' WS identifier WS '=' WS constant_expr WS ':' WS haskell_type '\n'
-							 | ioStatement
--}
 
 data Statement
     = CombinatoryStat String

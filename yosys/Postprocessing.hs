@@ -3,11 +3,10 @@
 module Postprocessing where
 
 import Data.Aeson
-import Debug.Trace
 import qualified Data.Map as Map
-import Data.Text (pack, unpack)
+import Data.Text (pack)
 import Data.List
-import Numeric (showHex, showIntAtBase)
+import Numeric (showIntAtBase)
 import Data.Char (intToDigit)
 import Data.Maybe
 
@@ -49,6 +48,7 @@ data CellConn = CellConn String [Integer]
 
 type Net = [Integer] -- directly a yosys "bits" entry
 
+clockResetEnablePorts :: [Port]
 clockResetEnablePorts = [
         Port {
             port_name = "clk",
@@ -125,16 +125,14 @@ makeTopModule program system = makeModules True program system
 
 makeConstModules :: Program -> System -> [Module]
 makeConstModules program system = case driver of
-    Just driver -> constDriverModule bitwidth driver : (makeConstModules program system')
+    Just driver -> constDriverModule driver : (makeConstModules program system')
     Nothing -> []
     where
         (driver, drivers) = case sys_constantDrivers system of
             (d:ds) -> (Just d, Just ds)
             [] -> (Nothing, Nothing)
         system' = system {sys_constantDrivers=(fromJust drivers)} -- only used in the just case, type system cannot prove this tho
-        Just (ConstantDriver value cid) = driver
 
-        bitwidth = findCIDBitwidth system cid 
 
 -- TODO (elab): in the typing refactor, can the bitwidth not be annotated somewhere? saves a crapton of lookups
 findCIDBitwidth :: System -> CID -> Integer
@@ -180,7 +178,7 @@ makeModules isTop p@(Program _ _ components) system = mod :
                 key = case port_direction port of
                     In -> cid
                     Out -> findDriver system' cid
-                isDriver (Connection from to) = to == cid
+                    
                 value = port_bits port
                 cid = (CID "this" (port_name port))
 
@@ -216,14 +214,14 @@ findDriver system cid = case filter isDriver (sys_connections system) of
         ((Connection netCID _):_) -> netCID
         [] -> error $ "Postprocessing.hs: Could not find driver " ++ show cid ++ " in " ++ show (sys_connections system)
     where
-        isDriver (Connection from to) = to == cid
+        isDriver (Connection _ to) = to == cid
 
 
 
 
 -- bitCtr counts which netnumber is free
 makePorts :: Integer -> [IOStat] -> [Port]
-makePorts bitCtr [] = []
+makePorts _ [] = []
 makePorts bitCtr (stat:stats) = 
     Port {
         port_name = name,
@@ -280,12 +278,10 @@ nets' comps system bitCtr ((Connection from to):connections) netmap =
 -- WARN: unique integers aren't sequential (but that probably does not matter)
 makeCells :: [Component] -> System -> Netmap -> [Cell]
 makeCells components system netmap = 
-    -- makeInstanceCells components system netmap (sys_instances system) ++
-    -- makeSubsystemCells system netmap (sys_subsystems system)
     makeCells' components system netmap (systemElems ++ instanceElems) 
     where
         systemElems = map sysElem (sys_subsystems system)
-        instanceElems = map (instElem components) (sys_instances system)
+        instanceElems = map instElem (sys_instances system)
 
 -- abstracts over instance and system
 data Element = Element {
@@ -311,8 +307,8 @@ sysElem system = Element {
         elem_isSubsys = True
     }
 
-instElem :: [Component] -> Instance -> Element
-instElem components inst = Element {
+instElem :: Instance -> Element
+instElem inst = Element {
         elem_name = ins_name inst,
         elem_type = cmp_name $ ins_cmp inst,
         elem_io = elemio,
@@ -335,8 +331,8 @@ instElem components inst = Element {
 
 
 
-constDriverModule :: Integer -> ConstantDriver -> Module
-constDriverModule bitwidth (ConstantDriver value cid) = Module 
+constDriverModule :: ConstantDriver -> Module
+constDriverModule (ConstantDriver value cid) = Module 
     { mod_name = constModuleName (ConstantDriver value cid)
     , mod_top = False
     , mod_ports = clockResetEnablePorts ++ [outPort]
@@ -381,7 +377,7 @@ makeCells' components system netmap (elem:elements) =
             else "-instance-"
 
         relevantConnections = filter relevant connections
-        relevant (Connection (CID from_cmp from_port) (CID to_cmp to_port)) =
+        relevant (Connection (CID from_cmp _) (CID to_cmp _)) =
             from_cmp == elem_name elem || to_cmp == elem_name elem
         
         connections = sys_connections system
@@ -411,9 +407,3 @@ makeCells' components system netmap (elem:elements) =
         portCells = map toCellConn (elem_io elem)
 
 
-
-
-
-test =[
-    Module {
-        mod_name = "system", mod_top = True, mod_ports = [Port {port_name = "result", port_direction = Out, port_bits = [5,6,7,8,9,10,11,12]},Port {port_name = "setting", port_direction = In, port_bits = [13,14,15,16,17,18,19,20,21]}], mod_cells = [Cell {cell_name = "collatzer", cell_type = "collatzer", cell_portDirections = [PortAndDir "val_out" Out,PortAndDir "val_in" In], cell_connections = [CellConn "clk" [2],CellConn "rst" [3],CellConn "en" [4],CellConn "val_out" [39,40,41,42,43,44,45,46],CellConn "val_in" [5,6,7,8,9,10,11,12]]},Cell {cell_name = "controller", cell_type = "control", cell_portDirections = [PortAndDir "next_val" In,PortAndDir "set_val" In,PortAndDir "result_value" Out], cell_connections = [CellConn "clk" [2],CellConn "rst" [3],CellConn "en" [4],CellConn "next_val" [39,40,41,42,43,44,45,46],CellConn "set_val" [13,14,15,16,17,18,19,20,21],CellConn "result_value" [5,6,7,8,9,10,11,12]]}]},Module {mod_name = "collatzer", mod_top = False, mod_ports = [Port {port_name = "val_out", port_direction = Out, port_bits = [5,6,7,8,9,10,11,12]},Port {port_name = "val_in", port_direction = In, port_bits = [13,14,15,16,17,18,19,20]}], mod_cells = [Cell {cell_name = "merger", cell_type = "merger", cell_portDirections = [PortAndDir "vo" In,PortAndDir "ve" In,PortAndDir "res" Out], cell_connections = [CellConn "clk" [2],CellConn "rst" [3],CellConn "en" [4],CellConn "vo" [38,39,40,41,42,43,44,45,46],CellConn "ve" [29,30,31,32,33,34,35,36,37],CellConn "res" [5,6,7,8,9,10,11,12]]},Cell {cell_name = "onEven", cell_type = "onEven", cell_portDirections = [PortAndDir "val" In,PortAndDir "res" Out], cell_connections = [CellConn "clk" [2],CellConn "rst" [3],CellConn "en" [4],CellConn "val" [47,48,49,50,51,52,53,54,55],CellConn "res" [29,30,31,32,33,34,35,36,37]]},Cell {cell_name = "onOdd", cell_type = "onOdd", cell_portDirections = [PortAndDir "val" In,PortAndDir "res" Out], cell_connections = [CellConn "clk" [2],CellConn "rst" [3],CellConn "en" [4],CellConn "val" [56,57,58,59,60,61,62,63,64],CellConn "res" [38,39,40,41,42,43,44,45,46]]},Cell {cell_name = "router", cell_type = "router", cell_portDirections = [PortAndDir "val" In,PortAndDir "odd" Out,PortAndDir "even" Out], cell_connections = [CellConn "clk" [2],CellConn "rst" [3],CellConn "en" [4],CellConn "val" [13,14,15,16,17,18,19,20],CellConn "odd" [56,57,58,59,60,61,62,63,64],CellConn "even" [47,48,49,50,51,52,53,54,55]]}]}]

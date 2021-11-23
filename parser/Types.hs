@@ -160,7 +160,6 @@ data Connection = Connection CID CID
     deriving (Show, Eq)
 data CID 
     = CID String String -- system port
-    -- | ConstantDriver String
     deriving (Show, Eq, Ord)
 
 data ConstantDriver = ConstantDriver String CID
@@ -202,7 +201,7 @@ data Repetition
 data Option
     = Comp UnplacedInstance
     | Amount Integer
-    | Layout String -- or layout expression maybe
+    | Layout String
     | Initial String 
     | ChainIn String
     | ChainOut String

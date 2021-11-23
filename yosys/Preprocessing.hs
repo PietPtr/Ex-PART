@@ -1,6 +1,5 @@
 module Preprocessing where
 
-import System.Directory
 import System.Process
 import Data.List
 
@@ -55,6 +54,7 @@ verilogLine prefix (cmp, stat) =
         name = case stat of
             (SInput name _) -> name
             (SOutput name _) -> name
+            _ -> error "Preprocessing.hs: No state should have been seen here."
 
 instantiationLine :: Component -> String
 instantiationLine cmp = if (length outs > 0)
@@ -65,11 +65,13 @@ instantiationLine cmp = if (length outs > 0)
         inps = inputs $ cmp_isoStats cmp
         inputNames = intercalate ", " $ map inputName inps
         inputName (SInput inp_name _) = name ++ "_input_" ++ inp_name
+        inputName x = error $ "Preprocessing.hs: Not an input: " ++ show x
         inputStr = if length inps == 0 then "" else inputNames ++ ", "
 
         outs = outputs $ cmp_isoStats cmp
         outputNames = intercalate ", " $ map outputName outs
         outputName (SOutput out_name _) = name ++ "_output_" ++ out_name
+        outputName x = error $ "Preprocessing.hs: Not an output: " ++ show x
 
         name = cmp_name cmp
 

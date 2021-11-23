@@ -6,39 +6,26 @@ import qualified Text.Parsec.Token as P
 
 import Types
 
-{-
-Y haskell ::= # haskell code somehow
-Y haskell_where ::= # exact wat er in een haskell where block kan
-Y haskell_type_def ::= # haskell type def statement
-Y haskell_data_def ::= # haskell data def statement
-Y haskell_type ::= WS # a haskell type
-Y haskell_data ::= # some instance of a haskell data type
-
-X constant_expr ::= haskel_data | constant_numeric_expr
-X constant_numeric_expr ::= [0-9]+ | constant_numeric_expr OWS ('+' | '-' | '*') OWS constant_numeric_expr
-
-Y WS ::= [ \n\t]+  # mandatory whitespace
-Y OWS ::= [ \n\t]* # optional whitespace
-
-P identifier ::= [a-zA-Z][a-zA-Z0-9_]*
-P number ::= [0-9]+
-
-Y ioStatement ::= 
-    'input' WS identifier WS ':' WS haskell_type WS '\n'
-  | 'output' WS identifier WS ':' WS haskell_type WS '\n'
--}
-
 lexer       = P.makeTokenParser haskellDef
 
+parens :: Parser a -> Parser a
 parens      = P.parens lexer
+
+braces :: Parser a -> Parser a
 braces      = P.braces lexer
+
+reserved :: String -> Parser ()
 reserved    = P.reserved lexer
+
+integer :: Parser Integer
 integer     = P.integer lexer
+
+float :: Parser Double
 float       = P.float lexer
+
+symbol :: String -> Parser String
 symbol      = P.symbol lexer
 
-constant_expr = undefined
-constant_numeric_expr = undefined
 
 identifier :: Parser String
 identifier = (:) <$> (letter <|> char '_') <*> many (alphaNum <|> char '_' <|> char '\'')

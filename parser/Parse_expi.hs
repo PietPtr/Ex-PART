@@ -3,33 +3,10 @@ module Parse_expi where
 import Prelude hiding (repeat)
 
 import Text.ParserCombinators.Parsec
-import Text.ParserCombinators.Parsec.Language
 
 import Parse_shared 
 import Types
-import Debug.Trace
 
-
-{-
-program ::= system # a program is exactly one system - the top entity.
-
-system ::= (flattened WS)? identifier WS 'in' WS size WS 'at' WS coords '{' 
-				(ioStatement | WS)* (instance | connection | system | WS)*  # waar is repetition hier?
-		'}'
-
-Y component_instantiation ::= identifier WS 'is' WS identifier '(' (arg (',' arg)*)? ')' WS 'in' WS size 
-Y instance ::=  component_instantiation WS 'at' WS coords '\n'
-X arg ::= haskell_type OWS ':' OWS 'Type'
-			| constant_expr OWS ':' OWS 'Const'
-Y size ::= '(' OWS number OWS ',' OWS number OWS ')'
-Y coords ::= '(' OWS coord_expr OWS ',' OWS coord_expr OWS ')'
-Y coord_expr ::= (number | identifier '.' ('w','h','x','h') | coord_expr '+' coord_expr)
-
-Y connection ::= identifier ('.' identifier)? ('<-' | '->') identifier ('.' identifier)? '\n'
-
-X repetition ::= identifier WS ('repeat' | 'chain') WS 'at' coords '{' (identifier OWS '=' OWS repeat_data '\n')* '}'
-X repeat_data ::= coords | number | identifier | component_instantiation
--}
 
 data Statement
     = InstanceStat Instance
@@ -240,7 +217,7 @@ constant_driver = (\pl c pr -> pl ++ c ++ pr) <$>
     (string "(") *> ((\c -> show (read c :: Int)) <$> const) <* (string ")")
     where
         -- Only numeric constants are supported.
-        symbols = ['0'..'9']-- ++ ['a'..'z'] ++ ['A'..'Z'] ++ [' ']
+        symbols = ['0'..'9']
         text = (many1 $ oneOf symbols)
 
         const = 

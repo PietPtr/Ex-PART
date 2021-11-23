@@ -32,18 +32,3 @@ repetitionAmount :: Repetition -> Integer
 repetitionAmount rep = case rep of
     Chain {chn_amount=a} -> a
     Repeat {rep_amount=a} -> a
-
-{-
-CID "enablers_0" "enable",
-CID "enablers_1" "enable",
-CID "enablers_2" "enable",
-CID "enablers_3" "enable",
-CID "enablers_4" "enable",
-CID "enablers_5" "enable"] -> 
-CID "slowCounters_0" "enable",
-CID "slowCounters_1" "enable",
-CID "slowCounters_2" "enable",
-CID "slowCounters_3" "enable",
-CID "slowCounters_4" "enable"]
-
--}

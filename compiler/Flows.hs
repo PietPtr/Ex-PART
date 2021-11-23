@@ -3,22 +3,14 @@ module Flows where
 import Types
 import Steps
 
-import Data.Either
-import Data.Aeson
-import Data.Text (pack, unpack)
-import Data.List
-import qualified Data.Map as Map
-import Control.Monad
-import Control.Concurrent
 import System.Directory
-import Data.List.Split
 
 -- These compile flows change directory very often. When one crashes the program may not
 -- be in the directory you expect. Run :r in ghci to return to the original one.
 
 
-clean :: Program -> System -> FilePath -> FilePath -> FilePath -> IO ()
-clean expc_rolled expi_rolled expcPath expiPath outDir = do
+clean :: Program -> System -> FilePath -> IO ()
+clean expc_rolled expi_rolled outDir = do
     createDirAndEnter outDir
 
     (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
@@ -35,7 +27,7 @@ clean expc_rolled expi_rolled expcPath expiPath outDir = do
 expcChanged :: Program -> System -> [Component] -> [Component] -> [Component] -> IO ()
 expcChanged expc_rolled expi_rolled changed deleted newcmps = do
     expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
-    (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
+    (expc, expi) <- unrollRepetitions expc_current expi_rolled
 
     writeLocations expi
     generateClash expc

@@ -6,13 +6,13 @@ import Types
 import System.Directory
 import System.Process
 import System.Exit
-import Data.List
 import Data.Aeson
 import GHC.IO.Handle
 
 import Preprocessing
 import Postprocessing
 
+synth_ecp5 :: String
 synth_ecp5 = "synth_ecp5 -noccu2 -nomux -nobram -nodram -noflatten -nodsp"
 
 
@@ -97,5 +97,5 @@ combineJSONs :: String -> IO ()
 combineJSONs basedir = do
     (_, _, _, h) <- createProcess $ 
         proc "python3" ["/usr/share/ex-part/yosys/merge_json.py", basedir]
-    waitForProcess h
+    _ <- waitForProcess h
     return ()
