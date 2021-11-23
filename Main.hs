@@ -5,6 +5,9 @@ import Compiler hiding (parse)
 
 import System.Environment
 
+-- import stuff such that in GHCi we can inspect types
+import Types
+
 -- Untested
 main :: IO ()
 main = do

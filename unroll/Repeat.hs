@@ -28,7 +28,7 @@ makeInstance cmps rep i = Instance {
 
         component = case filter (\c -> (cmp_name c) == component_name) cmps of
             (x:_) -> x
-            [] -> error $ "Repeat.hs: Cannot find component " ++ component_name ++ " in .expc file."
+            [] -> error $ "Repeat.hs: Cannot find component " ++ component_name ++ " in .expc file: " ++ show (map cmp_name cmps)
 
 
 makeCoords :: String -> String -> Coords -> Integer -> Coords

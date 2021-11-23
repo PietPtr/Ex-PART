@@ -23,6 +23,8 @@ auto expcPath expiPath lpfName outDir = do
 
     outExists <- doesDirectoryExist outDir
     sourcesExist <- doesFileExist (outDir ++ "/build.expc")
+    -- A bit overkill to go clean when the defs/combinatory change, but otherwise _very_ hard to find
+    -- what component to re-build.
 
     -- There are nicer ways to structure this control, but it works and will not be changed for now
     -- It _is_ easy to read too, as it is basically just very imperative...
@@ -36,25 +38,32 @@ auto expcPath expiPath lpfName outDir = do
             setCurrentDirectory outDir
 
             oldExpc <- parse parse_expc "build.expc"
-            changed <- pure $ changedComponents (prg_cmps expc) (prg_cmps oldExpc)
-            deleted <- pure $ deletedComponents (prg_cmps expc) (prg_cmps oldExpc)
-            newcmps <- pure $ newComponents (prg_cmps expc) (prg_cmps oldExpc)
-            if (changed /= [] || deleted /= [] || newcmps /= []) 
+            defsAndTypes <- pure $ (prg_defs expc /= prg_defs oldExpc) || (prg_cmbs expc /= prg_cmbs oldExpc)
+            if (defsAndTypes)
                 then do
-                    putStrLn $ "[Ex-PART] Changes in expc file found, picking expc flow."
-                    Flows.expcChanged expc expi_reps changed deleted newcmps
+                    putStrLn $ "[Ex-PART] Modified definitions or combinatory found, picking clean flow."
+                    Flows.clean expc expi_reps outDir
                     finish lpfLoc outDir startDir
                 else do
-                    putStrLn $ "[Ex-PART] No changes in expc file, investigating expi changes... "
-                    oldExpiContent <- readFile "build.expi"
-                    if (newExpiContent /= oldExpiContent)
+                    changed <- pure $ changedComponents (prg_cmps expc) (prg_cmps oldExpc)
+                    deleted <- pure $ deletedComponents (prg_cmps expc) (prg_cmps oldExpc)
+                    newcmps <- pure $ newComponents (prg_cmps expc) (prg_cmps oldExpc)
+                    if (changed /= [] || deleted /= [] || newcmps /= []) 
                         then do
-                            putStrLn $ "[Ex-PART] Changes in expi file found, picking expi flow."
-                            Flows.expiChanged expc expi_reps
+                            putStrLn $ "[Ex-PART] Changes in expc file found, picking expc flow."
+                            Flows.expcChanged expc expi_reps changed deleted newcmps
                             finish lpfLoc outDir startDir
                         else do
-                            putStrLn "[Ex-PART] No changes to expi. Nothing to do. Finished."
-                            setCurrentDirectory startDir
+                            putStrLn $ "[Ex-PART] No changes in expc file, investigating expi changes... "
+                            oldExpiContent <- readFile "build.expi"
+                            if (newExpiContent /= oldExpiContent)
+                                then do
+                                    putStrLn $ "[Ex-PART] Changes in expi file found, picking expi flow."
+                                    Flows.expiChanged expc expi_reps
+                                    finish lpfLoc outDir startDir
+                                else do
+                                    putStrLn "[Ex-PART] No changes to expi. Nothing to do. Finished."
+                                    setCurrentDirectory startDir
 
     where
         finish lpfLoc outDir startDir = do
