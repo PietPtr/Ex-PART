@@ -85,16 +85,17 @@ runYosys args = do
             error $ "Yosys.hs: Yosys terminated with code " ++ show code
         ExitSuccess -> pure ()
 
--- TODO: no type signatures
--- TODO: inconsistent variable names program and system
-customConnect program system = 
+customConnect :: Program -> System -> IO ()
+customConnect expc expi = 
     encodeFile "interconnect.json" (topModule ++ constModules)
     where
-        topModule = makeTopModule program system
-        constModules = makeConstModules program system
+        topModule = makeTopModule expc expi
+        constModules = makeConstModules expc expi
 
 
+combineJSONs :: String -> IO ()
 combineJSONs basedir = do
     (_, _, _, h) <- createProcess $ 
         proc "python3" ["/usr/share/ex-part/yosys/merge_json.py", basedir]
     waitForProcess h
+    return ()

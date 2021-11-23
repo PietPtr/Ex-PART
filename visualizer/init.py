@@ -1,7 +1,7 @@
 
 import pygame
-import random
 import sys
+import color
 
 if len(sys.argv) == 1:
     print("Please provide the project folder name.")
@@ -21,31 +21,6 @@ myfont = pygame.font.SysFont('Courier', 14)
 
 SQUARE_SIZE = pygame.display.Info().current_w // 24
 
-def color(name):
-    global mods
-    name = name + name + name
-    n = [ord(n) % 16 for n in name]
-    color = (
-        (sum(n[::3]) * mods[0]) % 255,
-        (sum(n[1::3]) * mods[1]) % 255,
-        (sum(n[2::3]) * mods[2]) % 255
-    )
-    return pygame.Color(color)
-
-def mute(color):
-    mute_one = lambda c : min(c + 100, 255)
-    r = mute_one(color.r)
-    g = mute_one(color.g)
-    b = mute_one(color.b)
-    return pygame.Color((r, g, b))
-
-# TODO: color module
-primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
-mods = [59, 31, 97]
-
-def randomize_colors():
-    global mods
-    mods = [random.choice(primes), random.choice(primes), random.choice(primes)]
 
 
 def cell_name_to_json_path(cell_name):
@@ -60,10 +35,6 @@ def cell_name_to_json_path(cell_name):
 
     return json_path
 
-
-def is_bright(color_any):
-    color = pygame.Color(color_any)
-    return (color.r * 0.299 + color.g * 0.587 + color.b * 0.114) > 150
 
 def reset_range():
     global x_range, y_range
@@ -120,7 +91,7 @@ def handle_event(event):
             SQUARE_SIZE = max(int(SQUARE_SIZE / 1.1), 10)
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_F1:
-            randomize_colors()
+            color.randomize_colors()
         if event.key == pygame.K_r:
             if relative_coords:
                 relative_coords = False

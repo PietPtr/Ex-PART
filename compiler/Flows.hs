@@ -1,12 +1,7 @@
 module Flows where
 
 import Types
-import Parser
-import Unroll
-import Generator
-import JSONBuilder
-import Yosys
-import Nextpnr
+import Steps
 
 import Data.Either
 import Data.Aeson
@@ -18,112 +13,60 @@ import Control.Concurrent
 import System.Directory
 import Data.List.Split
 
--- All compile flows in this file assume that they are in the correct output directory
--- except for clean, which creates the directory.
+-- These compile flows change directory very often. When one crashes the program may not
+-- be in the directory you expect. Run :r in ghci to return to the original one.
+
+
 clean :: Program -> System -> FilePath -> FilePath -> FilePath -> IO ()
 clean expc_rolled expi_rolled expcPath expiPath outDir = do
-    -- TODO: elke stap hier mag een losse functie worden, want het wordt zo vaak ge-copy-paste in flows
-    putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
-    createDirectoryIfMissing True outDir
-    threadDelay 1000 -- TODO: there is a dependence on these statements, but they're executed concurrently...
-    setCurrentDirectory outDir
+    createDirAndEnter outDir
 
-    putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
-    (expc, expi) <- pure $ unroll expc_rolled expi_rolled
+    (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
 
-    putStrLn "[Ex-PART] Generating locations.json..."
-    writeLocationsJSON expi
-
-    putStrLn "[Ex-PART] Generating Clash code..."
+    writeLocations expi
     generateClash expc
-
-    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
-
-    putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
+    flattenForSim expc expi
     compileToVerilog expc
-
-    putStrLn "[Ex-PART] Grouping Verilog files into one file..."
-    groupVerilogs expc
-
-    putStrLn "[Ex-PART] Synthesizing components to JSON..."
-    synthesizeTop
-
-    putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
-    customConnect expc expi
+    groupVerilogFiles expc
+    synthesizeComponents
+    connectComponents expc expi
 
 
 expcChanged :: Program -> System -> [Component] -> [Component] -> [Component] -> IO ()
 expcChanged expc_rolled expi_rolled changed deleted newcmps = do
     expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
-    putStrLn "[Ex-PART] Unrolling repeat & chain statements..."
-    (expc, expi) <- pure $ unroll expc_current expi_rolled
+    (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
 
-    putStrLn "[Ex-PART] Generating locations.json..."
-    writeLocationsJSON expi
-
-    putStrLn "[Ex-PART] Generating Clash code..."
+    writeLocations expi
     generateClash expc
-
-    putStrLn "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
-
-    putStrLn "[Ex-PART] Compiling Clash code of changed components to Verilog..."
+    flattenForSim expc expi
     compileToVerilog expc
-
-    putStrLn "[Ex-PART] Removing deleted components..."
-    mapM_ (\c -> removeDirectoryRecursive $ "builds/" ++ cmp_name c) deleted
-
-    putStrLn "[Ex-PART] Grouping Verilog files into one file..."
-    groupVerilogs expc
-
-    putStrLn "[Ex-PART] Synthesizing components to JSON..."
-    synthesizeTop
-
-    putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
-    customConnect expc expi
+    removeDeleted deleted
+    groupVerilogFiles expc
+    synthesizeComponents
+    connectComponents expc expi
 
 expiChanged :: Program -> System -> IO ()
 expiChanged expc_rolled expi_rolled = do
-    putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
-    (expc, expi) <- pure $ unroll expc_rolled expi_rolled
+    (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
 
-    putStrLn "[Ex-PART] Generating locations.json..."
-    writeLocationsJSON expi
-
-    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
-
-    putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
-    customConnect expc expi
+    writeLocations expi
+    flattenForSim expc expi
+    connectComponents expc expi
 
 
 monolithic :: Program -> System -> FilePath -> FilePath -> IO ()
 monolithic expc_rolled expi_rolled lpfPath outDir = do
     let outDir' = (slashscrape outDir) ++ "_monolithic"
 
-    putStrLn $ "[Ex-PART] Creating directory `" ++ outDir' ++ "`..."
-    createDirectoryIfMissing True outDir'
-    threadDelay 1000
-    setCurrentDirectory outDir'
+    createDirAndEnter outDir'
+    (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
 
-    putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
-    (expc, expi) <- pure $ unroll expc_rolled expi_rolled
-
-    putStrLn "[Ex-PART] Generating Clash code..."
     generateClash expc
-
-    putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
-
-    putStrLn "[Ex-PART] Compiling full design to Verilog..."
-    compileFullToVerilog
-
-    putStrLn "[Ex-PART] Synthesizing full design..."
+    flattenForSim expc expi
+    monolithicToVerilog
     synthesizeMonolithic
-
-    putStrLn "[Ex-PART] Performing place and route without expi constraints..."
-    nextpnr lpfPath []
+    noConstraintPnR lpfPath
 
     where
         slashscrape "" = ""
@@ -135,41 +78,11 @@ monolithic expc_rolled expi_rolled lpfPath outDir = do
 resource :: Program -> FilePath -> FilePath -> IO ()
 resource expc lpfPath outDir = do
     lpfLoc <- makeAbsolute lpfPath
-    putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
-    createDirectoryIfMissing True outDir
-    threadDelay 1000
-    setCurrentDirectory outDir
-
-    putStrLn "[Ex-PART] Generating Clash code..."
-    generateClash expc
-
-    putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
-    compileToVerilog expc
-
-    setCurrentDirectory "builds/"
-    components' <- listDirectory "."
-    let components = filter (\path -> not $ isPrefixOf "." path) components'
     
-    -- synthesize every component in builds/
-    putStrLn "[Ex-PART] Synthesizing component..."
-    mapM_ synthesizeIndividual components
+    createDirAndEnter outDir
+    generateClash expc
+    compileToVerilog expc
+    synthesizeAndPnRIndividualComponents lpfLoc
 
-    -- place and route every component in builds/
-    putStrLn "[Ex-PART] Placing and routing component..."
-    mapM_ (pnrOne lpfLoc) components
 
-    where
-        runToolOn cmpName tool = do
-            putStrLn $ "        | ..." ++ cmpName
-            setCurrentDirectory cmpName
-            tool
-            setCurrentDirectory ".."
-
-        pnrOne lpfLoc cmpName = runToolOn cmpName $
-            nextpnr lpfLoc ["--out-of-context"]
-            
-        
-        synthesizeIndividual cmpName = runToolOn cmpName $
-            runYosys ["-p", 
-                "read_verilog hdl/Main.topEntity/" ++ cmpName ++ ".v; " 
-                ++ synth_ecp5 ++ " -json synthesized.json"]
+    

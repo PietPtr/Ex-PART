@@ -1,6 +1,7 @@
 import slice
 import init
 import pygame
+import color
 
 class LegendEntry:
     def __init__(self, name):
@@ -33,10 +34,10 @@ def draw_legend(screen, component_names):
     for (surf, name) in surfaces:
         screen.blit(surf, (init.width - surf.get_width() - h_space, y))
 
-        pygame.draw.rect(screen, init.mute(init.color(name)),
+        pygame.draw.rect(screen, color.mute(color.color(name)),
             pygame.Rect(init.width - half * 2, y, h_space // 2, surf.get_height()))
             
-        pygame.draw.rect(screen, init.color(name),
+        pygame.draw.rect(screen, color.color(name),
             pygame.Rect(init.width - half, y, h_space // 2, surf.get_height()))
         
         y += surf.get_height() + v_space

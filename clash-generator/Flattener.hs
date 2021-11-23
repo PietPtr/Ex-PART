@@ -8,9 +8,7 @@ import qualified Data.Set as Set
 import Data.Set (Set, union, unions)
 import Data.List (intersperse, intercalate)
 
--- Given any system, recursively generate one Clash component for the entire thing
--- flatten' :: System -> Program -> String
--- flatten' system program = flatten (prg_cmps program) system
+-- Given any system, recursively generate one Clash project for the entire thing
 
 flatten :: Program -> System -> String
 flatten program system = intercalate "\n\n" $
@@ -60,14 +58,14 @@ definition system = name ++ " input = "++ bundle ++"(" ++ out_str ++ ")"
 whereBlock :: System -> String
 whereBlock system = concat $ intersperse "\n" stats
     where
-        stats = [unpacked_input system]
-             ++ (map (instanceWhereStatement (sys_connections system) (sys_constcons system)) $ sys_instances system)
-             ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system) -- TODO: No constant driver simulation for system :P (requires refactor?)
-             ++ (map (constantWhereStatement) (sys_constcons system))
+        stats = [unpackedInput system]
+             ++ (map (instanceWhereStatement (sys_connections system) (sys_constantDrivers system)) $ sys_instances system)
+             ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system) 
+             ++ (map (constantWhereStatement) (sys_constantDrivers system))
 
--- TODO: gebruik hier where_statement misschien?
-unpacked_input :: System -> String -- TODO >:( case inconsistentie
-unpacked_input system = "        " ++ "(" ++ ins_str ++ ") = unbundle input"
+
+unpackedInput :: System -> String 
+unpackedInput system = "        " ++ "(" ++ ins_str ++ ") = unbundle input"
     where
         iodefs = sys_iodefs system
         ins_str = if length (inputs' iodefs) == 0
@@ -83,7 +81,7 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
         cmpName = cmp_name component
         name = ins_name inst
         ins = map findConn $ inputs $ cmp_isoStats component
-        outs = map (\(SOutput portName _) -> name ++ "_" ++ portName) -- TODO: same logic as varName
+        outs = map (\(SOutput portName _) -> name ++ "_" ++ portName)
             $ outputs $ cmp_isoStats component
 
         findConn :: ISOStat -> String
@@ -96,16 +94,15 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
             where
                 f (Connection (CID _ _) (CID inst_name' portname')) = 
                     inst_name' == ins_name inst && 
-                    portname == portname' -- TODO: hier stond een tautologie, portname' == portname', gaat dat mis?
+                    portname == portname'
                 
                 g (ConstantDriver value (CID inst_name' portname')) = 
                     inst_name' == ins_name inst &&
                     portname == portname'
 
 
-                    
--- TODO: constants aren't simulated at all now, add a line to system where statements for every ConstantDriver connection
--- TODO: could be neater with an abstraction over IO/ISO statement and handling connection finding as such
+
+-- TODO (elab): could be neater with an abstraction over IO/ISO statement and handling connection finding as such
 systemWhereStatement :: [Connection] -> System -> String
 systemWhereStatement conns system = whereStatement ins outs name
     where
@@ -178,6 +175,3 @@ genComponentClash used comps = concat $ intersperse "\n" $
             , createEquation cmp
             , createWhereClause cmp ]
 
-
-
--- TODO: genereer een top-entity, dit zou al semi moeten kunnen met iets in ComponentConversion

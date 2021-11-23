@@ -32,7 +32,8 @@ auto expcPath expiPath lpfName outDir = do
     outExists <- doesDirectoryExist outDir
     sourcesExist <- doesFileExist (outDir ++ "/build.expc")
 
-    -- TODO: there are nicer ways to structure this control right?
+    -- There are nicer ways to structure this control, but it works and will not be changed for now
+    -- It _is_ easy to read too, as it is basically just very imperative...
     if (not outExists || not sourcesExist)
         then do
             putStrLn $ "[Ex-PART] No directory or old source files found, picking clean flow."
@@ -119,7 +120,6 @@ clean expcPath expiPath lpfName outDir = do
 
 monolithic :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 monolithic expcPath expiPath lpfPath outDir = do
-    -- TODO: doesn't absolutize paths, whose responsibility is that?
     startDir <- getCurrentDirectory
     expc <- parse parse_expc expcPath
     expi_reps <- parse (parse_expi $ prg_cmps expc) expiPath
@@ -129,7 +129,7 @@ monolithic expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
 
--- TODO: usage stats kunnen ook weer uit logs geplukt worden 
+-- TODO feature: usage stats kunnen ook weer uit logs geplukt worden 
 resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 resource expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory

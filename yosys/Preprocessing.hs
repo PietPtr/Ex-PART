@@ -21,7 +21,7 @@ clashProcesses cmpNames = map
 readAndAppend :: String -> IO ()
 readAndAppend name = do
     verilogSrc <- readFile 
-        $ "builds/" ++ name ++ "/hdl/Main.topEntity/" ++ name ++ ".v" -- TODO: dit doe ik wel erg vaak handmatig
+        $ "builds/" ++ name ++ "/hdl/Main.topEntity/" ++ name ++ ".v" -- TODO (lowprio): dit doe ik wel erg vaak handmatig
     appendFile ("builds/.grouped/build.grouped.v") verilogSrc
 
 
@@ -57,8 +57,10 @@ verilogLine prefix (cmp, stat) =
             (SOutput name _) -> name
 
 instantiationLine :: Component -> String
-instantiationLine cmp = "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++
-    inputStr ++ outputNames ++ ");"
+instantiationLine cmp = if (length outs > 0)
+    then "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++
+        inputStr ++ outputNames ++ ");"
+    else error "Preprocessing.hs: Found zero-output component."
     where
         inps = inputs $ cmp_isoStats cmp
         inputNames = intercalate ", " $ map inputName inps
@@ -68,7 +70,6 @@ instantiationLine cmp = "    " ++ name ++ " " ++ name ++ "i(clk, rst, en, " ++
         outs = outputs $ cmp_isoStats cmp
         outputNames = intercalate ", " $ map outputName outs
         outputName (SOutput out_name _) = name ++ "_output_" ++ out_name
-        -- TODO: zero output component will generate incorrect verilog.
 
         name = cmp_name cmp
 

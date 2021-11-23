@@ -41,12 +41,9 @@ while True:
 
     systems.draw_system_labels(screen, files.locations)
     
-    # legend.draw_legend(screen, slice.components)
     files.draw_file_indicators(screen)
 
     pygame.display.flip()
     time.sleep(0.1)
     files.try_load_pnr()
     files.try_load_locs()
-
-# TODO: chillere naam voor dit bestand/mapje, en misschien nicer uitvoerbaar maken vanaf root

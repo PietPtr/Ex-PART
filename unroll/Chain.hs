@@ -5,7 +5,6 @@ module Chain where
 import Types
 import Repeat -- chain is a specialization of repeat
 
--- todo: swap arguments here instead of in lambda?
 unrollChain :: [Component] -> Repetition -> [Instance]
 unrollChain cmps chain = map (makeInstance cmps chain) [1..(chn_amount chain)]
 

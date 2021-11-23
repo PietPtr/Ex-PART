@@ -1,6 +1,7 @@
 import json
 from pprint import pprint
 import pygame
+import color
 import init
 
 class Slice:
@@ -15,11 +16,11 @@ class Slice:
     def draw(self, screen):
         letter_offset = (ord(self.letter) - 65) * init.SQUARE_SIZE // 4
 
-        color = pygame.Color(init.color(self.display_name))
-        gray = (color.r + color.g + color.b) // 3
-        color = color if self.active else (gray, gray, gray)
+        slice_color = pygame.Color(color.color(self.display_name))
+        gray = (slice_color.r + slice_color.g + slice_color.b) // 3
+        slice_color = slice_color if self.active else (gray, gray, gray)
 
-        pygame.draw.rect(screen, color, pygame.Rect(
+        pygame.draw.rect(screen, slice_color, pygame.Rect(
             self.x * init.SQUARE_SIZE,
             self.y * init.SQUARE_SIZE + letter_offset, 
             init.SQUARE_SIZE, 

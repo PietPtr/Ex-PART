@@ -2,7 +2,7 @@
 import pygame
 import init
 from init import *
-import files
+import color
 
 def draw_system_rects(screen, system_list):
     for system in system_list:
@@ -15,7 +15,7 @@ def draw_system_rects(screen, system_list):
             w = abs(tl['x'] - (br['x'] + 1)) * init.SQUARE_SIZE 
             h = abs(tl['y'] - (br['y'] + 1)) * init.SQUARE_SIZE 
             
-            rect_color = mute(color(key))
+            rect_color = color.mute(color.color(key))
             bw = max(init.SQUARE_SIZE // 12, 2)
             pygame.draw.rect(screen, rect_color, pygame.Rect(left, top, w, h), width=bw, border_radius=1)
         
@@ -34,9 +34,9 @@ def draw_system_labels(screen, system_list):
             w = abs(tl['x'] - (br['x'] + 1)) * init.SQUARE_SIZE 
             h = abs(tl['y'] - (br['y'] + 1)) * init.SQUARE_SIZE 
             
-            rect_color = mute(color(key))
+            rect_color = color.mute(color.color(key))
 
-            text_color = (0, 0, 0) if is_bright(rect_color) else (255, 255, 255)
+            text_color = (0, 0, 0) if color.is_bright(rect_color) else (255, 255, 255)
             textsurface = myfont.render(key, True, text_color)
             if h > w:
                 textsurface = pygame.transform.rotate(textsurface, -90)

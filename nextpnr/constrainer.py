@@ -62,19 +62,15 @@ print(f"Analyzing {len(ctx.cells)} cells.")
 constrained_ctr = 0
 unconstrained_ctr = 0
 for cell, cellinfo in ctx.cells:
-    if 'BEL' in cellinfo.attrs or 'NEXTPNR_BEL' in cellinfo.attrs:
-        unconstrained_ctr += 1
-    else:
-        # TODO: in dit stuk kunnen veel bugs zitten omdat de BEL filtering niet bijzonder specifiek is.
-        json_path = cell_name_to_json_path(cell)
+    json_path = cell_name_to_json_path(cell)
 
-        if json_path:
-            # print(f"constrained cell: \n\t{cell} \n\t\tto \n\t{json_path}") 
-            ctx.constrainCellToRegion(cell, json_path)
-            constrained_ctr += 1
-        else:
-            # print(f"WARNING: did not constrain cell {cell} as it did not comply with Ex-PART namings.")
-            unconstrained_ctr += 1
+    if json_path:
+        # print(f"constrained cell: \n\t{cell} \n\t\tto \n\t{json_path}") 
+        ctx.constrainCellToRegion(cell, json_path)
+        constrained_ctr += 1
+    else:
+        # print(f"WARNING: did not constrain cell {cell} as it did not comply with Ex-PART namings.")
+        unconstrained_ctr += 1
 
 
 print(f"Constrained {constrained_ctr} cells, left {unconstrained_ctr} cells unconstrained.")

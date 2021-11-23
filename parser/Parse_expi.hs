@@ -8,7 +8,7 @@ import Text.ParserCombinators.Parsec.Language
 import Parse_shared 
 import Types
 import Debug.Trace
--- TODO: Waarom is er hier zo veel in snake_case?
+
 
 {-
 program ::= system # a program is exactly one system - the top entity.
@@ -76,7 +76,7 @@ system components = toSystem
                 sys_repetitions = map fitRepetition reps,
                 sys_multicons = mconns,
                 sys_subsystems = systems,
-                sys_constcons = cconns
+                sys_constantDrivers = cconns
             }
 
 
@@ -154,7 +154,7 @@ option_stat
     where
         option_parser str p = (string str *> ows *> char '=' *> ows *> p)
 
--- TODO: layout expressions
+-- TODO (feature): layout expressions
 layout :: Parser String
 layout = string "vertical" <|> string "horizontal"
 

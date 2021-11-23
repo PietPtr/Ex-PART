@@ -98,7 +98,7 @@ instance Pretty CoordExpr where
     pretty (CX id) = id ++ ".x"
     pretty (CY id) = id ++ ".y"
 
--- TODO: grote system/program refactor: 
+-- TODO (elab): grote system/program refactor: 
 -- System kan na processen zijn (wat we nu 'unroll' noemen wordt dan iets uitgebreider),
 -- en Program wat er na parsen uitkomt. Dan werkt alles met alleen de System en haalt daar
 -- de componenten etc uit
@@ -116,7 +116,8 @@ data System = System {
     sys_repetitions :: [Repetition],
     sys_multicons :: [MultiConnection],
     sys_subsystems :: [System],
-    sys_constcons :: [ConstantDriver]
+    -- TODO (feature): constant drivers only work for components
+    sys_constantDrivers :: [ConstantDriver]
     } deriving (Show, Eq)
 
 emptySystem :: System
@@ -131,7 +132,7 @@ emptySystem = System {
         sys_repetitions = [],
         sys_multicons = [],
         sys_subsystems = [],
-        sys_constcons = []
+        sys_constantDrivers = []
     }
 
 data IOStat
@@ -220,7 +221,7 @@ ioStatToBitWidth stat = case stat of
     (Input _ t) -> typeToBitwidth t
     (Output _ t) -> typeToBitwidth t
 
--- TODO: actually do this nicely instead of hardcoded widths for some types...
+-- TODO (lowprio): actually do this nicely instead of hardcoded widths for some types...
 typeToBitwidth :: String -> Integer
 typeToBitwidth t = case t of
         "Value" -> 16

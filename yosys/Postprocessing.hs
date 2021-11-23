@@ -27,7 +27,7 @@ data Module = Module {
 data Port = Port {
     port_name :: String,
     port_direction :: PortDir,
-    port_bits :: [Integer] -- TODO: extend JSON for the 0 & 1 case
+    port_bits :: [Integer]
     } deriving Show
 
 data PortDir = In | Out
@@ -128,16 +128,15 @@ makeConstModules program system = case driver of
     Just driver -> constDriverModule bitwidth driver : (makeConstModules program system')
     Nothing -> []
     where
-        -- TODO: constcons is een lelijke naam
-        (driver, drivers) = case sys_constcons system of
+        (driver, drivers) = case sys_constantDrivers system of
             (d:ds) -> (Just d, Just ds)
             [] -> (Nothing, Nothing)
-        system' = system {sys_constcons=(fromJust drivers)} -- only used in the just case, type system cannot prove this tho
+        system' = system {sys_constantDrivers=(fromJust drivers)} -- only used in the just case, type system cannot prove this tho
         Just (ConstantDriver value cid) = driver
 
         bitwidth = findCIDBitwidth system cid 
 
--- TODO: in the typing refactor, can the bitwidth not be annotated somewhere? saves a crapton of lookups
+-- TODO (elab): in the typing refactor, can the bitwidth not be annotated somewhere? saves a crapton of lookups
 findCIDBitwidth :: System -> CID -> Integer
 findCIDBitwidth system cid = isoStatToBitwidth iso_statement
     where
@@ -183,7 +182,7 @@ makeModules isTop p@(Program _ _ components) system = mod :
                     Out -> findDriver system' cid
                 isDriver (Connection from to) = to == cid
                 value = port_bits port
-                cid = (CID "this" (port_name port)) -- TODO: snake case or camelcase, what is it?!
+                cid = (CID "this" (port_name port))
 
         -- Add instances and connections to this system for the constant drivers
         system' = system {
@@ -191,8 +190,8 @@ makeModules isTop p@(Program _ _ components) system = mod :
             sys_connections=sys_connections system ++ cdConns
         }
 
-        cdConns = map cdToConn (sys_constcons system)
-        cdInstances = map cdToInstance (sys_constcons system)
+        cdConns = map cdToConn (sys_constantDrivers system)
+        cdInstances = map cdToInstance (sys_constantDrivers system)
 
         cdToConn :: ConstantDriver -> Connection
         cdToConn (ConstantDriver value cid) = (Connection constCID cid)
@@ -242,9 +241,8 @@ makePorts bitCtr (stat:stats) =
 nets :: [Component] -> System -> Integer -> Netmap -> Netmap
 nets comps system bitCtr netmap = nets' comps system bitCtr (sys_connections system) netmap
 
--- TODO: add a yosys optimization pass over the produced synthesized design? Is that possible?
--- TODO: I _think_ we can just, instead of netnames, initialize constants here, so in the synthesized.json it will end up as "0" and "1" instead of nets, and saves generating const modules (doesn't seem to affect performance results.)
--- TODO: why is bitwidth determination here? could be elsewhere?
+-- TODO (lowprio): I _think_ we can just, instead of netnames, initialize constants here, so in the synthesized.json it will end up as "0" and "1" instead of nets, and saves generating const modules (doesn't seem to affect performance results.)
+-- TODO (elab): why is bitwidth determination here? could be elsewhere?
 nets' :: [Component] -> System -> Integer -> [Connection] -> Netmap -> Netmap
 nets' _ _ _ [] map = map
 nets' comps system bitCtr ((Connection from to):connections) netmap = 
@@ -257,7 +255,7 @@ nets' comps system bitCtr ((Connection from to):connections) netmap =
         netBitwidth = if from_elem_name == "this"
             then ioStatToBitWidth (io_statement system)
             else if "const_" `isPrefixOf` from_elem_name
-                -- TODO: this bitwidth determination is correct, however all nets not supplied by the constant module must be set to zero, otherwise not all bits have drivers.
+                -- TODO (elab): this bitwidth determination is correct, however all nets not supplied by the constant module must be set to zero, otherwise not all bits have drivers.
                 then findCIDBitwidth system to -- assume the user connected the constant driver correctly
                 else if isComponent from_elem_name
                     then findCIDBitwidth system from
@@ -361,9 +359,6 @@ toBinary value = map (\c -> read [c]) str
         int = read value :: Integer
         str = showIntAtBase 2 intToDigit int ""
 
--- TODO: instantiate constant driver cells in system
-makeConstDriverCell :: Integer -> ConstantDriver -> Cell
-makeConstDriverCell = undefined
 
 makeCells' :: [Component] -> System -> Netmap -> [Element] -> [Cell]
 makeCells' _ _ _ [] = []
@@ -405,8 +400,13 @@ makeCells' components system netmap (elem:elements) =
                     (to_port == name && to_elem == elem_name elem)
 
                 net = case netCID of
-                    Just cid -> Map.findWithDefault [] cid netmap
-                    Nothing -> [] -- TODO: can we just leave stuff disconnected?
+                    Just cid -> case Map.lookup cid netmap of
+                        Just n -> n
+                        Nothing -> error $ "Postprocessing.hs: cannot find net for cid in netmap:\n" ++
+                            (show cid) ++ "\n" ++ (show netmap)
+                    Nothing -> error $ "Postprocessing.hs: No net found, something is disconnected...\n" ++
+                        (show port) ++ "\n" ++ (show relevantConnections)
+
                 
         portCells = map toCellConn (elem_io elem)
 

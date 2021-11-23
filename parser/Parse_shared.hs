@@ -54,8 +54,7 @@ ioStatement
     =   Input  <$> (string "input"  *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n')
     <|> Output <$> (string "output" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n')
 
--- TODO: there must be a better way to do the haskell parsing, either actually follow the grammar or find a library...
-
+-- there must be a better way to do the haskell parsing, either actually follow the grammar or find a library...
 -- best effort for now to get at least some string resembling a haskell type out of it...
 -- Clash will error for now if the type is bullshit.
 -- let's specifically disallow list types for now, as clash won't be able to work with them anyway
@@ -74,7 +73,7 @@ haskell_data_def :: Parser String
 haskell_data_def = (\a b c d e -> a ++ b ++ c ++ d ++ e) <$>
     string "data" <*> ows <*> haskell_type <*> string "=" <*> haskell_type -- gefeliciteerd data defs moeten nu op 1 lijn
 
--- TODO: dit gaat enorm stuk straks op multiline definities, dus ga nou maar de haskell grammar bouwen >:(
+-- TODO (lowprio): Dit is tot nu toe nog niet stuk gegaan, maar haskell op deze manier parsen is best matig
 haskell_stat :: Parser String
 haskell_stat = (many1 $ (oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '\t', '\n', '-', '<', '>', '$', '+', '-', '\'', '=', '|', ':', '*', '`']))
 

@@ -3,7 +3,7 @@ import sys
 import os
 from pprint import pprint
 from tabulate import tabulate
-# TODO: if folder not found, don't render its stats (don't crash, render everything found)
+# TODO (feature): if folder not found, don't render its stats (don't crash, render everything found)
 
 if len(sys.argv) == 1:
     print("Please provide the project folder name.")
@@ -93,7 +93,7 @@ def rout1_time(logs):
 
 # --- Stat definitions
 
-# TODO: zet een * bij de beste?
+# TODO (feature): zet een * bij de beste?
 stats = [
     Statistic("LUTs used", lut_usage),
     Statistic("Slices used", slice_usage),
@@ -127,5 +127,3 @@ for stat in stats:
 
 
 print(tabulate(results, headers = headers))
-
-# TODO: past niet echt netjes in huidig design, maar analyzeer misschien de rectangle die in gebruik wordt genomen door het design? lastig te checken door io slices en zo bij general designs tho ...
