@@ -12,17 +12,17 @@ data Statement
     | HaskellDefStat HaskellDef
     deriving Show
 
-program :: Parser Program
-program = f <$> many (statement <* ows)
+expcdesign :: Parser ExpcDesign
+expcdesign = f <$> many (statement <* ows)
     where
-        f :: [Statement] -> Program
-        f stats = foldl sorter (Program [] [] []) stats
+        f :: [Statement] -> ExpcDesign
+        f stats = foldl sorter (ExpcDesign [] [] []) stats
 
         -- later changed to record syntax, but that's just sugar for this stuff so this keeps working...
-        sorter (Program defs combs comps) stat = case stat of
-            CombinatoryStat comb -> Program defs ((Combinatory comb):combs) comps
-            ComponentStat comp -> Program defs combs (comp:comps)
-            HaskellDefStat def -> Program (def:defs) combs comps
+        sorter (ExpcDesign defs combs comps) stat = case stat of
+            CombinatoryStat comb -> ExpcDesign defs ((Combinatory comb):combs) comps
+            ComponentStat comp -> ExpcDesign defs combs (comp:comps)
+            HaskellDefStat def -> ExpcDesign (def:defs) combs comps
 
 statement :: Parser Statement
 statement

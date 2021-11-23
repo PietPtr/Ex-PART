@@ -9,72 +9,70 @@ import System.Directory
 -- be in the directory you expect. Run :r in ghci to return to the original one.
 
 
-clean :: Program -> System -> FilePath -> IO ()
-clean expc_rolled expi_rolled outDir = do
+clean :: System -> FilePath -> IO ()
+clean system outDir = do
     createDirAndEnter outDir
 
-    (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
-
-    writeLocations expi
-    generateClash expc
-    flattenForSim expc expi
-    compileToVerilog expc
-    groupVerilogFiles expc
+    writeLocations system
+    generateClash system
+    flattenForSim system
+    compileToVerilog system
+    groupVerilogFiles system
     synthesizeComponents
-    connectComponents expc expi
+    connectComponents system
 
 
-expcChanged :: Program -> System -> [Component] -> [Component] -> [Component] -> IO ()
-expcChanged expc_rolled expi_rolled changed deleted newcmps = do
-    expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
-    (expc, expi) <- unrollRepetitions expc_current expi_rolled
+-- expcChanged :: System -> [Component] -> [Component] -> [Component] -> IO ()
+-- expcChanged system changed deleted newcmps = do
+--     -- TODO: !! this is not automagically fixed
+--     -- expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
+--     -- (expc, expi) <- unrollRepetitions expc_current expi_rolled
 
-    writeLocations expi
-    generateClash expc
-    flattenForSim expc expi
-    compileToVerilog expc
-    removeDeleted deleted
-    groupVerilogFiles expc
-    synthesizeComponents
-    connectComponents expc expi
+--     writeLocations expi
+--     generateClash expc
+--     flattenForSim expi
+--     compileToVerilog expc
+--     removeDeleted deleted
+--     groupVerilogFiles expc
+--     synthesizeComponents
+--     connectComponents expi
 
-expiChanged :: Program -> System -> IO ()
-expiChanged expc_rolled expi_rolled = do
-    (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
+-- expiChanged :: System -> IO ()
+-- expiChanged system = do
+    
+--     writeLocations expi
+--     flattenForSim expi
+--     connectComponents expi
 
-    writeLocations expi
-    flattenForSim expc expi
-    connectComponents expc expi
 
+-- monolithic :: System -> FilePath -> FilePath -> IO ()
+-- monolithic system lpfPath outDir = do
+--     let outDir' = (slashscrape outDir) ++ "_monolithic"
 
-monolithic :: Program -> System -> FilePath -> FilePath -> IO ()
-monolithic expc_rolled expi_rolled lpfPath outDir = do
-    let outDir' = (slashscrape outDir) ++ "_monolithic"
+--     createDirAndEnter outDir'
+--     (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
 
-    createDirAndEnter outDir'
-    (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
+--     generateClash expc
+--     flattenForSim expi
+--     monolithicToVerilog
+--     synthesizeMonolithic
+--     noConstraintPnR lpfPath
 
-    generateClash expc
-    flattenForSim expc expi
-    monolithicToVerilog
-    synthesizeMonolithic
-    noConstraintPnR lpfPath
-
-    where
-        slashscrape "" = ""
-        slashscrape p = if last p == '/' then init (slashscrape p) else p
+--     where
+--         slashscrape "" = ""
+--         slashscrape p = if last p == '/' then init (slashscrape p) else p
 
 -- Compile flow that synthesizes/place & routes everything of all components separately s.t.
 -- resource usage of individual components can be analyzed
 -- Can be used as clean build, and after folder has been made.
-resource :: Program -> FilePath -> FilePath -> IO ()
-resource expc lpfPath outDir = do
-    lpfLoc <- makeAbsolute lpfPath
+-- resource :: Design -> FilePath -> FilePath -> IO ()
+-- resource design lpfPath outDir = do
+--     lpfLoc <- makeAbsolute lpfPath
     
-    createDirAndEnter outDir
-    generateClash expc
-    compileToVerilog expc
-    synthesizeAndPnRIndividualComponents lpfLoc
+--     createDirAndEnter outDir
+--     generateClash design
+--     compileToVerilog design
+--     synthesizeAndPnRIndividualComponents lpfLoc
 
 
     

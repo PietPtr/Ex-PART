@@ -36,13 +36,13 @@ instance ToJSON AbsolutePositionTree where
     
 
 relToAbs :: [(String, Size, Pos)] -> Pos -> System -> AbsolutePositionTree
-relToAbs positions current system = Node (sys_id system) $ leaves ++ subsystems
+relToAbs positions current system = Node (sys_name system) $ leaves ++ subsystems
     where
         leaves = map makeLeaf $ map ins_name $ sys_instances system
         subsystems = map nextCall $ sys_subsystems system
         nextCall subsystem = relToAbs positions (current + subsyspos) subsystem
             where
-                subsyspos = (\(_, _, a) -> a) $ head $ filter (\(name, _, _) -> name == sys_id subsystem) positions
+                subsyspos = (\(_, _, a) -> a) $ head $ filter (\(name, _, _) -> name == sys_name subsystem) positions
 
         makeLeaf :: String -> AbsolutePositionTree
         makeLeaf name = Leaf name tl br
@@ -133,10 +133,9 @@ findID instances id = case filter (\(name, _, _) -> name == id) instances of
 
 allInstsWithCoords :: System -> [(String, Size, Coords)]
 allInstsWithCoords system = 
-    [(sys_id system, sys_size system, sys_coords system)] ++
-    map tuplize (sys_instances system) ++ 
-    subInstances
+    map tuplize (sys_elems system) ++
+    (concat $ map allInstsWithCoords (sys_subsystems system))
     where
-        tuplize ins = (ins_name ins, ins_size ins, ins_coords ins)
-        subInstances = concat $ map allInstsWithCoords (sys_subsystems system)
+        tuplize elem = (elem_name elem, elem_size elem, elem_coords elem)
+        
 

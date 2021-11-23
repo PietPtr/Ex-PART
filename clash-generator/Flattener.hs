@@ -9,17 +9,17 @@ import Data.List (intersperse, intercalate)
 
 -- Given any system, recursively generate one Clash project for the entire thing
 
-flatten :: Program -> System -> String
-flatten program system = intercalate "\n\n" $
+flatten :: System -> String
+flatten system = intercalate "\n\n" $
     [ imports
     , compDef 
     , systems 
     ,topEntity ]
     where
         imports = "import Clash.Prelude\nimport Definitions\n\n"
-        compDef = genComponentClash (usedComponentNames system) (prg_cmps program)
+        compDef = genComponentClash (usedComponentNames system) (sys_components system)
         systems = flatten' system
-        topEntity = createSynthesizable (map io2iso $ sys_iodefs system) (sys_id system) False
+        topEntity = createSynthesizable (map io2iso $ sys_iodefs system) (sys_name system) False
 
 flatten' :: System -> String
 flatten' system = subsysDefs ++ "\n\n\n" ++ sysdef
@@ -34,7 +34,7 @@ typeDef :: System -> String
 typeDef system = name ++ " :: HiddenClockResetEnable dom =>\n" ++
     "    Signal dom ("++ in_types ++") -> Signal dom ("++ out_types ++")\n"
     where
-        name = sys_id system
+        name = sys_name system
         in_types = intercalate ", " $
             map (\(Input _ t) -> t) $ inputs' $ sys_iodefs system
         out_types = intercalate ", " $
@@ -44,7 +44,7 @@ typeDef system = name ++ " :: HiddenClockResetEnable dom =>\n" ++
 definition :: System -> String
 definition system = name ++ " input = "++ bundle ++"(" ++ out_str ++ ")"
     where
-        name = sys_id system
+        name = sys_name system
         out_str = intercalate ", " $ map varName $ 
             map (findIOConn (sys_connections system) "this") $ outputs
         bundle = if length outputs > 1
@@ -58,6 +58,7 @@ whereBlock :: System -> String
 whereBlock system = concat $ intersperse "\n" stats
     where
         stats = [unpackedInput system]
+        -- TODO: use the element abstraction to unify this implementation more
              ++ (map (instanceWhereStatement (sys_connections system) (sys_constantDrivers system)) $ sys_instances system)
              ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system) 
              ++ (map (constantWhereStatement) (sys_constantDrivers system))
@@ -73,7 +74,7 @@ unpackedInput system = "        " ++ "(" ++ ins_str ++ ") = unbundle input"
                 map (varName' "this") $ inputs' $ iodefs
 
 
-instanceWhereStatement :: [Connection] -> [ConstantDriver] -> Instance -> String
+instanceWhereStatement :: [Connection'] -> [ConstantDriver] -> Instance -> String
 instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "M")
     where
         component = ins_cmp inst
@@ -91,7 +92,7 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
                 _ -> error $ "Flattener.hs: No connection specified for component " ++ 
                     name ++ " (is " ++ cmpName ++ "), port `" ++ portname ++ "`"
             where
-                f (Connection (CID _ _) (CID inst_name' portname')) = 
+                f (Connection' (CID _ _) (CID inst_name' portname') _) = 
                     inst_name' == ins_name inst && 
                     portname == portname'
                 
@@ -103,25 +104,25 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
 
 
 -- TODO (elab): could be neater with an abstraction over IO/ISO statement and handling connection finding as such
-systemWhereStatement :: [Connection] -> System -> String
+systemWhereStatement :: [Connection'] -> System -> String
 systemWhereStatement conns system = whereStatement ins outs name
     where
-        name = sys_id system
+        name = sys_name system
         ins = map varName $ map (findIOConn conns name) $ inputs' $ sys_iodefs system
-        outs = map (varName' $ sys_id system) $ outputs' $ sys_iodefs system
+        outs = map (varName' $ sys_name system) $ outputs' $ sys_iodefs system
 
 constantWhereStatement :: ConstantDriver -> String
 constantWhereStatement (ConstantDriver value _) = 
     "        const_" ++ value ++ " = pure " ++ value
 
-
-findIOConn :: [Connection] -> String -> IOStat -> Connection
+-- TODO: rename the `f's and `g's in this file to something better
+findIOConn :: [Connection'] -> String -> IOStat -> Connection'
 findIOConn conns sysid io = 
     case filter f conns of
         (c:_) -> c
         _ -> error $ "Flattener.hs: No connection specified for io statement " ++ show io ++ " in system " ++ sysid
     where
-        f (Connection (CID _ _) (CID sys_name' portname')) = 
+        f (Connection' (CID _ _) (CID sys_name' portname') _) = 
             sys_name' == sysid && 
             portname' == (portname io)
 
@@ -150,20 +151,18 @@ whereStatement ins outs name = "        " ++
             else ""
 
 
-varName :: Connection -> String
-varName (Connection (CID inst portname) _) = inst ++ "_" ++ portname
+varName :: Connection' -> String
+varName (Connection' (CID inst portname) _ _) = inst ++ "_" ++ portname
 
 varName' :: String -> IOStat -> String
 varName' sys io = sys ++ "_" ++ portname io
 
-
-
-
+-- TODO: probably still works, but can be much neater with elements
 usedComponentNames :: System -> Set String
-usedComponentNames system = thisComps `union` otherComps
-    where
-        thisComps = Set.fromList $ map (cmp_name . ins_cmp) (sys_instances system) 
-        otherComps = unions $ map usedComponentNames (sys_subsystems system)
+usedComponentNames system = 
+    (Set.fromList $ map elem_name (sys_elems system)) 
+    `union`
+    (unions $ map usedComponentNames (sys_subsystems system))
 
 genComponentClash :: Set String -> [Component] -> String
 genComponentClash used comps = concat $ intersperse "\n" $ 

@@ -2,12 +2,40 @@ module Parser where
 
 import Text.ParserCombinators.Parsec
 import Parse_expi (system)
-import Parse_expc (program)
-import qualified Types
+import Parse_expc (expcdesign)
+import Types
+import Data.Either
+import Control.Monad
 
 -- TODO (feature): voeg comments toe aan Ex-PART (kan dat makkelijk in parsec?)
-parse_expc :: FilePath -> IO (Either ParseError Types.Program)
-parse_expc file = parse program "" <$> readFile file
 
-parse_expi :: [Types.Component] -> FilePath -> IO (Either ParseError Types.System)
-parse_expi components file = parse (system components) "" <$> readFile file
+-- TODO: hier misschien de parse errors nice printen meteen, zoals in expi?
+-- en aangezien dat dan weer hetzelfde patroon is, een beetje abstracten.
+parse_expc :: FilePath -> IO ExpcDesign
+parse_expc file = do
+    parsed <- parse expcdesign "" <$> readFile file
+    case parsed of
+        (Left errMsg) -> putStrLn $ "[Ex-PART] Parse error: " ++ show errMsg
+        (Right _) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ file
+    guard (isRight parsed)
+    return $ fromRight undefined parsed
+
+
+parse_expi :: ExpcDesign -> FilePath -> IO Design
+parse_expi expc file = do
+    parsed <- parse (system $ expcdes_cmps expc) "" <$> readFile file
+    case parsed of
+        (Left errMsg) -> putStrLn $ "[Ex-PART] Parse error: " ++ show errMsg
+        (Right _) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ file
+    guard (isRight parsed)
+    return Design {
+            des_defs = expcdes_defs expc,
+            des_cmbs = expcdes_cmbs expc,
+            des_cmps = expcdes_cmps expc,
+            des_systree = fromRight undefined parsed
+        }
+
+parse_both :: FilePath -> FilePath -> IO Design
+parse_both expc_file expi_file = do
+    expcDesign <- parse_expc expc_file
+    parse_expi expcDesign expi_file

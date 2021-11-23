@@ -12,11 +12,11 @@ generateComponent cmp = writeFile
     where
         name = cmp_name cmp
 
-generateClash :: Program -> IO ()
-generateClash program@(Program _ _ components) = do
-    doPreliminaryProcessing program
-    mapM_ (generateComponent) components
+generateClash :: System -> IO ()
+generateClash system = do
+    doPreliminaryProcessing system
+    mapM_ (generateComponent) (sys_components system)
 
-flatten :: Program -> System -> IO ()
-flatten expc expi = do
-    writeFile ("Clash.hs") (F.flatten expc expi)
+flatten :: System -> IO ()
+flatten system = do
+    writeFile ("Clash.hs") (F.flatten system)

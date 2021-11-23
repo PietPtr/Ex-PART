@@ -11,7 +11,7 @@ import Types
 data Statement
     = InstanceStat Instance
     | ConnectionStat Connection
-    | SystemStat System
+    | SystemStat SystemTree
     | IOStatement IOStat
     | RepetitionStat RawRepetition
     | MultiConnStat MultiConnection
@@ -19,7 +19,7 @@ data Statement
     deriving Show
 
 
-system :: [Component] -> Parser System
+system :: [Component] -> Parser SystemTree
 system components = toSystem
     <$> isFlatenned
     <*> (identifier <* ws <* string "in" <* ws)
@@ -29,7 +29,7 @@ system components = toSystem
     where
         isFlatenned = option False (const True <$> (string "flatenned" <* ws))
 
-        f :: [Statement] -> ([IOStat], [Instance], [Connection], [System], [RawRepetition], [MultiConnection], [ConstantDriver])
+        f :: [Statement] -> ([IOStat], [Instance], [Connection], [SystemTree], [RawRepetition], [MultiConnection], [ConstantDriver])
         f stats = foldl sorter ([], [], [], [], [], [], []) stats
 
         sorter (iostats, instances, connections, systems, reps, mconns, cconns) statement = case statement of
@@ -42,55 +42,21 @@ system components = toSystem
             (ConstDriverStat cconn) -> (iostats, instances, connections, systems, reps, mconns, cconn:cconns)
 
         toSystem flattened name size coords (iostats, instances, connections, systems, reps, mconns, cconns) =
-            System {
-                sys_flattened = flattened,
-                sys_id = name,
-                sys_size = size,
-                sys_coords = coords,
-                sys_iodefs = iostats,
-                sys_instances = instances,
-                sys_connections = connections,
-                sys_repetitions = map fitRepetition reps,
-                sys_multicons = mconns,
-                sys_subsystems = systems,
-                sys_constantDrivers = cconns
+            SystemTree {
+                systr_flattened = flattened,
+                systr_name = name,
+                systr_size = size,
+                systr_coords = coords,
+                systr_iodefs = iostats,
+                systr_instances = instances,
+                systr_connections = connections,
+                systr_repetitions = reps,
+                systr_multicons = mconns,
+                systr_subsystems = systems,
+                systr_constantDrivers = cconns
             }
 
 
-fitRepetition :: RawRepetition -> Repetition
-fitRepetition rep = repetition
-    where
-        repetition = case rep of
-            (RawRepeat name coords options) -> Repeat {
-                    rep_name = name,
-                    rep_coords = coords,
-                    rep_unplacedInstance = unplacedInstance options,
-                    rep_amount = amount options,
-                    rep_layout = layout options
-                }
-            (RawChain name coords options) -> Chain {
-                    chn_name = name,
-                    chn_coords = coords,
-                    chn_unplacedInstance = unplacedInstance options,
-                    chn_amount = amount options,
-                    chn_layout = layout options,
-                    chn_chainIn = case [ x | ChainIn x <- options ] of
-                        [] -> error "Parse_expi.hs: Missing option `chain_in` in chain statement"
-                        (x:_) -> x,
-                    chn_chainOut = case [ x | ChainOut x <- options ] of
-                        [] -> error "Parse_expi.hs: Missing option `chain_out` in chain statement"
-                        (x:_) -> x
-            }
-
-        unplacedInstance options = case [ x | Comp x <- options ] of
-            [] -> error "Parse_expi.hs: Missing option `component` in repetition statement."
-            (x:_) -> x
-        amount options = case [ x | Amount x <- options ] of
-            [] -> error "Parse_expi.hs: Missing option `amount` in a repetition statement."
-            (x:_) -> x
-        layout options = case [x | Layout x <- options ] of
-            [] -> error "Parse_expi.hs: Missing option `layout` in a repetition statement."
-            (x:_) -> x
 
 
 system_body :: [Component] -> Parser [Statement]

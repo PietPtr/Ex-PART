@@ -3,6 +3,10 @@
 
 module Types where
 
+import Data.Maybe
+import qualified Data.Set as Set
+import Data.Set (Set)
+
 class Pretty a where
     pretty :: a -> String
 
@@ -26,6 +30,7 @@ type WhereBlock = String
 type Type = String
 type Name = String
 
+-- TODO: could have typeclasses to make this neater
 data ISOStat
     = SInput Name Type
     | SState Name ConstExpr Type
@@ -67,11 +72,11 @@ io2iso stat = case stat of
     (Input name t) -> (SInput name t)
     (Output name t) -> (SOutput name t)
 
-data Program = Program {
-    prg_defs :: [HaskellDef],
-    prg_cmbs :: [Combinatory],
-    prg_cmps :: [Component]
-    } deriving (Show, Eq)
+iso2io :: ISOStat -> Maybe IOStat
+iso2io stat = case stat of
+    (SInput name t) -> Just (Input name t)
+    (SOutput name t) -> Just (Output name t)
+    _ -> Nothing
 
 -- .expi result
 
@@ -105,35 +110,20 @@ instance Pretty CoordExpr where
 -- Dan moet er nog een recursive ding zijn, SystemTree of zo, die de subsystems opslaat
 -- Hmm of hiervan moet een postprocessed versie zijn juist... 
 
-data System = System {
-    sys_flattened :: Bool, 
-    sys_id :: String, 
-    sys_size :: Size,
-    sys_coords :: Coords,
-    sys_iodefs :: [IOStat],
-    sys_instances :: [Instance],
-    sys_connections :: [Connection],
-    sys_repetitions :: [Repetition],
-    sys_multicons :: [MultiConnection],
-    sys_subsystems :: [System],
-    -- TODO (feature): constant drivers only work for components
-    sys_constantDrivers :: [ConstantDriver]
-    } deriving (Show, Eq)
-
-emptySystem :: System
-emptySystem = System {
-        sys_flattened = False,
-        sys_id = "",
-        sys_size = (0, 0),
-        sys_coords = (CConst 0, CConst 0),
-        sys_iodefs = [],
-        sys_instances = [],
-        sys_connections = [],
-        sys_repetitions = [],
-        sys_multicons = [],
-        sys_subsystems = [],
-        sys_constantDrivers = []
-    }
+-- data System = System {
+--     sys_flattened :: Bool, 
+--     sys_id :: String, 
+--     sys_size :: Size,
+--     sys_coords :: Coords,
+--     sys_iodefs :: [IOStat],
+--     sys_instances :: [Instance],
+--     sys_connections :: [Connection],
+--     sys_repetitions :: [Repetition],
+--     sys_multicons :: [MultiConnection],
+--     sys_subsystems :: [System],
+--     -- TODO (feature): constant drivers only work for components
+--     sys_constantDrivers :: [ConstantDriver]
+--     } deriving (Show, Eq)
 
 data IOStat
     = Input Name Type
@@ -240,3 +230,101 @@ typeToBitwidth t = case t of
         "UInt" -> 32
         "Hash" -> 128
         other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other
+
+------- Elaboration refactor
+
+-- The design as defined in an .expc and an .expi file.
+-- Easy to parse to.
+data ExpcDesign = ExpcDesign {
+        expcdes_defs :: [HaskellDef],
+        expcdes_cmbs :: [Combinatory],
+        expcdes_cmps :: [Component]
+    } deriving (Show)
+
+data Design = Design {
+        des_defs :: [HaskellDef],
+        des_cmbs :: [Combinatory],
+        des_cmps :: [Component],
+        des_systree :: SystemTree
+    } deriving (Show)
+
+data SystemTree = SystemTree {
+        systr_flattened :: Bool,
+        systr_name :: String,
+        systr_size :: Size,
+        systr_coords :: Coords,
+        systr_iodefs :: [IOStat],
+        systr_instances :: [Instance],
+        systr_connections :: [Connection],
+        systr_repetitions :: [RawRepetition],
+        systr_multicons :: [MultiConnection],
+        systr_subsystems :: [SystemTree],
+        systr_constantDrivers :: [ConstantDriver]
+    } deriving (Show)
+
+-- The data structure after elaboration.
+-- Easier to work with.
+data System = System {
+        sys_name :: String,
+        sys_topdata :: TopData,
+        sys_size :: Size,
+        sys_coords :: Coords,
+        sys_iodefs :: [IOStat],
+        sys_elems :: [Element],
+        sys_connections :: [Connection'],
+        sys_constantDrivers :: [ConstantDriver]
+        -- TODO: We might like a recursive system thing anyway, but it's a little bit of double admin
+    } deriving (Show)
+
+-- fake accessor, saves memory usage i guess, but takes more time, classic trade-off.
+sys_subsystems :: System -> [System]
+sys_subsystems system = mapMaybe toSystem (sys_elems system)
+    where
+        toSystem elem = case elem_implementation elem of
+            (SubsysImpl sys) -> Just sys
+            _ -> Nothing
+
+sys_instances :: System -> [Instance]
+sys_instances system = mapMaybe toInstance (sys_elems system)
+    where
+        toInstance elem = case elem_implementation elem of
+            (InstanceImpl inst) -> Just inst
+            _ -> Nothing
+
+-- Pretty expensive operation now with the new data structures haha
+-- But upside that it only returns the ones used in the expi (downside for the resources flow...)
+-- TODO: do we want it this way, or do we want all components in the topdata?
+-- Or have a sys_unique_components, perhaps.
+sys_components :: System -> [Component]
+sys_components system = Set.toList (sys_components' system (Set.empty))
+    where
+        sys_components' :: System -> Set Component -> Set Component
+        sys_components' system set = undefined
+            where
+                cmps = sys_instances
+
+
+data Implementation 
+    = InstanceImpl Instance 
+    | SubsysImpl System
+    deriving Show
+
+data Element = Element {
+        elem_name :: String,
+        elem_size :: Size,
+        elem_coords :: Coords,
+        elem_iodefs :: [IOStat],
+        elem_implementation :: Implementation
+    } deriving (Show)
+
+data TopData
+    = TopData {
+        top_defs :: [HaskellDef],
+        top_cmbs :: [Combinatory]}
+    | NotTop
+    deriving Show
+
+
+data Connection'
+    = Connection' CID CID Integer -- Includes bitwidth
+    deriving Show

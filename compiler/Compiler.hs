@@ -5,6 +5,7 @@ import Parser
 import Yosys
 import Nextpnr
 import qualified Flows
+import Elaboration
 
 import Data.Either
 import Control.Monad
@@ -17,53 +18,55 @@ auto expcPath expiPath lpfName outDir = do
     startDir <- getCurrentDirectory
     lpfLoc <- makeAbsolute lpfName
 
-    expc <- parse parse_expc expcPath
-    expi_reps <- parse (parse_expi $ prg_cmps expc) expiPath
+    design <- parse_both expcPath expiPath
+    system <- pure $ elaborate design
+
     newExpiContent <- readFile expiPath
 
     outExists <- doesDirectoryExist outDir
     sourcesExist <- doesFileExist (outDir ++ "/build.expc")
-    -- A bit overkill to go clean when the defs/combinatory change, but otherwise _very_ hard to find
-    -- what component to re-build.
 
     -- There are nicer ways to structure this control, but it works and will not be changed for now
     -- It _is_ easy to read too, as it is basically just very imperative...
     if (not outExists || not sourcesExist)
         then do
             putStrLn $ "[Ex-PART] No directory or old source files found, picking clean flow."
-            Flows.clean expc expi_reps outDir
+            Flows.clean system outDir
             finish lpfLoc outDir startDir
         else do
-            putStrLn $ "[Ex-PART] Build directory exists, investigating expc changes..."
-            setCurrentDirectory outDir
+            putStrLn "Other auto paths not yet implemented after refactor."
+            -- putStrLn $ "[Ex-PART] Build directory exists, investigating expc changes..."
+            -- setCurrentDirectory outDir
 
-            oldExpc <- parse parse_expc "build.expc"
-            defsAndTypes <- pure $ (prg_defs expc /= prg_defs oldExpc) || (prg_cmbs expc /= prg_cmbs oldExpc)
-            if (defsAndTypes)
-                then do
-                    putStrLn $ "[Ex-PART] Modified definitions or combinatory found, picking clean flow."
-                    Flows.clean expc expi_reps outDir
-                    finish lpfLoc outDir startDir
-                else do
-                    changed <- pure $ changedComponents (prg_cmps expc) (prg_cmps oldExpc)
-                    deleted <- pure $ deletedComponents (prg_cmps expc) (prg_cmps oldExpc)
-                    newcmps <- pure $ newComponents (prg_cmps expc) (prg_cmps oldExpc)
-                    if (changed /= [] || deleted /= [] || newcmps /= []) 
-                        then do
-                            putStrLn $ "[Ex-PART] Changes in expc file found, picking expc flow."
-                            Flows.expcChanged expc expi_reps changed deleted newcmps
-                            finish lpfLoc outDir startDir
-                        else do
-                            putStrLn $ "[Ex-PART] No changes in expc file, investigating expi changes... "
-                            oldExpiContent <- readFile "build.expi"
-                            if (newExpiContent /= oldExpiContent)
-                                then do
-                                    putStrLn $ "[Ex-PART] Changes in expi file found, picking expi flow."
-                                    Flows.expiChanged expc expi_reps
-                                    finish lpfLoc outDir startDir
-                                else do
-                                    putStrLn "[Ex-PART] No changes to expi. Nothing to do. Finished."
-                                    setCurrentDirectory startDir
+            -- oldExpc <- parse parse_expc "build.expc"
+            -- defsAndTypes <- pure $ (prg_defs expc /= prg_defs oldExpc) || (prg_cmbs expc /= prg_cmbs oldExpc)
+            -- if (defsAndTypes)
+            --     then do
+            --         -- A bit overkill to go clean when the defs/combinatory change, but otherwise _very_ hard to find
+            --         -- what component to re-build.
+            --         putStrLn $ "[Ex-PART] Modified definitions or combinatory found, picking clean flow."
+            --         Flows.clean expc expi_reps outDir
+            --         finish lpfLoc outDir startDir
+            --     else do
+            --         changed <- pure $ changedComponents (prg_cmps expc) (prg_cmps oldExpc)
+            --         deleted <- pure $ deletedComponents (prg_cmps expc) (prg_cmps oldExpc)
+            --         newcmps <- pure $ newComponents (prg_cmps expc) (prg_cmps oldExpc)
+            --         if (changed /= [] || deleted /= [] || newcmps /= []) 
+            --             then do
+            --                 putStrLn $ "[Ex-PART] Changes in expc file found, picking expc flow."
+            --                 Flows.expcChanged expc expi_reps changed deleted newcmps
+            --                 finish lpfLoc outDir startDir
+            --             else do
+            --                 putStrLn $ "[Ex-PART] No changes in expc file, investigating expi changes... "
+            --                 oldExpiContent <- readFile "build.expi"
+            --                 if (newExpiContent /= oldExpiContent)
+            --                     then do
+            --                         putStrLn $ "[Ex-PART] Changes in expi file found, picking expi flow."
+            --                         Flows.expiChanged expc expi_reps
+            --                         finish lpfLoc outDir startDir
+            --                     else do
+            --                         putStrLn "[Ex-PART] No changes to expi. Nothing to do. Finished."
+            --                         setCurrentDirectory startDir
 
     where
         finish lpfLoc outDir startDir = do
@@ -102,14 +105,14 @@ auto expcPath expiPath lpfName outDir = do
         newComponents :: [Component] -> [Component] -> [Component]
         newComponents news olds = [ c | c <- news, not ((cmp_name c) `elem` (map cmp_name olds)) ]
 
-parse :: Show a => (FilePath -> IO (Either a b)) -> FilePath -> IO b
-parse parser path = do
-    parsed <- parser path
-    case parsed of
-        (Left errMsg) -> putStrLn $ "[Ex-PART] Parse error: " ++ show errMsg
-        (Right _) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ path
-    guard (isRight parsed)
-    pure $ fromRight undefined parsed
+-- parse :: Show a => (FilePath -> IO (Either a b)) -> FilePath -> IO b
+-- parse parser path = do
+--     parsed <- parser path
+--     case parsed of
+--         (Left errMsg) -> putStrLn $ "[Ex-PART] Parse error: " ++ show errMsg
+--         (Right _) -> putStrLn $ "[Ex-PART] Succesfully parsed " ++ path
+--     guard (isRight parsed)
+--     pure $ fromRight undefined parsed
 
 clean :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 clean expcPath expiPath lpfName outDir = do
@@ -119,27 +122,28 @@ clean expcPath expiPath lpfName outDir = do
         else pure ()
     auto expcPath expiPath lpfName outDir
 
-monolithic :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
-monolithic expcPath expiPath lpfPath outDir = do
-    startDir <- getCurrentDirectory
-    expc <- parse parse_expc expcPath
-    expi_reps <- parse (parse_expi $ prg_cmps expc) expiPath
+-- TODO: fix these flows:
+-- monolithic :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+-- monolithic expcPath expiPath lpfPath outDir = do
+--     startDir <- getCurrentDirectory
+--     expc <- parse parse_expc expcPath
+--     expi_reps <- parse (parse_expi $ prg_cmps expc) expiPath
 
-    Flows.monolithic expc expi_reps lpfPath outDir
+--     Flows.monolithic expc expi_reps lpfPath outDir
 
-    setCurrentDirectory startDir
-    putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
+--     setCurrentDirectory startDir
+--     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
 
--- TODO (feature): usage stats kunnen ook weer uit logs geplukt worden 
-resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
-resource expcPath _ lpfPath outDir = do
-    startDir <- getCurrentDirectory
-    expc <- parse parse_expc expcPath
+-- -- TODO (feature): usage stats kunnen ook weer uit logs geplukt worden 
+-- resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+-- resource expcPath _ lpfPath outDir = do
+--     startDir <- getCurrentDirectory
+--     expc <- parse parse_expc expcPath
 
-    Flows.resource expc lpfPath outDir
+--     Flows.resource expc lpfPath outDir
 
-    setCurrentDirectory startDir
-    putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
+--     setCurrentDirectory startDir
+--     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
 type Flow = (FilePath -> FilePath -> FilePath -> String -> IO ())
 

@@ -19,25 +19,20 @@ createDirAndEnter outDir = do
     threadDelay 1000 -- This is terrible (:
     setCurrentDirectory outDir
 
-unrollRepetitions :: Program -> System -> IO (Program, System)
-unrollRepetitions expc expi = do
-    putStrLn $ "[Ex-PART] Unrolling repeat & chain statements..."
-    pure $ unroll expc expi
-
 writeLocations :: System -> IO ()
-writeLocations expi = do
+writeLocations system = do
     putStrLn "[Ex-PART] Generating locations.json..."
-    writeLocationsJSON expi
+    writeLocationsJSON system
 
-generateClash :: Program -> IO ()
-generateClash expc = do
+generateClash :: System -> IO ()
+generateClash system = do
     putStrLn "[Ex-PART] Generating Clash code..."
-    Generator.generateClash expc
+    Generator.generateClash system
 
-flattenForSim :: Program -> System -> IO ()
-flattenForSim expc expi = do
+flattenForSim :: System -> IO ()
+flattenForSim system = do
     putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    flatten expc expi
+    flatten system
 
 compileToVerilog :: Program -> IO ()
 compileToVerilog expc = do
