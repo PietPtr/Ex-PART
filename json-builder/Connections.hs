@@ -18,8 +18,8 @@ connectives system = map (connective system) (sys_connections system)
 
 connective :: System -> Connection -> Connective
 connective system (Connection from to) = Connective {
-        con_from = [sys_id system, fromSys, fromPort],
-        con_to = [sys_id system, toSys, toPort],
+        con_from = [sys_name system, fromSys, fromPort],
+        con_to = [sys_name system, toSys, toPort],
         con_done = done system toSys
     }
     where
@@ -38,11 +38,11 @@ refine system connective = if con_done connective
     else connectives
     where
         (toPort:toSys:_) = reverse (con_to connective)
-        subsysNames = (map sys_id $ sys_subsystems system)
-        toSubsys = case filter (\s -> sys_id s == toSys) (sys_subsystems system) of
+        subsysNames = (map sys_name $ sys_subsystems system)
+        toSubsys = case filter (\s -> sys_name s == toSys) (sys_subsystems system) of
             (x:_) -> x
             [] -> error $ "Connections.hs: Could not find system " ++ toSys ++ 
-                " in subsystems of " ++ (sys_id system) ++ " (found :" ++ 
+                " in subsystems of " ++ (sys_name system) ++ " (found :" ++ 
                 (intercalate "," subsysNames) ++ ")"
 
         nextConnections = case catMaybes (map continue (sys_connections toSubsys)) of
@@ -62,6 +62,6 @@ refine system connective = if con_done connective
                 con_to' = init (con_to connective) ++ [toSys', port]
 
 done :: System -> String -> Bool
-done system toSys =  not $ toSys `elem` (map sys_id $ sys_subsystems system)
+done system toSys =  not $ toSys `elem` (map sys_name $ sys_subsystems system)
 
 

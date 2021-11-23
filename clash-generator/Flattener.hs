@@ -6,20 +6,21 @@ import ComponentConversion
 import qualified Data.Set as Set
 import Data.Set (Set, union, unions)
 import Data.List (intersperse, intercalate)
+import Data.Maybe
 
 -- Given any system, recursively generate one Clash project for the entire thing
 
 flatten :: System -> String
-flatten system = intercalate "\n\n" $
+flatten top = intercalate "\n\n" $
     [ imports
-    , compDef 
+    , compDef
     , systems 
     ,topEntity ]
     where
         imports = "import Clash.Prelude\nimport Definitions\n\n"
-        compDef = genComponentClash (usedComponentNames system) (sys_components system)
-        systems = flatten' system
-        topEntity = createSynthesizable (map io2iso $ sys_iodefs system) (sys_name system) False
+        compDef = genComponentClash (usedComponentNames top) (top_cmps $ sys_topdata top)
+        systems = flatten' top
+        topEntity = createSynthesizable (map io2iso $ sys_iodefs top) (sys_name top) False
 
 flatten' :: System -> String
 flatten' system = subsysDefs ++ "\n\n\n" ++ sysdef
@@ -160,9 +161,13 @@ varName' sys io = sys ++ "_" ++ portname io
 -- TODO: probably still works, but can be much neater with elements
 usedComponentNames :: System -> Set String
 usedComponentNames system = 
-    (Set.fromList $ map elem_name (sys_elems system)) 
+    (Set.fromList $ mapMaybe component_name (sys_elems system)) 
     `union`
     (unions $ map usedComponentNames (sys_subsystems system))
+    where
+        component_name elem = case elem_implementation elem of
+            (InstanceImpl inst) -> Just $ cmp_name $ ins_cmp inst
+            _ -> Nothing
 
 genComponentClash :: Set String -> [Component] -> String
 genComponentClash used comps = concat $ intersperse "\n" $ 

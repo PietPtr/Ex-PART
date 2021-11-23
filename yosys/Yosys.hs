@@ -16,11 +16,11 @@ synth_ecp5 :: String
 synth_ecp5 = "synth_ecp5 -noccu2 -nomux -nobram -nodram -noflatten -nodsp"
 
 
-compileToVerilog :: Program -> IO ()
-compileToVerilog (Program _ _ components) = do
+compileToVerilog :: System -> IO ()
+compileToVerilog top = do
     mapM_ runClash procsAndNames
     where
-        cmpNames = map cmp_name components
+        cmpNames = map cmp_name (top_cmps $ sys_topdata top)
         procsAndNames = zip cmpNames (clashProcesses cmpNames)
 
 -- assumes clash has been generated
@@ -50,14 +50,15 @@ runClash (cmpName, clash) = do
     writeFile ("builds/"++cmpName++"/clash.err") stderr
 
 
-groupVerilogs :: Program -> IO ()
-groupVerilogs (Program _ _ components) = do
+groupVerilogs :: System -> IO ()
+groupVerilogs top = do
     createDirectoryIfMissing True $ "builds/.grouped"
     writeFile ("builds/.grouped/build.grouped.v") ""
     mapM_ (readAndAppend) (cmpNames)
     appendFile ("builds/.grouped/build.grouped.v") (dummyTop components)
     where
         cmpNames = map cmp_name components
+        components = top_cmps $ sys_topdata top
 
 synthesizeTop :: IO ()
 synthesizeTop =
@@ -85,12 +86,12 @@ runYosys args = do
             error $ "Yosys.hs: Yosys terminated with code " ++ show code
         ExitSuccess -> pure ()
 
-customConnect :: Program -> System -> IO ()
-customConnect expc expi = 
+customConnect :: System -> IO ()
+customConnect top = 
     encodeFile "interconnect.json" (topModule ++ constModules)
     where
-        topModule = makeTopModule expc expi
-        constModules = makeConstModules expc expi
+        topModule = makeTopModule top
+        constModules = makeConstModules top
 
 
 combineJSONs :: String -> IO ()

@@ -32,7 +32,7 @@ concatCombinatory blocks
 
 -- create a Definitions.hs with all comb blocks and a module def and imports
 genDefs :: TopData -> String
-genDefs (TopData haskellDefs combinatories) = 
+genDefs (TopData haskellDefs combinatories _) = 
     "module Definitions where\nimport Clash.Prelude\n\n" ++
     concat (intersperse "\n" haskellDefs) ++ "\n\n" ++
     concatCombinatory combinatories
@@ -45,5 +45,5 @@ writeDefs topdata = writeFile ("Definitions.hs") $ genDefs topdata
 doPreliminaryProcessing :: System -> IO ()
 doPreliminaryProcessing system = do
     makeBuild
-    makeComponentDirs (sys_components system)
+    makeComponentDirs (top_cmps $ sys_topdata system)
     writeDefs (sys_topdata system)

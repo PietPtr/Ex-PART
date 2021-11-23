@@ -2,7 +2,7 @@ module Steps where
 
 import Types
 
-import Unroll
+import Elaboration
 import Generator
 import JSONBuilder
 import Yosys
@@ -34,25 +34,25 @@ flattenForSim system = do
     putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
     flatten system
 
-compileToVerilog :: Program -> IO ()
-compileToVerilog expc = do
+compileToVerilog :: System -> IO ()
+compileToVerilog system = do
     putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
-    Yosys.compileToVerilog expc
+    Yosys.compileToVerilog system
 
-groupVerilogFiles :: Program -> IO ()
-groupVerilogFiles expc = do
+groupVerilogFiles :: System -> IO ()
+groupVerilogFiles top = do
     putStrLn "[Ex-PART] Grouping Verilog files into one file..."
-    groupVerilogs expc
+    groupVerilogs top
 
 synthesizeComponents :: IO ()
 synthesizeComponents = do
     putStrLn "[Ex-PART] Synthesizing components to JSON..."
     synthesizeTop
 
-connectComponents :: Program -> System -> IO ()
-connectComponents expc expi = do
+connectComponents :: System -> IO ()
+connectComponents top = do
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
-    customConnect expc expi
+    customConnect top
 
 removeDeleted :: [Component] -> IO ()
 removeDeleted deleted = do

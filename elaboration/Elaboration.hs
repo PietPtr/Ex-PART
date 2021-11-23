@@ -13,7 +13,8 @@ elaborate :: Design -> System
 elaborate design = (elaborateSystem design (des_systree design)) {
         sys_topdata = TopData {
             top_cmbs = des_cmbs design,
-            top_defs = des_defs design
+            top_defs = des_defs design,
+            top_cmps = des_cmps design
         }
     }
 
@@ -52,27 +53,3 @@ elaborateSystem design systree = System {
 
 
 
-class IsElement a where
-    toElement :: a -> Element
-
-instance IsElement Instance where
-    toElement inst = Element {
-            elem_name = ins_name,
-            elem_size = ins_size,
-            elem_coords = ins_coords,
-            elem_iodefs = catMaybes $ map iso2io (cmp_isoStats ins_cmp),
-            elem_implementation = InstanceImpl inst
-        }
-        where
-            Instance {..} = inst
-
-instance IsElement System where
-    toElement system = Element {
-            elem_name = sys_name,
-            elem_size = sys_size,
-            elem_coords = sys_coords,
-            elem_iodefs = sys_iodefs,
-            elem_implementation = SubsysImpl system
-        }
-        where
-            System {..} = system

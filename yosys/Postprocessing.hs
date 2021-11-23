@@ -120,12 +120,12 @@ instance ToJSON CellConn where
             (pack name) .= bits
         ]
 
-makeTopModule :: Program -> System -> [Module]
-makeTopModule program system = makeModules True program system
+makeTopModule :: System -> [Module]
+makeTopModule system = makeModules True system
 
-makeConstModules :: Program -> System -> [Module]
-makeConstModules program system = case driver of
-    Just driver -> constDriverModule driver : (makeConstModules program system')
+makeConstModules :: System -> [Module]
+makeConstModules system = case driver of
+    Just driver -> constDriverModule driver : (makeConstModules system')
     Nothing -> []
     where
         (driver, drivers) = case sys_constantDrivers system of
@@ -155,18 +155,18 @@ findCIDBitwidth system cid = isoStatToBitwidth iso_statement
             _ -> False
 
 
-makeModules :: Bool -> Program -> System -> [Module]
-makeModules isTop p@(Program _ _ components) system = mod : 
-    (concat $ map (makeModules False p) (sys_subsystems system))
+makeModules :: Bool -> System -> [Module]
+makeModules isTop system = mod : 
+    (concat $ map (makeModules False) (sys_subsystems system))
     where
         mod = Module {
-                mod_name = sys_id system,
+                mod_name = sys_name system,
                 mod_top = isTop,
                 mod_ports = makePorts 5 $ sys_iodefs system',
-                mod_cells = makeCells components system' netmap
+                mod_cells = makeCells system' netmap
             }
         nextBit = 1 + (last $ port_bits $ last $ mod_ports mod)
-        netmap = nets components system' nextBit portNetmap
+        netmap = nets system' nextBit portNetmap
             
         portNetmap = portsToNetmap (mod_ports mod) Map.empty
 
@@ -184,18 +184,19 @@ makeModules isTop p@(Program _ _ components) system = mod :
 
         -- Add instances and connections to this system for the constant drivers
         system' = system {
-            sys_instances=sys_instances system ++ cdInstances,
+            sys_elems=sys_elems system ++ (map toElement cdInstances),
             sys_connections=sys_connections system ++ cdConns
         }
 
         cdConns = map cdToConn (sys_constantDrivers system)
         cdInstances = map cdToInstance (sys_constantDrivers system)
 
-        cdToConn :: ConstantDriver -> Connection
-        cdToConn (ConstantDriver value cid) = (Connection constCID cid)
+        cdToConn :: ConstantDriver -> Connection'
+        cdToConn (ConstantDriver value cid) = (Connection' constCID cid bitwidth)
             where
                 constCID = (CID elemName "out")
                 elemName = constModuleName (ConstantDriver value cid)
+                bitwidth = fromIntegral $ length $ toBinary value 
 
         cdToInstance :: ConstantDriver -> Instance
         cdToInstance (ConstantDriver value cid) = Instance {
@@ -211,10 +212,10 @@ makeModules isTop p@(Program _ _ components) system = mod :
 
 findDriver :: System -> CID -> CID
 findDriver system cid = case filter isDriver (sys_connections system) of
-        ((Connection netCID _):_) -> netCID
+        ((Connection' netCID _ _):_) -> netCID
         [] -> error $ "Postprocessing.hs: Could not find driver " ++ show cid ++ " in " ++ show (sys_connections system)
     where
-        isDriver (Connection _ to) = to == cid
+        isDriver (Connection' _ to _) = to == cid
 
 
 
@@ -236,99 +237,32 @@ makePorts bitCtr (stat:stats) =
 
 
 -- creates a net map for this system (only the top system)
-nets :: [Component] -> System -> Integer -> Netmap -> Netmap
-nets comps system bitCtr netmap = nets' comps system bitCtr (sys_connections system) netmap
+nets :: System -> Integer -> Netmap -> Netmap
+nets system bitCtr netmap = nets' system bitCtr (sys_connections system) netmap
 
 -- TODO (lowprio): I _think_ we can just, instead of netnames, initialize constants here, so in the synthesized.json it will end up as "0" and "1" instead of nets, and saves generating const modules (doesn't seem to affect performance results.)
 -- TODO (elab): why is bitwidth determination here? could be elsewhere?
-nets' :: [Component] -> System -> Integer -> [Connection] -> Netmap -> Netmap
-nets' _ _ _ [] map = map
-nets' comps system bitCtr ((Connection from to):connections) netmap = 
-    nets' comps system (bitCtr+netBitwidth) connections map'
+nets' :: System -> Integer -> [Connection'] -> Netmap -> Netmap
+nets' _ _ [] map = map
+nets' system bitCtr ((Connection' from to netBitwidth):connections) netmap = 
+    nets' system (bitCtr+netBitwidth) connections map'
     where
         map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
         net = [bitCtr..(bitCtr+netBitwidth-1)]
         (CID from_elem_name from_port) = from
-
-        netBitwidth = if from_elem_name == "this"
-            then ioStatToBitWidth (io_statement system)
-            else if "const_" `isPrefixOf` from_elem_name
-                -- TODO (elab): this bitwidth determination is correct, however all nets not supplied by the constant module must be set to zero, otherwise not all bits have drivers.
-                then findCIDBitwidth system to -- assume the user connected the constant driver correctly
-                else if isComponent from_elem_name
-                    then findCIDBitwidth system from
-                    else  ioStatToBitWidth (io_statement subsystem)
-
-        isComponent name = name `elem` (map (ins_name) $ sys_instances system)
-
-        ---- vind de bitwidth voor een system IO
-        io_statement sys = case filter findIOStat (sys_iodefs sys) of
-            (x:_) -> x
-            [] -> error $ "Postprocessing.hs: cannot find IO statement " ++ from_port ++ " in " ++ show (sys_iodefs sys)
-        findIOStat stat = case stat of
-            (Output name _) -> name == from_port
-            (Input name _) -> name == from_port
-
-        ---- vind de bitwidth voor een subsystem IO
-        subsystem = case filter (\s -> sys_id s == from_elem_name) (sys_subsystems system) of
-            (x:_) -> x
-            [] -> error $ "Postprocessing.hs: cannot find subsystem " ++ from_elem_name
+       
 
 
 -- WARN: unique integers aren't sequential (but that probably does not matter)
-makeCells :: [Component] -> System -> Netmap -> [Cell]
-makeCells components system netmap = 
-    makeCells' components system netmap (systemElems ++ instanceElems) 
-    where
-        systemElems = map sysElem (sys_subsystems system)
-        instanceElems = map instElem (sys_instances system)
-
--- abstracts over instance and system
-data Element = Element {
-        elem_name :: String,
-        elem_type :: String,
-        elem_io :: [IOStat],
-        elem_ports :: [PortAndDir],
-        elem_isSubsys :: Bool
-    }
+makeCells :: System -> Netmap -> [Cell]
+makeCells system netmap = 
+    makeCells' system netmap (sys_elems system) 
 
 
 portWithDir :: IOStat -> PortAndDir
 portWithDir stat = case stat of
     (Input n _) -> PortAndDir n In
     (Output n _) -> PortAndDir n Out
-
-sysElem :: System -> Element
-sysElem system = Element {
-        elem_name = sys_id system,
-        elem_type = sys_id system,
-        elem_io = sys_iodefs system,
-        elem_ports = map portWithDir $ sys_iodefs system,
-        elem_isSubsys = True
-    }
-
-instElem :: Instance -> Element
-instElem inst = Element {
-        elem_name = ins_name inst,
-        elem_type = cmp_name $ ins_cmp inst,
-        elem_io = elemio,
-        elem_ports = map portWithDir elemio,
-        elem_isSubsys = False
-    }
-    where
-        elemio = map isoToIO ports
-        component = ins_cmp inst
-
-        ports = filter isIO (cmp_isoStats component)
-        isIO stat = case stat of
-            (SState _ _ _) -> False
-            _ -> True
-
-        isoToIO :: ISOStat -> IOStat
-        isoToIO (SInput name t) = (Input name t)
-        isoToIO (SOutput name t) = (Output name t)
-        isoToIO (SState _ _ _) = error "Postprocessing.hs: Cannot convert state to IO"
-
 
 
 constDriverModule :: ConstantDriver -> Module
@@ -356,32 +290,31 @@ toBinary value = map (\c -> read [c]) str
         str = showIntAtBase 2 intToDigit int ""
 
 
-makeCells' :: [Component] -> System -> Netmap -> [Element] -> [Cell]
-makeCells' _ _ _ [] = []
-makeCells' components system netmap (elem:elements) =
+makeCells' :: System -> Netmap -> [Element] -> [Cell]
+makeCells' _ _ [] = []
+makeCells' system netmap (elem:elements) =
     Cell {
         cell_name = elem_type elem ++ infix_name ++ elem_name elem,
         cell_type = elem_type elem,
-        -- add clk rst en ports, then for every port in this component type (..new info), 
-        -- add connections as specified in connection list
-        cell_portDirections = elem_ports elem,
+        cell_portDirections = map portWithDir $ elem_iodefs elem,
         cell_connections = [
             CellConn "clk" [2],
             CellConn "rst" [3],
             CellConn "en" [4]
         ] ++ portCells
-    } : makeCells' components system netmap elements
+    } : makeCells' system netmap elements
     where
-        infix_name = if elem_isSubsys elem
-            then "-system-"
-            else "-instance-"
+        infix_name = case elem_implementation elem of
+            (InstanceImpl _) -> "-instance-"
+            (SubsysImpl _) -> "-system-"
 
         relevantConnections = filter relevant connections
-        relevant (Connection (CID from_cmp _) (CID to_cmp _)) =
+        relevant (Connection' (CID from_cmp _) (CID to_cmp _) _) =
             from_cmp == elem_name elem || to_cmp == elem_name elem
         
         connections = sys_connections system
 
+        -- toCellConn :: IOStat -> 
         toCellConn port = CellConn name net
             where
                 name = case port of
@@ -389,9 +322,9 @@ makeCells' components system netmap (elem:elements) =
                     (Output n _) -> n
 
                 netCID = case filter lookupCID relevantConnections of
-                    ((Connection cid _):_) -> Just cid
+                    ((Connection' cid _ _):_) -> Just cid
                     [] -> Nothing 
-                lookupCID (Connection (CID from_elem from_port) (CID to_elem to_port)) = 
+                lookupCID (Connection' (CID from_elem from_port) (CID to_elem to_port) _) = 
                     (from_port == name && from_elem == elem_name elem) || 
                     (to_port == name && to_elem == elem_name elem)
 
@@ -404,6 +337,6 @@ makeCells' components system netmap (elem:elements) =
                         (show port) ++ "\n" ++ (show relevantConnections)
 
                 
-        portCells = map toCellConn (elem_io elem)
+        portCells = map toCellConn (elem_iodefs elem)
 
 

@@ -1,5 +1,6 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module Types where
 
@@ -112,7 +113,7 @@ instance Pretty CoordExpr where
 
 -- data System = System {
 --     sys_flattened :: Bool, 
---     sys_id :: String, 
+--     sys_name :: String, 
 --     sys_size :: Size,
 --     sys_coords :: Coords,
 --     sys_iodefs :: [IOStat],
@@ -295,13 +296,13 @@ sys_instances system = mapMaybe toInstance (sys_elems system)
 -- But upside that it only returns the ones used in the expi (downside for the resources flow...)
 -- TODO: do we want it this way, or do we want all components in the topdata?
 -- Or have a sys_unique_components, perhaps.
-sys_components :: System -> [Component]
-sys_components system = Set.toList (sys_components' system (Set.empty))
-    where
-        sys_components' :: System -> Set Component -> Set Component
-        sys_components' system set = undefined
-            where
-                cmps = sys_instances
+-- sys_components :: System -> [Component]
+-- sys_components system = Set.toList (sys_components' system (Set.empty))
+--     where
+--         sys_components' :: System -> Set Component -> Set Component
+--         sys_components' system set = undefined
+--             where
+--                 cmps = sys_instances
 
 
 data Implementation 
@@ -311,16 +312,46 @@ data Implementation
 
 data Element = Element {
         elem_name :: String,
+        elem_type :: String,
         elem_size :: Size,
         elem_coords :: Coords,
         elem_iodefs :: [IOStat],
         elem_implementation :: Implementation
     } deriving (Show)
 
+
+class IsElement a where
+    toElement :: a -> Element
+
+instance IsElement Instance where
+    toElement inst = Element {
+            elem_name = ins_name,
+            elem_type = cmp_name $ ins_cmp,
+            elem_size = ins_size,
+            elem_coords = ins_coords,
+            elem_iodefs = catMaybes $ map iso2io (cmp_isoStats ins_cmp),
+            elem_implementation = InstanceImpl inst
+        }
+        where
+            Instance {..} = inst
+
+instance IsElement System where
+    toElement system = Element {
+            elem_name = sys_name,
+            elem_type = sys_name,
+            elem_size = sys_size,
+            elem_coords = sys_coords,
+            elem_iodefs = sys_iodefs,
+            elem_implementation = SubsysImpl system
+        }
+        where
+            System {..} = system
+
 data TopData
     = TopData {
         top_defs :: [HaskellDef],
-        top_cmbs :: [Combinatory]}
+        top_cmbs :: [Combinatory],
+        top_cmps :: [Component]}
     | NotTop
     deriving Show
 
