@@ -2,7 +2,6 @@ module Steps where
 
 import Types
 
-import Elaboration
 import Generator
 import JSONBuilder
 import Yosys

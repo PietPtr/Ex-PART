@@ -5,31 +5,13 @@
 module Types where
 
 import Data.Maybe
-import qualified Data.Set as Set
-import Data.Set (Set)
 
 class Pretty a where
     pretty :: a -> String
 
 -- .expc result
 
-data Combinatory = Combinatory String
-    deriving (Show, Eq)
 
-type HaskellDef = String
-
-data Component = Component {
-        cmp_name :: String,
-        cmp_args :: [Argument],
-        cmp_isoStats :: [ISOStat],
-        cmp_where :: WhereBlock
-    } deriving (Show, Eq)
-
-type Argument = String
-type WhereBlock = String
-
-type Type = String
-type Name = String
 
 -- TODO: could have typeclasses to make this neater
 data ISOStat
@@ -104,32 +86,89 @@ instance Pretty CoordExpr where
     pretty (CX id) = id ++ ".x"
     pretty (CY id) = id ++ ".y"
 
--- TODO (elab): grote system/program refactor: 
--- System kan na processen zijn (wat we nu 'unroll' noemen wordt dan iets uitgebreider),
--- en Program wat er na parsen uitkomt. Dan werkt alles met alleen de System en haalt daar
--- de componenten etc uit
--- Dan moet er nog een recursive ding zijn, SystemTree of zo, die de subsystems opslaat
--- Hmm of hiervan moet een postprocessed versie zijn juist... 
-
--- data System = System {
---     sys_flattened :: Bool, 
---     sys_name :: String, 
---     sys_size :: Size,
---     sys_coords :: Coords,
---     sys_iodefs :: [IOStat],
---     sys_instances :: [Instance],
---     sys_connections :: [Connection],
---     sys_repetitions :: [Repetition],
---     sys_multicons :: [MultiConnection],
---     sys_subsystems :: [System],
---     -- TODO (feature): constant drivers only work for components
---     sys_constantDrivers :: [ConstantDriver]
---     } deriving (Show, Eq)
 
 data IOStat
     = Input Name Type
     | Output Name Type
     deriving (Show, Eq)
+
+
+
+isoStatToBitwidth :: ISOStat -> Integer
+isoStatToBitwidth stat = case stat of
+    (SInput _ t) -> typeToBitwidth t
+    (SOutput _ t) -> typeToBitwidth t
+    _ -> error "Types.hs: Invalid ISOStatement for bitwidth (state not implemented)"
+
+ioStatToBitWidth :: IOStat -> Integer
+ioStatToBitWidth stat = case stat of
+    (Input _ t) -> typeToBitwidth t
+    (Output _ t) -> typeToBitwidth t
+
+-- TODO (lowprio): actually do this nicely instead of hardcoded widths for some types...
+typeToBitwidth :: String -> Integer
+typeToBitwidth t = case t of
+        "Value" -> 16
+        "Maybe Value" -> 17
+        "State" -> 1
+        "Vec 3 State" -> 3
+        "Unsigned 1" -> 1
+        "Unsigned 2" -> 2
+        "Unsigned 4" -> 4
+        "Unsigned 5" -> 5
+        "Unsigned 6" -> 6
+        "Unsigned 8" -> 8
+        "Unsigned 16" -> 16
+        "Unsigned 24" -> 24
+        "Bool" -> 1
+        "Bitwidth" -> 16
+        "UInt" -> 32
+        "Hash" -> 128
+        other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other
+
+
+
+-- The design as defined in an .expc and an .expi file.
+-- Easy to parse to.
+data ExpcDesign = ExpcDesign {
+        expcdes_defs :: [HaskellDef],
+        expcdes_cmbs :: [Combinatory],
+        expcdes_cmps :: [Component]
+    } deriving (Show)
+
+data Design = Design {
+        des_defs :: [HaskellDef],
+        des_cmbs :: [Combinatory],
+        des_cmps :: [Component],
+        des_systree :: SystemTree
+    } deriving (Show)
+
+data SystemTree = SystemTree {
+        systr_flattened :: Bool,
+        systr_name :: String,
+        systr_size :: Size,
+        systr_coords :: Coords,
+        systr_iodefs :: [IOStat],
+        systr_instances :: [Instance],
+        systr_connections :: [Connection],
+        systr_repetitions :: [RawRepetition],
+        systr_multicons :: [MultiConnection],
+        systr_subsystems :: [SystemTree],
+        systr_constantDrivers :: [ConstantDriver]
+    } deriving (Show)
+
+
+data Combinatory = Combinatory String
+    deriving (Show, Eq)
+
+type HaskellDef = String
+
+data Component = Component {
+        cmp_name :: String,
+        cmp_args :: [Argument],
+        cmp_isoStats :: [ISOStat],
+        cmp_where :: WhereBlock
+    } deriving (Show, Eq)
 
 data Instance = Instance {
         ins_name :: String,
@@ -139,31 +178,11 @@ data Instance = Instance {
         ins_coords :: Coords
     } deriving (Show, Eq)
 
-data UnplacedInstance = UnplacedInstance String [ConstExpr] Size
-    deriving (Show, Eq)
+type Argument = String
+type WhereBlock = String
 
-data ConstExpr 
-    = Constant Integer 
-    | HaskellData String 
-    deriving (Show, Eq)
-
-data Connection = Connection CID CID
-    deriving (Show, Eq)
-data CID 
-    = CID String String -- system port
-    deriving (Show, Eq, Ord)
-
-data ConstantDriver = ConstantDriver String CID
-    deriving (Show, Eq)
-
-data MultiConnection = MultiConn MCID MCID
-    deriving (Show, Eq)
-data MCID = MCID String String Range -- system port range
-    deriving (Show, Eq)
-data Range 
-    = Range Integer Integer -- from to
-    | All
-    deriving (Show, Eq)
+type Type = String
+type Name = String
 
 
 data RawRepetition 
@@ -199,69 +218,31 @@ data Option
     | Result String
     deriving (Show, Eq)
 
+data UnplacedInstance = UnplacedInstance String [ConstExpr] Size
+    deriving (Show, Eq)
 
-isoStatToBitwidth :: ISOStat -> Integer
-isoStatToBitwidth stat = case stat of
-    (SInput _ t) -> typeToBitwidth t
-    (SOutput _ t) -> typeToBitwidth t
-    _ -> error "Types.hs: Invalid ISOStatement for bitwidth (state not implemented)"
+data ConstExpr 
+    = Constant Integer 
+    | HaskellData String 
+    deriving (Show, Eq)
 
-ioStatToBitWidth :: IOStat -> Integer
-ioStatToBitWidth stat = case stat of
-    (Input _ t) -> typeToBitwidth t
-    (Output _ t) -> typeToBitwidth t
+data Connection = Connection CID CID
+    deriving (Show, Eq)
+data CID 
+    = CID String String -- system port
+    deriving (Show, Eq, Ord)
 
--- TODO (lowprio): actually do this nicely instead of hardcoded widths for some types...
-typeToBitwidth :: String -> Integer
-typeToBitwidth t = case t of
-        "Value" -> 16
-        "Maybe Value" -> 17
-        "State" -> 1
-        "Vec 3 State" -> 3
-        "Unsigned 1" -> 1
-        "Unsigned 2" -> 2
-        "Unsigned 4" -> 4
-        "Unsigned 5" -> 5
-        "Unsigned 6" -> 6
-        "Unsigned 8" -> 8
-        "Unsigned 16" -> 16
-        "Unsigned 24" -> 24
-        "Bool" -> 1
-        "Bitwidth" -> 16
-        "UInt" -> 32
-        "Hash" -> 128
-        other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other
+data ConstantDriver = ConstantDriver String CID
+    deriving (Show, Eq)
 
-------- Elaboration refactor
-
--- The design as defined in an .expc and an .expi file.
--- Easy to parse to.
-data ExpcDesign = ExpcDesign {
-        expcdes_defs :: [HaskellDef],
-        expcdes_cmbs :: [Combinatory],
-        expcdes_cmps :: [Component]
-    } deriving (Show)
-
-data Design = Design {
-        des_defs :: [HaskellDef],
-        des_cmbs :: [Combinatory],
-        des_cmps :: [Component],
-        des_systree :: SystemTree
-    } deriving (Show)
-
-data SystemTree = SystemTree {
-        systr_flattened :: Bool,
-        systr_name :: String,
-        systr_size :: Size,
-        systr_coords :: Coords,
-        systr_iodefs :: [IOStat],
-        systr_instances :: [Instance],
-        systr_connections :: [Connection],
-        systr_repetitions :: [RawRepetition],
-        systr_multicons :: [MultiConnection],
-        systr_subsystems :: [SystemTree],
-        systr_constantDrivers :: [ConstantDriver]
-    } deriving (Show)
+data MultiConnection = MultiConn MCID MCID
+    deriving (Show, Eq)
+data MCID = MCID String String Range -- system port range
+    deriving (Show, Eq)
+data Range 
+    = Range Integer Integer -- from to
+    | All
+    deriving (Show, Eq)
 
 -- The data structure after elaboration.
 -- Easier to work with.
@@ -274,7 +255,6 @@ data System = System {
         sys_elems :: [Element],
         sys_connections :: [Connection'],
         sys_constantDrivers :: [ConstantDriver]
-        -- TODO: We might like a recursive system thing anyway, but it's a little bit of double admin
     } deriving (Show)
 
 -- fake accessor, saves memory usage i guess, but takes more time, classic trade-off.
@@ -291,19 +271,6 @@ sys_instances system = mapMaybe toInstance (sys_elems system)
         toInstance elem = case elem_implementation elem of
             (InstanceImpl inst) -> Just inst
             _ -> Nothing
-
--- Pretty expensive operation now with the new data structures haha
--- But upside that it only returns the ones used in the expi (downside for the resources flow...)
--- TODO: do we want it this way, or do we want all components in the topdata?
--- Or have a sys_unique_components, perhaps.
--- sys_components :: System -> [Component]
--- sys_components system = Set.toList (sys_components' system (Set.empty))
---     where
---         sys_components' :: System -> Set Component -> Set Component
---         sys_components' system set = undefined
---             where
---                 cmps = sys_instances
-
 
 data Implementation 
     = InstanceImpl Instance 

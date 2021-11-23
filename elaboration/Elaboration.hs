@@ -6,7 +6,6 @@ import Repetition
 import Multiconnection
 import ElaborateConnection
 
-import Data.Maybe
 
 
 elaborate :: Design -> System

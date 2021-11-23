@@ -5,7 +5,6 @@ module Postprocessing where
 import Data.Aeson
 import qualified Data.Map as Map
 import Data.Text (pack)
-import Data.List
 import Numeric (showIntAtBase)
 import Data.Char (intToDigit)
 import Data.Maybe
@@ -134,26 +133,6 @@ makeConstModules system = case driver of
         system' = system {sys_constantDrivers=(fromJust drivers)} -- only used in the just case, type system cannot prove this tho
 
 
--- TODO (elab): in the typing refactor, can the bitwidth not be annotated somewhere? saves a crapton of lookups
-findCIDBitwidth :: System -> CID -> Integer
-findCIDBitwidth system cid = isoStatToBitwidth iso_statement
-    where
-        (CID instName portName) = cid
-        component = ins_cmp $ case filter 
-            (\i -> ins_name i == instName) 
-            (sys_instances system) of
-                (x:_) -> x
-                [] -> error $ "Postprocessing.hs: cannot find component name " ++ instName ++ "."
-
-        iso_statement = case filter findStat (cmp_isoStats component) of
-            (x:_) -> x
-            [] -> error $ "Postprocessing.hs: cannot find iso statement " ++ portName
-
-        findStat stat = case stat of
-            (SOutput name _) -> name == portName
-            (SInput name _) -> name == portName
-            _ -> False
-
 
 makeModules :: Bool -> System -> [Module]
 makeModules isTop system = mod : 
@@ -241,15 +220,13 @@ nets :: System -> Integer -> Netmap -> Netmap
 nets system bitCtr netmap = nets' system bitCtr (sys_connections system) netmap
 
 -- TODO (lowprio): I _think_ we can just, instead of netnames, initialize constants here, so in the synthesized.json it will end up as "0" and "1" instead of nets, and saves generating const modules (doesn't seem to affect performance results.)
--- TODO (elab): why is bitwidth determination here? could be elsewhere?
 nets' :: System -> Integer -> [Connection'] -> Netmap -> Netmap
 nets' _ _ [] map = map
-nets' system bitCtr ((Connection' from to netBitwidth):connections) netmap = 
+nets' system bitCtr ((Connection' from _ netBitwidth):connections) netmap = 
     nets' system (bitCtr+netBitwidth) connections map'
     where
         map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
         net = [bitCtr..(bitCtr+netBitwidth-1)]
-        (CID from_elem_name from_port) = from
        
 
 
@@ -282,7 +259,7 @@ constModuleName :: ConstantDriver -> String
 constModuleName (ConstantDriver value _) = "const_" ++ value
 
 -- produces a list of ones and zero for the value given in the string
--- only implements 10 integers
+-- only implements base 10 integers
 toBinary :: String -> [Integer]
 toBinary value = map (\c -> read [c]) str
     where

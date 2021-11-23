@@ -104,7 +104,6 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
 
 
 
--- TODO (elab): could be neater with an abstraction over IO/ISO statement and handling connection finding as such
 systemWhereStatement :: [Connection'] -> System -> String
 systemWhereStatement conns system = whereStatement ins outs name
     where

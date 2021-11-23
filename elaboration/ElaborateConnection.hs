@@ -23,7 +23,7 @@ elaborateConnection elems sysIO (Connection from to) = if fromType == toType
                 [e] -> elem_iodefs e
                 [] -> error $ "ElaborateConnection.hs: Cannot find element with name " 
                         ++ name ++ " in " ++ show elemnames
-                es -> error $ "ElaborateConnection.hs: Found several components with name " 
+                _ -> error $ "ElaborateConnection.hs: Found several components with name " 
                         ++ name ++ " in " ++ show elemnames
             where
                 elemnames = map elem_name elems
@@ -35,7 +35,7 @@ elaborateConnection elems sysIO (Connection from to) = if fromType == toType
                 (Input _ t) -> t
             [] -> error $ "ElaborateConnection.hs: Cannot find port with name "
                     ++ portName ++ " in " ++ show iostats
-            es -> error $ "ElaborateConnection.hs: Found several ports with name "
+            _ -> error $ "ElaborateConnection.hs: Found several ports with name "
                     ++ portName ++ " in " ++ show iostats
             where
                 findIOStat stat = case stat of

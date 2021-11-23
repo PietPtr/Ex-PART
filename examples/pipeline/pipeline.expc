@@ -2,7 +2,7 @@ combinatory {
 
 }
 
-type Bitwidth = Unsigned 16
+type Bitwidth = Unsigned 10
 
 component compute() {
     input inp : Bitwidth
@@ -11,6 +11,6 @@ component compute() {
 
     s' = inp
 
-    out = (s * 13) `mod` 17
+    out = (s * 13) `mod` 17 - 4
 
 }

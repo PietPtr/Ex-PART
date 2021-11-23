@@ -22,57 +22,55 @@ clean system outDir = do
     connectComponents system
 
 
--- expcChanged :: System -> [Component] -> [Component] -> [Component] -> IO ()
--- expcChanged system changed deleted newcmps = do
---     -- TODO: !! this is not automagically fixed
---     -- expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
---     -- (expc, expi) <- unrollRepetitions expc_current expi_rolled
+expcChanged :: System -> [Component] -> [Component] -> [Component] -> IO ()
+expcChanged top changed deleted newcmps = do
+    -- TODO: !! this is not automagically fixed
+    -- expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
+    top' <- pure $ top {sys_topdata=(sys_topdata top) {top_cmps=(changed ++ newcmps)}}
 
---     writeLocations expi
---     generateClash expc
---     flattenForSim expi
---     compileToVerilog expc
---     removeDeleted deleted
---     groupVerilogFiles expc
---     synthesizeComponents
---     connectComponents expi
+    writeLocations top'
+    generateClash top'
+    flattenForSim top'
+    compileToVerilog top'
+    removeDeleted deleted
+    groupVerilogFiles top'
+    synthesizeComponents
+    connectComponents top'
 
--- expiChanged :: System -> IO ()
--- expiChanged system = do
-    
---     writeLocations expi
---     flattenForSim expi
---     connectComponents expi
+expiChanged :: System -> IO ()
+expiChanged top = do
+    writeLocations top
+    flattenForSim top
+    connectComponents top
 
 
--- monolithic :: System -> FilePath -> FilePath -> IO ()
--- monolithic system lpfPath outDir = do
---     let outDir' = (slashscrape outDir) ++ "_monolithic"
+monolithic :: System -> FilePath -> FilePath -> IO ()
+monolithic system lpfPath outDir = do
+    let outDir' = (slashscrape outDir) ++ "_monolithic"
 
---     createDirAndEnter outDir'
---     (expc, expi) <- unrollRepetitions expc_rolled expi_rolled
+    createDirAndEnter outDir'
 
---     generateClash expc
---     flattenForSim expi
---     monolithicToVerilog
---     synthesizeMonolithic
---     noConstraintPnR lpfPath
+    generateClash system
+    flattenForSim system
+    monolithicToVerilog
+    synthesizeMonolithic
+    noConstraintPnR lpfPath
 
---     where
---         slashscrape "" = ""
---         slashscrape p = if last p == '/' then init (slashscrape p) else p
+    where
+        slashscrape "" = ""
+        slashscrape p = if last p == '/' then init (slashscrape p) else p
 
 -- Compile flow that synthesizes/place & routes everything of all components separately s.t.
 -- resource usage of individual components can be analyzed
 -- Can be used as clean build, and after folder has been made.
--- resource :: Design -> FilePath -> FilePath -> IO ()
--- resource design lpfPath outDir = do
---     lpfLoc <- makeAbsolute lpfPath
+resource :: System -> FilePath -> FilePath -> IO ()
+resource system lpfPath outDir = do
+    lpfLoc <- makeAbsolute lpfPath
     
---     createDirAndEnter outDir
---     generateClash design
---     compileToVerilog design
---     synthesizeAndPnRIndividualComponents lpfLoc
+    createDirAndEnter outDir
+    generateClash system
+    compileToVerilog system
+    synthesizeAndPnRIndividualComponents lpfLoc
 
 
     
