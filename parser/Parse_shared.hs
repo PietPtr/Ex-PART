@@ -26,6 +26,9 @@ float       = P.float lexer
 symbol :: String -> Parser String
 symbol      = P.symbol lexer
 
+whiteSpace :: Parser ()
+whiteSpace = P.whiteSpace lexer
+
 
 identifier :: Parser String
 identifier = (:) <$> (letter <|> char '_') <*> many (alphaNum <|> char '_' <|> char '\'')

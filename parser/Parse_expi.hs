@@ -62,13 +62,13 @@ system components = toSystem
 system_body :: [Component] -> Parser [Statement]
 system_body components = many1 (anystat <* ows)
     where
-        anystat = try (IOStatement <$> (ows *> ioStatement))
-            <|> try (MultiConnStat <$> (ows *> multiconnection <* char '\n'))
-            <|> try (ConnectionStat <$> (ows *> connection <* char '\n'))
-            <|> try (ConstDriverStat <$> (ows *> constant_driver_stat <* char '\n'))
-            <|> try (RepetitionStat <$> (ows *> (repeat <|> chain)))
-            <|> try (InstanceStat <$> (ows *> (cmp_instance components) <* char '\n'))
-            <|> (SystemStat <$> (ows *> (system components)))
+        anystat = try (IOStatement <$> (ows *> ioStatement) <* whiteSpace)
+            <|> try (MultiConnStat <$> (ows *> multiconnection <* char '\n' <* whiteSpace))
+            <|> try (ConnectionStat <$> (ows *> connection <* char '\n' <* whiteSpace))
+            <|> try (ConstDriverStat <$> (ows *> constant_driver_stat <* char '\n' <* whiteSpace))
+            <|> try (RepetitionStat <$> (ows *> (repeat <|> chain)) <* whiteSpace)
+            <|> try (InstanceStat <$> (ows *> (cmp_instance components) <* char '\n' <* whiteSpace))
+            <|> (SystemStat <$> (ows *> (system components)) <* whiteSpace)
 
 chain :: Parser RawRepetition
 chain = RawChain

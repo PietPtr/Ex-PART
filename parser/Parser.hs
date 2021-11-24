@@ -7,8 +7,6 @@ import Types
 import Data.Either
 import Control.Monad
 
--- TODO (feature): voeg comments toe aan Ex-PART (kan dat makkelijk in parsec?)
-
 -- en aangezien dat dan weer hetzelfde patroon is, een beetje abstracten.
 parse_expc :: FilePath -> IO ExpcDesign
 parse_expc file = do
