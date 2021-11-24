@@ -2,7 +2,7 @@ combinatory {
 
 }
 
-type Bitwidth = Unsigned 10
+type Bitwidth = Unsigned 16
 
 component compute() {
     input inp : Bitwidth

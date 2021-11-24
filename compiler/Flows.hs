@@ -44,7 +44,7 @@ expiChanged top = do
 
 monolithic :: System -> FilePath -> FilePath -> IO ()
 monolithic system lpfPath outDir = do
-    let outDir' = (slashscrape outDir) ++ "_monolithic"
+    let outDir' = outDir ++ "/monolithic"
 
     createDirAndEnter outDir'
 
@@ -54,13 +54,9 @@ monolithic system lpfPath outDir = do
     synthesizeMonolithic
     noConstraintPnR lpfPath
 
-slashscrape :: String -> String
-slashscrape "" = ""
-slashscrape p = if last p == '/' then init (slashscrape p) else p
-
 hierarchic :: System -> FilePath -> FilePath -> IO ()
 hierarchic system lpfPath outDir = do
-    let outDir' = (slashscrape outDir) ++ "_hierarchic"
+    let outDir' = outDir ++ "/hierarchic"
 
     createDirAndEnter outDir'
 

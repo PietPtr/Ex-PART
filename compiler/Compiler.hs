@@ -161,3 +161,9 @@ make flow prj = do
     expiPath <- makeAbsolute (path ++ ".expi")
     lpfPath <- makeAbsolute (path ++ ".lpf")
     flow expcPath expiPath lpfPath prj
+
+make_cmh :: String -> IO ()
+make_cmh name = do
+    putStrLn $ "[Ex-PART] running clean, monolithic, and hierarchic flow for " ++ name ++ "."
+    mapM ((flip make) name) [clean, monolithic, hierarchic]
+    putStrLn $ "[Ex-PART] Finished running clean, monolithic, and hierarchic flow for " ++ name ++ "."

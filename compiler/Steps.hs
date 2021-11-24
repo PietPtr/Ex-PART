@@ -69,7 +69,6 @@ monolithicToVerilog = do
     putStrLn "[Ex-PART] Compiling full design to Verilog..."
     compileFullToVerilog
 
--- TODO: use folder project/monolithic/ instead of project_monolithic/?
 synthesizeMonolithic :: IO ()
 synthesizeMonolithic = do
     putStrLn "[Ex-PART] Synthesizing monolithic design..."

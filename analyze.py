@@ -4,23 +4,24 @@ import os
 from pprint import pprint
 from tabulate import tabulate
 
-print(sys.argv)
-
 if len(sys.argv) == 1:
     print("Please provide the project folder name.")
     quit()
 
 project_name = sys.argv[1]
 auto_folder = os.path.abspath(project_name)
-mono_folder = auto_folder + "_monolithic/"
-hier_folder = auto_folder + "_hierarchic/"
+mono_folder = auto_folder + "/monolithic/"
+hier_folder = auto_folder + "/hierarchic/"
 
 folders = [auto_folder, mono_folder, hier_folder]
 
 class Statistic:
-    def __init__(self, name, f):
+    def __init__(self, name, f, unit="", eval=min, fmt="%0.2f"):
         self.name = name
         self.f = f
+        self.unit = unit
+        self.eval = eval
+        self.fmt = fmt
     
     def analyze(self, logs):
         try:
@@ -79,7 +80,7 @@ def slice_usage(logs):
 def max_frequency(logs):
     freq = find_lines(logs.nextpnr, "Max frequency for clock")[-1]
     freq = cut(freq)[6]
-    return freq + " MHz"
+    return float(freq) # + " MHz"
 
 def ff_usage(logs):
     usage_str = find_first_line(logs.nextpnr, "Total DFFs")
@@ -90,32 +91,31 @@ def synth_time(logs):
     stat_line = find_first_line(logs.yosys, "End of script.")
     last = cut(stat_line, "CPU: user ")[1]
     time = cut(last)[0]
-    return time
+    return float(time[:-1])
 
 def heap_time(logs):
     line = find_first_line(logs.nextpnr, "HeAP Placer Time")
-    return cut(line)[-1]
+    return float(cut(line)[-1][:-1])
 
 def sa_time(logs):
     line = find_first_line(logs.nextpnr, "SA placement time")
-    return cut(line)[-1]
+    return float(cut(line)[-1][:-1])
 
 def rout1_time(logs):
     line = find_first_line(logs.nextpnr, "Router1 time")
-    return cut(line)[-1]
+    return float(cut(line)[-1][:-1])
 
 # --- Stat definitions
 
-# TODO (feature): zet een * bij de beste?
 stats = [
-    Statistic("LUTs used", lut_usage),
-    Statistic("Slices used", slice_usage),
-    Statistic("Max frequency", max_frequency),
-    Statistic("Flip-flops used", ff_usage),
-    Statistic("Synthesis time", synth_time),
-    Statistic("HeAP placer time", heap_time),
-    Statistic("SA placer time", sa_time),
-    Statistic("Router1 time", rout1_time)
+    Statistic("LUTs used", lut_usage, fmt="%i"),
+    Statistic("Slices used", slice_usage, fmt="%i"),
+    Statistic("Max frequency", max_frequency, " MHz", max),
+    Statistic("Flip-flops used", ff_usage, fmt="%i"),
+    Statistic("Synthesis time", synth_time, "s", min),
+    Statistic("HeAP placer time", heap_time, "s"),
+    Statistic("SA placer time", sa_time, "s"),
+    Statistic("Router1 time", rout1_time, "s")
 ]
 
 # --- Tooling it allemaal together
@@ -136,11 +136,22 @@ headers = ["stat"] + list(map(lambda x: x.name, loaded_logs))
 results = []
 
 for stat in stats:
-    result = [stat.name]
+    result = [stat]
     for log in loaded_logs:
         v = stat.analyze(log)
         result.append(v)
     results.append(result)
 
+for result in results:
+    best = result[0].eval(result[1:])
+    if all(map(lambda x: x == result[1], result[1:])):
+        best = None
 
-print(tabulate(results, headers = headers))
+    for i in range(1, len(result)):
+        mark = "*" if result[i] == best else "~"
+        numfmt = result[0].fmt % result[i]
+        result[i] = mark + numfmt + result[0].unit
+
+    result[0] = result[0].name
+
+print(tabulate(results, headers = headers).replace("~", " "))
