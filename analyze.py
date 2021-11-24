@@ -3,7 +3,8 @@ import sys
 import os
 from pprint import pprint
 from tabulate import tabulate
-# TODO (feature): if folder not found, don't render its stats (don't crash, render everything found)
+
+print(sys.argv)
 
 if len(sys.argv) == 1:
     print("Please provide the project folder name.")
@@ -14,25 +15,37 @@ auto_folder = os.path.abspath(project_name)
 mono_folder = auto_folder + "_monolithic/"
 hier_folder = auto_folder + "_hierarchic/"
 
+folders = [auto_folder, mono_folder, hier_folder]
+
 class Statistic:
     def __init__(self, name, f):
         self.name = name
         self.f = f
     
     def analyze(self, logs):
-        return self.f(logs)
+        try:
+            result = self.f(logs)
+            return result
+        except Exception as e:
+            print(f"Exception in stat `{self.name}': {e}")
+            return "-"
 
 class Logs:
     def __init__(self, name, folder):
         self.name = name
         self.folder = folder
+        self.loaded = False
 
     def load_logs(self):
-        with open(self.folder + "/yosys.log", 'r') as log:
-            self.yosys = log.read().split('\n')
+        try:
+            with open(self.folder + "/yosys.log", 'r') as log:
+                self.yosys = log.read().split('\n')
 
-        with open(self.folder + "/nextpnr.err", 'r') as log:
-            self.nextpnr = log.read().split('\n')
+            with open(self.folder + "/nextpnr.err", 'r') as log:
+                self.nextpnr = log.read().split('\n')
+            self.loaded = True
+        except FileNotFoundError:
+            print(f"Cannot find logs in {self.folder}.")
 
 # --- Helper functions
 
@@ -109,18 +122,22 @@ stats = [
 
 auto_log = Logs("Ex-PART", auto_folder)
 mono_log = Logs("Monolithic", mono_folder)
+hier_log = Logs("Hierarchic", hier_folder)
 
-logs = [auto_log, mono_log]
+logs = [auto_log, mono_log, hier_log]
+loaded_logs = []
 
 for l in logs:
     l.load_logs()
+    if l.loaded:
+        loaded_logs.append(l)
 
-headers = ["stat"] + list(map(lambda x: x.name, logs))
+headers = ["stat"] + list(map(lambda x: x.name, loaded_logs))
 results = []
 
 for stat in stats:
     result = [stat.name]
-    for log in logs:
+    for log in loaded_logs:
         v = stat.analyze(log)
         result.append(v)
     results.append(result)

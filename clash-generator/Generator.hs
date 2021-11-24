@@ -12,9 +12,10 @@ generateComponent cmp = writeFile
     where
         name = cmp_name cmp
 
--- TODO: het idee is een system met topdata top te noemen, twee opties:
+-- TODO (lowprio): Een het idee is een system met topdata top te noemen, twee opties:
 --      1: maak een apart TopSystem type
 --      2: of noem het overal top waar het een topentity is (doe optie 1 eerst, daarna 2 doorvoeren?)
+--      Ik vind het ook wel prima zoals het nu is
 generateClash :: System -> IO ()
 generateClash top = do
     doPreliminaryProcessing top

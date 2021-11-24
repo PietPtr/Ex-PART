@@ -125,7 +125,7 @@ monolithic expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
 
--- TODO (feature): usage stats kunnen ook weer uit logs geplukt worden 
+-- detailed usage stats can then be obtained by analyze.py or inspecting the logs.
 resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 resource expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory

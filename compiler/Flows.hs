@@ -24,8 +24,6 @@ clean system outDir = do
 
 expcChanged :: System -> [Component] -> [Component] -> [Component] -> IO ()
 expcChanged top changed deleted newcmps = do
-    -- TODO: !! this is not automagically fixed
-    -- expc_current <- pure $ expc_rolled {prg_cmps=(changed ++ newcmps)}
     top' <- pure $ top {sys_topdata=(sys_topdata top) {top_cmps=(changed ++ newcmps)}}
 
     writeLocations top'

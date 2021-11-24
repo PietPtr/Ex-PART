@@ -9,11 +9,30 @@ import Data.Maybe
 class Pretty a where
     pretty :: a -> String
 
--- .expc result
+type Size = (Integer, Integer)
+type Coords = (CoordExpr, CoordExpr)
+
+instance Pretty Coords where
+    pretty (ce, ce') = "(" ++ pretty ce ++ ", " ++ pretty ce' ++ ")"
+
+data CoordExpr
+    = CAdd CoordExpr CoordExpr
+    | CConst Integer
+    | CWidth String -- component identifier
+    | CHeight String
+    | CX String
+    | CY String
+    deriving (Show, Eq)
+
+instance Pretty CoordExpr where
+    pretty (CAdd ce ce') = pretty ce ++ " + " ++ pretty ce'
+    pretty (CConst c) = show c
+    pretty (CWidth id) = id ++ ".w"
+    pretty (CHeight id) = id ++ ".h"
+    pretty (CX id) = id ++ ".x"
+    pretty (CY id) = id ++ ".y"
 
 
-
--- TODO: could have typeclasses to make this neater
 data ISOStat
     = SInput Name Type
     | SState Name ConstExpr Type
@@ -61,30 +80,6 @@ iso2io stat = case stat of
     (SOutput name t) -> Just (Output name t)
     _ -> Nothing
 
--- .expi result
-
-type Size = (Integer, Integer)
-type Coords = (CoordExpr, CoordExpr)
-
-instance Pretty Coords where
-    pretty (ce, ce') = "(" ++ pretty ce ++ ", " ++ pretty ce' ++ ")"
-
-data CoordExpr
-    = CAdd CoordExpr CoordExpr
-    | CConst Integer
-    | CWidth String -- component identifier
-    | CHeight String
-    | CX String
-    | CY String
-    deriving (Show, Eq)
-
-instance Pretty CoordExpr where
-    pretty (CAdd ce ce') = pretty ce ++ " + " ++ pretty ce'
-    pretty (CConst c) = show c
-    pretty (CWidth id) = id ++ ".w"
-    pretty (CHeight id) = id ++ ".h"
-    pretty (CX id) = id ++ ".x"
-    pretty (CY id) = id ++ ".y"
 
 
 data IOStat

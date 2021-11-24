@@ -13,7 +13,7 @@ import System.Directory
 
 createDirAndEnter :: FilePath -> IO ()
 createDirAndEnter outDir = do
-    putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "`..."
+    putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "'..."
     createDirectoryIfMissing True outDir
     threadDelay 1000 -- This is terrible (:
     setCurrentDirectory outDir

@@ -59,7 +59,7 @@ whereBlock :: System -> String
 whereBlock system = concat $ intersperse "\n" stats
     where
         stats = [unpackedInput system]
-        -- TODO: use the element abstraction to unify this implementation more
+        -- TODO (lowprio): use the element abstraction to unify this implementation more
              ++ (map (instanceWhereStatement (sys_connections system) (sys_constantDrivers system)) $ sys_instances system)
              ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system) 
              ++ (map (constantWhereStatement) (sys_constantDrivers system))
@@ -86,18 +86,18 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
             $ outputs $ cmp_isoStats component
 
         findConn :: ISOStat -> String
-        findConn (SInput portname _) = case filter f conns of
+        findConn (SInput portname _) = case filter equal conns of
             (c:_) -> varName c
-            _ -> case filter g consts of
+            _ -> case filter driving consts of
                 ((ConstantDriver value _):_) -> "const_" ++ value
                 _ -> error $ "Flattener.hs: No connection specified for component " ++ 
                     name ++ " (is " ++ cmpName ++ "), port `" ++ portname ++ "`"
             where
-                f (Connection' (CID _ _) (CID inst_name' portname') _) = 
+                equal (Connection' (CID _ _) (CID inst_name' portname') _) = 
                     inst_name' == ins_name inst && 
                     portname == portname'
                 
-                g (ConstantDriver _ (CID inst_name' portname')) = 
+                driving (ConstantDriver _ (CID inst_name' portname')) = 
                     inst_name' == ins_name inst &&
                     portname == portname'
         findConn _ = error "Flattener.hs: This case should not have happenned, only call this function with SInputs."
@@ -115,14 +115,13 @@ constantWhereStatement :: ConstantDriver -> String
 constantWhereStatement (ConstantDriver value _) = 
     "        const_" ++ value ++ " = pure " ++ value
 
--- TODO: rename the `f's and `g's in this file to something better
 findIOConn :: [Connection'] -> String -> IOStat -> Connection'
 findIOConn conns sysid io = 
-    case filter f conns of
+    case filter equal conns of
         (c:_) -> c
         _ -> error $ "Flattener.hs: No connection specified for io statement " ++ show io ++ " in system " ++ sysid
     where
-        f (Connection' (CID _ _) (CID sys_name' portname') _) = 
+        equal (Connection' (CID _ _) (CID sys_name' portname') _) = 
             sys_name' == sysid && 
             portname' == (portname io)
 
@@ -157,7 +156,6 @@ varName (Connection' (CID inst portname) _ _) = inst ++ "_" ++ portname
 varName' :: String -> IOStat -> String
 varName' sys io = sys ++ "_" ++ portname io
 
--- TODO: probably still works, but can be much neater with elements
 usedComponentNames :: System -> Set String
 usedComponentNames system = 
     (Set.fromList $ mapMaybe component_name (sys_elems system)) 
