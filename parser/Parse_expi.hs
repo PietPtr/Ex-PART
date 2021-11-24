@@ -3,6 +3,14 @@ module Parse_expi where
 import Prelude hiding (repeat)
 
 import Text.ParserCombinators.Parsec
+import Text.ParserCombinators.Parsec.Expr
+import Text.ParserCombinators.Parsec.Language
+import qualified Text.ParserCombinators.Parsec.Token as Token 
+-- import Text.Parsec
+-- import Text.Parsec.String
+-- import Text.Parsec.Expr
+-- import Text.Parsec.Token
+-- import Text.Parsec.Language
 
 import Parse_shared 
 import Types
@@ -128,19 +136,32 @@ coords = (,)
     <$> (char '(' *> ows *> coord_expr <* ows <* char ',') 
     <*> (ows *> coord_expr <* ows <* char ')')
 
--- TODO: Why is 2 + c.x + c.h impossible?
+
+coord_expr_table =
+    [ [Infix (symbol "+" >> (return CAdd)) AssocLeft ] ]
+
 coord_expr :: Parser CoordExpr
-coord_expr =
-    try (CAdd <$> (coord_bottom <|> coord_expr) <*> (ows *> char '+' *> ows *> (coord_bottom <|> coord_expr)))
-    <|> coord_bottom
+coord_expr = buildExpressionParser coord_expr_table coord_term <?> "expression"
+
+coord_term :: Parser CoordExpr
+coord_term = parens coord_expr
+    <|> (CConst  <$> integer)
+    <|> try (CWidth  <$> property 'w')
+    <|> try (CHeight <$> property 'h')
+    <|> try (CX      <$> property 'x')
+    <|>     (CY      <$> property 'y')
+    where
+        property p = identifier <* char '.' <* char p <* whiteSpace
+
 
 coord_bottom :: Parser CoordExpr
-coord_bottom
-    =   (CConst  <$> integer)
-    <|> try (CWidth  <$> identifier <* char '.' <* char 'w' )
-    <|> try (CHeight <$> identifier <* char '.' <* char 'h' )
-    <|> try (CX      <$> identifier <* char '.' <* char 'x' )
-    <|>     (CY      <$> identifier <* char '.' <* char 'y' )
+coord_bottom = parens term
+    where 
+        term = (CConst  <$> integer)
+            <|> try (CWidth  <$> identifier <* char '.' <* char 'w' )
+            <|> try (CHeight <$> identifier <* char '.' <* char 'h' )
+            <|> try (CX      <$> identifier <* char '.' <* char 'x' )
+            <|>     (CY      <$> identifier <* char '.' <* char 'y' )
 
 
 ltr_rtl :: (a -> b -> c) -> Parser a -> Parser b -> Parser c
