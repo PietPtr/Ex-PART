@@ -3,6 +3,7 @@ testenv
 collatz
 gol
 *_monolithic
+*_hierarchic
 repeat
 chain
 rcgol

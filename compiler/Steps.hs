@@ -31,7 +31,7 @@ generateClash system = do
 flattenForSim :: System -> IO ()
 flattenForSim system = do
     putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
-    flatten system
+    flatten False system
 
 compileToVerilog :: System -> IO ()
 compileToVerilog system = do
@@ -59,15 +59,31 @@ removeDeleted deleted = do
     mapM_ (\c -> removeDirectoryRecursive $ "builds/" ++ cmp_name c) deleted
 
 
+flattenMonolithic :: System -> IO ()
+flattenMonolithic system = do
+    putStrLn $ "[Ex-PART] Flattening design for monolithic synthesis..."
+    flatten False system
+
 monolithicToVerilog :: IO ()
 monolithicToVerilog = do
     putStrLn "[Ex-PART] Compiling full design to Verilog..."
     compileFullToVerilog
 
+-- TODO: use folder project/monolithic/ instead of project_monolithic/?
 synthesizeMonolithic :: IO ()
 synthesizeMonolithic = do
-    putStrLn "[Ex-PART] Synthesizing full design..."
+    putStrLn "[Ex-PART] Synthesizing monolithic design..."
     Yosys.synthesizeMonolithic
+
+flattenHierarchic :: System -> IO ()
+flattenHierarchic system = do
+    putStrLn $ "[Ex-PART] Flattening design for hierarchic synthesis..."
+    flatten True system
+
+synthesizeHierarchic :: IO ()
+synthesizeHierarchic = do
+    putStrLn "[Ex-PART] Synthesizing hierarchic design..."
+    Yosys.synthesizeHierarchic
 
 noConstraintPnR :: FilePath -> IO ()
 noConstraintPnR lpfPath = do

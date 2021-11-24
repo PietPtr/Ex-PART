@@ -49,14 +49,26 @@ monolithic system lpfPath outDir = do
     createDirAndEnter outDir'
 
     generateClash system
-    flattenForSim system
+    flattenMonolithic system
     monolithicToVerilog
     synthesizeMonolithic
     noConstraintPnR lpfPath
 
-    where
-        slashscrape "" = ""
-        slashscrape p = if last p == '/' then init (slashscrape p) else p
+slashscrape :: String -> String
+slashscrape "" = ""
+slashscrape p = if last p == '/' then init (slashscrape p) else p
+
+hierarchic :: System -> FilePath -> FilePath -> IO ()
+hierarchic system lpfPath outDir = do
+    let outDir' = (slashscrape outDir) ++ "_hierarchic"
+
+    createDirAndEnter outDir'
+
+    generateClash system
+    flattenHierarchic system
+    monolithicToVerilog
+    synthesizeHierarchic
+    noConstraintPnR lpfPath
 
 -- Compile flow that synthesizes/place & routes everything of all components separately s.t.
 -- resource usage of individual components can be analyzed

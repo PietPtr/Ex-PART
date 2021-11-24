@@ -128,6 +128,7 @@ coords = (,)
     <$> (char '(' *> ows *> coord_expr <* ows <* char ',') 
     <*> (ows *> coord_expr <* ows <* char ')')
 
+-- TODO: Why is 2 + c.x + c.h impossible?
 coord_expr :: Parser CoordExpr
 coord_expr =
     try (CAdd <$> (coord_bottom <|> coord_expr) <*> (ows *> char '+' *> ows *> (coord_bottom <|> coord_expr)))

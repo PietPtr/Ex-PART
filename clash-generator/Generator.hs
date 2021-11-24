@@ -21,6 +21,7 @@ generateClash top = do
     doPreliminaryProcessing top
     mapM_ (generateComponent) (top_cmps $ sys_topdata top)
 
-flatten :: System -> IO ()
-flatten system = do
-    writeFile ("Clash.hs") (F.flatten system)
+flatten :: Bool -> System -> IO ()
+flatten inline system = do
+    writeFile ("Clash.hs") (F.flatten inline system)
+    

@@ -1,17 +1,53 @@
 hash in (26, 26) at (2, 2) {
     input data : UInt
-    output hash : UInt
+    output hash : Hash
 
     prep is prep in (0, 0) at (0, 0)
     prep.def_hash->first_stage[1].prev_hash
 
     chain first_stage at (4, 0) {
-        component = stage1 in (5, 10),
+        component = stage1 in (7, 14),
         amount = 16,
         layout = horizontal,
         chain_in = prev_hash,
         chain_out = next_hash
     }
+
+    first_stage[16].next_hash->second_stage[1].prev_hash
+
+    chain second_stage at (4, first_stage_1.h) {
+        component = stage2 in (7, 14),
+        amount = 16,
+        layout = horizontal,
+        chain_in = prev_hash,
+        chain_out = next_hash
+    }
+
+    second_stage[16].next_hash->third_stage[1].prev_hash
+
+    chain third_stage at (4, second_stage_1.y + second_stage_1.h) {
+        component = stage3 in (7, 14),
+        amount = 16,
+        layout = horizontal,
+        chain_in = prev_hash,
+        chain_out = next_hash
+    }
+
+
+    third_stage[16].next_hash->fourth_stage[1].prev_hash
+
+    chain fourth_stage at (4, third_stage_1.y + third_stage_1.h) {
+        component = stage4 in (7, 14),
+        amount = 16,
+        layout = horizontal,
+        chain_in = prev_hash,
+        chain_out = next_hash
+    }
+
+
+    hash<-fourth_stage[16].next_hash
+
+    -- Load constants into components
 
     first_stage[1].k<-(3614090360)
     first_stage[2].k<-(3905402710)
@@ -47,16 +83,6 @@ hash in (26, 26) at (2, 2) {
     first_stage[15].s<-(17)
     first_stage[16].s<-(22)
 
-    first_stage[16].next_hash->second_stage[1].prev_hash
-
-    chain second_stage at (4, 5) {
-        component = stage2 in (5, 5),
-        amount = 16,
-        layout = horizontal,
-        chain_in = prev_hash,
-        chain_out = next_hash
-    }
-
     second_stage[1].k<-(4129170786)
     second_stage[2].k<-(3225465664)
     second_stage[3].k<-(643717713)
@@ -90,16 +116,6 @@ hash in (26, 26) at (2, 2) {
     second_stage[14].s<-(9)
     second_stage[15].s<-(14)
     second_stage[16].s<-(20)
-
-    second_stage[16].next_hash->third_stage[1].prev_hash
-
-    chain third_stage at (4, 10) {
-        component = stage3 in (5, 5),
-        amount = 16,
-        layout = horizontal,
-        chain_in = prev_hash,
-        chain_out = next_hash
-    }
 
     third_stage[1].k<-(4294588738)
     third_stage[2].k<-(2272392833)
@@ -135,16 +151,6 @@ hash in (26, 26) at (2, 2) {
     third_stage[15].s<-(16)
     third_stage[16].s<-(23)
 
-    third_stage[16].next_hash->fourth_stage[1].prev_hash
-
-    chain fourth_stage at (4, 15) {
-        component = stage4 in (5, 5),
-        amount = 16,
-        layout = horizontal,
-        chain_in = prev_hash,
-        chain_out = next_hash
-    }
-
     fourth_stage[1].k<-(4096336452)
     fourth_stage[2].k<-(1126891415)
     fourth_stage[3].k<-(2878612391)
@@ -178,8 +184,4 @@ hash in (26, 26) at (2, 2) {
     fourth_stage[14].s<-(10)
     fourth_stage[15].s<-(15)
     fourth_stage[16].s<-(21)
-
-
-
-    hash<-first_stage[16].next_hash
 }

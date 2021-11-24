@@ -12,6 +12,7 @@ import JSONBuilder
 import Parser
 import Yosys
 import Nextpnr
+import Steps
 import Compiler
 
 import Types

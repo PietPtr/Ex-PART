@@ -34,10 +34,12 @@ component stage2() {
     input k : UInt
     input s : Unsigned 5
     input prev_hash : Hash
+    state reg = zero_hash : Hash
     output next_hash : Hash
 
-    next_hash = prev_hash
+    reg' = prev_hash
 
+    next_hash = reg
 }
 
 component stage3() {

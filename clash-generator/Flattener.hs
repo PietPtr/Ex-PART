@@ -10,26 +10,50 @@ import Data.Maybe
 
 -- Given any system, recursively generate one Clash project for the entire thing
 
-flatten :: System -> String
-flatten top = intercalate "\n\n" $
+flattenMonolithic :: System -> String
+flattenMonolithic = flatten False
+
+flattenHierarchic :: System -> String
+flattenHierarchic = flatten True
+
+flatten :: Bool -> System -> String
+flatten inline top = intercalate "\n\n" $
     [ imports
+    , inlinedefs
     , compDef
     , systems 
     ,topEntity ]
     where
         imports = "import Clash.Prelude\nimport Definitions\n\n"
-        compDef = genComponentClash (usedComponentNames top) (top_cmps $ sys_topdata top)
-        systems = flatten' top
+        compDef = genComponentClash names (top_cmps $ sys_topdata top)
+        systems = flatten' inline top
         topEntity = createSynthesizable (map io2iso $ sys_iodefs top) (sys_name top) False
 
-flatten' :: System -> String
-flatten' system = subsysDefs ++ "\n\n\n" ++ sysdef
+        names = (usedComponentNames top)
+
+        inlinedefs = if inline
+            then intercalate "\n" (map noinline (Set.toList names))
+            else "-- Monolithic file, everything is inlined."
+
+flatten' :: Bool -> System -> String
+flatten' inline system = subsysDefs ++ "\n\n\n" ++ sysdef
     where
         subsysDefs = intercalate "\n\n" $
-            map flatten' $ sys_subsystems system
+            map (flatten' inline) (sys_subsystems system)
 
-        sysdef = typeDef system ++ definition system ++ "\n    where\n" ++ whereBlock system
+        sysdef = 
+            inlineDef ++
+            typeDef system ++
+             definition system ++ 
+             "\n    where\n" ++ 
+             whereBlock system
+        
+        inlineDef = if inline
+            then noinline (sys_name system)
+            else []
 
+noinline :: String -> String
+noinline name = "{-# NOINLINE " ++ name ++ " #-}\n"
 
 typeDef :: System -> String
 typeDef system = name ++ " :: HiddenClockResetEnable dom =>\n" ++
@@ -167,11 +191,11 @@ usedComponentNames system =
             _ -> Nothing
 
 genComponentClash :: Set String -> [Component] -> String
-genComponentClash used comps = concat $ intersperse "\n" $ 
+genComponentClash used comps = intercalate "\n" $ 
     (map toClash usedComps) ++ (map createMealy usedComps)
     where
         usedComps = filter (\c -> cmp_name c `elem` used) comps
-        toClash cmp = concat $ intersperse "\n" $ 
+        toClash cmp = intercalate "\n" $ 
             [ createTypeSignature cmp
             , createEquation cmp
             , createWhereClause cmp ]

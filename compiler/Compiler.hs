@@ -55,7 +55,7 @@ auto expcPath expiPath lpfName outDir = do
                             Flows.expcChanged system changed deleted newcmps
                             finish lpfLoc outDir startDir
                         else do
-                            putStrLn $ "[Ex-PART] No changes in expc file, investigating expi changes... X"
+                            putStrLn $ "[Ex-PART] No changes in expc file, investigating expi changes..."
                             oldExpiContent <- readFile "build.expi"
                             if (newExpiContent /= oldExpiContent)
                                 then do
@@ -124,6 +124,19 @@ monolithic expcPath expiPath lpfPath outDir = do
 
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
+
+hierarchic :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+hierarchic expcPath expiPath lpfPath outDir = do
+    startDir <- getCurrentDirectory
+
+    design <- parse_both expcPath expiPath
+    system <- pure $ elaborate design
+
+    Flows.hierarchic system lpfPath outDir
+
+    setCurrentDirectory startDir
+    putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
+
 
 -- detailed usage stats can then be obtained by analyze.py or inspecting the logs.
 resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()

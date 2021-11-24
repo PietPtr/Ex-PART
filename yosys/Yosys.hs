@@ -68,6 +68,10 @@ synthesizeMonolithic :: IO ()
 synthesizeMonolithic =
     runYosys ["/usr/share/ex-part/yosys/monolithic.ys"]
 
+synthesizeHierarchic :: IO ()
+synthesizeHierarchic =
+    runYosys ["/usr/share/ex-part/yosys/hierarchic.ys"]
+
 
 runYosys :: [String] -> IO ()
 runYosys args = do
