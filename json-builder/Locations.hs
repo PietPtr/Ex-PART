@@ -70,6 +70,7 @@ reduceCoordExpr instances cexpr = reduce $ reduceCoordsToConsts constantInstance
         
         reduce :: CoordExpr -> Integer
         reduce (CAdd ce ce') = reduce ce + reduce ce'
+        reduce (CSub ce ce') = reduce ce - reduce ce'
         reduce (CConst c) = c
         reduce (CWidth id) = lookupWidth id
         reduce (CHeight id) = lookupHeight id
@@ -83,6 +84,7 @@ reduceCoordExpr instances cexpr = reduce $ reduceCoordsToConsts constantInstance
 reduceCoordsToConsts :: [(String, Size, Coords)] -> CoordExpr -> CoordExpr
 reduceCoordsToConsts instances cexpr = case cexpr of
     (CAdd ce ce') -> (CAdd (reduceCoordsToConsts instances ce) (reduceCoordsToConsts instances ce'))
+    (CSub ce ce') -> (CSub (reduceCoordsToConsts instances ce) (reduceCoordsToConsts instances ce'))
     (CX id) -> (\(_, _, (xexpr, _)) -> reduceCoordsToConsts instances xexpr) $ findID instances id
     (CY id) -> (\(_, _, (_, yexpr)) -> reduceCoordsToConsts instances yexpr) $ findID instances id 
     others -> others
@@ -98,6 +100,7 @@ toGraphList ((name, _, (x, y)):rest) = (name, neighbors) : toGraphList rest
 
         references expr = case expr of
             (CAdd l r) -> references l ++ references r
+            (CSub l r) -> references l ++ references r
             (CWidth name) -> [name]
             (CHeight name) -> [name]
             (CX name) -> [name]

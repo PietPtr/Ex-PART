@@ -4,13 +4,6 @@ import Prelude hiding (repeat)
 
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Expr
-import Text.ParserCombinators.Parsec.Language
-import qualified Text.ParserCombinators.Parsec.Token as Token 
--- import Text.Parsec
--- import Text.Parsec.String
--- import Text.Parsec.Expr
--- import Text.Parsec.Token
--- import Text.Parsec.Language
 
 import Parse_shared 
 import Types
@@ -138,7 +131,7 @@ coords = (,)
 
 
 coord_expr_table =
-    [ [Infix (symbol "+" >> (return CAdd)) AssocLeft ] ]
+    [ [Infix (symbol "+" >> (return CAdd)) AssocLeft, Infix (symbol "-" *> (pure CSub)) AssocLeft ] ]
 
 coord_expr :: Parser CoordExpr
 coord_expr = buildExpressionParser coord_expr_table coord_term <?> "expression"

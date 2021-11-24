@@ -17,6 +17,7 @@ instance Pretty Coords where
 
 data CoordExpr
     = CAdd CoordExpr CoordExpr
+    | CSub CoordExpr CoordExpr
     | CConst Integer
     | CWidth String -- component identifier
     | CHeight String
@@ -26,6 +27,7 @@ data CoordExpr
 
 instance Pretty CoordExpr where
     pretty (CAdd ce ce') = pretty ce ++ " + " ++ pretty ce'
+    pretty (CSub ce ce') = pretty ce ++ " - " ++ pretty ce'
     pretty (CConst c) = show c
     pretty (CWidth id) = id ++ ".w"
     pretty (CHeight id) = id ++ ".h"

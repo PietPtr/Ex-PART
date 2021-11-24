@@ -23,6 +23,7 @@ writeLocationsJSON system = do
         isConstExpr :: CoordExpr -> Bool
         isConstExpr (CConst _) = True
         isConstExpr (CAdd left right) = isConstExpr left && isConstExpr right
+        isConstExpr (CSub left right) = isConstExpr left && isConstExpr right
         isConstExpr _ = False
 
         check = if hasCycle graph
