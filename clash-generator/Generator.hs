@@ -21,7 +21,7 @@ generateClash top = do
     doPreliminaryProcessing top
     mapM_ (generateComponent) (top_cmps $ sys_topdata top)
 
--- TODO: in the compile flows, always let clash compile the design too for additional error checking (takes long tho)
+-- TODO (lowprio): in the compile flows, always let clash compile the design too for additional error checking (takes long tho)
 flatten :: Bool -> System -> IO ()
 flatten inline system = do
     writeFile ("Clash.hs") (F.flatten inline system)

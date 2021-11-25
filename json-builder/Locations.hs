@@ -103,9 +103,9 @@ reduceCoordsToConsts instances cexpr = case cexpr of
 -- TODO: is the cycle-checker active for sizes?
 toGraphList :: [(String, Size, Coords)] -> [(Name, [Name])]
 toGraphList [] = []
-toGraphList ((name, _, (x, y)):rest) = (name, neighbors) : toGraphList rest
+toGraphList ((name, (w, h), (x, y)):rest) = (name, neighbors) : toGraphList rest
     where
-        neighbors = references x ++ references y
+        neighbors = references x ++ references y ++ references w ++ references h
 
         references expr = case expr of
             (CAdd l r) -> references l ++ references r

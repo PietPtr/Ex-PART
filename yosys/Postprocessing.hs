@@ -13,7 +13,7 @@ import Types
 
 type Netmap = Map.Map CID Net
 
--- TODO: research what happens when two signals drive the same input, clash may give a warning?
+-- TODO (bug): research what happens when two signals drive the same input, clash may give a warning?
 
 -- definieer een mooi datatype, bouw bestaande System/Program om hiernaartoe, het nice makend
 -- definieer dan een toJSON hiervoor, verander het naar een Value, en prop het in de bestaande JSON
@@ -229,7 +229,7 @@ nets' system bitCtr ((Connection' from _ netBitwidth):connections) netmap =
     where
         map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
         net = [bitCtr..(bitCtr+netBitwidth-1)]
-       -- TODO: for constant drivers, e.g. (1)=>port.interval : Unsigned 6 has 5 undriven bits now, these should be set to zero.
+       -- TODO (bug): for constant drivers, e.g. (1)=>port.interval : Unsigned 6 has 5 undriven bits now, these should be set to zero.
 
 
 -- WARN: unique integers aren't sequential (but that probably does not matter)
