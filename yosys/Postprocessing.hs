@@ -181,7 +181,7 @@ makeModules isTop system = mod :
         cdToInstance (ConstantDriver value cid) = Instance {
                 ins_name = elemName,
                 ins_cmp = Component elemName [] [SOutput "out" "CONSTANT"] "",
-                ins_size = (0, 0),
+                ins_size = (CConst 0, CConst 0),
                 ins_coords = (CConst 0, CConst 0),
                 ins_args = []
             }
@@ -227,7 +227,7 @@ nets' system bitCtr ((Connection' from _ netBitwidth):connections) netmap =
     where
         map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
         net = [bitCtr..(bitCtr+netBitwidth-1)]
-       
+       -- TODO: for constant drivers, e.g. (1)=>port.interval : Unsigned 6 has 5 undriven bits now, these should be set to zero.
 
 
 -- WARN: unique integers aren't sequential (but that probably does not matter)

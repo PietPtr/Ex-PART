@@ -9,9 +9,18 @@ import Data.Array
 
 import Types
 
+
+-- Coords are reduced to Pos, which is absolute
 type X = Integer
 type Y = Integer
+
 data Pos = Pos X Y
+    deriving Show
+
+-- Sizes are reduced to WH (width height), which are constant.
+type W = Integer
+type H = Integer
+data WH = WH W H
     deriving Show
 
 instance Num Pos where
@@ -35,7 +44,7 @@ instance ToJSON AbsolutePositionTree where
     toJSON (Node name children) = object [(pack name) .= toJSON children]
     
 
-relToAbs :: [(String, Size, Pos)] -> Pos -> System -> AbsolutePositionTree
+relToAbs :: [(String, WH, Pos)] -> Pos -> System -> AbsolutePositionTree
 relToAbs positions current system = Node (sys_name system) $ leaves ++ subsystems
     where
         leaves = map makeLeaf $ map ins_name $ sys_instances system
@@ -48,50 +57,50 @@ relToAbs positions current system = Node (sys_name system) $ leaves ++ subsystem
         makeLeaf name = Leaf name tl br
             where
                 tl = (pos + current)
-                br = tl + (Pos (fst size - 1) (snd size - 1))
-                (_, size, pos) = head $ filter (\(name', _, _) -> name' == name) positions
+                br = tl + (Pos (w - 1) (h - 1))
+                (_, (WH w h), pos) = head $ filter (\(name', _, _) -> name' == name) positions
 
-reduceAll' :: [(String, Size, Coords)] -> [(String, Size, Coords)] -> [(String, Size, Pos)]
+
+reduceAll' :: [(String, Size, Coords)] -> [(String, Size, Coords)] -> [(String, WH, Pos)]
 reduceAll' [] _  = []
 reduceAll' (inst:instances) all = solve inst : (reduceAll' instances all)
     where
-        solve :: (String, Size, Coords) -> (String, Size, Pos)
-        solve (name, size, (cx, cy)) = (name, size, Pos (reduceCoordExpr all cx) (reduceCoordExpr all cy))
+        solve :: (String, Size, Coords) -> (String, WH, Pos)
+        solve (name, (w, h), (x, y)) = (name, 
+            WH  (reduceLayoutExpr all w) (reduceLayoutExpr all h), 
+            Pos (reduceLayoutExpr all x) (reduceLayoutExpr all y))
 
-reduceAll :: [(String, Size, Coords)] -> [(String, Size, Pos)]
+reduceAll :: [(String, Size, Coords)] -> [(String, WH, Pos)]
 reduceAll all = reduceAll' all all
 
-reduceCoordExpr :: [(String, Size, Coords)] -> CoordExpr -> Integer
-reduceCoordExpr instances cexpr = reduce $ reduceCoordsToConsts constantInstances cexpr
+reduceLayoutExpr :: [(String, Size, Coords)] -> LayoutExpr -> Integer
+reduceLayoutExpr instances cexpr = reduce $ reduceCoordsToConsts constantInstances cexpr
     where
-        constantInstances = map (\(name, size, (cx, cy)) -> 
-            (name, size, (reduceCoordsToConsts instances cx, reduceCoordsToConsts instances cy)))
+        constantInstances = map (\(name, (w, h), (cx, cy)) -> 
+            (name, 
+                (reduceCoordsToConsts instances w,  reduceCoordsToConsts instances h), 
+                (reduceCoordsToConsts instances cx, reduceCoordsToConsts instances cy)))
             instances
         
-        reduce :: CoordExpr -> Integer
+        reduce :: LayoutExpr -> Integer
         reduce (CAdd ce ce') = reduce ce + reduce ce'
         reduce (CSub ce ce') = reduce ce - reduce ce'
         reduce (CConst c) = c
-        reduce (CWidth id) = lookupWidth id
-        reduce (CHeight id) = lookupHeight id
-        reduce expr = error $ "Locations.hs: Coordinate reduction found non-constant value ("++ (show expr) ++ "), good luck debugging! (JSONBuilder.hs, reduceCoords)"
+        reduce expr = error $ "Locations.hs: Coordinate reduction found non-constant value ("++ (show expr) ++ ")"
 
-        lookupWidth :: String -> Integer
-        lookupWidth id = (\(_, (w, _), _) -> w) $ findID constantInstances id
-        lookupHeight :: String -> Integer
-        lookupHeight id = (\(_, (_, h), _) -> h) $ findID constantInstances id
 
-reduceCoordsToConsts :: [(String, Size, Coords)] -> CoordExpr -> CoordExpr
+reduceCoordsToConsts :: [(String, Size, Coords)] -> LayoutExpr -> LayoutExpr
 reduceCoordsToConsts instances cexpr = case cexpr of
     (CAdd ce ce') -> (CAdd (reduceCoordsToConsts instances ce) (reduceCoordsToConsts instances ce'))
     (CSub ce ce') -> (CSub (reduceCoordsToConsts instances ce) (reduceCoordsToConsts instances ce'))
     (CX id) -> (\(_, _, (xexpr, _)) -> reduceCoordsToConsts instances xexpr) $ findID instances id
     (CY id) -> (\(_, _, (_, yexpr)) -> reduceCoordsToConsts instances yexpr) $ findID instances id 
+    (CWidth id) -> (\(_, (wexpr, _), _) -> reduceCoordsToConsts instances wexpr) $ findID instances id
+    (CHeight id) -> (\(_, (_, hexpr), _) -> reduceCoordsToConsts instances hexpr) $ findID instances id
     others -> others
 
-        
 
-
+-- TODO: is the cycle-checker active for sizes?
 toGraphList :: [(String, Size, Coords)] -> [(Name, [Name])]
 toGraphList [] = []
 toGraphList ((name, _, (x, y)):rest) = (name, neighbors) : toGraphList rest

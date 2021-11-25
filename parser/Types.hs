@@ -9,15 +9,15 @@ import Data.Maybe
 class Pretty a where
     pretty :: a -> String
 
-type Size = (Integer, Integer)
-type Coords = (CoordExpr, CoordExpr)
+type Size = (LayoutExpr, LayoutExpr)
+type Coords = (LayoutExpr, LayoutExpr)
 
 instance Pretty Coords where
     pretty (ce, ce') = "(" ++ pretty ce ++ ", " ++ pretty ce' ++ ")"
 
-data CoordExpr
-    = CAdd CoordExpr CoordExpr
-    | CSub CoordExpr CoordExpr
+data LayoutExpr
+    = CAdd LayoutExpr LayoutExpr
+    | CSub LayoutExpr LayoutExpr
     | CConst Integer
     | CWidth String -- component identifier
     | CHeight String
@@ -25,7 +25,7 @@ data CoordExpr
     | CY String
     deriving (Show, Eq)
 
-instance Pretty CoordExpr where
+instance Pretty LayoutExpr where
     pretty (CAdd ce ce') = pretty ce ++ " + " ++ pretty ce'
     pretty (CSub ce ce') = pretty ce ++ " - " ++ pretty ce'
     pretty (CConst c) = show c

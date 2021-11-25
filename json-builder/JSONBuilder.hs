@@ -16,11 +16,11 @@ writeLocationsJSON system = do
         instances = allInstsWithCoords system
 
         startPos = if isConstExpr x && isConstExpr y
-            then Pos (reduceCoordExpr [] x) (reduceCoordExpr [] y)
+            then Pos (reduceLayoutExpr [] x) (reduceLayoutExpr [] y)
             else error "JSONBuilder.hs: Top-level coordinates must be constants."
         (x, y) = sys_coords system
 
-        isConstExpr :: CoordExpr -> Bool
+        isConstExpr :: LayoutExpr -> Bool
         isConstExpr (CConst _) = True
         isConstExpr (CAdd left right) = isConstExpr left && isConstExpr right
         isConstExpr (CSub left right) = isConstExpr left && isConstExpr right

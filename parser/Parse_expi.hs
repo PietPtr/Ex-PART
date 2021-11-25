@@ -120,24 +120,30 @@ cmp_instance components = Instance
         findCmp name = case filter (\c -> name == cmp_name c) components of
             (x:_) -> x
             _ -> error $ "Parse_expi.hs: Component " ++ name ++ " not in .expc file."
-
+-- TODO: size =~= coords
 size :: Parser Size
-size = (,) <$> (char '(' *> integer <* char ',') <*> (integer <* char ')')
+size = (,) 
+    <$> (char '(' *> ows *> layout_expr <* ows <* char ',') 
+    <*> (ows *> layout_expr <* ows <* char ')')
+    
+    
+    -- (,) <$> (char '(' *> layout_expr <* char ',') <*> (layout_expr <* char ')')
+
 
 coords :: Parser Coords
 coords = (,) 
-    <$> (char '(' *> ows *> coord_expr <* ows <* char ',') 
-    <*> (ows *> coord_expr <* ows <* char ')')
+    <$> (char '(' *> ows *> layout_expr <* ows <* char ',') 
+    <*> (ows *> layout_expr <* ows <* char ')')
 
 
-coord_expr_table =
+layout_expr_table =
     [ [Infix (symbol "+" >> (return CAdd)) AssocLeft, Infix (symbol "-" *> (pure CSub)) AssocLeft ] ]
 
-coord_expr :: Parser CoordExpr
-coord_expr = buildExpressionParser coord_expr_table coord_term <?> "expression"
+layout_expr :: Parser LayoutExpr
+layout_expr = buildExpressionParser layout_expr_table layout_term <?> "layout expression"
 
-coord_term :: Parser CoordExpr
-coord_term = parens coord_expr
+layout_term :: Parser LayoutExpr
+layout_term = parens layout_expr
     <|> (CConst  <$> integer)
     <|> try (CWidth  <$> property 'w')
     <|> try (CHeight <$> property 'h')
@@ -147,7 +153,7 @@ coord_term = parens coord_expr
         property p = identifier <* char '.' <* char p <* whiteSpace
 
 
-coord_bottom :: Parser CoordExpr
+coord_bottom :: Parser LayoutExpr
 coord_bottom = parens term
     where 
         term = (CConst  <$> integer)
