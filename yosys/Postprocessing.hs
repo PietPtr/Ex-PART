@@ -13,6 +13,8 @@ import Types
 
 type Netmap = Map.Map CID Net
 
+-- TODO: research what happens when two signals drive the same input, clash may give a warning?
+
 -- definieer een mooi datatype, bouw bestaande System/Program om hiernaartoe, het nice makend
 -- definieer dan een toJSON hiervoor, verander het naar een Value, en prop het in de bestaande JSON
 data Module = Module {

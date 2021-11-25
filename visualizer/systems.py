@@ -17,7 +17,9 @@ def draw_system_rects(screen, system_list):
             
             rect_color = color.mute(color.color(key))
             bw = max(init.SQUARE_SIZE // 12, 2)
-            pygame.draw.rect(screen, rect_color, pygame.Rect(left, top, w, h), width=bw, border_radius=1)
+            pygame.draw.rect(screen, rect_color, 
+                pygame.Rect(init.view(left, top), (w, h)), 
+                width=bw, border_radius=1)
         
         else:
             for key in system:
@@ -51,12 +53,12 @@ def draw_system_labels(screen, system_list):
                 text_w = min(textsurface.get_width(), w - 2*text_offset) + 1
                 text_h = min(textsurface.get_height(), h - 2*text_offset) + 1
 
-                pygame.draw.rect(screen, rect_color, pygame.Rect(text_x, text_y, text_w, text_h))
+                pygame.draw.rect(screen, rect_color, pygame.Rect(init.view(text_x, text_y), (text_w, text_h)))
         
 
                 screen.blit(
                     textsurface,
-                    (text_x, text_y),
+                    init.view(text_x, text_y),
                     area=pygame.Rect(0, 0, w - 2*text_offset, h - 2*text_offset))
         
         else:

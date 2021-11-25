@@ -12,6 +12,8 @@ data Statement
     | HaskellDefStat HaskellDef
     deriving Show
 
+-- TODO (lowprio): there seem to be some issues with parsing if the expc file starts with an empty line
+
 expcdesign :: Parser ExpcDesign
 expcdesign = f <$> many (statement <* ows)
     where
@@ -41,7 +43,7 @@ isoStatement :: Parser ISOStat
 isoStatement
     =   try (SInput <$> (string "input" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n'))
     <|> try (SState <$> (string "state" *> ws *> identifier <* ows <* char '=' <* ows) <*> 
-        (constExpr) <*> (ows *> char ':' *> ows *> haskell_type <* char '\n'))
+        (constExpr) <*> (ows *> char ':' *> ows *> haskell_type <* char '\n')) -- TODO (lowprio): somehow add a nice error when the initial state is missing
     <|> try (SOutput <$> (string "output" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n'))
 
 component :: Parser Component

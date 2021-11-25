@@ -1,4 +1,4 @@
-read_verilog ../testenv/builds/.grouped/build.grouped.v
+read_verilog ../testenv/builds/.grouped/grouped.v
 read_verilog -lib +/ecp5/cells_sim.v +/ecp5/cells_bb.v
 hierarchy -check -top \$top
 

@@ -21,7 +21,7 @@ readAndAppend :: String -> IO ()
 readAndAppend name = do
     verilogSrc <- readFile 
         $ "builds/" ++ name ++ "/hdl/Main.topEntity/" ++ name ++ ".v" -- TODO (lowprio): dit doe ik wel erg vaak handmatig
-    appendFile ("builds/.grouped/build.grouped.v") verilogSrc
+    appendFile ("builds/.grouped/grouped.v") verilogSrc
 
 
 dummyTop :: [Component] -> String

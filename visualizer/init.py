@@ -19,8 +19,9 @@ last_load = 0
 pygame.font.init() 
 myfont = pygame.font.SysFont('Courier', 14)
 
-SQUARE_SIZE = pygame.display.Info().current_w // 24
-
+BASE_SS = pygame.display.Info().current_w // 24
+SQUARE_SIZE = BASE_SS
+VIEW = [0, 0]
 
 
 def cell_name_to_json_path(cell_name):
@@ -46,6 +47,9 @@ y_range = []
 relative_coords = False
 reset_range()
 
+def view(x, y):
+    global VIEW
+    return (x + VIEW[0], y + VIEW[1])
 
 def draw_ranges(screen):
     global x_range
@@ -56,7 +60,7 @@ def draw_ranges(screen):
         if SQUARE_SIZE > 15:
             text = myfont.render(str(coord), True, (80, 80, 80))
             screen.blit(text, 
-                (x * SQUARE_SIZE + SQUARE_SIZE - text.get_width(), 0))
+                view(x * SQUARE_SIZE + SQUARE_SIZE - text.get_width(), 0))
             x += 1
 
     y = 0
@@ -64,19 +68,21 @@ def draw_ranges(screen):
         if SQUARE_SIZE > 15:
             text = myfont.render(str(coord), True, (80, 80, 80))    
             screen.blit(text, 
-                (0, y * SQUARE_SIZE + SQUARE_SIZE - text.get_height()))
+                view(0, y * SQUARE_SIZE + SQUARE_SIZE - text.get_height()))
             y += 1
 
 def draw_grid(screen):
-    for x in range(width // SQUARE_SIZE + 1):
+    ROWS = 127
+    COLS = 96
+    for x in range(ROWS + 1):
         pygame.draw.line(screen, 0xaaaaaa, 
-            (x * SQUARE_SIZE, 0), 
-            (x * SQUARE_SIZE, height))
+            view(x * SQUARE_SIZE, 0), 
+            view(x * SQUARE_SIZE, COLS * SQUARE_SIZE))
 
-    for y in range(height // SQUARE_SIZE + 1):
+    for y in range(COLS + 1):
         pygame.draw.line(screen, 0xaaaaaa, 
-            (0, y * SQUARE_SIZE), 
-            (width, y * SQUARE_SIZE))
+            view(0, y * SQUARE_SIZE), 
+            view(ROWS * SQUARE_SIZE, y * SQUARE_SIZE))
 
 def handle_event(event):
     global SQUARE_SIZE

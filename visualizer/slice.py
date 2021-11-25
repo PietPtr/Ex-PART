@@ -21,10 +21,10 @@ class Slice:
         slice_color = slice_color if self.active else (gray, gray, gray)
 
         pygame.draw.rect(screen, slice_color, pygame.Rect(
-            self.x * init.SQUARE_SIZE,
-            self.y * init.SQUARE_SIZE + letter_offset, 
-            init.SQUARE_SIZE, 
-            init.SQUARE_SIZE // 4 + 1))
+            init.view(self.x * init.SQUARE_SIZE,
+                 self.y * init.SQUARE_SIZE + letter_offset), 
+            (init.SQUARE_SIZE, 
+            init.SQUARE_SIZE // 4 + 1)))
         pass
 
 slices = []

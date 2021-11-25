@@ -38,7 +38,7 @@ compileFullToVerilog = do
     writeFile ("clash.log") stdout
     writeFile ("clash.err") stderr
 
-
+-- TODO (lowprio): Reorganise: Yosys.hs executes Clash, should be in clash/ somewhere.
 runClash :: (String, CreateProcess) -> IO ()
 runClash (cmpName, clash) = do
     putStrLn $ "        | ...of component " ++ cmpName
@@ -53,9 +53,9 @@ runClash (cmpName, clash) = do
 groupVerilogs :: System -> IO ()
 groupVerilogs top = do
     createDirectoryIfMissing True $ "builds/.grouped"
-    writeFile ("builds/.grouped/build.grouped.v") ""
+    writeFile ("builds/.grouped/grouped.v") ""
     mapM_ (readAndAppend) (cmpNames)
-    appendFile ("builds/.grouped/build.grouped.v") (dummyTop components)
+    appendFile ("builds/.grouped/grouped.v") (dummyTop components)
     where
         cmpNames = map cmp_name components
         components = top_cmps $ sys_topdata top

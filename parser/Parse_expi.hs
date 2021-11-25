@@ -98,7 +98,7 @@ option_stat
     where
         option_parser str p = (string str *> ows *> char '=' *> ows *> p)
 
--- TODO (feature): layout expressions
+-- TODO (lowprio): layout expressions
 layout :: Parser String
 layout = string "vertical" <|> string "horizontal"
 
