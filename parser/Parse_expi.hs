@@ -120,14 +120,12 @@ cmp_instance components = Instance
         findCmp name = case filter (\c -> name == cmp_name c) components of
             (x:_) -> x
             _ -> error $ "Parse_expi.hs: Component " ++ name ++ " not in .expc file."
--- TODO: size =~= coords
+
+
 size :: Parser Size
 size = (,) 
     <$> (char '(' *> ows *> layout_expr <* ows <* char ',') 
     <*> (ows *> layout_expr <* ows <* char ')')
-    
-    
-    -- (,) <$> (char '(' *> layout_expr <* char ',') <*> (layout_expr <* char ')')
 
 
 coords :: Parser Coords
