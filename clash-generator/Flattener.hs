@@ -32,8 +32,8 @@ flatten inline top = intercalate "\n\n" $
         names = (usedComponentNames top)
 
         inlinedefs = if inline
-            then intercalate "\n" (map noinline (Set.toList names))
-            else "-- Monolithic file, everything is inlined."
+            then intercalate "\n" (map (\n -> noinline (n ++ "M")) (Set.toList names))
+            else "-- Monolithic file, everything is inlined by default."
 
 flatten' :: Bool -> System -> String
 flatten' inline system = subsysDefs ++ "\n\n\n" ++ sysdef
@@ -113,7 +113,7 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
         findConn (SInput portname _) = case filter equal conns of
             (c:_) -> varName c
             _ -> case filter driving consts of
-                ((ConstantDriver value _):_) -> "const_" ++ value
+                ((ConstantDriver value _):_) -> constPrefix ++ value
                 _ -> error $ "Flattener.hs: No connection specified for component " ++ 
                     name ++ " (is " ++ cmpName ++ "), port `" ++ portname ++ "`"
             where

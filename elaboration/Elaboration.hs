@@ -5,7 +5,7 @@ import Types
 import Repetition
 import Multiconnection
 import ElaborateConnection
-
+import Debug.Trace
 
 
 elaborate :: Design -> System

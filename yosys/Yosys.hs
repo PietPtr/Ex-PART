@@ -92,10 +92,9 @@ runYosys args = do
 
 customConnect :: System -> IO ()
 customConnect top = 
-    encodeFile "interconnect.json" (topModule ++ constModules)
+    encodeFile "interconnect.json" (topModule)
     where
         topModule = makeTopModule top
-        constModules = makeConstModules top
 
 
 combineJSONs :: String -> IO ()

@@ -269,6 +269,11 @@ sys_instances system = mapMaybe toInstance (sys_elems system)
             (InstanceImpl inst) -> Just inst
             _ -> Nothing
 
+sys_istop :: System -> Bool
+sys_istop system = case sys_topdata system of
+    TopData{} -> True
+    NotTop -> False
+
 data Implementation 
     = InstanceImpl Instance 
     | SubsysImpl System
@@ -323,3 +328,5 @@ data TopData
 data Connection'
     = Connection' CID CID Integer -- Includes bitwidth
     deriving Show
+
+constPrefix = "$const_"

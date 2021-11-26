@@ -8,6 +8,9 @@ import Data.Text (pack)
 import Numeric (showIntAtBase)
 import Data.Char (intToDigit)
 import Data.Maybe
+import Debug.Trace
+import ElaborateConnection -- ugh
+import Data.List (isPrefixOf)
 
 import Types
 
@@ -91,11 +94,11 @@ instance ToJSON Port where
                 Out -> pack "output",
             "bits" .= (map fix01 $ port_bits port)
         ]
-        where
-            fix01 :: Integer -> Value
-            fix01 0 = String "0"
-            fix01 1 = String "1"
-            fix01 c = Number (fromIntegral c)
+        
+fix01 :: Integer -> Value
+fix01 0 = String "0"
+fix01 1 = String "1"
+fix01 c = Number (fromIntegral c)
 
 instance ToJSON Cell where
     toJSON cell = object [
@@ -109,7 +112,7 @@ instance ToJSON Cell where
             "connections" .= object (map conn (cell_connections cell))
         ]
         where
-            conn (CellConn name bits) = (pack name) .= toJSON bits
+            conn (CellConn name bits) = (pack name) .= toJSON (map fix01 bits)
             dirs (PortAndDir name dir) = (pack name) .= case dir of
                 In -> pack "input"
                 Out -> pack "output"
@@ -122,7 +125,7 @@ instance ToJSON CellConn where
         ]
 
 makeTopModule :: System -> [Module]
-makeTopModule system = makeModules True system
+makeTopModule top = makeModules top
 
 makeConstModules :: System -> [Module]
 makeConstModules system = case driver of
@@ -136,14 +139,16 @@ makeConstModules system = case driver of
 
 
 
-makeModules :: Bool -> System -> [Module]
-makeModules isTop system = mod : 
-    (concat $ map (makeModules False) (sys_subsystems system))
+makeModules :: System -> [Module]
+makeModules system = mod : 
+    (concat $ map (makeModules) (sys_subsystems system))
     where
+        isTop = sys_istop system
         mod = Module {
                 mod_name = sys_name system,
                 mod_top = isTop,
-                mod_ports = makePorts 5 $ sys_iodefs system',
+                -- this magic 5 is where to start counting, 0 and 1 are reserved, 2, 3, 4 are clock reset enable
+                mod_ports = makePorts 5 $ sys_iodefs system', 
                 mod_cells = makeCells system' netmap
             }
         nextBit = 1 + (last $ port_bits $ last $ mod_ports mod)
@@ -165,7 +170,7 @@ makeModules isTop system = mod :
 
         -- Add instances and connections to this system for the constant drivers
         system' = system {
-            sys_elems=sys_elems system ++ (map toElement cdInstances),
+            sys_elems=sys_elems system,
             sys_connections=sys_connections system ++ cdConns
         }
 
@@ -177,7 +182,7 @@ makeModules isTop system = mod :
             where
                 constCID = (CID elemName "out")
                 elemName = constModuleName (ConstantDriver value cid)
-                bitwidth = fromIntegral $ length $ toBinary value 
+                bitwidth = portBitwidth system cid --fromIntegral $ length $ toBinary value 
 
         cdToInstance :: ConstantDriver -> Instance
         cdToInstance (ConstantDriver value cid) = Instance {
@@ -221,15 +226,24 @@ makePorts bitCtr (stat:stats) =
 nets :: System -> Integer -> Netmap -> Netmap
 nets system bitCtr netmap = nets' system bitCtr (sys_connections system) netmap
 
--- TODO (lowprio): I _think_ we can just, instead of netnames, initialize constants here, so in the synthesized.json it will end up as "0" and "1" instead of nets, and saves generating const modules (doesn't seem to affect performance results.)
+
 nets' :: System -> Integer -> [Connection'] -> Netmap -> Netmap
 nets' _ _ [] map = map
-nets' system bitCtr ((Connection' from _ netBitwidth):connections) netmap = 
+nets' system bitCtr (c@(Connection' from _ netBitwidth):connections) netmap =
     nets' system (bitCtr+netBitwidth) connections map'
     where
         map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
-        net = [bitCtr..(bitCtr+netBitwidth-1)]
-       -- TODO (bug): for constant drivers, e.g. (1)=>port.interval : Unsigned 6 has 5 undriven bits now, these should be set to zero.
+        net = if isconst
+            then (map (const 0) $ snd $ splitAt (length binary) net') ++ binary
+            else net'
+
+        net' = [bitCtr..(bitCtr+netBitwidth-1)]
+
+        -- Constant driver specific shit
+        (CID cmpName portName) = from
+        isconst = constPrefix `isPrefixOf` cmpName
+        (_:valueStr) = snd $ break (=='_') cmpName
+        binary = toBinary valueStr
 
 
 -- WARN: unique integers aren't sequential (but that probably does not matter)
@@ -257,8 +271,9 @@ constDriverModule (ConstantDriver value cid) = Module
             port_bits = toBinary value 
         }
 
+
 constModuleName :: ConstantDriver -> String
-constModuleName (ConstantDriver value _) = "const_" ++ value
+constModuleName (ConstantDriver value _) = constPrefix ++ value
 
 -- produces a list of ones and zero for the value given in the string
 -- only implements base 10 integers
@@ -293,7 +308,7 @@ makeCells' system netmap (elem:elements) =
         
         connections = sys_connections system
 
-        -- toCellConn :: IOStat -> 
+
         toCellConn port = CellConn name net
             where
                 name = case port of
@@ -313,7 +328,7 @@ makeCells' system netmap (elem:elements) =
                         Nothing -> error $ "Postprocessing.hs: cannot find net for cid in netmap:\n" ++
                             (show cid) ++ "\n" ++ (show netmap)
                     Nothing -> error $ "Postprocessing.hs: No net found, something is disconnected...\n" ++
-                        (show port) ++ "\n" ++ (show relevantConnections)
+                        (show port) ++ "\n" ++ (show relevantConnections) ++ "\n" ++ (show netmap)
 
                 
         portCells = map toCellConn (elem_iodefs elem)
