@@ -330,3 +330,5 @@ data Connection'
     deriving Show
 
 constPrefix = "$const_"
+
+-- TODO (feature): een standaard library van mealy machines zou niet misstaan

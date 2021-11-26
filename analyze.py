@@ -149,8 +149,12 @@ for result in results:
 
     for i in range(1, len(result)):
         mark = "*" if result[i] == best else "~"
-        numfmt = result[0].fmt % result[i]
-        result[i] = mark + numfmt + result[0].unit
+        try:
+            numfmt = result[0].fmt % result[i]
+            result[i] = mark + numfmt + result[0].unit
+        except TypeError:
+            result[i] = "~" + result[i]
+            pass
 
     result[0] = result[0].name
 

@@ -34,9 +34,15 @@ compileFullToVerilog = do
         ]) {std_out=CreatePipe, std_err=CreatePipe}
     stdout <- hGetContents outHandle
     stderr <- hGetContents errHandle
-    _ <- waitForProcess processHandle
+    code <- waitForProcess processHandle
     writeFile ("clash.log") stdout
     writeFile ("clash.err") stderr
+
+    case code of
+        ExitFailure code -> do
+            putStr $ "[Clash] " ++ stderr
+            error $ "Yosys.hs: Clash terminated with code " ++ show code
+        ExitSuccess -> pure ()
 
 -- TODO (lowprio): Reorganise: Yosys.hs executes Clash, should be in clash/ somewhere.
 runClash :: (String, CreateProcess) -> IO ()
@@ -45,9 +51,15 @@ runClash (cmpName, clash) = do
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess clash
     stdout <- hGetContents outHandle
     stderr <- hGetContents errHandle
-    _ <- waitForProcess processHandle
+    code <- waitForProcess processHandle
     writeFile ("builds/"++cmpName++"/clash.log") stdout
     writeFile ("builds/"++cmpName++"/clash.err") stderr
+
+    case code of
+        ExitFailure code -> do
+            putStr $ "[Clash] " ++ stderr
+            error $ "Yosys.hs: Clash terminated with code " ++ show code
+        ExitSuccess -> pure ()
 
 
 groupVerilogs :: System -> IO ()

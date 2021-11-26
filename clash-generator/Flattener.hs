@@ -114,6 +114,9 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
             (c:_) -> varName c
             _ -> case filter driving consts of
                 ((ConstantDriver value _):_) -> constPrefix ++ value
+                -- TODO: somehow, earlier, print this as a warning, instead of crashing
+                -- The issue also arises later, it is nice to allow layout-ing without
+                -- doing the connections already. So allow that.
                 _ -> error $ "Flattener.hs: No connection specified for component " ++ 
                     name ++ " (is " ++ cmpName ++ "), port `" ++ portname ++ "`"
             where

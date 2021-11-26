@@ -236,6 +236,7 @@ nets' system bitCtr (c@(Connection' from _ netBitwidth):connections) netmap =
     where
         map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
         net = if isconst
+            -- TODO (bug): verify whether the endianness is correct
             then (map (const 0) $ snd $ splitAt (length binary) net') ++ binary
             else net'
 

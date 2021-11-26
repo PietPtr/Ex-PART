@@ -151,6 +151,22 @@ resource expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
+
+-- TODO: abstract over an IO statement (partial, resource, monolithic, hierarhic)
+partial :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+partial expcPath expiPath lpfPath outDir = do
+    startDir <- getCurrentDirectory
+
+    design <- parse_both expcPath expiPath
+    system <- pure $ elaborate design
+
+    Flows.partial system outDir
+
+    setCurrentDirectory startDir
+    putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
+
+
+
 type Flow = (FilePath -> FilePath -> FilePath -> String -> IO ())
 
 -- Easy helper function for consistently named projects

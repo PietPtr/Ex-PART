@@ -1,15 +1,13 @@
 import sys
 import pygame
 import time
-import json
-import os
-import random
 from pprint import pprint
+
+from init import *
+import files
 import slice
 import legend
-from init import *
 import systems
-import files
 import grid
 
 screen = pygame.display.set_mode(size)
@@ -39,7 +37,6 @@ while True:
         s.draw(screen)
     systems.draw_system_rects(screen, files.locations)
         
-    # TODO (feature): draw tiles in a different color/pattern if they are not logic tiles.
     grid.draw_grid(screen) 
     grid.draw_ranges(screen)
 
@@ -48,6 +45,8 @@ while True:
     if ("hierarchic" in sys.argv[1]):
         legend.draw_legend(screen, slice.components)
     files.draw_file_indicators(screen)
+
+    # TODO (feature): if in een build mapje, allow met pijltjestoetsen te switchen tussen componenten
 
     pygame.display.flip()
     time.sleep(16 / 1000)

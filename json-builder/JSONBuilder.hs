@@ -28,6 +28,7 @@ writeLocationsJSON system = do
 
         -- TODO (lowprio): the cycle checker is a _bit_ too aggressive, since it checks for any property being referenced, but it rejects some solvable instances.
         check = if hasCycle graph
+            -- TODO: allow self reference (don't count length one cycles)
             then error "JSONBuilder.hs: expi file contains a cyclic coordinate definition, cannot generate location JSON."
             else True
             where

@@ -6,58 +6,112 @@ start = (0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476)
 zero_hash :: Hash
 zero_hash = (0, 0, 0, 0)
 
+zero_msg :: Vec 16 UInt
+zero_msg = (0:>1:>2:>3:>4:>5:>6:>13:>13:>13:>13:>11:>10:>9:>8:>7:>Nil)
+
 }
 
 type UInt = Unsigned 32
 type Hash = (UInt, UInt, UInt, UInt)
 
-component prep() {
-    output def_hash : Hash
 
-    def_hash = (0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476)
+component const_store() {
+    state i = 0 : Unsigned 6
+    output k : UInt
+    output s : Unsigned 5
+    output out_i : Unsigned 6
+
+    k = k_store !! i
+    s = s_store !! i
+
+    i' = i + 1
+    out_i = i -- mogelijk een off-by-one? 
+
+    k_store = 3614090360:>3905402710:>606105819:>3250441966:>4118548399:>1200080426:>2821735955:>4249261313:>1770035416:>2336552879:>4294925233:>2304563134:>1804603682:>4254626195:>2792965006:>1236535329:>4129170786:>3225465664:>643717713:>3921069994:>3593408605:>38016083:>3634488961:>3889429448:>568446438:>3275163606:>4107603335:>1163531501:>2850285829:>4243563512:>1735328473:>2368359562:>4294588738:>2272392833:>1839030562:>4259657740:>2763975236:>1272893353:>4139469664:>3200236656:>681279174:>3936430074:>3572445317:>76029189:>3654602809:>3873151461:>530742520:>3299628645:>4096336452:>1126891415:>2878612391:>4237533241:>1700485571:>2399980690:>4293915773:>2240044497:>1873313359:>4264355552:>2734768916:>1309151649:>4149444226:>3174756917:>718787259:>3951481745:>Nil
+    s_store = 7:>12:>17:>22:>7:>12:>17:>22:>7:>12:>17:>22:>7:>12:>17:>22:>5:>9:>14:>20:>5:>9:>14:>20:>5:>9:>14:>20:>5:>9:>14:>20:>4:>11:>16:>23:>4:>11:>16:>23:>4:>11:>16:>23:>4:>11:>16:>23:>6:>10:>15:>21:>6:>10:>15:>21:>6:>10:>15:>21:>6:>10:>15:>21:>Nil
 }
 
-component stage1() {
-    input k : UInt
-    input s : Unsigned 5
-    input prev_hash : Hash
-    state reg = zero_hash : Hash
-    output next_hash : Hash
+component message_store() {
+    input g : Unsigned 4
+    state message = zero_msg : Vec 16 UInt
+    output m : UInt
 
-    reg' = prev_hash
+    message' = message
 
-    next_hash = reg
-
+    m = message !! g
 }
 
-component stage2() {
-    input k : UInt
+component fabcd_update() {
+    input f : UInt
+    input mg : UInt
     input s : Unsigned 5
-    input prev_hash : Hash
-    state reg = zero_hash : Hash
-    output next_hash : Hash
+    input k : UInt
 
-    reg' = prev_hash
+    input in_A : UInt
+    input in_B : UInt
+    input in_C : UInt
+    input in_D : UInt
+    
+    output out_A : UInt
+    output out_B : UInt
+    output out_C : UInt
+    output out_D : UInt
 
-    next_hash = reg
+    f' = f + in_A + k + mg
+    out_A = in_D
+    out_D = in_C
+    out_C = in_B
+    out_B = in_B + rotateL f' (fromIntegral s) -- Kan dit wel, variabele rotate?
 }
 
-component stage3() {
-    input k : UInt
-    input s : Unsigned 5
-    input prev_hash : Hash
-    output next_hash : Hash
+component calculator() {
+    input a : UInt
+    input b : UInt
+    input c : UInt
+    input d : UInt
+    input i : Unsigned 6
 
-    next_hash = prev_hash
+    output out_F : UInt
+    output out_g : Unsigned 4
 
+    stage = i `shiftR` 4
+
+    out_F = case stage of
+        0 -> (b .&. c) .|. ((complement b) .&. d)
+        1 -> (d .&. b) .|. ((complement d) .&. c)
+        2 -> b `xor` c `xor` d
+        3 -> c `xor` (b .|. (complement d))
+
+    out_g = case stage of
+        0 -> resize i
+        1 -> resize (5 * i + 1) 
+        2 -> resize (3 * i + 5) 
+        3 -> resize (7 * i)
 }
 
-component stage4() {
-    input k : UInt
-    input s : Unsigned 5
-    input prev_hash : Hash
-    output next_hash : Hash
+component abcd_store() {
+    input in_A : UInt
+    input in_B : UInt
+    input in_C : UInt
+    input in_D : UInt
 
-    next_hash = prev_hash
+    state s_A = 0 : UInt
+    state s_B = 0 : UInt
+    state s_C = 0 : UInt
+    state s_D = 0 : UInt
+    
+    output out_A : UInt
+    output out_B : UInt
+    output out_C : UInt
+    output out_D : UInt
 
+    s_A' = in_A
+    s_B' = in_B
+    s_C' = in_C
+    s_D' = in_D
+
+    out_A = s_A
+    out_B = s_B
+    out_C = s_C
+    out_D = s_D
 }
