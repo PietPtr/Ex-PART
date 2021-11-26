@@ -10,6 +10,7 @@ import legend
 from init import *
 import systems
 import files
+import grid
 
 screen = pygame.display.set_mode(size)
 
@@ -32,14 +33,15 @@ while True:
     """
     screen.fill((221, 231, 251))
 
+    grid.draw_tilecolors(screen)
 
     for s in slice.slices:
         s.draw(screen)
     systems.draw_system_rects(screen, files.locations)
         
     # TODO (feature): draw tiles in a different color/pattern if they are not logic tiles.
-    draw_grid(screen) 
-    draw_ranges(screen)
+    grid.draw_grid(screen) 
+    grid.draw_ranges(screen)
 
     systems.draw_system_labels(screen, files.locations)
     

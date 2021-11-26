@@ -51,38 +51,6 @@ def view(x, y):
     global VIEW
     return (x + VIEW[0], y + VIEW[1])
 
-def draw_ranges(screen):
-    global x_range
-    global y_range
-
-    x = 0
-    for coord in x_range:
-        if SQUARE_SIZE > 15:
-            text = myfont.render(str(coord), True, (80, 80, 80))
-            screen.blit(text, 
-                view(x * SQUARE_SIZE + SQUARE_SIZE - text.get_width(), 0))
-            x += 1
-
-    y = 0
-    for coord in y_range:
-        if SQUARE_SIZE > 15:
-            text = myfont.render(str(coord), True, (80, 80, 80))    
-            screen.blit(text, 
-                view(0, y * SQUARE_SIZE + SQUARE_SIZE - text.get_height()))
-            y += 1
-
-def draw_grid(screen):
-    ROWS = 127
-    COLS = 96
-    for x in range(ROWS + 1):
-        pygame.draw.line(screen, 0xaaaaaa, 
-            view(x * SQUARE_SIZE, 0), 
-            view(x * SQUARE_SIZE, COLS * SQUARE_SIZE))
-
-    for y in range(COLS + 1):
-        pygame.draw.line(screen, 0xaaaaaa, 
-            view(0, y * SQUARE_SIZE), 
-            view(ROWS * SQUARE_SIZE, y * SQUARE_SIZE))
 
 def handle_event(event):
     global SQUARE_SIZE
