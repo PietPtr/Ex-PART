@@ -79,14 +79,15 @@ resource system lpfPath outDir = do
     synthesizeAndPnRIndividualComponents lpfLoc
 
 
-partial :: System -> FilePath -> IO ()
-partial system outDir = do
+location :: System -> FilePath -> IO ()
+location system outDir = do
     createDirAndEnter outDir
 
     writeLocations system
-    -- generateClash system
-    -- flattenForSim system
-    -- compileToVerilog system
-    -- groupVerilogFiles system
-    -- synthesizeComponents
-    -- connectComponents system
+
+sim :: System -> FilePath -> IO ()
+sim system outDir = do
+    createDirAndEnter outDir
+
+    generateClash system
+    flattenForSim system

@@ -1,2 +1,2 @@
-read_verilog hdl/Main.topEntity/system.v
+read_verilog hdl/Main.topEntity/*.v
 synth_ecp5 -noccu2 -nomux -nobram -nodram -noflatten -nodsp -json synthesized.json

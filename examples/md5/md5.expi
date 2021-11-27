@@ -1,24 +1,25 @@
-hash in (26, 26) at (2, 2) {
-    input data : UInt
-    output hash_A : UInt
-    output hash_B : UInt
-    output hash_C : UInt
-    output hash_D : UInt
+hash in (26, 26) at (2, 11) {
+    input data : Maybe UInt
+    output hash : Maybe UInt
 
-    const_store is const_store in (8, 8) at (0, abcd.h)
+    const_store is const_store in (10, 10) at (0, abcd.h)
 
-    abcd is abcd_store in (20, 5) at (8, 0)
-    calculator is calculator in (5, 5) at (abcd.x+abcd.w-5, abcd.h)
+    abcd is abcd_store in (30, 3) at (10, 0)
+    calculator is calculator in (5, 10) at (abcd.x+abcd.w-5, abcd.h)
     fabcd is fabcd_update in (abcd.w-calculator.w, const_store.h) at (const_store.w, abcd.h)
 
-    msg is message_store in (2, 2) at (fabcd.x + fabcd.w - 2, fabcd.y + fabcd.h - 2)
+    msg is message_store in (fabcd.w, fabcd.h) at (fabcd.x, fabcd.y)
 
+    data->msg.data_in
+
+    abcd.enable<-const_store.is_hashing
     abcd.out_A->fabcd.in_A
     abcd.out_B->fabcd.in_B
     abcd.out_C->fabcd.in_C
     abcd.out_D->fabcd.in_D
     const_store.s->fabcd.s
     const_store.k->fabcd.k
+    const_store.stall<-msg.stall
     msg.m->fabcd.mg
     calculator.out_F->fabcd.f
     
@@ -35,8 +36,12 @@ hash in (26, 26) at (2, 2) {
     abcd.in_C<-fabcd.out_C
     abcd.in_D<-fabcd.out_D
 
-    hash_A<-fabcd.out_A
-    hash_B<-fabcd.out_B
-    hash_C<-fabcd.out_C
-    hash_D<-fabcd.out_D
+    outputter is hash_output in (fabcd.w, 7) at (fabcd.x, fabcd.y + fabcd.h)
+    outputter.a<-fabcd.out_A
+    outputter.b<-fabcd.out_B
+    outputter.c<-fabcd.out_C
+    outputter.d<-fabcd.out_D
+    outputter.i<-const_store.out_i
+
+    hash<-outputter.hash_word
 }

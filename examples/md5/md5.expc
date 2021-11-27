@@ -6,8 +6,28 @@ start = (0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476)
 zero_hash :: Hash
 zero_hash = (0, 0, 0, 0)
 
+start_hash :: Hash
+start_hash = (1732584193,4023233417,2562383102,271733878)
+
+-- a message of four zeroes
 zero_msg :: Vec 16 UInt
-zero_msg = (0:>1:>2:>3:>4:>5:>6:>13:>13:>13:>13:>11:>10:>9:>8:>7:>Nil)
+zero_msg = (0:>0:>0:>1:>128:>0:>0:>0:>0:>0:>0:>0:>0:>0:>0:>4:>Nil)
+
+hash_a (a,_,_,_) = a
+hash_b (_,b,_,_) = b
+hash_c (_,_,c,_) = c
+hash_d (_,_,_,d) = d
+
+data MD5State = Loading (Unsigned 2) | Hashing (Unsigned 6) deriving (Show, Generic, NFDataX)
+
+start_state = Loading 0
+
+add_hash :: Hash -> Hash -> Hash
+add_hash (a,b,c,d) (a',b',c',d') = (a+a', b+b', c+c', d+d')
+
+data_ctr_state = WaitingForData
+
+data DataCtrState = WaitingForData | Ready | LoadingData (Unsigned 2) deriving (Show, Generic, NFDataX)
 
 }
 
@@ -16,16 +36,37 @@ type Hash = (UInt, UInt, UInt, UInt)
 
 
 component const_store() {
-    state i = 0 : Unsigned 6
+    input stall : Bool
+    state i = start_state : MD5State
     output k : UInt
     output s : Unsigned 5
     output out_i : Unsigned 6
+    output load_i : Unsigned 2
+    output is_hashing : Bool
 
-    k = k_store !! i
-    s = s_store !! i
+    k = k_store !! index
+    s = s_store !! index
 
-    i' = i + 1
-    out_i = i -- mogelijk een off-by-one? 
+    -- We assume that loading will actually happen in those four cycles, and will happily start
+    -- hashing even if that didn't happen.
+    i' = if stall then i else case i of
+        Loading 3 -> Hashing 0
+        Loading n -> Loading (n + 1)
+        Hashing 63 -> Loading 0
+        Hashing n -> Hashing (n + 1)
+
+    out_i = index
+    load_i = case i of
+        Loading step -> step
+        Hashing _ -> 0
+
+    is_hashing = case i of
+        Loading _ -> False
+        Hashing _ -> True && (not stall) -- Ja dit kan korter
+
+    index = case i of
+        Loading _ -> 0
+        Hashing step -> step
 
     k_store = 3614090360:>3905402710:>606105819:>3250441966:>4118548399:>1200080426:>2821735955:>4249261313:>1770035416:>2336552879:>4294925233:>2304563134:>1804603682:>4254626195:>2792965006:>1236535329:>4129170786:>3225465664:>643717713:>3921069994:>3593408605:>38016083:>3634488961:>3889429448:>568446438:>3275163606:>4107603335:>1163531501:>2850285829:>4243563512:>1735328473:>2368359562:>4294588738:>2272392833:>1839030562:>4259657740:>2763975236:>1272893353:>4139469664:>3200236656:>681279174:>3936430074:>3572445317:>76029189:>3654602809:>3873151461:>530742520:>3299628645:>4096336452:>1126891415:>2878612391:>4237533241:>1700485571:>2399980690:>4293915773:>2240044497:>1873313359:>4264355552:>2734768916:>1309151649:>4149444226:>3174756917:>718787259:>3951481745:>Nil
     s_store = 7:>12:>17:>22:>7:>12:>17:>22:>7:>12:>17:>22:>7:>12:>17:>22:>5:>9:>14:>20:>5:>9:>14:>20:>5:>9:>14:>20:>5:>9:>14:>20:>4:>11:>16:>23:>4:>11:>16:>23:>4:>11:>16:>23:>4:>11:>16:>23:>6:>10:>15:>21:>6:>10:>15:>21:>6:>10:>15:>21:>6:>10:>15:>21:>Nil
@@ -33,10 +74,28 @@ component const_store() {
 
 component message_store() {
     input g : Unsigned 4
+    input data_in : Maybe UInt
+    state data_ctr = data_ctr_state : DataCtrState
     state message = zero_msg : Vec 16 UInt
     output m : UInt
+    output stall : Bool
 
-    message' = message
+    (message') = case data_in of
+        (Just d) -> case data_ctr' of
+            (LoadingData ctr_index) -> (replace ctr_index d message)
+            _ -> message
+        Nothing -> (message)
+
+    data_ctr' = case data_in of
+        (Just d) -> case data_ctr of
+            (WaitingForData) -> LoadingData 0
+            LoadingData 3 -> Ready -- haha je moet vijf dingen inladen nu
+            LoadingData n -> LoadingData (n + 1)
+        Nothing -> data_ctr
+
+    stall = case data_ctr of
+        Ready -> False
+        _ -> True
 
     m = message !! g
 }
@@ -90,28 +149,58 @@ component calculator() {
 }
 
 component abcd_store() {
+    input enable : Bool
     input in_A : UInt
     input in_B : UInt
     input in_C : UInt
     input in_D : UInt
 
-    state s_A = 0 : UInt
-    state s_B = 0 : UInt
-    state s_C = 0 : UInt
-    state s_D = 0 : UInt
+    state s_A = 1732584193 : UInt
+    state s_B = 4023233417 : UInt
+    state s_C = 2562383102 : UInt
+    state s_D = 271733878  : UInt
     
     output out_A : UInt
     output out_B : UInt
     output out_C : UInt
     output out_D : UInt
 
-    s_A' = in_A
-    s_B' = in_B
-    s_C' = in_C
-    s_D' = in_D
+    (s_A', s_B', s_C', s_D') = if enable
+        then (in_A, in_B, in_C, in_D)
+        else (s_A, s_B, s_C, s_D)
 
     out_A = s_A
     out_B = s_B
     out_C = s_C
     out_D = s_D
+}
+
+component hash_output() {
+    input i : Unsigned 6
+    input a : UInt
+    input b : UInt
+    input c : UInt
+    input d : UInt
+    state saved_hash = start_hash : Hash
+    output hash_word : Maybe UInt
+
+    saved_hash' = if i == 63
+        then ((a,b,c,d)) `add_hash` saved_hash
+        else saved_hash
+
+    hash_word = case i of
+        1 -> Just (hash_a saved_hash)
+        2 -> Just (hash_b saved_hash)
+        3 -> Just (hash_c saved_hash)
+        4 -> Just (hash_d saved_hash)
+        _ -> Nothing
+
+    -- hash_word = if is_hashing
+    --     then Nothing
+    --     else case i of
+    --         1 -> Just (hash_a saved_hash)
+    --         2 -> Just (hash_b saved_hash)
+    --         3 -> Just (hash_c saved_hash)
+    --         4 -> Just (hash_d saved_hash)
+
 }

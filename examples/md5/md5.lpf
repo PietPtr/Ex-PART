@@ -5,7 +5,7 @@ BLOCK ASYNCPATHS;
 # The clock "usb" and "gpdi" sheet
 LOCATE COMP "clk" SITE "G2";
 IOBUF  PORT "clk" PULLMODE=NONE IO_TYPE=LVCMOS33;
-FREQUENCY PORT "clk" 25 MHZ;
+FREQUENCY PORT "clk" 5 MHZ;
 
 # JTAG and SPI FLASH voltage 3.3V and options to boot from SPI flash
 # write to FLASH possible any time from JTAG:

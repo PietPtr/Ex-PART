@@ -153,18 +153,30 @@ resource expcPath expiPath lpfPath outDir = do
 
 
 -- TODO: abstract over an IO statement (partial, resource, monolithic, hierarhic)
-partial :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
-partial expcPath expiPath lpfPath outDir = do
+location :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+location expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
 
     design <- parse_both expcPath expiPath
     system <- pure $ elaborate design
 
-    Flows.partial system outDir
+    Flows.location system outDir
 
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
+
+sim :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+sim expcPath expiPath lpfPath outDir = do
+    startDir <- getCurrentDirectory
+
+    design <- parse_both expcPath expiPath
+    system <- pure $ elaborate design
+
+    Flows.sim system outDir
+
+    setCurrentDirectory startDir
+    putStrLn $ "[Ex-PART] Finished flattening the design for simulation"
 
 
 type Flow = (FilePath -> FilePath -> FilePath -> String -> IO ())
