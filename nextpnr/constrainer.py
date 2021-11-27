@@ -6,7 +6,6 @@ from pprint import pprint
 top_entity_name = str(ctx.top_module)
 
 def cell_name_to_json_path(cell_name):
-    # mooi magic number, hopelijk is het in general ook correct <:]
     full_name = cell_name.split('.')
     expart_name = full_name[:-1]
 
@@ -47,6 +46,7 @@ def create_regions_system(system):
         else:
             subsystems = sys
             create_regions_system_list(subsystems)
+            path.pop()
 
 
 print(f"------------------------ {os.path.basename(__file__)} --------------------------")

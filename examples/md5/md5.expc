@@ -1,5 +1,7 @@
 combinatory {
 
+import Data.List as L
+
 start :: Hash
 start = (0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476)
 
@@ -29,6 +31,8 @@ data_ctr_state = LoadingData 0
 
 data DataCtrState = Ready | LoadingData (Unsigned 2) deriving (Show, Generic, NFDataX)
 
+-- mapM_ print $ L.take 110 $ L.zip [0..] $ simulate @System system $ [Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Just 1,Nothing,Nothing,Just 2,Just 3,Just 4, Nothing, Nothing, Nothing, Nothing, Nothing, Just 1, Just 2, Just 3, Just 4, Nothing, Just 1, Nothing, Just 2, Nothing, Just 3, Nothing, Just 4, Nothing, Just 1, Just 2, Just 3, Just 4] L.++ L.repeat Nothing
+
 }
 
 type UInt = Unsigned 32
@@ -41,7 +45,6 @@ component const_store() {
     output k : UInt
     output s : Unsigned 5
     output out_i : Unsigned 6
-    output load_i : Unsigned 2
     output is_hashing : Bool
     output ready : Bool
 
@@ -180,10 +183,7 @@ component abcd_store() {
 }
 
 component hash_output() {
-    input i : Unsigned 2
     input ready : Bool
-    input is_hashing : Bool
-    input stall : Bool
     input a : UInt
     input b : UInt
     input c : UInt
@@ -231,5 +231,22 @@ component load_balance_4() {
         Nothing -> word_ctr
 
     turn = word_ctr `shiftR` 2
+}
 
+component cat_4_maybes() {
+    input hash_1 : Maybe UInt
+    input hash_2 : Maybe UInt
+    input hash_3 : Maybe UInt
+    input hash_4 : Maybe UInt
+    output hash : Maybe UInt
+
+    hash = case hash_1 of
+        (Just hash) -> Just hash
+        Nothing -> case hash_2 of
+            (Just hash) -> Just hash
+            Nothing -> case hash_3 of
+                (Just hash) -> Just hash
+                Nothing -> case hash_4 of
+                    (Just hash) -> Just hash
+                    Nothing -> Nothing
 }

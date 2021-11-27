@@ -5,9 +5,21 @@ system in (100, 80) at (2, 2) {
     msg_words->hash1.data
     hash1.hash->hashes
 
-    -- balance is load_balance_4 in (3, hash1.h + hash2.h + hash3.h + hash4.h) at (hash1.x - 3, 0)
+    balance is load_balance_4 in (3, hash1.h + hash2.h + hash3.h + hash4.h) at (hash1.x - 3, 0)
 
-    -- msg_words->balance.msg_words
+    msg_words->balance.msg_words
+    balance.word_out_1->hash1.data
+    balance.word_out_2->hash2.data
+    balance.word_out_3->hash3.data
+    balance.word_out_4->hash4.data
+
+    cat is cat_4_maybes in (3, balance.h) at (hash1.x + hash1.w, 0)
+
+    cat.hash->hashes
+    hash1.hash->cat.hash_1
+    hash2.hash->cat.hash_2
+    hash3.hash->cat.hash_3
+    hash4.hash->cat.hash_4
 
     hash1 in (23, 14) at (20, 0) {
         input data : Maybe UInt
@@ -52,161 +64,153 @@ system in (100, 80) at (2, 2) {
         outputter.b<-fabcd.out_B
         outputter.c<-fabcd.out_C
         outputter.d<-fabcd.out_D
-        outputter.i<-const_store.load_i
-        outputter.is_hashing<-const_store.is_hashing
-        outputter.stall<-msg.stall
         outputter.ready<-const_store.ready
 
         hash<-outputter.hash_word
     }
 
-    -- hash2 in (23, 14) at (hash1.x, hash1.y + hash1.h) {
-    --     input data : Maybe UInt
-    --     output hash : Maybe UInt
+    hash2 in (23, 14) at (hash1.x, hash1.y + hash1.h) {
+        input data : Maybe UInt
+        output hash : Maybe UInt
 
-    --     calculator is calculator in (23, 14) at (0, 0)
-    --     const_store is const_store in (23, 14) at (0, 0)
+        calculator is calculator in (23, 14) at (0, 0)
+        const_store is const_store in (23, 14) at (0, 0)
 
-    --     abcd is abcd_store in (23, 14) at (0, 0)
-    --     fabcd is fabcd_update in (23, 14) at (0, 0)
+        abcd is abcd_store in (23, 14) at (0, 0)
+        fabcd is fabcd_update in (23, 14) at (0, 0)
 
-    --     msg is message_store in (23, 14) at (0, 0)
+        msg is message_store in (23, 14) at (0, 0)
 
-    --     data->msg.data_in
+        data->msg.data_in
 
-    --     abcd.enable<-const_store.is_hashing
-    --     abcd.out_A->fabcd.in_A
-    --     abcd.out_B->fabcd.in_B
-    --     abcd.out_C->fabcd.in_C
-    --     abcd.out_D->fabcd.in_D
-    --     const_store.s->fabcd.s
-    --     const_store.k->fabcd.k
-    --     const_store.stall<-msg.stall
-    --     msg.m->fabcd.mg
-    --     calculator.out_F->fabcd.f
+        abcd.enable<-const_store.is_hashing
+        abcd.out_A->fabcd.in_A
+        abcd.out_B->fabcd.in_B
+        abcd.out_C->fabcd.in_C
+        abcd.out_D->fabcd.in_D
+        const_store.s->fabcd.s
+        const_store.k->fabcd.k
+        const_store.stall<-msg.stall
+        msg.m->fabcd.mg
+        calculator.out_F->fabcd.f
         
-    --     calculator.out_g->msg.g
-    --     const_store.out_i->calculator.i
+        calculator.out_g->msg.g
+        const_store.out_i->calculator.i
 
-    --     abcd.out_A->calculator.a
-    --     abcd.out_B->calculator.b
-    --     abcd.out_C->calculator.c
-    --     abcd.out_D->calculator.d
+        abcd.out_A->calculator.a
+        abcd.out_B->calculator.b
+        abcd.out_C->calculator.c
+        abcd.out_D->calculator.d
 
-    --     abcd.in_A<-fabcd.out_A
-    --     abcd.in_B<-fabcd.out_B
-    --     abcd.in_C<-fabcd.out_C
-    --     abcd.in_D<-fabcd.out_D
+        abcd.in_A<-fabcd.out_A
+        abcd.in_B<-fabcd.out_B
+        abcd.in_C<-fabcd.out_C
+        abcd.in_D<-fabcd.out_D
 
-    --     outputter is hash_output in (23, 14) at (0, 0)
-    --     outputter.a<-fabcd.out_A
-    --     outputter.b<-fabcd.out_B
-    --     outputter.c<-fabcd.out_C
-    --     outputter.d<-fabcd.out_D
-    --     outputter.i<-const_store.load_i
-    --     outputter.is_hashing<-const_store.is_hashing
-    --     outputter.stall<-msg.stall
+        outputter is hash_output in (23, 14) at (0, 0)
+        outputter.a<-fabcd.out_A
+        outputter.b<-fabcd.out_B
+        outputter.c<-fabcd.out_C
+        outputter.d<-fabcd.out_D
+        outputter.ready<-const_store.ready
 
-    --     hash<-outputter.hash_word
-    -- }
+        hash<-outputter.hash_word
+    }
 
-    -- hash3 in (23, 14) at (hash2.x, hash2.y + hash2.h) {
-    --     input data : Maybe UInt
-    --     output hash : Maybe UInt
+    hash3 in (23, 14) at (hash1.x, hash2.y + hash2.h) {
+        input data : Maybe UInt
+        output hash : Maybe UInt
 
-    --     calculator is calculator in (23, 14) at (0, 0)
-    --     const_store is const_store in (23, 14) at (0, 0)
+        calculator is calculator in (23, 14) at (0, 0)
+        const_store is const_store in (23, 14) at (0, 0)
 
-    --     abcd is abcd_store in (23, 14) at (0, 0)
-    --     fabcd is fabcd_update in (23, 14) at (0, 0)
+        abcd is abcd_store in (23, 14) at (0, 0)
+        fabcd is fabcd_update in (23, 14) at (0, 0)
 
-    --     msg is message_store in (23, 14) at (0, 0)
+        msg is message_store in (23, 14) at (0, 0)
 
-    --     data->msg.data_in
+        data->msg.data_in
 
-    --     abcd.enable<-const_store.is_hashing
-    --     abcd.out_A->fabcd.in_A
-    --     abcd.out_B->fabcd.in_B
-    --     abcd.out_C->fabcd.in_C
-    --     abcd.out_D->fabcd.in_D
-    --     const_store.s->fabcd.s
-    --     const_store.k->fabcd.k
-    --     const_store.stall<-msg.stall
-    --     msg.m->fabcd.mg
-    --     calculator.out_F->fabcd.f
+        abcd.enable<-const_store.is_hashing
+        abcd.out_A->fabcd.in_A
+        abcd.out_B->fabcd.in_B
+        abcd.out_C->fabcd.in_C
+        abcd.out_D->fabcd.in_D
+        const_store.s->fabcd.s
+        const_store.k->fabcd.k
+        const_store.stall<-msg.stall
+        msg.m->fabcd.mg
+        calculator.out_F->fabcd.f
         
-    --     calculator.out_g->msg.g
-    --     const_store.out_i->calculator.i
+        calculator.out_g->msg.g
+        const_store.out_i->calculator.i
 
-    --     abcd.out_A->calculator.a
-    --     abcd.out_B->calculator.b
-    --     abcd.out_C->calculator.c
-    --     abcd.out_D->calculator.d
+        abcd.out_A->calculator.a
+        abcd.out_B->calculator.b
+        abcd.out_C->calculator.c
+        abcd.out_D->calculator.d
 
-    --     abcd.in_A<-fabcd.out_A
-    --     abcd.in_B<-fabcd.out_B
-    --     abcd.in_C<-fabcd.out_C
-    --     abcd.in_D<-fabcd.out_D
+        abcd.in_A<-fabcd.out_A
+        abcd.in_B<-fabcd.out_B
+        abcd.in_C<-fabcd.out_C
+        abcd.in_D<-fabcd.out_D
 
-    --     outputter is hash_output in (23, 14) at (0, 0)
-    --     outputter.a<-fabcd.out_A
-    --     outputter.b<-fabcd.out_B
-    --     outputter.c<-fabcd.out_C
-    --     outputter.d<-fabcd.out_D
-    --     outputter.i<-const_store.load_i
-    --     outputter.is_hashing<-const_store.is_hashing
-    --     outputter.stall<-msg.stall
+        outputter is hash_output in (23, 14) at (0, 0)
+        outputter.a<-fabcd.out_A
+        outputter.b<-fabcd.out_B
+        outputter.c<-fabcd.out_C
+        outputter.d<-fabcd.out_D
+        outputter.ready<-const_store.ready
 
-    --     hash<-outputter.hash_word
-    -- }
+        hash<-outputter.hash_word
+    }
 
-    -- hash4 in (23, 14) at (hash3.x, hash3.y + hash3.h) {
-    --     input data : Maybe UInt
-    --     output hash : Maybe UInt
+    hash4 in (23, 14) at (hash1.x, hash3.y + hash3.h) {
+        input data : Maybe UInt
+        output hash : Maybe UInt
 
-    --     calculator is calculator in (23, 14) at (0, 0)
-    --     const_store is const_store in (23, 14) at (0, 0)
+        calculator is calculator in (23, 14) at (0, 0)
+        const_store is const_store in (23, 14) at (0, 0)
 
-    --     abcd is abcd_store in (23, 14) at (0, 0)
-    --     fabcd is fabcd_update in (23, 14) at (0, 0)
+        abcd is abcd_store in (23, 14) at (0, 0)
+        fabcd is fabcd_update in (23, 14) at (0, 0)
 
-    --     msg is message_store in (23, 14) at (0, 0)
+        msg is message_store in (23, 14) at (0, 0)
 
-    --     data->msg.data_in
+        data->msg.data_in
 
-    --     abcd.enable<-const_store.is_hashing
-    --     abcd.out_A->fabcd.in_A
-    --     abcd.out_B->fabcd.in_B
-    --     abcd.out_C->fabcd.in_C
-    --     abcd.out_D->fabcd.in_D
-    --     const_store.s->fabcd.s
-    --     const_store.k->fabcd.k
-    --     const_store.stall<-msg.stall
-    --     msg.m->fabcd.mg
-    --     calculator.out_F->fabcd.f
+        abcd.enable<-const_store.is_hashing
+        abcd.out_A->fabcd.in_A
+        abcd.out_B->fabcd.in_B
+        abcd.out_C->fabcd.in_C
+        abcd.out_D->fabcd.in_D
+        const_store.s->fabcd.s
+        const_store.k->fabcd.k
+        const_store.stall<-msg.stall
+        msg.m->fabcd.mg
+        calculator.out_F->fabcd.f
         
-    --     calculator.out_g->msg.g
-    --     const_store.out_i->calculator.i
+        calculator.out_g->msg.g
+        const_store.out_i->calculator.i
 
-    --     abcd.out_A->calculator.a
-    --     abcd.out_B->calculator.b
-    --     abcd.out_C->calculator.c
-    --     abcd.out_D->calculator.d
+        abcd.out_A->calculator.a
+        abcd.out_B->calculator.b
+        abcd.out_C->calculator.c
+        abcd.out_D->calculator.d
 
-    --     abcd.in_A<-fabcd.out_A
-    --     abcd.in_B<-fabcd.out_B
-    --     abcd.in_C<-fabcd.out_C
-    --     abcd.in_D<-fabcd.out_D
+        abcd.in_A<-fabcd.out_A
+        abcd.in_B<-fabcd.out_B
+        abcd.in_C<-fabcd.out_C
+        abcd.in_D<-fabcd.out_D
 
-    --     outputter is hash_output in (23, 14) at (0, 0)
-    --     outputter.a<-fabcd.out_A
-    --     outputter.b<-fabcd.out_B
-    --     outputter.c<-fabcd.out_C
-    --     outputter.d<-fabcd.out_D
-    --     outputter.i<-const_store.load_i
-    --     outputter.is_hashing<-const_store.is_hashing
-    --     outputter.stall<-msg.stall
+        outputter is hash_output in (23, 14) at (0, 0)
+        outputter.a<-fabcd.out_A
+        outputter.b<-fabcd.out_B
+        outputter.c<-fabcd.out_C
+        outputter.d<-fabcd.out_D
+        outputter.ready<-const_store.ready
 
-    --     hash<-outputter.hash_word
-    -- }
+        hash<-outputter.hash_word
+    }
+
 }

@@ -26,7 +26,7 @@ concatCombinatory :: [Combinatory] -> String
 concatCombinatory blocks 
     = concat 
     $ map unlines 
-    $ map (map trim) 
+    -- $ map (map trim) 
     $ map lines 
     $ map (\(Combinatory code) -> code) blocks 
 
@@ -34,8 +34,8 @@ concatCombinatory blocks
 genDefs :: TopData -> String
 genDefs (TopData haskellDefs combinatories _) = 
     "module Definitions where\nimport Clash.Prelude\n\n" ++
-    concat (intersperse "\n" haskellDefs) ++ "\n\n" ++
-    concatCombinatory combinatories
+    concatCombinatory combinatories ++
+    concat (intersperse "\n" haskellDefs) ++ "\n\n"
 genDefs (NotTop) = error "Preliminary.hs: Something went wrong during elaboration, the top system does not have top-data."
 
 writeDefs :: TopData -> IO ()
