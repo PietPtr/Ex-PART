@@ -24,7 +24,7 @@ flatten inline top = intercalate "\n\n" $
     , systems 
     ,topEntity ]
     where
-        imports = "import Clash.Prelude\nimport Definitions\n\n"
+        imports = "import Clash.Prelude\nimport Definitions\nimport Debug.Trace\n\n"
         compDef = genComponentClash names (top_cmps $ sys_topdata top)
         systems = flatten' inline top
         topEntity = createSynthesizable (map io2iso $ sys_iodefs top) (sys_name top) False

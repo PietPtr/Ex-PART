@@ -11,7 +11,7 @@ start_hash = (1732584193,4023233417,2562383102,271733878)
 
 -- a message of four zeroes
 zero_msg :: Vec 16 UInt
-zero_msg = (0:>0:>0:>1:>128:>0:>0:>0:>0:>0:>0:>0:>0:>0:>0:>4:>Nil)
+zero_msg = (0:>0:>0:>0:>128:>0:>0:>0:>0:>0:>0:>0:>0:>0:>0:>4:>Nil)
 
 hash_a (a,_,_,_) = a
 hash_b (_,b,_,_) = b
@@ -25,9 +25,9 @@ start_state = Loading 0
 add_hash :: Hash -> Hash -> Hash
 add_hash (a,b,c,d) (a',b',c',d') = (a+a', b+b', c+c', d+d')
 
-data_ctr_state = WaitingForData
+data_ctr_state = LoadingData 0
 
-data DataCtrState = WaitingForData | Ready | LoadingData (Unsigned 2) deriving (Show, Generic, NFDataX)
+data DataCtrState = Ready | LoadingData (Unsigned 2) deriving (Show, Generic, NFDataX)
 
 }
 
@@ -81,15 +81,14 @@ component message_store() {
     output stall : Bool
 
     (message') = case data_in of
-        (Just d) -> case data_ctr' of
+        (Just d) -> case data_ctr of
             (LoadingData ctr_index) -> (replace ctr_index d message)
             _ -> message
         Nothing -> (message)
 
     data_ctr' = case data_in of
         (Just d) -> case data_ctr of
-            (WaitingForData) -> LoadingData 0
-            LoadingData 3 -> Ready -- haha je moet vijf dingen inladen nu
+            LoadingData 3 -> Ready
             LoadingData n -> LoadingData (n + 1)
         Nothing -> data_ctr
 
@@ -176,7 +175,9 @@ component abcd_store() {
 }
 
 component hash_output() {
-    input i : Unsigned 6
+    input i : Unsigned 2
+    input is_hashing : Bool
+    input stall : Bool
     input a : UInt
     input b : UInt
     input c : UInt
@@ -188,19 +189,12 @@ component hash_output() {
         then ((a,b,c,d)) `add_hash` saved_hash
         else saved_hash
 
-    hash_word = case i of
-        1 -> Just (hash_a saved_hash)
-        2 -> Just (hash_b saved_hash)
-        3 -> Just (hash_c saved_hash)
-        4 -> Just (hash_d saved_hash)
-        _ -> Nothing
-
-    -- hash_word = if is_hashing
-    --     then Nothing
-    --     else case i of
-    --         1 -> Just (hash_a saved_hash)
-    --         2 -> Just (hash_b saved_hash)
-    --         3 -> Just (hash_c saved_hash)
-    --         4 -> Just (hash_d saved_hash)
+    hash_word = if is_hashing || stall
+        then Nothing
+        else case i of
+            0 -> Just (hash_a saved_hash)
+            1 -> Just (hash_b saved_hash)
+            2 -> Just (hash_c saved_hash)
+            3 -> Just (hash_d saved_hash)
 
 }

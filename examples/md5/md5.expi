@@ -41,7 +41,9 @@ hash in (26, 26) at (2, 11) {
     outputter.b<-fabcd.out_B
     outputter.c<-fabcd.out_C
     outputter.d<-fabcd.out_D
-    outputter.i<-const_store.out_i
+    outputter.i<-const_store.load_i
+    outputter.is_hashing<-const_store.is_hashing
+    outputter.stall<-msg.stall
 
     hash<-outputter.hash_word
 }
