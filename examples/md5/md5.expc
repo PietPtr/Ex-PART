@@ -43,6 +43,11 @@ component const_store() {
     output out_i : Unsigned 6
     output load_i : Unsigned 2
     output is_hashing : Bool
+    output ready : Bool
+
+    ready = case i of
+        (Loading _) -> False
+        (Hashing n) -> n == 63
 
     k = k_store !! index
     s = s_store !! index
@@ -176,6 +181,7 @@ component abcd_store() {
 
 component hash_output() {
     input i : Unsigned 2
+    input ready : Bool
     input is_hashing : Bool
     input stall : Bool
     input a : UInt
@@ -183,18 +189,47 @@ component hash_output() {
     input c : UInt
     input d : UInt
     state saved_hash = start_hash : Hash
+    state output_ctr = 0 : Unsigned 2
     output hash_word : Maybe UInt
 
-    saved_hash' = if i == 63
+    saved_hash' = if ready
         then ((a,b,c,d)) `add_hash` saved_hash
         else saved_hash
+    
+    should_emit = ready || output_ctr /= 0
 
-    hash_word = if is_hashing || stall
-        then Nothing
-        else case i of
-            0 -> Just (hash_a saved_hash)
-            1 -> Just (hash_b saved_hash)
-            2 -> Just (hash_c saved_hash)
-            3 -> Just (hash_d saved_hash)
+    output_ctr' = if should_emit
+        then output_ctr + 1
+        else output_ctr
+
+    hash_word = if should_emit
+        then case output_ctr of
+            0 -> Just (hash_a saved_hash')
+            1 -> Just (hash_b saved_hash')
+            2 -> Just (hash_c saved_hash')
+            3 -> Just (hash_d saved_hash')
+        else Nothing
+
+}
+
+
+component load_balance_4() {
+    input msg_words : Maybe UInt
+    state word_ctr = 0 : Unsigned 4
+    output word_out_1 : Maybe UInt
+    output word_out_2 : Maybe UInt
+    output word_out_3 : Maybe UInt
+    output word_out_4 : Maybe UInt
+
+    word_out_1 = if turn == 0 then msg_words else Nothing
+    word_out_2 = if turn == 1 then msg_words else Nothing
+    word_out_3 = if turn == 2 then msg_words else Nothing
+    word_out_4 = if turn == 3 then msg_words else Nothing
+
+    word_ctr' = case msg_words of
+        (Just _) -> word_ctr + 1
+        Nothing -> word_ctr
+
+    turn = word_ctr `shiftR` 2
 
 }

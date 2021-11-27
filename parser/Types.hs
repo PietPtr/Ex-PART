@@ -122,6 +122,8 @@ typeToBitwidth t = case t of
         "UInt" -> 32
         "Hash" -> 128
         "Maybe Hash" -> 129
+        "DataCtrState" -> 3
+        "MD5State" -> 7
         ('M':'a':'y':'b':'e':' ':x) -> typeToBitwidth x + 1
         other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other
 
