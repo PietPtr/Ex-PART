@@ -7,7 +7,9 @@ if len(sys.argv) == 1:
     print("Please provide the project folder name.")
     quit()
 
-pygame.init()
+
+pygame.base.init()
+pygame.font.init()
 
 size = width, height = 1280, 720
 black = 0, 0, 0
@@ -22,6 +24,8 @@ myfont = pygame.font.SysFont('Courier', 14)
 BASE_SS = pygame.display.Info().current_w // 24
 SQUARE_SIZE = BASE_SS
 VIEW = [0, 0]
+ROWS = 96
+COLS = 127
 
 
 def cell_name_to_json_path(cell_name):

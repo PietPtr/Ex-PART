@@ -9,6 +9,7 @@ import slice
 import legend
 import systems
 import grid
+import routing
 
 screen = pygame.display.set_mode(size)
 
@@ -31,6 +32,7 @@ while True:
     """
     screen.fill((221, 231, 251))
 
+    routing.draw_routing(screen)
     grid.draw_tilecolors(screen)
 
     for s in slice.slices:
@@ -45,6 +47,7 @@ while True:
     if ("hierarchic" in sys.argv[1]):
         legend.draw_legend(screen, slice.components)
     files.draw_file_indicators(screen)
+
 
     # TODO (feature): if in een build mapje, allow met pijltjestoetsen te switchen tussen componenten
 

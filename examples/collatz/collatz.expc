@@ -1,9 +1,9 @@
 combinatory {
-    (>>>) :: Bits a => a -> Int -> a
-    (>>>) = shiftR
-    
-    (<<<) :: Bits a => a -> Int -> a
-    (<<<) = shiftL
+(>>>) :: Bits a => a -> Int -> a
+(>>>) = shiftR
+
+(<<<) :: Bits a => a -> Int -> a
+(<<<) = shiftL
 }
 
 type Value = Unsigned 16

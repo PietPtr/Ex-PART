@@ -14,6 +14,7 @@ class Slice:
         self.active = active
 
     def draw(self, screen):
+        OFFSET = init.SQUARE_SIZE * 0.2
         letter_offset = (ord(self.letter) - 65) * init.SQUARE_SIZE // 4
 
         slice_color = pygame.Color(color.color(self.display_name))
@@ -23,8 +24,8 @@ class Slice:
         pygame.draw.rect(screen, slice_color, pygame.Rect(
             init.view(self.x * init.SQUARE_SIZE,
                  self.y * init.SQUARE_SIZE + letter_offset), 
-            (init.SQUARE_SIZE, 
-            init.SQUARE_SIZE // 4 + 1)))
+            (init.SQUARE_SIZE - OFFSET, 
+            (init.SQUARE_SIZE) // 4 + 1)))
         pass
 
 slices = []
