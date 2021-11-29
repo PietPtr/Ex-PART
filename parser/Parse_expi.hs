@@ -21,14 +21,25 @@ data Statement
 
 
 system :: [Component] -> Parser SystemTree
-system components = toSystem
-    <$> isFlatenned
-    <*> (identifier <* ws <* string "in" <* ws)
-    <*> (size <* ws <* string "at" <* ws)
-    <*> (coords <* ows) 
-    <*> (f <$> (char '{' *> (system_body components) <* char '}'))
+system components = 
+    (toSystem 
+        <$> (const True <$> try (string "unplaced")) 
+        <*> (ws *> identifier <* ws <* string "in" <* ws)
+        <*> (size <* ws)
+        <*> (pure (CConst 0, CConst 0))
+        <*> (f <$> (char '{' *> (system_body components) <* char '}'))
+        <?> "unplaced system")
+    <|>
+    (toSystem 
+        <$> isUnplaced
+        <*> (identifier <* ws <* string "in" <* ws)
+        <*> (size <* ws <* string "at" <* ws)
+        <*> (coords <* ows) 
+        <*> (f <$> (char '{' *> (system_body components) <* char '}'))
+        <?> "system")
+
     where
-        isFlatenned = option False (const True <$> (string "flatenned" <* ws))
+        isUnplaced = option False (const True <$> (string "unplaced" <* ws))
 
         f :: [Statement] -> ([IOStat], [Instance], [Connection], [SystemTree], [RawRepetition], [MultiConnection], [ConstantDriver])
         f stats = foldl sorter ([], [], [], [], [], [], []) stats
@@ -42,9 +53,9 @@ system components = toSystem
             (MultiConnStat mconn) -> (iostats, instances, connections, systems, reps, mconn:mconns, cconns)
             (ConstDriverStat cconn) -> (iostats, instances, connections, systems, reps, mconns, cconn:cconns)
 
-        toSystem flattened name size coords (iostats, instances, connections, systems, reps, mconns, cconns) =
+        toSystem unplaced name size coords (iostats, instances, connections, systems, reps, mconns, cconns) =
             SystemTree {
-                systr_flattened = flattened,
+                systr_unplaced = unplaced,
                 systr_name = name,
                 systr_type = name,
                 systr_size = size,

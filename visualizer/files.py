@@ -23,6 +23,7 @@ def try_load_pnr():
         last_load_pnr = 0
         slice.components = set()
         slice.slices = []
+        routing.pip_counts = {}
         return 
 
     if (last_mod > last_load_pnr):

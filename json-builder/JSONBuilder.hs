@@ -4,6 +4,7 @@ import Data.Aeson
 
 import Types
 import Locations
+import Debug.Trace
 
 writeLocationsJSON :: System -> IO ()
 writeLocationsJSON system = do

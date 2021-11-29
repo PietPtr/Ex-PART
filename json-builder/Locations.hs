@@ -6,6 +6,7 @@ import Data.Aeson
 import Data.Text (pack)
 import Data.Graph hiding (Node)
 import Data.Array
+import Debug.Trace
 
 import Types
 
@@ -45,7 +46,7 @@ instance ToJSON AbsolutePositionTree where
     
 
 relToAbs :: [(String, WH, Pos)] -> Pos -> System -> AbsolutePositionTree
-relToAbs positions current system = Node (sys_name system) $ leaves ++ subsystems
+relToAbs positions current system =  Node (sys_name system) $ leaves ++ subsystems
     where
         leaves = map makeLeaf $ map ins_name $ sys_instances system
         subsystems = map nextCall $ sys_subsystems system

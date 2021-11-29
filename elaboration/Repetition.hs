@@ -2,6 +2,7 @@
 module Repetition where
 
 import Types
+import Debug.Trace
 
 unrollRepetition :: RawRepetition -> ([Element] -> [Element])
 unrollRepetition rep = case rep of
@@ -52,15 +53,39 @@ unrollRepeat elems rep = map (makeElement elems rep) [1..(rep_amount rep)]
 
 makeElement :: [Element] -> Repetition -> Integer -> Element
 makeElement elems rep i = element {
-        elem_name = name ++ "_" ++ show i,
+        elem_unplaced = False,
+        elem_name = repname,
         elem_type = elem_type element,
-        elem_size = inst_size,
-        elem_coords = makeCoords name layout coords i,
+        elem_size = repsize,
+        elem_coords = repcoords,
         elem_iodefs = elem_iodefs element,
-        elem_implementation = elem_implementation element
+        elem_implementation = impl'
     }
     where
-        (elemName, args, inst_size) = case unIns of
+        repname = name ++ "_" ++ show i
+        repcoords = makeCoords name layout coords i
+        impl' = case elem_implementation element of
+            (InstanceImpl inst) -> case inst of
+                cmpi@CmpInstance{} -> InstanceImpl $ cmpi {
+                        cins_name = repname,
+                        cins_coords = repcoords,
+                        cins_size = repsize -- sincerely hope that nothing later on uses these instead of just elem_coords...
+                    }
+                sysi@SysInstance{} -> InstanceImpl $ sysi {
+                        sins_name = repname,
+                        sins_coords = repcoords,
+                        sins_size = repsize
+                    }
+            (SubsysImpl system) -> SubsysImpl $ system {
+                    sys_name = repname,
+                    sys_type = elem_type element,
+                    sys_size = repsize,
+                    sys_coords = repcoords,
+                    sys_elems = map (reformElemCoords elemName repname) (map toElement $ sys_subsystems system)
+                        ++ map toElement (sys_instances system)
+                }
+
+        (elemName, args, repsize) = case unIns of
             (UnplacedInstance name args size) -> (name, args, size)
 
         (name, coords, unIns, layout) = case rep of
@@ -73,6 +98,42 @@ makeElement elems rep i = element {
             (x:_) -> x
             [] -> error $ "Repeat.hs: Cannot find element " ++ elemName ++ " in source files: " ++ show (map elem_name elems)
 
+-- TODO: natuurlijk moet dit voor _ieder_ element, niet alleen voor systems...
+reformElemCoords :: String -> String -> Element -> Element
+reformElemCoords en rn elem = trace (show $ (en, rn, elem_name elem)) elem {
+        elem_size = reformCoords' $ elem_size elem,
+        elem_coords = reformCoords' $ elem_coords elem,
+        elem_implementation = SubsysImpl $ impl {
+                sys_size = reformCoords' $ sys_size impl,
+                sys_coords = reformCoords' $ sys_coords impl,
+                sys_elems = map (reformElemCoords en rn) (sys_elems impl)
+            }
+    }
+    where
+        reformCoords' = reformCoords en rn
+        impl = case elem_implementation elem of
+            (SubsysImpl system) -> system
+            _ -> error "Repetition.hs: je hebt een fout gemaakt" -- TODO: duh
+
+
+
+reformCoords :: String -> String -> Coords -> Coords
+reformCoords elemname repname (cl, cr) = (reformLayout elemname repname cl, reformLayout elemname repname cr)
+
+reformLayout :: String -> String -> LayoutExpr -> LayoutExpr
+reformLayout elemname repname coord = case coord of
+    (CAdd cl cr) -> (CAdd (f cl) (f cr))
+    (CSub cl cr) -> (CSub (f cl) (f cr))
+    (CWidth id) -> (CWidth $ repl id)
+    (CHeight id) -> (CHeight $ repl id)
+    (CX id) -> (CX $ repl id)
+    (CY id) -> (CY $ repl id)
+    c -> c
+    where
+        f = reformLayout elemname repname
+        repl id = trace (show (4, id, elemname, repname)) $ if id == elemname
+            then repname
+            else id
 
 makeCoords :: String -> String -> Coords -> Integer -> Coords
 makeCoords _ _ coords 1 = coords

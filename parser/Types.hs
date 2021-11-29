@@ -5,6 +5,7 @@
 module Types where
 
 import Data.Maybe
+import Debug.Trace
 
 class Pretty a where
     pretty :: a -> String
@@ -111,6 +112,7 @@ typeToBitwidth t = case t of
         "Vec 3 State" -> 3
         "Unsigned 1" -> 1
         "Unsigned 2" -> 2
+        "Unsigned 3" -> 3
         "Unsigned 4" -> 4
         "Unsigned 5" -> 5
         "Unsigned 6" -> 6
@@ -121,9 +123,11 @@ typeToBitwidth t = case t of
         "Bitwidth" -> 16
         "UInt" -> 32
         "Hash" -> 128
+        "MyHash" -> 32
         "Maybe Hash" -> 129
         "DataCtrState" -> 3
         "MD5State" -> 7
+        "InWord" -> 16
         ('M':'a':'y':'b':'e':' ':x) -> typeToBitwidth x + 1
         other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other
 
@@ -145,7 +149,7 @@ data Design = Design {
     } deriving (Show)
 
 data SystemTree = SystemTree {
-        systr_flattened :: Bool, -- TODO: unplaced system? repurpose flattened :P
+        systr_unplaced :: Bool,
         systr_name :: String,
         systr_type :: String,
         systr_size :: Size,
@@ -271,6 +275,7 @@ data Range
 -- The data structure after elaboration.
 -- Easier to work with.
 data System = System {
+        sys_unplaced :: Bool,
         sys_name :: String,
         sys_type :: String,
         sys_topdata :: TopData,
@@ -287,7 +292,7 @@ sys_subsystems :: System -> [System]
 sys_subsystems system = mapMaybe toSystem (sys_elems system)
     where
         toSystem elem = case elem_implementation elem of
-            (SubsysImpl sys) -> Just sys
+            (SubsysImpl sys) -> Just sys 
             _ -> Nothing
 
 sys_instances :: System -> [Instance]
@@ -308,6 +313,7 @@ data Implementation
     deriving Show
 
 data Element = Element {
+        elem_unplaced :: Bool,
         elem_name :: String,
         elem_type :: String,
         elem_size :: Size,
@@ -326,6 +332,7 @@ class IsElement a where
 
 instance IsElement Instance where
     toElement inst@CmpInstance{..} = Element {
+            elem_unplaced = False,
             elem_name = cins_name,
             elem_type = cmp_name $ cins_cmp,
             elem_size = cins_size,
@@ -339,6 +346,7 @@ instance IsElement Instance where
 
 instance IsElement System where
     toElement system = Element {
+            elem_unplaced = sys_unplaced,
             elem_name = sys_name,
             elem_type = sys_type,
             elem_size = sys_size,
