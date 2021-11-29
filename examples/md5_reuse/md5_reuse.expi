@@ -23,17 +23,17 @@ system in (100, 80) at (2, 2) {
     hash3.hash->cat.hash_3
     hash4.hash->cat.hash_4
 
-    hash1 in (24, 20) at (0, 0) {
+    hash1 in (21, 20) at (0, 0) {
         input data : Maybe UInt
         output hash : Maybe UInt
 
-        calculator is calculator in (24, 20) at (0, 0)
-        const_store is const_store in (24, 20) at (0, 0)
+        calculator is calculator in (hash1.w, hash1.h) at (0, 0)
+        const_store is const_store in (hash1.w, hash1.h) at (0, 0)
 
-        abcd is abcd_store in (24, 20) at (0, 0)
-        fabcd is fabcd_update in (24, 20) at (0, 0)
+        abcd is abcd_store in (hash1.w, hash1.h) at (0, 0)
+        fabcd is fabcd_update in (hash1.w, hash1.h) at (0, 0)
 
-        msg is message_store in (24, 20) at (0, 0)
+        msg is message_store in (hash1.w, hash1.h) at (0, 0)
 
         data->msg.data_in
 
@@ -61,7 +61,7 @@ system in (100, 80) at (2, 2) {
         abcd.in_C<-fabcd.out_C
         abcd.in_D<-fabcd.out_D
 
-        outputter is hash_output in (24, 20) at (0, 0)
+        outputter is hash_output in (hash1.w, hash1.h) at (0, 0)
         outputter.a<-fabcd.out_A
         outputter.b<-fabcd.out_B
         outputter.c<-fabcd.out_C
@@ -74,5 +74,4 @@ system in (100, 80) at (2, 2) {
     hash2 is hash1 in (hash1.w, hash1.h) at (hash1.x, hash1.y + hash1.h)
     hash3 is hash1 in (hash1.w, hash1.h) at (hash1.x + hash1.w, hash1.y)
     hash4 is hash1 in (hash1.w, hash1.h) at (hash3.x, hash3.y + hash3.h)
-    -- cat is cat_4_maybes in (100, 80) at (0, 0)
 }

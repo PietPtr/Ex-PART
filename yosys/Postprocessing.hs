@@ -187,12 +187,12 @@ makeModules system = mod :
                 bitwidth = portBitwidth system cid --fromIntegral $ length $ toBinary value 
 
         cdToInstance :: ConstantDriver -> Instance
-        cdToInstance (ConstantDriver value cid) = Instance {
-                ins_name = elemName,
-                ins_cmp = Component elemName [] [SOutput "out" "CONSTANT"] "",
-                ins_size = (CConst 0, CConst 0),
-                ins_coords = (CConst 0, CConst 0),
-                ins_args = []
+        cdToInstance (ConstantDriver value cid) = CmpInstance {
+                cins_name = elemName,
+                cins_cmp = Component elemName [] [SOutput "out" "CONSTANT"] "",
+                cins_size = (CConst 0, CConst 0),
+                cins_coords = (CConst 0, CConst 0),
+                cins_args = []
             }
             where
                 elemName = constModuleName (ConstantDriver value cid)

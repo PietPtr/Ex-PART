@@ -145,8 +145,9 @@ data Design = Design {
     } deriving (Show)
 
 data SystemTree = SystemTree {
-        systr_flattened :: Bool,
+        systr_flattened :: Bool, -- TODO: unplaced system? repurpose flattened :P
         systr_name :: String,
+        systr_type :: String,
         systr_size :: Size,
         systr_coords :: Coords,
         systr_iodefs :: [IOStat],
@@ -171,13 +172,35 @@ data Component = Component {
         cmp_where :: WhereBlock
     } deriving (Show, Eq)
 
-data Instance = Instance {
-        ins_name :: String,
-        ins_cmp :: Component,
-        ins_args :: [ConstExpr],
-        ins_size :: Size,
-        ins_coords :: Coords
+data Instance 
+    = CmpInstance {
+        cins_name :: String,
+        cins_cmp :: Component,
+        cins_args :: [ConstExpr],
+        cins_size :: Size,
+        cins_coords :: Coords} 
+    | SysInstance {
+        sins_name :: String,
+        sins_sysname :: String,
+        sins_size :: Size,
+        sins_coords :: Coords
     } deriving (Show, Eq)
+
+ins_isCmpInstance :: Instance -> Bool
+ins_isCmpInstance CmpInstance{} = True
+ins_isCmpInstance _ = False
+
+ins_name :: Instance -> String
+ins_name CmpInstance{cins_name=n} = n
+ins_name SysInstance{sins_name=n} = n
+
+ins_size :: Instance -> Size
+ins_size CmpInstance{cins_size=n} = n
+ins_size SysInstance{sins_size=n} = n
+
+ins_coords :: Instance -> Coords
+ins_coords CmpInstance{cins_coords=n} = n
+ins_coords SysInstance{sins_coords=n} = n
 
 type Argument = String
 type WhereBlock = String
@@ -249,6 +272,7 @@ data Range
 -- Easier to work with.
 data System = System {
         sys_name :: String,
+        sys_type :: String,
         sys_topdata :: TopData,
         sys_size :: Size,
         sys_coords :: Coords,
@@ -292,26 +316,31 @@ data Element = Element {
         elem_implementation :: Implementation
     } deriving (Show)
 
+elem_isSystem :: Element -> Bool
+elem_isSystem e = case elem_implementation e of
+    (SubsysImpl _) -> True
+    _ -> False
 
 class IsElement a where
     toElement :: a -> Element
 
 instance IsElement Instance where
-    toElement inst = Element {
-            elem_name = ins_name,
-            elem_type = cmp_name $ ins_cmp,
-            elem_size = ins_size,
-            elem_coords = ins_coords,
-            elem_iodefs = catMaybes $ map iso2io (cmp_isoStats ins_cmp),
+    toElement inst@CmpInstance{..} = Element {
+            elem_name = cins_name,
+            elem_type = cmp_name $ cins_cmp,
+            elem_size = cins_size,
+            elem_coords = cins_coords,
+            elem_iodefs = catMaybes $ map iso2io (cmp_isoStats cins_cmp),
             elem_implementation = InstanceImpl inst
         }
-        where
-            Instance {..} = inst
+    toElement SysInstance{..} = error 
+        "Types.hs: Cannot convert SysInstance to element, convert the SysInstance to a System first, then call toElement."
+    
 
 instance IsElement System where
     toElement system = Element {
             elem_name = sys_name,
-            elem_type = sys_name,
+            elem_type = sys_type,
             elem_size = sys_size,
             elem_coords = sys_coords,
             elem_iodefs = sys_iodefs,

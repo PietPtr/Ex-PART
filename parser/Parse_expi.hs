@@ -46,6 +46,7 @@ system components = toSystem
             SystemTree {
                 systr_flattened = flattened,
                 systr_name = name,
+                systr_type = name,
                 systr_size = size,
                 systr_coords = coords,
                 systr_iodefs = iostats,
@@ -109,19 +110,34 @@ unplaced_instance = UnplacedInstance
     <*> (size)
 
 cmp_instance :: [Component] -> Parser Instance
-cmp_instance components = Instance
-    <$> (identifier <* ws <* string "is" <* ws) -- identifier
-    <*> (findCmp <$> (identifier <* ws <* string "in" <* ws)) -- generic component name
-    <*> (pure []) -- arguments
-    <*> (size <* ws <* string "at" <* ws) -- size
-    <*> coords -- coords
+cmp_instance components = transform <$> tupleParser
     where
-        
-        findCmp :: String -> Maybe Component
+        tupleParser = (,,,,)
+            <$> (identifier <* ws <* string "is" <* ws) -- identifier
+            <*> (findCmp <$> (identifier <* ws <* string "in" <* ws)) -- generic component name
+            <*> (pure []) -- arguments
+            <*> (size <* ws <* string "at" <* ws) -- size
+            <*> coords -- coords
+
+        transform (name, maybeCmp, [], size, coords) = case maybeCmp of
+            (Right cmp) -> CmpInstance {
+                    cins_name = name,
+                    cins_cmp = cmp,
+                    cins_args = [],
+                    cins_size = size,
+                    cins_coords = coords
+                }
+            (Left sysName) -> SysInstance {
+                    sins_name = name,
+                    sins_sysname = sysName,
+                    sins_size = size,
+                    sins_coords = coords
+                }
+
+        findCmp :: String -> Either String Component
         findCmp name = case filter (\c -> name == cmp_name c) components of
-            (x:_) -> Just x
-            _ -> Nothing
-                --error $ "Parse_expi.hs: Component " ++ name ++ " not in .expc file."
+            (x:_) -> Right x
+            _ -> Left name
 
 
 size :: Parser Size

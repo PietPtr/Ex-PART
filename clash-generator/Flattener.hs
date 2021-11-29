@@ -102,9 +102,9 @@ unpackedInput system = "        " ++ "(" ++ ins_str ++ ") = unbundle input"
 instanceWhereStatement :: [Connection'] -> [ConstantDriver] -> Instance -> String
 instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "M")
     where
-        component = ins_cmp inst
+        component = cins_cmp inst
         cmpName = cmp_name component
-        name = ins_name inst
+        name = cins_name inst
         ins = map findConn $ inputs $ cmp_isoStats component
         outs = map (\(SOutput portName _) -> name ++ "_" ++ portName)
             $ outputs $ cmp_isoStats component
@@ -121,11 +121,11 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
                     name ++ " (is " ++ cmpName ++ "), port `" ++ portname ++ "`"
             where
                 equal (Connection' (CID _ _) (CID inst_name' portname') _) = 
-                    inst_name' == ins_name inst && 
+                    inst_name' == cins_name inst && 
                     portname == portname'
                 
                 driving (ConstantDriver _ (CID inst_name' portname')) = 
-                    inst_name' == ins_name inst &&
+                    inst_name' == cins_name inst &&
                     portname == portname'
         findConn _ = error "Flattener.hs: This case should not have happenned, only call this function with SInputs."
 
@@ -190,7 +190,7 @@ usedComponentNames system =
     (unions $ map usedComponentNames (sys_subsystems system))
     where
         component_name elem = case elem_implementation elem of
-            (InstanceImpl inst) -> Just $ cmp_name $ ins_cmp inst
+            (InstanceImpl inst) -> Just $ cmp_name $ cins_cmp inst
             _ -> Nothing
 
 genComponentClash :: Set String -> [Component] -> String

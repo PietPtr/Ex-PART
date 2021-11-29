@@ -26,9 +26,8 @@ writeLocationsJSON system = do
         isConstExpr (CSub left right) = isConstExpr left && isConstExpr right
         isConstExpr _ = False
 
-        -- TODO (lowprio): the cycle checker is a _bit_ too aggressive, since it checks for any property being referenced, but it rejects some solvable instances.
+        -- TODO (lowprio): the cycle checker is a _bit_ too aggressive, since it checks for any property being referenced, but it rejects some solvable instances.  (make cmp.{ding} the nodes, not cmp, then self reference is solved too)
         check = if hasCycle graph
-            -- TODO: allow self reference (don't count length one cycles)
             then error "JSONBuilder.hs: expi file contains a cyclic coordinate definition, cannot generate location JSON."
             else True
             where

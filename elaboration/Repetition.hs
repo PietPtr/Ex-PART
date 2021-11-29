@@ -3,10 +3,10 @@ module Repetition where
 
 import Types
 
-unrollRepetition :: RawRepetition -> ([Component] -> [Instance])
+unrollRepetition :: RawRepetition -> ([Element] -> [Element])
 unrollRepetition rep = case rep of
-    (RawChain _ _ _) -> (\cs -> unrollChain cs rep')
-    (RawRepeat _ _ _) -> (\cs -> unrollRepeat cs rep')
+    (RawChain _ _ _) -> (\es -> unrollChain es rep')
+    (RawRepeat _ _ _) -> (\es -> unrollRepeat es rep')
     where
         rep' = fitRepetition rep
 
@@ -46,20 +46,21 @@ fitRepetition rep = repetition
             [] -> error "Parse_expi.hs: Missing option `layout` in a repetition statement."
             (x:_) -> x
 
-unrollRepeat :: [Component] -> Repetition -> [Instance]
-unrollRepeat cmps rep = map (makeInstance cmps rep) [1..(rep_amount rep)]
+unrollRepeat :: [Element] -> Repetition -> [Element]
+unrollRepeat elems rep = map (makeElement elems rep) [1..(rep_amount rep)]
      
 
-makeInstance :: [Component] -> Repetition -> Integer -> Instance
-makeInstance cmps rep i = Instance {
-        ins_name = name ++ "_" ++ show i,
-        ins_cmp = component,
-        ins_args = args,
-        ins_size = inst_size,
-        ins_coords = makeCoords name layout coords i
+makeElement :: [Element] -> Repetition -> Integer -> Element
+makeElement elems rep i = element {
+        elem_name = name ++ "_" ++ show i,
+        elem_type = elem_type element,
+        elem_size = inst_size,
+        elem_coords = makeCoords name layout coords i,
+        elem_iodefs = elem_iodefs element,
+        elem_implementation = elem_implementation element
     }
     where
-        (component_name, args, inst_size) = case unIns of
+        (elemName, args, inst_size) = case unIns of
             (UnplacedInstance name args size) -> (name, args, size)
 
         (name, coords, unIns, layout) = case rep of
@@ -68,9 +69,9 @@ makeInstance cmps rep i = Instance {
             (Chain name coords unIns _ layout _ _) ->
                 (name, coords, unIns, layout)
 
-        component = case filter (\c -> (cmp_name c) == component_name) cmps of
+        element = case filter (\e -> (elem_name e) == elemName) elems of
             (x:_) -> x
-            [] -> error $ "Repeat.hs: Cannot find component " ++ component_name ++ " in .expc file: " ++ show (map cmp_name cmps)
+            [] -> error $ "Repeat.hs: Cannot find element " ++ elemName ++ " in source files: " ++ show (map elem_name elems)
 
 
 makeCoords :: String -> String -> Coords -> Integer -> Coords
@@ -89,8 +90,8 @@ allChainConnections :: [Repetition] -> [Connection]
 allChainConnections rawreps = concat $
     map chainConnections ([ x | x@(Chain {}) <- rawreps])
 
-unrollChain :: [Component] -> Repetition -> [Instance]
-unrollChain cmps chain = map (makeInstance cmps chain) [1..(chn_amount chain)]
+unrollChain :: [Element] -> Repetition -> [Element]
+unrollChain elems chain = map (makeElement elems chain) [1..(chn_amount chain)]
 
 chainConnections :: Repetition -> [Connection]
 chainConnections chain = map makeConnection [1..(chn_amount - 1)]
