@@ -8,6 +8,7 @@ rcgol
 pipeline
 constants
 md5
+md5_reuse
 md5_parallel
 md5_parallel_hierarchic
 pipe

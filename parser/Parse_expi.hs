@@ -116,10 +116,12 @@ cmp_instance components = Instance
     <*> (size <* ws <* string "at" <* ws) -- size
     <*> coords -- coords
     where
-        findCmp :: String -> Component
+        
+        findCmp :: String -> Maybe Component
         findCmp name = case filter (\c -> name == cmp_name c) components of
-            (x:_) -> x
-            _ -> error $ "Parse_expi.hs: Component " ++ name ++ " not in .expc file."
+            (x:_) -> Just x
+            _ -> Nothing
+                --error $ "Parse_expi.hs: Component " ++ name ++ " not in .expc file."
 
 
 size :: Parser Size
