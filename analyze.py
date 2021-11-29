@@ -143,7 +143,12 @@ for stat in stats:
     results.append(result)
 
 for result in results:
-    best = result[0].eval(result[1:])
+    try:
+        best = result[0].eval(result[1:])
+    except TypeError as e:
+        print(e)
+        best = None
+
     if all(map(lambda x: x == result[1], result[1:])):
         best = None
 

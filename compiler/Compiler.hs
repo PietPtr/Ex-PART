@@ -178,6 +178,7 @@ sim expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished flattening the design for simulation"
 
+-- TODO: nextpnr only flow
 
 type Flow = (FilePath -> FilePath -> FilePath -> String -> IO ())
 

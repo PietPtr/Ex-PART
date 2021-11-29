@@ -7,6 +7,7 @@ import GHC.IO.Handle
 
 import Data.List
 
+-- TODO: stream output to file instead of only writing it on exit...
 nextpnr :: FilePath -> [String] -> IO ()
 nextpnr lpf options = do
     processDef <- pure $ (proc "/usr/share/ex-part/nextpnr/nextpnr-ecp5" $
@@ -19,16 +20,13 @@ nextpnr lpf options = do
          {std_out=CreatePipe, std_err=CreatePipe}
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess processDef
     stdout <- hGetContents outHandle
-    stderr <- hGetContents errHandle
+    readloop errHandle
     code <- waitForProcess processHandle
     writeFile ("nextpnr.log") stdout
-    writeFile ("nextpnr.err") stderr
     case code of
         ExitFailure code -> do
-            putStr $ "[nextpnr] " ++ warnsAndErrors stderr
             error $ "Nextpnr.hs: nextpnr terminated with code " ++ show code
-        ExitSuccess -> do
-            putStr (warnsAndErrors stderr)
+        ExitSuccess -> pure ()
     where
         warnsAndErrors stderr = (unlines 
                 $ filter (\l -> ("WARNING" `isPrefixOf` l) || ("ERROR" `isPrefixOf` l)) 
@@ -37,3 +35,13 @@ nextpnr lpf options = do
         bitstreamOptions = if ("--out-of-context" `elem` options)
             then []
             else ["--textcfg", "bitstream.config"]
+
+        readloop errHandle = do -- clear error log if exists, create if doesn't exist.
+            eof <- hIsEOF errHandle
+            if eof
+                then putStrLn "[Ex-PART] nextpnr terminated."
+                else do
+                    line <- hGetLine errHandle
+                    -- putStrLn $ "[nextpnr] " ++ line -- TODO: allow filter spec?
+                    appendFile "nextpnr.err" (line ++ "\n")
+                    readloop errHandle
