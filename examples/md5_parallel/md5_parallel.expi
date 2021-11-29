@@ -5,7 +5,8 @@ system in (100, 80) at (2, 2) {
     msg_words->hash1.data
     hash1.hash->hashes
 
-    balance is load_balance_4 in (3, hash1.h + hash2.h + hash3.h + hash4.h) at (hash1.x - 3, 0)
+    balance is load_balance_4 in (100, 80) at (0, 0)
+    -- in (3, hash1.h + hash2.h + hash3.h + hash4.h) at (hash1.x - 3, 0)
 
     msg_words->balance.msg_words
     balance.word_out_1->hash1.data
@@ -13,7 +14,8 @@ system in (100, 80) at (2, 2) {
     balance.word_out_3->hash3.data
     balance.word_out_4->hash4.data
 
-    cat is cat_4_maybes in (3, balance.h) at (hash1.x + hash1.w, 0)
+    cat is cat_4_maybes in (100, 80) at (0, 0)
+    -- in (3, balance.h) at (hash1.x + hash1.w, 0)
 
     cat.hash->hashes
     hash1.hash->cat.hash_1
@@ -21,17 +23,17 @@ system in (100, 80) at (2, 2) {
     hash3.hash->cat.hash_3
     hash4.hash->cat.hash_4
 
-    hash1 in (32, 16) at (20, 0) {
+    hash1 in (24, 20) at (0, 0) {
         input data : Maybe UInt
         output hash : Maybe UInt
 
-        calculator is calculator in (32, 16) at (0, 0)
-        const_store is const_store in (32, 16) at (0, 0)
+        calculator is calculator in (24, 20) at (0, 0)
+        const_store is const_store in (24, 20) at (0, 0)
 
-        abcd is abcd_store in (32, 16) at (0, 0)
-        fabcd is fabcd_update in (32, 16) at (0, 0)
+        abcd is abcd_store in (24, 20) at (0, 0)
+        fabcd is fabcd_update in (24, 20) at (0, 0)
 
-        msg is message_store in (32, 16) at (0, 0)
+        msg is message_store in (24, 20) at (0, 0)
 
         data->msg.data_in
 
@@ -59,7 +61,7 @@ system in (100, 80) at (2, 2) {
         abcd.in_C<-fabcd.out_C
         abcd.in_D<-fabcd.out_D
 
-        outputter is hash_output in (32, 16) at (0, 0)
+        outputter is hash_output in (24, 20) at (0, 0)
         outputter.a<-fabcd.out_A
         outputter.b<-fabcd.out_B
         outputter.c<-fabcd.out_C
@@ -69,17 +71,17 @@ system in (100, 80) at (2, 2) {
         hash<-outputter.hash_word
     }
 
-    hash2 in (32, 16) at (hash1.x, hash1.y + hash1.h) {
+    hash2 in (24, 20) at (hash1.x, hash1.y + hash1.h) {
         input data : Maybe UInt
         output hash : Maybe UInt
 
-        calculator is calculator in (32, 16) at (0, 0)
-        const_store is const_store in (32, 16) at (0, 0)
+        calculator is calculator in (24, 20) at (0, 0)
+        const_store is const_store in (24, 20) at (0, 0)
 
-        abcd is abcd_store in (32, 16) at (0, 0)
-        fabcd is fabcd_update in (32, 16) at (0, 0)
+        abcd is abcd_store in (24, 20) at (0, 0)
+        fabcd is fabcd_update in (24, 20) at (0, 0)
 
-        msg is message_store in (32, 16) at (0, 0)
+        msg is message_store in (24, 20) at (0, 0)
 
         data->msg.data_in
 
@@ -107,7 +109,7 @@ system in (100, 80) at (2, 2) {
         abcd.in_C<-fabcd.out_C
         abcd.in_D<-fabcd.out_D
 
-        outputter is hash_output in (32, 16) at (0, 0)
+        outputter is hash_output in (24, 20) at (0, 0)
         outputter.a<-fabcd.out_A
         outputter.b<-fabcd.out_B
         outputter.c<-fabcd.out_C
@@ -117,17 +119,17 @@ system in (100, 80) at (2, 2) {
         hash<-outputter.hash_word
     }
 
-    hash3 in (32, 16) at (hash1.x, hash2.y + hash2.h) {
+    hash3 in (24, 20) at (hash1.x + hash1.w, hash1.y) {
         input data : Maybe UInt
         output hash : Maybe UInt
 
-        calculator is calculator in (32, 16) at (0, 0)
-        const_store is const_store in (32, 16) at (0, 0)
+        calculator is calculator in (24, 20) at (0, 0)
+        const_store is const_store in (24, 20) at (0, 0)
 
-        abcd is abcd_store in (32, 16) at (0, 0)
-        fabcd is fabcd_update in (32, 16) at (0, 0)
+        abcd is abcd_store in (24, 20) at (0, 0)
+        fabcd is fabcd_update in (24, 20) at (0, 0)
 
-        msg is message_store in (32, 16) at (0, 0)
+        msg is message_store in (24, 20) at (0, 0)
 
         data->msg.data_in
 
@@ -155,7 +157,7 @@ system in (100, 80) at (2, 2) {
         abcd.in_C<-fabcd.out_C
         abcd.in_D<-fabcd.out_D
 
-        outputter is hash_output in (32, 16) at (0, 0)
+        outputter is hash_output in (24, 20) at (0, 0)
         outputter.a<-fabcd.out_A
         outputter.b<-fabcd.out_B
         outputter.c<-fabcd.out_C
@@ -165,17 +167,17 @@ system in (100, 80) at (2, 2) {
         hash<-outputter.hash_word
     }
 
-    hash4 in (32, 16) at (hash1.x, hash3.y + hash3.h) {
+    hash4 in (24, 20) at (hash3.x, hash3.y + hash3.h) {
         input data : Maybe UInt
         output hash : Maybe UInt
 
-        calculator is calculator in (32, 16) at (0, 0)
-        const_store is const_store in (32, 16) at (0, 0)
+        calculator is calculator in (24, 20) at (0, 0)
+        const_store is const_store in (24, 20) at (0, 0)
 
-        abcd is abcd_store in (32, 16) at (0, 0)
-        fabcd is fabcd_update in (32, 16) at (0, 0)
+        abcd is abcd_store in (24, 20) at (0, 0)
+        fabcd is fabcd_update in (24, 20) at (0, 0)
 
-        msg is message_store in (32, 16) at (0, 0)
+        msg is message_store in (24, 20) at (0, 0)
 
         data->msg.data_in
 
@@ -203,7 +205,7 @@ system in (100, 80) at (2, 2) {
         abcd.in_C<-fabcd.out_C
         abcd.in_D<-fabcd.out_D
 
-        outputter is hash_output in (32, 16) at (0, 0)
+        outputter is hash_output in (24, 20) at (0, 0)
         outputter.a<-fabcd.out_A
         outputter.b<-fabcd.out_B
         outputter.c<-fabcd.out_C

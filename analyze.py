@@ -105,6 +105,9 @@ def rout1_time(logs):
     line = find_first_line(logs.nextpnr, "Router1 time")
     return float(cut(line)[-1][:-1])
 
+def total_time(logs):
+    return synth_time(logs) + heap_time(logs) + sa_time(logs) + rout1_time(logs)
+
 # --- Stat definitions
 
 stats = [
@@ -115,7 +118,8 @@ stats = [
     Statistic("Synthesis time", synth_time, "s", min),
     Statistic("HeAP placer time", heap_time, "s"),
     Statistic("SA placer time", sa_time, "s"),
-    Statistic("Router1 time", rout1_time, "s")
+    Statistic("Router1 time", rout1_time, "s"),
+    Statistic("Total time", total_time, "s")
 ]
 
 # --- Tooling it allemaal together

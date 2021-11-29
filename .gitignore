@@ -9,6 +9,7 @@ pipeline
 constants
 md5
 md5_parallel
+md5_parallel_hierarchic
 pipe
 *.hi
 *.dyn_hi

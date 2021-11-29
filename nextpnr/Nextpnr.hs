@@ -42,6 +42,6 @@ nextpnr lpf options = do
                 then putStrLn "[Ex-PART] nextpnr terminated."
                 else do
                     line <- hGetLine errHandle
-                    -- putStrLn $ "[nextpnr] " ++ line -- TODO: allow filter spec?
+                    putStrLn $ "[nextpnr] " ++ line -- TODO: allow filter spec?
                     appendFile "nextpnr.err" (line ++ "\n")
                     readloop errHandle

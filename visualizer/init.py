@@ -21,7 +21,7 @@ last_load = 0
 pygame.font.init() 
 myfont = pygame.font.SysFont('Courier', 14)
 
-BASE_SS = pygame.display.Info().current_w // 24
+BASE_SS = pygame.display.Info().current_w // 75
 SQUARE_SIZE = BASE_SS
 VIEW = [0, 0]
 ROWS = 96

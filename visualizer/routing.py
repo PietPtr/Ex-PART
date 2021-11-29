@@ -36,7 +36,7 @@ def build_routemap(nets):
         routing_str = value['attributes']['ROUTING']
         parse_routing(routing_str)
 
-    pprint(dict(filter(lambda i: i[1] > 48, pip_counts.items())))
+    # pprint(dict(filter(lambda i: i[1] > 48, pip_counts.items())))
 
 
 def draw_routing(screen):
