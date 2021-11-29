@@ -35,6 +35,7 @@ while True:
     routing.draw_routing(screen)
     grid.draw_tilecolors(screen)
 
+    # TODO: Waarom verdwijnen slices wel maar routing niet wanneer bitstream.json gedelete wordt?
     for s in slice.slices:
         s.draw(screen)
     systems.draw_system_rects(screen, files.locations)

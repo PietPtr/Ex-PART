@@ -1,0 +1,37 @@
+combinatory {
+type Word = Unsigned 16
+}
+
+component const_store() {
+    input i : Unsigned 3
+    output k : Unsigned 8
+    
+    k = store !! i
+
+    store = 89:>201:>34:>235:>13:>248:>5:>253:>Nil
+}
+
+component calculate() {
+    input word : Maybe Word
+    state prev : Maybe Word
+    state ctr : Unsigned 4
+    output hash : Maybe Word
+    output i : Unsigned 3
+    input k : Unsigned 8
+
+    prev' = word
+    ctr' = case word of
+        (Just _) -> ctr + 1
+        Nothing -> 0
+    
+    hash = case word of
+        (Just w) -> w `rotateL` ctr + k + ctr
+        Nothing -> Nothing
+    
+    
+        
+}
+
+component hasher() {
+    -- compounds stream of words to single value, and outputs that on nothing
+}

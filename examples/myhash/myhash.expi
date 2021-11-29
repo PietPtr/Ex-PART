@@ -1,0 +1,26 @@
+system in (26, 26) at (2, 2) {
+    output summed : Unsigned 6
+
+    reg is boundReg in (1,1) at (12, 3)
+    zero is zero in (1,1) at (0, 4)
+
+    repeat drivers at (0, 0) {
+        component = sum_driver in (2, 2),
+        amount = 6,
+        layout = horizontal
+    }
+
+    chain sum_chain at (0, 2) {
+        component = summer in (2, 2),
+        amount = 6,
+        layout = horizontal,
+        chain_in = partial,
+        chain_out = sum
+    }
+
+    sum_chain[1].partial<-(0)
+    sum_chain:next<-drivers:out
+    reg.inp<-sum_chain[6].sum
+    summed<-reg.out
+
+}
