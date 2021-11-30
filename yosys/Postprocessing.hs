@@ -143,7 +143,7 @@ makeConstModules system = case driver of
 
 makeModules :: System -> [Module]
 makeModules system = mod : 
-    (concat $ map (makeModules) (sys_subsystems system))
+    (concat $ map (makeModules) (sys_subsystems' system))
     where
         isTop = sys_istop system
         mod = Module {

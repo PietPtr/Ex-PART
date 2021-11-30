@@ -98,22 +98,29 @@ makeElement elems rep i = element {
             (x:_) -> x
             [] -> error $ "Repeat.hs: Cannot find element " ++ elemName ++ " in source files: " ++ show (map elem_name elems)
 
--- TODO: natuurlijk moet dit voor _ieder_ element, niet alleen voor systems...
+-- TODO: this code is bug-ridden en was written blindly. With this implementation it is very hard to refer to width/height properties of an unplaced system. But I guess we just "can't" now.
 reformElemCoords :: String -> String -> Element -> Element
 reformElemCoords en rn elem = trace (show $ (en, rn, elem_name elem)) elem {
         elem_size = reformCoords' $ elem_size elem,
         elem_coords = reformCoords' $ elem_coords elem,
-        elem_implementation = SubsysImpl $ impl {
-                sys_size = reformCoords' $ sys_size impl,
-                sys_coords = reformCoords' $ sys_coords impl,
-                sys_elems = map (reformElemCoords en rn) (sys_elems impl)
-            }
+        elem_implementation = case elem_implementation elem of
+            (SubsysImpl impl) -> SubsysImpl $ impl {
+                    sys_size = reformCoords' $ sys_size impl,
+                    sys_coords = reformCoords' $ sys_coords impl,
+                    sys_elems = map (reformElemCoords en rn) (sys_elems impl)
+                }
+            (InstanceImpl impl) -> InstanceImpl $ case impl of
+                cmp@CmpInstance{} -> cmp {
+                        cins_size = reformCoords' $ cins_size cmp,
+                        cins_coords = reformCoords' $ cins_coords cmp
+                    }
+                sys@SysInstance{} -> sys {
+                        sins_size = reformCoords' $ sins_size sys,
+                        sins_coords = reformCoords' $ sins_coords sys
+                    }
     }
     where
         reformCoords' = reformCoords en rn
-        impl = case elem_implementation elem of
-            (SubsysImpl system) -> system
-            _ -> error "Repetition.hs: je hebt een fout gemaakt" -- TODO: duh
 
 
 

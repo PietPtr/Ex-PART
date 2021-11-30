@@ -37,7 +37,7 @@ component calculate() {
         (Just _) -> ctr + 1
         Nothing -> 0
     
-    hash = case word of
+    hash = case prev of
         (Just w) -> Just $ w `rotateL` (fromIntegral ctr) * (resize k + resize ctr)
         Nothing -> Nothing
     

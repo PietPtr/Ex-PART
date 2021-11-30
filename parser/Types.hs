@@ -283,6 +283,7 @@ data System = System {
         sys_coords :: Coords,
         sys_iodefs :: [IOStat],
         sys_elems :: [Element],
+        sys_allElems :: [Element], -- including the unplaced ones
         sys_connections :: [Connection'],
         sys_constantDrivers :: [ConstantDriver]
     } deriving (Show)
@@ -290,6 +291,13 @@ data System = System {
 -- fake accessor, saves memory usage i guess, but takes more time, classic trade-off.
 sys_subsystems :: System -> [System]
 sys_subsystems system = mapMaybe toSystem (sys_elems system)
+    where
+        toSystem elem = case elem_implementation elem of
+            (SubsysImpl sys) -> Just sys 
+            _ -> Nothing
+
+sys_subsystems' :: System -> [System]
+sys_subsystems' system = mapMaybe toSystem (sys_allElems system)
     where
         toSystem elem = case elem_implementation elem of
             (SubsysImpl sys) -> Just sys 

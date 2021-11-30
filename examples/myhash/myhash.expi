@@ -1,8 +1,8 @@
-system in (26, 26) at (2, 4) {
+system in (26, 26) at (20, 4) {
     input word : Maybe InWord
     output hash : Maybe MyHash
 
-    inputter is inputter in (14, 1) at (0, 0)
+    inputter is inputter in (10, 1) at (0, 0)
 
     inputter.word<-word
     inputter.hash->calculator[1].in_hash
@@ -11,7 +11,7 @@ system in (26, 26) at (2, 4) {
         input in_hash : Maybe MyHash
         output out_hash : Maybe MyHash
 
-        calc is calculate in (calc_sys.w, calc_sys.h) at (0, 0)
+        calc is calculate in (calculator_1.w, calculator_1.h) at (0, 0)
         store is const_store in (calc.w, calc.h) at (calc.x, calc.y)
 
         calc.word<-in_hash
@@ -21,14 +21,14 @@ system in (26, 26) at (2, 4) {
     }
 
     chain calculator at (inputter.x, inputter.y + inputter.h) {
-        component = calc_sys in (inputter.w, 10),
+        component = calc_sys in (inputter.w, 13),
         amount = 4,
         layout = vertical,
         chain_in = in_hash,
         chain_out = out_hash
     }
 
-    end is hasher in (inputter.w, 3) at (inputter.x, 20)
+    end is hasher in (inputter.w, 3) at (inputter.x, calculator_4.y + calculator_4.h)
     end.partial_hash<-calculator[4].out_hash
     end.final_hash->hash
 }

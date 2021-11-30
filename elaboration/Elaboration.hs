@@ -28,6 +28,7 @@ elaborateSystem design systree = System {
         sys_coords = systr_coords systree,
         sys_iodefs = sysIO,
         sys_elems = elems,
+        sys_allElems = unrolledInstances ++ elemsWithoutReps,
         sys_constantDrivers = systr_constantDrivers systree,
         sys_connections = map (elaborateConnection elems sysIO) $
             systr_connections systree ++ 

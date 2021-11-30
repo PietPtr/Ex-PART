@@ -18,7 +18,9 @@ def draw_tilecolors(screen):
     OFFSET = init.SQUARE_SIZE * 0.2
     for [name, coord, tile_color_str] in tiledata:
         (x, y) = parse_grid_coord(coord)
-        tile_color = (color(tile_color_str))
+        tile_color = contrast(pygame.Color(tile_color_str))
+        if is_grey(tile_color):
+            tile_color = invert(tile_color)
         pygame.draw.rect(screen, tile_color, pygame.Rect(
                 init.view(x * init.SQUARE_SIZE + OFFSET, y * init.SQUARE_SIZE + OFFSET), 
                 (init.SQUARE_SIZE - OFFSET * 2, init.SQUARE_SIZE - OFFSET * 2)

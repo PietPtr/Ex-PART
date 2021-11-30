@@ -64,9 +64,17 @@ def handle_event(event):
     if event.type == pygame.QUIT: sys.exit()
     if event.type == pygame.MOUSEBUTTONDOWN:
         if event.button == 4:
-            SQUARE_SIZE = min(int(SQUARE_SIZE * 1.1), 500)
+            SS_MAX = 500
+            SQUARE_SIZE = min(round(SQUARE_SIZE * 1.1), SS_MAX)
+            if SQUARE_SIZE != SS_MAX:
+                VIEW[0] *= 1.1
+                VIEW[1] *= 1.1
         if event.button == 5:
-            SQUARE_SIZE = max(int(SQUARE_SIZE / 1.1), 10)
+            SS_MIN = 7
+            SQUARE_SIZE = max(round(SQUARE_SIZE / 1.1), SS_MIN)
+            if SQUARE_SIZE != SS_MIN:
+                VIEW[0] /= 1.1
+                VIEW[1] /= 1.1
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_F1:
             color.randomize_colors()

@@ -166,6 +166,7 @@ coords = (,)
 layout_expr_table =
     [ [Infix (symbol "+" >> (return CAdd)) AssocLeft, Infix (symbol "-" *> (pure CSub)) AssocLeft ] ]
 
+-- Allow array indexing, and parse cmp[n] to cmp_n
 layout_expr :: Parser LayoutExpr
 layout_expr = buildExpressionParser layout_expr_table layout_term <?> "layout expression"
 
