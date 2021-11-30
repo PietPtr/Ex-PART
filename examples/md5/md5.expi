@@ -1,14 +1,14 @@
-system in (100, 80) at (2, 2) {
+system in (21, 20) at (2, 2) {
     input data : Maybe UInt
     output hash : Maybe UInt
 
-    calculator is calculator in (32, 16) at (0, 0)
-    const_store is const_store in (32, 16) at (0, 0)
+    calculator is calculator in (10, 10) at (0, 0)
+    const_store is const_store in (10, 15) at (0, 0)
 
-    abcd is abcd_store in (32, 16) at (0, 0)
-    fabcd is fabcd_update in (32, 16) at (0, 0)
+    abcd is abcd_store in (fabcd.w, fabcd.h) at (fabcd.x, fabcd.y)
+    fabcd is fabcd_update in (6, 20) at (const_store.w - 4, 0)
 
-    msg is message_store in (32, 16) at (0, 0)
+    msg is message_store in (const_store.w, const_store.h) at (0, 20 - const_store.h)
 
     data->msg.data_in
 
@@ -36,7 +36,7 @@ system in (100, 80) at (2, 2) {
     abcd.in_C<-fabcd.out_C
     abcd.in_D<-fabcd.out_D
 
-    outputter is hash_output in (32, 16) at (0, 0)
+    outputter is hash_output in (17 - const_store.w, 20) at (const_store.w, 0)
     outputter.a<-fabcd.out_A
     outputter.b<-fabcd.out_B
     outputter.c<-fabcd.out_C

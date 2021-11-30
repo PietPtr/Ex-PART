@@ -28,12 +28,12 @@ system in (100, 80) at (2, 2) {
         output hash : Maybe UInt
 
         calculator is calculator in (hash1.w, hash1.h) at (0, 0)
-        const_store is const_store in (hash1.w, hash1.h) at (0, 0)
+        const_store is const_store in (msg.w + 4, 10) at (8, 0)
 
         abcd is abcd_store in (hash1.w, hash1.h) at (0, 0)
-        fabcd is fabcd_update in (hash1.w, hash1.h) at (0, 0)
+        fabcd is fabcd_update in (hash1.w - msg.w - outputter.w, hash1.h) at (outputter.w, 0)
 
-        msg is message_store in (hash1.w, hash1.h) at (0, 0)
+        msg is message_store in (hash1.w - 12, hash1.h) at (12, 0)
 
         data->msg.data_in
 
@@ -61,7 +61,7 @@ system in (100, 80) at (2, 2) {
         abcd.in_C<-fabcd.out_C
         abcd.in_D<-fabcd.out_D
 
-        outputter is hash_output in (hash1.w, hash1.h) at (0, 0)
+        outputter is hash_output in (5, hash1.h) at (0, 0)
         outputter.a<-fabcd.out_A
         outputter.b<-fabcd.out_B
         outputter.c<-fabcd.out_C
@@ -71,7 +71,13 @@ system in (100, 80) at (2, 2) {
         hash<-outputter.hash_word
     }
 
+    -- square config
+    -- hash2 is hash1 in (hash1.w, hash1.h) at (hash1.x, hash1.y + hash1.h)
+    -- hash3 is hash1 in (hash1.w, hash1.h) at (hash1.x + hash1.w, hash1.y)
+    -- hash4 is hash1 in (hash1.w, hash1.h) at (hash3.x, hash3.y + hash3.h)
+
+    -- line config
     hash2 is hash1 in (hash1.w, hash1.h) at (hash1.x, hash1.y + hash1.h)
-    hash3 is hash1 in (hash1.w, hash1.h) at (hash1.x + hash1.w, hash1.y)
-    hash4 is hash1 in (hash1.w, hash1.h) at (hash3.x, hash3.y + hash3.h)
+    hash3 is hash1 in (hash1.w, hash1.h) at (hash1.x, hash2.y + hash2.h)
+    hash4 is hash1 in (hash1.w, hash1.h) at (hash1.x, hash3.y + hash3.h)
 }

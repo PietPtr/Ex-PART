@@ -30,7 +30,6 @@ symbol      = P.symbol lexer
 
 whiteSpace :: Parser ()
 whiteSpace = P.whiteSpace lexer
--- TODO: combinatory does not preserve leading whitespace, resulting in parse errors for e.g. datadefs and where statements
 
 identifier :: Parser String
 identifier = (:) <$> (letter <|> char '_') <*> many (alphaNum <|> char '_' <|> char '\'')

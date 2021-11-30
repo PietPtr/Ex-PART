@@ -7,7 +7,6 @@ import GHC.IO.Handle
 
 import Data.List
 
--- TODO: stream output to file instead of only writing it on exit...
 nextpnr :: FilePath -> [String] -> IO ()
 nextpnr lpf options = do
     processDef <- pure $ (proc "/usr/share/ex-part/nextpnr/nextpnr-ecp5" $
@@ -42,6 +41,6 @@ nextpnr lpf options = do
                 then putStrLn "[Ex-PART] nextpnr terminated."
                 else do
                     line <- hGetLine errHandle
-                    putStrLn $ "[nextpnr] " ++ line -- TODO: allow filter spec?
+                    putStrLn $ "[nextpnr] " ++ line -- TODO (lowprio): allow filter spec?
                     appendFile "nextpnr.err" (line ++ "\n")
                     readloop errHandle

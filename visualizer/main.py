@@ -34,7 +34,8 @@ while True:
 
     routing.draw_routing(screen)
     grid.draw_tilecolors(screen)
-    # TODO: show endpoints of ports in the visualiser, may or may not need a new JSON? probably inferrable from the bitstream
+    # TODO (feature): show endpoints of ports in the visualiser, may or may not need a new JSON? probably inferrable from the bitstream
+    # TODO (feature): click on unit in legend, and flash its slices. (of dikgedrukt in de legend als je eroverheen hovert?)
 
     for s in slice.slices:
         s.draw(screen)
@@ -45,8 +46,8 @@ while True:
 
     systems.draw_system_labels(screen, files.locations)
     
-    if ("hierarchic" in sys.argv[1]):
-        legend.draw_legend(screen, slice.components)
+    # if ("hierarchic" in sys.argv[1]):
+    legend.draw_legend(screen, slice.components)
     files.draw_file_indicators(screen)
 
 
