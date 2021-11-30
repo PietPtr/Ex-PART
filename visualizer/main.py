@@ -34,8 +34,8 @@ while True:
 
     routing.draw_routing(screen)
     grid.draw_tilecolors(screen)
+    # TODO: show endpoints of ports in the visualiser, may or may not need a new JSON? probably inferrable from the bitstream
 
-    # TODO: Waarom verdwijnen slices wel maar routing niet wanneer bitstream.json gedelete wordt?
     for s in slice.slices:
         s.draw(screen)
     systems.draw_system_rects(screen, files.locations)
