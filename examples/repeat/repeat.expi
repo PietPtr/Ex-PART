@@ -1,10 +1,13 @@
-system in (26, 26) at (3, 2) {
-    output slowResult : Unsigned 4
+system in (26, 26) at (2, 2) {
+    output slowResult1 : Unsigned 4
+    output slowResult2 : Unsigned 4
+    output slowResult3 : Unsigned 4
+    output slowResult4 : Unsigned 4
     output fastResult : Unsigned 4
 
     repeat constEnabled at (0, 0) {
         component = constEnable in (1, 1),
-        amount = 5,
+        amount = 3,
         layout = horizontal
     }
 
@@ -12,30 +15,33 @@ system in (26, 26) at (3, 2) {
 
     repeat counters at (0, 1) {
         component = counter in (1, 2),
-        amount = 5,
+        amount = 3,
         layout = horizontal
     }
     
-    fastResult<-counters[0].out
+    fastResult<-counters[1].out
 
     repeat enablers at (0, 3) {
         component = extractEnable in (1, 1),
-        amount = 5,
+        amount = 3,
         layout = horizontal
     }
 
     counters:out->enablers:number
 
-    repeat slowCounters at (0, enablers_0.y + enablers_0.h) {
+    repeat slowCounters at (0, enablers_1.y + enablers_1.h) {
         component = counter in (1, 2),
-        amount = 6,
+        amount = 4,
         layout = horizontal
     }
 
-    sixthEnabler is constEnable in (1, 1) at (slowCounters_5.x, 2)
+    sixthEnabler is constEnable in (1, 1) at (slowCounters_4.x, slowCounters_4.y - 1)
 
-    enablers:enable->slowCounters[0-4]:enable
-    sixthEnabler.enable->slowCounters[5].enable
-    slowCounters[3].out->slowResult
+    enablers:enable->slowCounters[1-3]:enable
+    sixthEnabler.enable->slowCounters[4].enable
+    slowCounters[1].out->slowResult1
+    slowCounters[2].out->slowResult2
+    slowCounters[3].out->slowResult3
+    slowCounters[4].out->slowResult4
 
 }

@@ -2,12 +2,13 @@
 module Repetition where
 
 import Types
+import Data.Maybe
 import Debug.Trace
 
-unrollRepetition :: RawRepetition -> ([Element] -> [Element])
-unrollRepetition rep = case rep of
-    (RawChain _ _ _) -> (\es -> unrollChain es rep')
-    (RawRepeat _ _ _) -> (\es -> unrollRepeat es rep')
+unrollRepetition :: RawRepetition -> [Component] -> ([Element] -> [Element])
+unrollRepetition rep components = case rep of
+    (RawChain _ _ _) -> (\es -> unrollChain es components rep')
+    (RawRepeat _ _ _) -> (\es -> unrollRepeat es components rep')
     where
         rep' = fitRepetition rep
 
@@ -47,43 +48,52 @@ fitRepetition rep = repetition
             [] -> error "Parse_expi.hs: Missing option `layout` in a repetition statement."
             (x:_) -> x
 
-unrollRepeat :: [Element] -> Repetition -> [Element]
-unrollRepeat elems rep = map (makeElement elems rep) [1..(rep_amount rep)]
+unrollRepeat :: [Element] -> [Component] -> Repetition -> [Element]
+unrollRepeat elems components rep = map (makeElement elems components rep) [1..(rep_amount rep)]
      
 
-makeElement :: [Element] -> Repetition -> Integer -> Element
-makeElement elems rep i = element {
+makeElement :: [Element] -> [Component] -> Repetition -> Integer -> Element
+makeElement elems components rep i = Element {
         elem_unplaced = False,
         elem_name = repname,
-        elem_type = elem_type element,
+        elem_type = reptype,
         elem_size = repsize,
         elem_coords = repcoords,
-        elem_iodefs = elem_iodefs element,
-        elem_implementation = impl'
+        elem_iodefs = repiodefs,
+        elem_implementation = case element of
+            Nothing -> case component of
+                (Just cmp) -> InstanceImpl $ CmpInstance {
+                        cins_name = repname,
+                        cins_size = repsize,
+                        cins_coords = repcoords,
+                        cins_cmp = cmp,
+                        cins_args = []
+                    }
+                -- Nothing -> -- this nothing will have fired by now
+            (Just elem) -> case elem_implementation elem of
+                (InstanceImpl inst) -> case inst of
+                    cmpi@CmpInstance{} -> InstanceImpl $ cmpi {
+                            cins_name = repname,
+                            cins_coords = repcoords,
+                            cins_size = repsize -- sincerely hope that nothing later on uses these instead of just elem_coords...
+                        }
+                    sysi@SysInstance{} -> InstanceImpl $ sysi {
+                            sins_name = repname,
+                            sins_coords = repcoords,
+                            sins_size = repsize
+                        }
+                (SubsysImpl system) -> SubsysImpl $ system {
+                        sys_name = repname,
+                        sys_type = reptype,
+                        sys_size = repsize,
+                        sys_coords = repcoords,
+                        sys_elems = map (reformElemCoords elemName repname) (map toElement $ sys_subsystems system)
+                            ++ map toElement (sys_instances system)
+                    }
     }
     where
         repname = name ++ "_" ++ show i
-        repcoords = makeCoords name layout coords i
-        impl' = case elem_implementation element of
-            (InstanceImpl inst) -> case inst of
-                cmpi@CmpInstance{} -> InstanceImpl $ cmpi {
-                        cins_name = repname,
-                        cins_coords = repcoords,
-                        cins_size = repsize -- sincerely hope that nothing later on uses these instead of just elem_coords...
-                    }
-                sysi@SysInstance{} -> InstanceImpl $ sysi {
-                        sins_name = repname,
-                        sins_coords = repcoords,
-                        sins_size = repsize
-                    }
-            (SubsysImpl system) -> SubsysImpl $ system {
-                    sys_name = repname,
-                    sys_type = elem_type element,
-                    sys_size = repsize,
-                    sys_coords = repcoords,
-                    sys_elems = map (reformElemCoords elemName repname) (map toElement $ sys_subsystems system)
-                        ++ map toElement (sys_instances system)
-                }
+        repcoords = makeCoords name layout coords i                
 
         (elemName, args, repsize) = case unIns of
             (UnplacedInstance name args size) -> (name, args, size)
@@ -95,8 +105,19 @@ makeElement elems rep i = element {
                 (name, coords, unIns, layout)
 
         element = case filter (\e -> (elem_name e) == elemName) elems of
-            (x:_) -> x
-            [] -> error $ "Repeat.hs: Cannot find element " ++ elemName ++ " in source files: " ++ show (map elem_name elems)
+            (x:_) -> Just x
+            [] -> Nothing -- 
+
+        component = case filter (\c -> (cmp_name c) == elemName) components of
+            (x:_) -> Just x
+            [] -> Nothing
+
+        (reptype, repiodefs) = case element of
+            (Just e) -> (elem_type e, elem_iodefs e)
+            Nothing -> case component of
+                (Just c) -> (cmp_name c, catMaybes $ map iso2io $ cmp_isoStats c)
+                Nothing -> error $ "Repetition.hs: Cannot find element " ++ elemName ++ " in source files."
+        
 
 -- TODO: this code is bug-ridden en was written blindly. With this implementation it is very hard to refer to width/height properties of an unplaced system. But I guess we just "can't" now.
 reformElemCoords :: String -> String -> Element -> Element
@@ -158,8 +179,8 @@ allChainConnections :: [Repetition] -> [Connection]
 allChainConnections rawreps = concat $
     map chainConnections ([ x | x@(Chain {}) <- rawreps])
 
-unrollChain :: [Element] -> Repetition -> [Element]
-unrollChain elems chain = map (makeElement elems chain) [1..(chn_amount chain)]
+unrollChain :: [Element] -> [Component] -> Repetition -> [Element]
+unrollChain elems components chain = map (makeElement elems components chain) [1..(chn_amount chain)]
 
 chainConnections :: Repetition -> [Connection]
 chainConnections chain = map makeConnection [1..(chn_amount - 1)]

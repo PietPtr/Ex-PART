@@ -37,7 +37,7 @@ elaborateSystem design systree = System {
     }
     where
         unrolledInstances = concat $ 
-            map (\r -> (unrollRepetition r) elemsWithoutReps) 
+            map (\r -> (unrollRepetition r) (des_cmps design) elemsWithoutReps) 
             (systr_repetitions systree)
         unrolledConnections = concat $ 
             map (unrollMulticonn fittedReps) (systr_multicons systree)
