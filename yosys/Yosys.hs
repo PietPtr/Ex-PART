@@ -15,6 +15,11 @@ import Postprocessing
 synth_ecp5 :: String
 synth_ecp5 = "synth_ecp5 -noccu2 -nomux -nobram -nodram -noflatten -nodsp"
 
+compileToVerilog' :: [String] -> System -> IO ()
+compileToVerilog' cmpNames top = do
+    mapM_ runClash procsAndNames
+    where
+        procsAndNames = zip cmpNames (clashProcesses cmpNames)
 
 compileToVerilog :: System -> IO ()
 compileToVerilog top = do

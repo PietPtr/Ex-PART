@@ -78,6 +78,14 @@ resource system lpfPath outDir = do
     compileToVerilog system
     synthesizeAndPnRIndividualComponents lpfLoc
 
+resource' :: [String] -> System -> FilePath -> FilePath -> IO ()
+resource' components system lpfPath outDir = do
+    lpfLoc <- makeAbsolute lpfPath
+    
+    createDirAndEnter outDir
+    generateClash system
+    compileToVerilog' components system
+    synthesizeAndPnRIndividualComponents' components lpfLoc
 
 location :: System -> FilePath -> IO ()
 location system outDir = do

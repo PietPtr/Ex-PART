@@ -38,6 +38,11 @@ compileToVerilog system = do
     putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
     Yosys.compileToVerilog system
 
+compileToVerilog' :: [String] -> System -> IO ()
+compileToVerilog' cmpNames system = do
+    putStrLn "[Ex-PART] Compiling Clash code of selected components to Verilog..."
+    Yosys.compileToVerilog' cmpNames system
+
 groupVerilogFiles :: System -> IO ()
 groupVerilogFiles top = do
     putStrLn "[Ex-PART] Grouping Verilog files into one file..."
@@ -89,12 +94,18 @@ noConstraintPnR lpfPath = do
     putStrLn "[Ex-PART] Performing place and route without expi constraints..."
     nextpnr lpfPath []
 
-
 synthesizeAndPnRIndividualComponents :: FilePath -> IO ()
 synthesizeAndPnRIndividualComponents lpfLoc = do
     setCurrentDirectory "builds/"
     components' <- listDirectory "."
     let components = filter (\path -> not $ isPrefixOf "." path) components'
+
+    synthesizeAndPnRIndividualComponents' components lpfLoc
+
+
+synthesizeAndPnRIndividualComponents' :: [String] -> FilePath -> IO ()
+synthesizeAndPnRIndividualComponents' components lpfLoc = do
+    setCurrentDirectory "builds/"
     
     -- synthesize every component in builds/
     putStrLn "[Ex-PART] Synthesizing component..."

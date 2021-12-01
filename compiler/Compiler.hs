@@ -165,6 +165,17 @@ resource expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
+resource' :: [String] -> FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+resource' components expcPath expiPath lpfPath outDir = do
+    startDir <- getCurrentDirectory
+
+    design <- parse_both expcPath expiPath
+    system <- pure $ elaborate design
+
+    Flows.resource' components system lpfPath outDir
+
+    setCurrentDirectory startDir
+    putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
 -- TODO: abstract over an IO statement (partial, resource, monolithic, hierarhic)
 location :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
