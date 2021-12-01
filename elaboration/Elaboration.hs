@@ -11,7 +11,6 @@ import Debug.Trace
 elaborate :: Design -> System
 elaborate design = (elaborateSystem design (des_systree design)) {
         sys_topdata = TopData {
-            top_cmbs = des_cmbs design,
             top_defs = des_defs design,
             top_cmps = des_cmps design
         }

@@ -1,9 +1,9 @@
-combinatory {
+haskell {
 
+data State = Alive | Dead deriving (Show, Generic, NFDataX, Eq)
 
 }
 
-data State = Alive | Dead deriving (Show, Generic, NFDataX, Eq)
 
 component wall() {
     output c : State

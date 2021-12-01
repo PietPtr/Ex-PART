@@ -7,33 +7,30 @@ import Types
 
 
 data Statement
-    = CombinatoryStat String
+    = HaskellStat String
     | ComponentStat Component
-    | HaskellDefStat HaskellDef
     deriving Show
 
 -- TODO (lowprio): there seem to be some issues with parsing if the expc file starts with an empty line
-
+-- TODO (lowprio): I don't think comments outside haskell expressions actually work in expc files
 expcdesign :: Parser ExpcDesign
 expcdesign = f <$> many (statement <* ows)
     where
         f :: [Statement] -> ExpcDesign
-        f stats = foldl sorter (ExpcDesign [] [] []) stats
+        f stats = foldl sorter (ExpcDesign [] []) stats
 
         -- later changed to record syntax, but that's just sugar for this stuff so this keeps working...
-        sorter (ExpcDesign defs combs comps) stat = case stat of
-            CombinatoryStat comb -> ExpcDesign defs ((Combinatory comb):combs) comps
-            ComponentStat comp -> ExpcDesign defs combs (comp:comps)
-            HaskellDefStat def -> ExpcDesign (def:defs) combs comps
+        sorter (ExpcDesign combs comps) stat = case stat of
+            HaskellStat comb -> ExpcDesign ((HaskellDef comb):combs) comps
+            ComponentStat comp -> ExpcDesign combs (comp:comps)
 
 statement :: Parser Statement
 statement
-    =   try (CombinatoryStat <$> combinatory)
+    =   try (HaskellStat <$> combinatory)
     <|> (ComponentStat <$> component)
-    <|> (HaskellDefStat <$> (haskell_type_def <|> haskell_data_def))
 
 combinatory :: Parser String
-combinatory = string "combinatory" *> ows *> char '{' *> haskell <* char '}'
+combinatory = string "haskell" *> ows *> char '{' *> haskell <* char '}'
 
 constExpr :: Parser ConstExpr
 constExpr = (Constant <$> integer)

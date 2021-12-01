@@ -53,17 +53,6 @@ ioStatement
 haskell_type :: Parser String
 haskell_type = many1 $ oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '|']
 
-haskell_data :: Parser String
-haskell_data = haskell_type
-
-haskell_type_def :: Parser String
-haskell_type_def = (\a b c d e -> a ++ b ++ c ++ d ++ e) <$>
-    string "type" <*> ows <*> haskell_type <*> string "=" <*> haskell_type
-
-haskell_data_def :: Parser String
-haskell_data_def = (\a b c d e -> a ++ b ++ c ++ d ++ e) <$>
-    string "data" <*> ows <*> haskell_type <*> string "=" <*> haskell_type -- gefeliciteerd data defs moeten nu op 1 lijn
-
 -- TODO (lowprio): Dit is tot nu toe nog niet stuk gegaan, maar haskell op deze manier parsen is best matig
 haskell_stat :: Parser String
 haskell_stat = (many1 $ (oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '\t', '\n', '-', '<', '>', '$', '+', '-', '\'', '=', '|', ':', '*', '`', '!', '?', '.', '&', '/']))

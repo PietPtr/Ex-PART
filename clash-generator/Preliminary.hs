@@ -22,20 +22,19 @@ makeComponentDirs components =
 
 
 -- concat a list of combinatory blocks
-concatCombinatory :: [Combinatory] -> String
+concatCombinatory :: [HaskellDef] -> String
 concatCombinatory blocks 
     = concat 
     $ map unlines 
     -- $ map (map trim) 
     $ map lines 
-    $ map (\(Combinatory code) -> code) blocks 
+    $ map (\(HaskellDef code) -> code) blocks 
 
 -- create a Definitions.hs with all comb blocks and a module def and imports
 genDefs :: TopData -> String
-genDefs (TopData haskellDefs combinatories _) = 
+genDefs (TopData combinatories _) = 
     "module Definitions where\nimport Clash.Prelude\n\n" ++
-    concatCombinatory combinatories ++
-    concat (intersperse "\n" haskellDefs) ++ "\n\n"
+    concatCombinatory combinatories
 genDefs (NotTop) = error "Preliminary.hs: Something went wrong during elaboration, the top system does not have top-data."
 
 writeDefs :: TopData -> IO ()

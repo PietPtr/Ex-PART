@@ -1,4 +1,4 @@
-combinatory {
+haskell {
 type InWord = Unsigned 16
 type MyHash = Unsigned 32
 

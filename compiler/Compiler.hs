@@ -37,7 +37,7 @@ auto expcPath expiPath lpfName outDir = do
 
             let topdata = sys_topdata system
             oldDesign <- parse_expc "build.expc"
-            defsAndTypes <- pure $ (top_defs topdata /= expcdes_defs oldDesign) || (top_cmbs topdata /= expcdes_cmbs oldDesign)
+            defsAndTypes <- pure $ (top_defs topdata /= expcdes_defs oldDesign)
             if (defsAndTypes)
                 then do
                     -- A bit overkill to go clean when the defs/combinatory change, but otherwise _very_ hard to find

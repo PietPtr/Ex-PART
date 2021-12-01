@@ -137,13 +137,11 @@ typeToBitwidth t = case t of
 -- Easy to parse to.
 data ExpcDesign = ExpcDesign {
         expcdes_defs :: [HaskellDef],
-        expcdes_cmbs :: [Combinatory],
         expcdes_cmps :: [Component]
     } deriving (Show)
 
 data Design = Design {
         des_defs :: [HaskellDef],
-        des_cmbs :: [Combinatory],
         des_cmps :: [Component],
         des_systree :: SystemTree
     } deriving (Show)
@@ -164,10 +162,8 @@ data SystemTree = SystemTree {
     } deriving (Show)
 
 
-data Combinatory = Combinatory String
+data HaskellDef = HaskellDef String
     deriving (Show, Eq)
-
-type HaskellDef = String
 
 data Component = Component {
         cmp_name :: String,
@@ -368,7 +364,6 @@ instance IsElement System where
 data TopData
     = TopData {
         top_defs :: [HaskellDef],
-        top_cmbs :: [Combinatory],
         top_cmps :: [Component]}
     | NotTop
     deriving Show

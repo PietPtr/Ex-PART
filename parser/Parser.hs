@@ -27,7 +27,6 @@ parse_expi expc file = do
     guard (isRight parsed)
     return Design {
             des_defs = expcdes_defs expc,
-            des_cmbs = expcdes_cmbs expc,
             des_cmps = expcdes_cmps expc,
             des_systree = fromRight undefined parsed
         }

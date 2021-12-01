@@ -45,6 +45,7 @@ compileFullToVerilog = do
         ExitSuccess -> pure ()
 
 -- TODO (lowprio): Reorganise: Yosys.hs executes Clash, should be in clash/ somewhere.
+-- TODO (lowprio): this pattern of process execution is repeated very often, and is contains the much output -> long runtime bug, build one generic version which streams such as nextpnr
 runClash :: (String, CreateProcess) -> IO ()
 runClash (cmpName, clash) = do
     putStrLn $ "        | ...of component " ++ cmpName

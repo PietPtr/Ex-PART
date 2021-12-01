@@ -1,8 +1,8 @@
-combinatory {
-
-}
+haskell {
 
 type Bitwidth = Unsigned 16
+}
+
 
 component compute() {
     input inp : Bitwidth

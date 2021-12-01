@@ -1,4 +1,4 @@
-combinatory {
+haskell {
 
 import Data.List as L
 
@@ -33,10 +33,11 @@ data DataCtrState = Ready | LoadingData (Unsigned 2) deriving (Show, Generic, NF
 
 -- mapM_ print $ L.take 110 $ L.zip [0..] $ simulate @System system $ [Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Just 1,Nothing,Nothing,Just 2,Just 3,Just 4, Nothing, Nothing, Nothing, Nothing, Nothing, Just 1, Just 2, Just 3, Just 4, Nothing, Just 1, Nothing, Just 2, Nothing, Just 3, Nothing, Just 4, Nothing, Just 1, Just 2, Just 3, Just 4] L.++ L.repeat Nothing
 
-}
-
 type UInt = Unsigned 32
 type Hash = (UInt, UInt, UInt, UInt)
+
+}
+
 
 
 component const_store() {
