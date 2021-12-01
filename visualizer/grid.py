@@ -31,21 +31,28 @@ def draw_ranges(screen):
     global x_range
     global y_range
 
-    x = 0
-    for coord in init.x_range:
-        if init.SQUARE_SIZE > 15:
-            text = init.myfont.render(str(coord), True, (80, 80, 80))
-            screen.blit(text, 
-                init.view(x * init.SQUARE_SIZE + init.SQUARE_SIZE - text.get_width(), 0))
-            x += 1
+    if init.SQUARE_SIZE > 15:
+        W = 14
+        (vx, vy) = init.view(-W, -W)
+        pygame.draw.rect(screen, 0xffffff, pygame.Rect(max(0, vx), max(0, vy), init.SQUARE_SIZE * init.COLS, W))
+        pygame.draw.rect(screen, 0xffffff, pygame.Rect(max(0, vx), max(0, vy), W, init.SQUARE_SIZE * init.COLS))
 
-    y = 0
-    for coord in init.y_range:
-        if init.SQUARE_SIZE > 15:
-            text = init.myfont.render(str(coord), True, (80, 80, 80))    
-            screen.blit(text, 
-                init.view(0, y * init.SQUARE_SIZE + init.SQUARE_SIZE - text.get_height()))
-            y += 1
+
+        x = 0
+        for coord in init.x_range:
+                text = init.myfont.render(str(coord), True, (80, 80, 80))
+                (vx, vy) = init.view(x * init.SQUARE_SIZE + init.SQUARE_SIZE - text.get_width(), -W)
+                screen.blit(text, (vx, max(vy, 0)))
+                x += 1
+
+
+        y = 0
+        for coord in init.y_range:
+                text = init.myfont.render(str(coord), True, (80, 80, 80))    
+                (vx, vy) = init.view(-W, y * init.SQUARE_SIZE + init.SQUARE_SIZE - text.get_height())
+                screen.blit(text, (max(vx, 0), vy))
+                    
+                y += 1
 
 def draw_grid(screen):
     for x in range(init.COLS + 1):

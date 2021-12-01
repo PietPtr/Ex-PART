@@ -46,7 +46,6 @@ while True:
 
     systems.draw_system_labels(screen, files.locations)
     
-    # if ("hierarchic" in sys.argv[1]):
     legend.draw_legend(screen, slice.components)
     files.draw_file_indicators(screen)
 
