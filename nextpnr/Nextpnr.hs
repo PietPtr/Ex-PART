@@ -19,6 +19,7 @@ nextpnr lpf options = do
          {std_out=CreatePipe, std_err=CreatePipe}
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess processDef
     stdout <- hGetContents outHandle
+    writeFile "nextpnr.err" "" -- Clear file if exists
     readloop errHandle
     code <- waitForProcess processHandle
     writeFile ("nextpnr.log") stdout

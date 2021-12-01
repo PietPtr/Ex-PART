@@ -8,7 +8,9 @@ import qualified Flows
 import Elaboration
 
 import System.Directory
-
+import Control.Monad
+import Control.Concurrent
+import System.FilePath
 
 
 auto :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
@@ -107,10 +109,22 @@ auto expcPath expiPath lpfName outDir = do
 clean :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 clean expcPath expiPath lpfName outDir = do
     exists <- doesPathExist outDir
-    if exists
-        then removeDirectoryRecursive outDir
-        else pure ()
+    when exists $ do
+        mapM_ removeDirectoryRecursiveIfExists dirs
+        files <- listDirectory outDir
+        mapM_ removeFile (deleteFiles files)
+
     auto expcPath expiPath lpfName outDir
+    where
+        extensions = [".json", ".config", ".expc", ".expi", ".hs", ".err", ".log"]
+        dirs = map (\f -> outDir ++ "/" ++ f) [".hs", "builds"]
+        deleteFiles files = map (\f -> outDir ++ "/" ++ f) $
+            filter (\f -> snd (splitExtension f) `elem` extensions) files
+
+        removeDirectoryRecursiveIfExists :: FilePath -> IO ()
+        removeDirectoryRecursiveIfExists path = do
+            exists <- doesPathExist path
+            when exists (removeDirectoryRecursive path)
 
 
 monolithic :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
