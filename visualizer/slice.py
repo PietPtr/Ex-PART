@@ -46,13 +46,13 @@ def build_slices(cells):
     slices = []
 
     for cellname, data in cells.items():
-        cmp_name = ".".join(cellname.split(".")[:-1])
-        if cmp_name != "":
+        cmp_type = ".".join(cellname.split(".")[:-1])
+        if cmp_type != "":
             belstr = data['attributes']['NEXTPNR_BEL']
             bel = parse_nextpnr_bel(belstr)
 
             new_slice = Slice(
-                cmp_name,
+                cmp_type,
                 bel['x'],
                 bel['y'],
                 bel['letter'],

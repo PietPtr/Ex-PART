@@ -140,13 +140,13 @@ cmp_instance components = transform <$> tupleParser
                 }
             (Left sysName) -> SysInstance {
                     sins_name = name,
-                    sins_sysname = sysName,
+                    sins_systype = sysName,
                     sins_size = size,
                     sins_coords = coords
                 }
 
         findCmp :: String -> Either String Component
-        findCmp name = case filter (\c -> name == cmp_name c) components of
+        findCmp name = case filter (\c -> name == cmp_type c) components of
             (x:_) -> Right x
             _ -> Left name
 

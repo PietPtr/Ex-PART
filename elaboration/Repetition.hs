@@ -108,14 +108,14 @@ makeElement elems components rep i = Element {
             (x:_) -> Just x
             [] -> Nothing -- 
 
-        component = case filter (\c -> (cmp_name c) == elemName) components of
+        component = case filter (\c -> (cmp_type c) == elemName) components of
             (x:_) -> Just x
             [] -> Nothing
 
         (reptype, repiodefs) = case element of
             (Just e) -> (elem_type e, elem_iodefs e)
             Nothing -> case component of
-                (Just c) -> (cmp_name c, catMaybes $ map iso2io $ cmp_isoStats c)
+                (Just c) -> (cmp_type c, catMaybes $ map iso2io $ cmp_isoStats c)
                 Nothing -> error $ "Repetition.hs: Cannot find element " ++ elemName ++ " in source files."
         
 

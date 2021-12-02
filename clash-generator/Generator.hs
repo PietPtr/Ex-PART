@@ -10,7 +10,7 @@ generateComponent cmp = writeFile
     ("builds/" ++ name ++ "/Synth_" ++ name ++ ".hs") 
     (toClash cmp) 
     where
-        name = cmp_name cmp
+        name = cmp_type cmp
 
 -- TODO (lowprio): Een het idee is een system met topdata top te noemen, twee opties:
 --      1: maak een apart TopSystem type

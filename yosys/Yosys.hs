@@ -25,7 +25,7 @@ compileToVerilog :: System -> IO ()
 compileToVerilog top = do
     mapM_ runClash procsAndNames
     where
-        cmpNames = map cmp_name (top_cmps $ sys_topdata top)
+        cmpNames = map cmp_type (top_cmps $ sys_topdata top)
         procsAndNames = zip cmpNames (clashProcesses cmpNames)
 
 -- assumes clash has been generated
@@ -75,7 +75,7 @@ groupVerilogs top = do
     mapM_ (readAndAppend) (cmpNames)
     appendFile ("builds/.grouped/grouped.v") (dummyTop components)
     where
-        cmpNames = map cmp_name components
+        cmpNames = map cmp_type components
         components = top_cmps $ sys_topdata top
 
 synthesizeTop :: IO ()

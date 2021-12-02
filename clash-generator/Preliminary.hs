@@ -18,7 +18,7 @@ makeComponentDirs :: [Component] -> IO ()
 makeComponentDirs components = 
     mapM_ (\compName -> createDirectoryIfMissing True $ "builds/" ++ compName ++ "/") compNames
     where
-        compNames = map cmp_name components
+        compNames = map cmp_type components
 
 
 -- concat a list of combinatory blocks

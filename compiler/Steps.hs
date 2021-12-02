@@ -58,10 +58,16 @@ connectComponents top = do
     putStrLn "[Ex-PART] Connecting synthesized JSON according to expi file..."
     customConnect top
 
+constrainedNextpnr :: FilePath -> IO ()
+constrainedNextpnr lpfLoc = do
+    putStrLn "[Ex-PART] Performing place and route using expi constraints..."
+    nextpnr lpfLoc ["--pre-place", "/usr/share/ex-part/nextpnr/constrainer.py"]
+
+
 removeDeleted :: [Component] -> IO ()
 removeDeleted deleted = do
     putStrLn "[Ex-PART] Removing deleted components..."
-    mapM_ (\c -> removeDirectoryRecursive $ "builds/" ++ cmp_name c) deleted
+    mapM_ (\c -> removeDirectoryRecursive $ "builds/" ++ cmp_type c) deleted
 
 
 flattenMonolithic :: System -> IO ()

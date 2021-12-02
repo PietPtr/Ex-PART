@@ -166,7 +166,7 @@ data HaskellDef = HaskellDef String
     deriving (Show, Eq)
 
 data Component = Component {
-        cmp_name :: String,
+        cmp_type :: String,
         cmp_args :: [Argument],
         cmp_isoStats :: [ISOStat],
         cmp_where :: WhereBlock
@@ -181,7 +181,7 @@ data Instance
         cins_coords :: Coords} 
     | SysInstance {
         sins_name :: String,
-        sins_sysname :: String,
+        sins_systype :: String,
         sins_size :: Size,
         sins_coords :: Coords
     } deriving (Show, Eq)
@@ -338,7 +338,7 @@ instance IsElement Instance where
     toElement inst@CmpInstance{..} = Element {
             elem_unplaced = False,
             elem_name = cins_name,
-            elem_type = cmp_name $ cins_cmp,
+            elem_type = cmp_type $ cins_cmp,
             elem_size = cins_size,
             elem_coords = cins_coords,
             elem_iodefs = catMaybes $ map iso2io (cmp_isoStats cins_cmp),
@@ -375,4 +375,4 @@ data Connection'
 
 constPrefix = "$const_"
 
--- TODO (feature): een standaard library van mealy machines zou niet misstaan
+-- TODO (lowprio): een standaard library van mealy machines zou niet misstaan

@@ -103,7 +103,7 @@ instanceWhereStatement :: [Connection'] -> [ConstantDriver] -> Instance -> Strin
 instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "M")
     where
         component = cins_cmp inst
-        cmpName = cmp_name component
+        cmpName = cmp_type component
         name = cins_name inst
         ins = map findConn $ inputs $ cmp_isoStats component
         outs = map (\(SOutput portName _) -> name ++ "_" ++ portName)
@@ -187,14 +187,14 @@ usedComponentNames system =
     (unions $ map usedComponentNames (sys_subsystems system))
     where
         component_name elem = case elem_implementation elem of
-            (InstanceImpl inst) -> Just $ cmp_name $ cins_cmp inst
+            (InstanceImpl inst) -> Just $ cmp_type $ cins_cmp inst
             _ -> Nothing
 
 genComponentClash :: Set String -> [Component] -> String
 genComponentClash used comps = intercalate "\n" $ 
     (map toClash usedComps) ++ (map createMealy usedComps)
     where
-        usedComps = filter (\c -> cmp_name c `elem` used) comps
+        usedComps = filter (\c -> cmp_type c `elem` used) comps
         toClash cmp = intercalate "\n" $ 
             [ createTypeSignature cmp
             , createEquation cmp

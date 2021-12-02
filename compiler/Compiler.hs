@@ -6,6 +6,7 @@ import Yosys
 import Nextpnr
 import qualified Flows
 import Elaboration
+import qualified Steps
 
 import System.Directory
 import Control.Monad
@@ -73,8 +74,7 @@ auto expcPath expiPath lpfName outDir = do
             putStrLn "[Ex-PART] Combining JSONs..."
             combineJSONs outDir
 
-            putStrLn "[Ex-PART] Performing place and route using expi constraints..."
-            nextpnr lpfLoc ["--pre-place", "/usr/share/ex-part/nextpnr/constrainer.py"]
+            Steps.constrainedNextpnr lpfLoc
 
             setCurrentDirectory startDir
 
@@ -94,16 +94,16 @@ auto expcPath expiPath lpfName outDir = do
                 Just c' -> c' : (changedComponents news olds)
                 Nothing -> changedComponents news olds
             where
-                other = case [c' | c'@Component {cmp_name=name} <- news, name == cmp_name c] of
+                other = case [c' | c'@Component {cmp_type=name} <- news, name == cmp_type c] of
                     [c'] -> if c' /= c then Just c' else Nothing
                     [] -> Nothing
                     _ -> error "Compiler.hs: How can there be several components with the same name?"
         
         deletedComponents :: [Component] -> [Component] -> [Component]
-        deletedComponents news olds = [ c | c <- olds, not ((cmp_name c) `elem` (map cmp_name news)) ]
+        deletedComponents news olds = [ c | c <- olds, not ((cmp_type c) `elem` (map cmp_type news)) ]
             
         newComponents :: [Component] -> [Component] -> [Component]
-        newComponents news olds = [ c | c <- news, not ((cmp_name c) `elem` (map cmp_name olds)) ]
+        newComponents news olds = [ c | c <- news, not ((cmp_type c) `elem` (map cmp_type olds)) ]
 
 
 clean :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
@@ -204,10 +204,20 @@ sim expcPath expiPath lpfPath outDir = do
     putStrLn $ "[Ex-PART] Finished flattening the design for simulation"
 
 -- TODO: nextpnr only flow
+pnr :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+pnr expcPath expiPath lpfPath outDir = do
+    startDir <- getCurrentDirectory
+    lpfLoc <- makeAbsolute lpfPath
+
+    Flows.pnr outDir lpfLoc
+
+    setCurrentDirectory startDir
+    putStrLn $ "[Ex-PART] Finished running nextpnr"
 
 type Flow = (FilePath -> FilePath -> FilePath -> String -> IO ())
 
 -- Easy helper function for consistently named projects
+-- TODO (lowprio): There exists some function to execute an IO action within a directory, and even if it fails it returns to the original directory. Use that instead of setCurrentDirectory.
 make :: Flow -> String -> IO ()
 make flow prj = do
     let path = "examples/" ++ prj ++ "/" ++ prj

@@ -81,7 +81,7 @@ findSubsysDef systrees inst = case sys of
             (x:_) -> Just x
             _ -> Nothing
 
-        sysType = sins_sysname
+        sysType = sins_systype
         name = sins_name
 
         SysInstance{..} = inst

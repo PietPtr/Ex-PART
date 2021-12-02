@@ -34,12 +34,12 @@ dummyTop components = moduleDef ++ inputstr ++ ",\n" ++ outputstr ++ "\n    );\n
             \    input en,\n"
 
         allCompInputs = concat $ 
-            map (\cmp -> map (\i -> (cmp_name cmp, i)) (inputs $ cmp_isoStats cmp)) components
+            map (\cmp -> map (\i -> (cmp_type cmp, i)) (inputs $ cmp_isoStats cmp)) components
         inputstr = intercalate ",\n" $
             map (verilogLine "input") allCompInputs
             
         allCompOutputs = concat $
-            map (\cmp -> map (\o -> (cmp_name cmp, o)) (outputs $ cmp_isoStats cmp)) components
+            map (\cmp -> map (\o -> (cmp_type cmp, o)) (outputs $ cmp_isoStats cmp)) components
         outputstr = intercalate ",\n" $
             map (verilogLine "output") allCompOutputs
 
@@ -73,7 +73,7 @@ instantiationLine cmp = if (length outs > 0)
         outputName (SOutput out_name _) = name ++ "_output_" ++ out_name
         outputName x = error $ "Preprocessing.hs: Not an output: " ++ show x
 
-        name = cmp_name cmp
+        name = cmp_type cmp
 
 
             

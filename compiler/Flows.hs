@@ -99,3 +99,9 @@ sim system outDir = do
 
     generateClash system
     flattenForSim system
+
+pnr :: FilePath -> FilePath -> IO ()
+pnr outDir lpfLoc = do
+    setCurrentDirectory outDir
+
+    constrainedNextpnr lpfLoc

@@ -14,9 +14,9 @@ def draw_legend(screen, component_names):
     v_space = 6
     h_space = 42
     surfaces = []
-    for cmp_name in component_names:
-        text = init.myfont.render(init.cell_name_to_json_path(cmp_name), True, (80, 80, 80))
-        surfaces.append((text, cmp_name))
+    for cmp_type in component_names:
+        text = init.myfont.render(init.cell_name_to_json_path(cmp_type), True, (80, 80, 80))
+        surfaces.append((text, cmp_type))
         if text.get_width() > width:
             width = text.get_width()
         height += text.get_height() + v_space
