@@ -6,6 +6,7 @@ import json
 import time
 import os
 import routing
+import connections
 
 last_load_pnr = 0
 last_load_loc = 0
@@ -39,6 +40,8 @@ def try_load_pnr():
             try:
                 slice.build_slices(pnr["modules"]["top"]["cells"])
                 routing.build_routemap(pnr["modules"]["top"]["netnames"])
+                if init.RENDER_COMPONENT_IO:
+                    connections.build_connections(pnr["modules"]["top"]["cells"])
             except KeyError:
                 print("Bitstream not in correct format.")
 

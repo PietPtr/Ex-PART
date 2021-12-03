@@ -85,6 +85,7 @@ resource' components system lpfPath outDir = do
     createDirAndEnter outDir
     generateClash system
     compileToVerilog' components system
+    setCurrentDirectory "builds/"
     synthesizeAndPnRIndividualComponents' components lpfLoc
 
 location :: System -> FilePath -> IO ()

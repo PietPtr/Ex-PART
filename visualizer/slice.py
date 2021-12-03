@@ -36,7 +36,8 @@ def parse_nextpnr_bel(belstr):
     components = belstr.split("/")
     res['x'] = int(components[0][1:])
     res['y'] = int(components[1][1:])
-    res['letter'] = components[2][-1]
+    res['letter'] = components[2][-1] # if components[2].startswith("SLICE") else ""
+        
     return res
 
 def build_slices(cells):

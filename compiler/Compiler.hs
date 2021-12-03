@@ -177,7 +177,7 @@ resource' components expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
--- TODO: abstract over an IO statement (partial, resource, monolithic, hierarhic)
+-- TODO (lowprio): abstract over an IO statement (partial, resource, monolithic, hierarhic)
 location :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 location expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
@@ -203,7 +203,6 @@ sim expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished flattening the design for simulation"
 
--- TODO: nextpnr only flow
 pnr :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
 pnr expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory

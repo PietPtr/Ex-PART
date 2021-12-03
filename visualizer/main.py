@@ -10,6 +10,7 @@ import legend
 import systems
 import grid
 import routing
+import connections
 
 screen = pygame.display.set_mode(size)
 
@@ -45,6 +46,8 @@ while True:
     grid.draw_ranges(screen)
 
     systems.draw_system_labels(screen, files.locations)
+
+    connections.draw_connections(screen)
     
     legend.draw_legend(screen, slice.components)
     files.draw_file_indicators(screen)

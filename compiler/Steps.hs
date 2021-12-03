@@ -33,6 +33,7 @@ flattenForSim system = do
     putStrLn $ "[Ex-PART] Flattening design for Clash simulation..."
     flatten False system
 
+-- TODO (lowprio): Compilation to verilog can be done in parallel: spin up as many processes as cores available.
 compileToVerilog :: System -> IO ()
 compileToVerilog system = do
     putStrLn "[Ex-PART] Compiling Clash code to Verilog..."
@@ -111,7 +112,6 @@ synthesizeAndPnRIndividualComponents lpfLoc = do
 
 synthesizeAndPnRIndividualComponents' :: [String] -> FilePath -> IO ()
 synthesizeAndPnRIndividualComponents' components lpfLoc = do
-    setCurrentDirectory "builds/"
     
     -- synthesize every component in builds/
     putStrLn "[Ex-PART] Synthesizing component..."

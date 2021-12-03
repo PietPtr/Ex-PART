@@ -26,6 +26,9 @@ SQUARE_SIZE = BASE_SS
 VIEW = [0, 0]
 ROWS = 96
 COLS = 127
+RENDER_COMPONENT_IO = True
+RENDER_COMPONENT_IO_WITH_LINES = True
+RENDER_COMPONENT_IO_WITH_GLOBAL_IO = False
 
 
 def cell_name_to_json_path(cell_name):

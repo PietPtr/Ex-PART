@@ -32,7 +32,7 @@ def parse_routing(routing_str):
             # TODO: check if we're not missing something
 
 def build_routemap(nets):
-    print("rebuilding routemap")
+    print("Building routemap...")
     global pip_counts
     pip_counts = {}
     for (net, value) in nets.items():

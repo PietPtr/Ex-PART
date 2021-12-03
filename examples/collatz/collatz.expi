@@ -10,7 +10,7 @@ system in (6, 6) at (2, 2) {
     controller.set_val<-setting
     controller.result_value->result
 
-    collatzer in (controller.w, 4) at (0, controller.h) {
+    collatzer in (controller.w, 4) at (0, controller.h + 10) {
         input val_in : Value
         output val_out : Value
 
