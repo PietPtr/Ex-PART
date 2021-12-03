@@ -1,0 +1,153 @@
+haskell {
+
+(>>>) :: Bits a => a -> Int -> a
+(>>>) = shiftR
+
+(<<<) :: Bits a => a -> Int -> a
+(<<<) = shiftL
+
+type Int8 = Unsigned 8
+type PC = Unsigned 5
+
+type InstructionWord = Unsigned 8
+
+type RegID = Unsigned 2
+type Immediate = Unsigned 5
+
+data Instruction
+    = ReadFIFO RegID
+    | WriteFIFO RegID
+    | Add RegID RegID RegID
+    | Move RegID RegID
+    | Branch RegID RegID
+    | LoadImm RegID Immediate
+    deriving (Show, Generic, NFDataX)
+
+nop = Move 0 0
+
+data FIFOCommand
+    = Write Int8
+    | Read
+    deriving (Show, Generic, NFDataX)
+
+type ReadRegs = (RegID, RegID)
+type WriteReg = Maybe (Int8, RegID)
+type RegisterFile = Vec 3 Int8
+
+decode :: InstructionWord -> Instruction
+decode word = if (bit 7)
+    then LoadImm immreg imm
+    else if not (bit 6)
+        then Add reg45 reg23 reg01
+        else if (bit 5)
+            then if bit 4
+                then WriteFIFO reg23
+                else ReadFIFO reg23
+            else if bit 4
+                then Branch reg01 reg23
+                else Move reg01 reg23
+    where
+        bit = testBit word
+        -- the .&. is probably unnecessary due to the resize
+        imm = resize $ word .&. 0b11111
+        immreg = resize $ (word >>> 5) .&. 0b11
+        reg01 = resize $ word .&. 0b11
+        reg23 = resize $ (word >>> 2) .&. 0b11
+        reg45 = resize $ (word >>> 4) .&. 0b11
+
+encode :: Instruction -> InstructionWord
+encode instr = case instr of
+    ReadFIFO id ->
+        0b0110_0000 .|. (resize id <<< 2)
+    WriteFIFO id -> 
+        0b0111_0000 .|. (resize id <<< 2)
+    Add left right dest -> 
+        0b0000_0000 .|. (resize left <<< 4) .|. (resize right <<< 2) .|. (resize dest)
+    Move from to -> 
+        0b0100_0000 .|. (resize from <<< 2) .|. (resize to)
+    Branch cond addr -> 
+        0b0101_0000 .|. (resize cond <<< 2) .|. (resize addr)
+    LoadImm reg imm -> 
+        0b1000_0000 .|. (resize reg <<< 5) .|. (resize imm)
+
+empty_regs :: RegisterFile
+empty_regs = 1:>2:>3:>Nil
+
+}
+
+component datapath() {
+    input instr_word : InstructionWord
+    input reg_a : Int8
+    input reg_b : Int8
+
+    state delay = 0 : InstructionWord
+
+    output read_ids : ReadRegs
+    output update_regs : WriteReg
+
+    output fifo_cmd : FIFOCommand
+    output update_pc : Maybe PC
+
+    instr_out = instruction
+
+    instruction = decode instr_word
+    delay' = instr_word
+
+    read_ids = case instruction of
+        (ReadFIFO _) -> (0, 0)
+        (WriteFIFO reg) -> (0, reg)
+        (Add left right _) -> (left, right)
+        (Move from _) -> (from, 0)
+        (Branch cond _) -> (cond, 0)
+        (LoadImm _ _) -> (0, 0)
+
+    delayed_instr = decode delay
+
+    update_regs = case instruction of
+        (ReadFIFO _) -> Nothing -- TODO dit moet natuuk wel ergens ooit
+        (WriteFIFO _) -> Nothing
+        (Add _ _ dest) -> Just (reg_a + reg_b, dest)
+        (Move _ to) -> Just (reg_a, to)
+        (Branch _ _) -> Nothing
+        (LoadImm reg imm) -> Just (resize imm, reg)
+
+    update_pc = case delayed_instr of
+        (Branch _ _) -> if reg_a == 0
+            then Just $ resize reg_b
+            else Nothing
+        _ -> Nothing
+
+    fifo_cmd = case instruction of
+        (ReadFIFO _) -> Read
+        (WriteFIFO _) -> WriteFIFO reg_b
+
+    -- TODO: Bouw het program memory eerst maar
+    -- TODO: bouw een FIFO component, zorg ervoor dat de nieuwste read waarde altijd combinatorially leesbaar is, en dat dan de volgende cycle de volgende opgehaald wordt of zo
+
+}
+
+component registers() {
+    input read_ids : ReadRegs
+    input write : WriteReg
+
+    state regs = empty_regs : RegisterFile
+
+    output reg_a : Int8
+    output reg_b : Int8
+
+    regs' =
+        case write of
+            Just (value, regid) -> if regid == 0
+                then regs
+                else replace (regid - 1) value regs
+            Nothing -> regs
+
+    (reg_a_id, reg_b_id) = read_ids
+
+    reg_a = if reg_a_id == 0
+        then 0
+        else regs !! (reg_a_id - 1)
+    reg_b = if reg_b_id == 0
+        then 0
+        else regs !! (reg_b_id - 1)
+}

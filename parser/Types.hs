@@ -128,6 +128,15 @@ typeToBitwidth t = case t of
         "DataCtrState" -> 3
         "MD5State" -> 7
         "InWord" -> 16
+        "Int8" -> 8
+        "PC" -> 5
+        "InstructionWord" -> 8
+        "RegID" -> 2
+        "Immediate" -> 5
+        "Instruction" -> 10
+        "ReadRegs" -> 4
+        "WriteReg" -> 11
+        "RegsiterFile" -> 24
         ('M':'a':'y':'b':'e':' ':x) -> typeToBitwidth x + 1
         other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other
 

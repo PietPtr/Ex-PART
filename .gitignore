@@ -19,3 +19,4 @@ pipe
 *.dyn_o
 __pycache__/
 *.bak
+core

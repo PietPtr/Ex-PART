@@ -1,0 +1,22 @@
+system in (6, 6) at (2, 2) {
+    input instr : InstructionWord
+    -- output reg_a : Int8
+    -- output reg_b : Int8
+    -- output instrout : Instruction
+    output write_instr : WriteReg
+    output fifo_cmd : FIFOCommand
+
+    instr->datapath.instr_word
+    datapath.fifo_cmd->fifo_cmd
+    datapath.update_regs->write_instr
+
+    regfile is registers in (5, 5) at (0, 0)
+    datapath is datapath in (5, 5) at (0, 0)
+
+    datapath.reg_a<-regfile.reg_a
+    datapath.reg_b<-regfile.reg_b
+
+    regfile.read_ids<-datapath.read_ids
+    regfile.write<-datapath.update_regs
+
+}

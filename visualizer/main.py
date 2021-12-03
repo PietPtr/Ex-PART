@@ -35,8 +35,7 @@ while True:
 
     routing.draw_routing(screen)
     grid.draw_tilecolors(screen)
-   # TODO (feature): click on unit in legend, and flash its slices. (of dikgedrukt in de legend als je eroverheen hovert?)
-
+   
     for s in slice.slices:
         s.draw(screen)
     systems.draw_system_rects(screen, files.locations)
@@ -52,7 +51,7 @@ while True:
     files.draw_file_indicators(screen)
 
 
-    # TODO (feature): if in een build mapje, allow met pijltjestoetsen te switchen tussen componenten
+    # TODO (lowprio): if in een build mapje, allow met pijltjestoetsen te switchen tussen componenten
 
     pygame.display.flip()
     time.sleep(16 / 1000)
