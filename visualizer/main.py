@@ -31,12 +31,11 @@ while True:
     """
     Drawing
     """
-    screen.fill((221, 231, 251))
+    start_frame(screen)
 
     routing.draw_routing(screen)
     grid.draw_tilecolors(screen)
-    # TODO (feature): show endpoints of ports in the visualiser, may or may not need a new JSON? probably inferrable from the bitstream
-    # TODO (feature): click on unit in legend, and flash its slices. (of dikgedrukt in de legend als je eroverheen hovert?)
+   # TODO (feature): click on unit in legend, and flash its slices. (of dikgedrukt in de legend als je eroverheen hovert?)
 
     for s in slice.slices:
         s.draw(screen)

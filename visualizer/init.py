@@ -26,9 +26,11 @@ SQUARE_SIZE = BASE_SS
 VIEW = [0, 0]
 ROWS = 96
 COLS = 127
-RENDER_COMPONENT_IO = True
+RENDER_COMPONENT_IO = False
 RENDER_COMPONENT_IO_WITH_LINES = True
 RENDER_COMPONENT_IO_WITH_GLOBAL_IO = False
+MOUSE_TILE = (0, 0)
+OVER_COMPONENT = None
 
 
 def cell_name_to_json_path(cell_name):
@@ -61,6 +63,7 @@ def view(x, y):
 
 def handle_event(event):
     global SQUARE_SIZE
+    global MOUSE_TILE
     global width, x_range
     global height, y_range
     global relative_coords
@@ -91,8 +94,14 @@ def handle_event(event):
         width = event.w
         height = event.h
     if event.type == pygame.MOUSEMOTION:
+        (x, y) = event.pos
+        vx = max(0, x - VIEW[0])
+        vy = max(0, y - VIEW[1])
+        vx = int(vx / SQUARE_SIZE)
+        vy = int(vy / SQUARE_SIZE)
+        MOUSE_TILE = (vx, vy)
+
         if relative_coords:
-            (x, y) = event.pos
             grid = lambda a : int((a - a % SQUARE_SIZE) / SQUARE_SIZE)
             grid_x = grid(x)
             grid_y = grid(y)
@@ -105,3 +114,8 @@ def handle_event(event):
                 offset = y_range[grid_y]
                 y_range = list(map(lambda y: y - offset, y_range))
             
+def start_frame(screen):
+    global OVER_COMPONENT
+    screen.fill((221, 231, 251))
+    
+    OVER_COMPONENT = None

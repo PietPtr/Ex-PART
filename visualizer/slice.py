@@ -4,6 +4,7 @@ import pygame
 import color
 import init
 
+
 class Slice:
     def __init__(self, component_name, x, y, l, active):
         self.component_name = component_name
@@ -14,6 +15,10 @@ class Slice:
         self.active = active
 
     def draw(self, screen):
+        # TODO (lowprio): does not take different slices on a tile into account
+        if init.MOUSE_TILE == (self.x, self.y):
+            init.OVER_COMPONENT = self.display_name
+
         OFFSET = init.SQUARE_SIZE * 0.2
         letter_offset = (ord(self.letter) - 65) * init.SQUARE_SIZE // 4
 

@@ -15,15 +15,27 @@ def draw_legend(screen, component_names):
     h_space = 42
     surfaces = []
     for cmp_type in component_names:
-        text = init.myfont.render(init.cell_name_to_json_path(cmp_type), True, (80, 80, 80))
+        cmp_name = init.cell_name_to_json_path(cmp_type)
+        init.myfont.underline = False
+
+        try:
+            if init.OVER_COMPONENT == cmp_type:
+                init.myfont.underline = True
+        except:
+            pass # lol
+
+        text = init.myfont.render(cmp_name, True, (80, 80, 80))
         surfaces.append((text, cmp_type))
         if text.get_width() > width:
             width = text.get_width()
         height += text.get_height() + v_space
+    init.myfont.underline = False
 
     width += h_space + 2
 
     leg_rect = pygame.Rect(init.width - width, 0, width, height)
+
+    
     
     pygame.draw.rect(screen, (201, 211, 221), leg_rect)
     pygame.draw.rect(screen, 0xaaaaaa, leg_rect, width=1)
