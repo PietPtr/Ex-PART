@@ -76,15 +76,38 @@ empty_regs = 0:>1:>0:>Nil
 
 type Program = Vec 32 InstructionWord
 
+test_router_inp :: [(Bool, FIFOCommand)]
+test_router_inp = [
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing),
+        (False, FIFO_Nothing)
+    ]
+
 default_prog :: Program
 default_prog = map encode $
     (LoadImm 1 17):>
-    (Add 1 2 2):>
-    (WriteFIFO 2):>
-    (LoadImm 3 5):>
-    (Branch 2 3):>
-    nop:>
-    nop:>
+    (WriteFIFO 1):>
+    (WriteFIFO 1):>
+    (LoadImm 2 1):>
+    (WriteFIFO 1):>
+    (Add 2 1 1):>
+    (WriteFIFO 1):>
     nop:>
     nop:>
     nop:>
@@ -114,6 +137,27 @@ default_prog = map encode $
 writes :: FIFOCommand -> Maybe Int8
 writes (FIFO_Write a) = Just a
 writes _ = Nothing
+
+type DataQueue = Vec 8 Int8
+type DataPtr = Unsigned 3
+
+empty_queue :: DataQueue
+empty_queue = 1:>2:>3:>4:>5:>6:>7:>8:>Nil
+
+type PacketQueue = Vec 4 Packet
+data Packet = Packet Location Int8
+    deriving (Show, Generic, NFDataX, BitPack)
+type Location = (Unsigned 4, Unsigned 4)
+
+empty_packet_queue :: PacketQueue
+empty_packet_queue = zr:>zr:>zr:>zr:>Nil
+    where
+        zr = Packet (0, 0) 0
+
+empty_loc :: Location
+empty_loc = (0, 0)
+
+nothing = Nothing
 
 }
 
@@ -164,7 +208,6 @@ component datapath() {
         (WriteFIFO _) -> FIFO_Write reg_b
         _ -> FIFO_Nothing
 
-    -- TODO: Bouw het program memory eerst maar
     -- TODO: bouw een FIFO component, zorg ervoor dat de nieuwste read waarde altijd combinatorially leesbaar is, en dat dan de volgende cycle de volgende opgehaald wordt of zo
 
 }
@@ -206,4 +249,148 @@ component prog_mem() {
     pc' = case new_pc of
         (Just new) -> new
         Nothing -> pc + 1
+}
+
+
+component queue_controller() {
+    input proc_cmd : FIFOCommand
+    input route_cmd : FIFOCommand
+    input router_read : Bool
+    
+    input outgoing_empty : Bool
+    input outgoing_value : Packet
+    output outgoing_read : Bool
+    output read_packet : Maybe Packet
+
+    input incoming_value : Int8
+    input incoming_empty : Bool
+    output incoming_read : Bool
+    output incoming_write : Bool
+    output incoming_datain : Int8
+    output read_value : Maybe Int8
+
+    incoming_read = case proc_cmd of
+        FIFO_Read -> True && (not incoming_empty)
+        _ -> False
+    
+    incoming_write = case route_cmd of
+        FIFO_Write _ -> True
+
+    incoming_datain = case route_cmd of
+        FIFO_Write v -> v
+        _ -> 0
+
+    outgoing_read = router_read && (not outgoing_empty)
+
+    read_value = if incoming_read
+        then Just incoming_value
+        else Nothing
+
+    read_packet = trace (show (router_read, not outgoing_empty)) $ if outgoing_read
+        then Just outgoing_value
+        else Nothing
+}
+
+component in_fifo() {
+    input datain : Int8
+    input write : Bool
+    input read : Bool
+    state rpntr = 0 : Unsigned 4
+    state wpntr = 0 : Unsigned 4
+    state elms = empty_queue : DataQueue
+    output dataout : Int8
+    output empty : Bool
+    -- output full : Bool
+
+    -- https://github.com/clash-lang/clash-compiler/blob/master/examples/Fifo.hs
+    wpntr' | write     = wpntr + 1
+           | otherwise = wpntr
+    rpntr' | read      = rpntr + 1
+           | otherwise = rpntr
+
+    mask  = resize (maxBound :: Unsigned 3)
+    wind  = wpntr .&. mask
+    rind  = rpntr .&. mask
+
+    elms' | write     = trace ("Wrote value " L.++ show datain L.++ "to incoming data FIFO") $ replace wind datain elms
+          | otherwise = elms
+
+    n = 3
+
+    empty = wpntr == rpntr
+    full  = (testBit wpntr n) /= (testBit rpntr n) &&
+            (wind == rind)
+
+    dataout = elms !! rind
+
+}
+
+component packet_queue() {
+    input datain : Packet
+    input write : Bool
+    input read : Bool
+    state rpntr = 0 : Unsigned 3
+    state wpntr = 0 : Unsigned 3
+    state elms = empty_packet_queue : PacketQueue
+    output dataout : Packet
+    output empty : Bool
+    -- output full : Bool
+
+    -- https://github.com/clash-lang/clash-compiler/blob/master/examples/Fifo.hs
+    wpntr' | write     = wpntr + 1
+           | otherwise = wpntr
+    rpntr' | read      = rpntr + 1
+           | otherwise = rpntr
+
+    mask  = resize (maxBound :: Unsigned 3)
+    wind  = wpntr .&. mask
+    rind  = rpntr .&. mask
+
+    elms' | write     = trace ("Wrote packet " L.++ show datain L.++ "to packet FIFO") $ replace wind datain elms
+          | otherwise = elms
+
+    n = 3
+
+    empty = wpntr == rpntr
+    full  = (testBit wpntr n) /= (testBit rpntr n) &&
+            (wind == rind)
+
+    dataout = elms !! rind
+}
+
+component packet_control() {
+    input proc_cmd : FIFOCommand
+    state location = nothing : Maybe Location
+    state value = nothing : Maybe Int8
+    output packet : Packet
+    output write : Bool
+
+
+    -- TODO: herschrijf dit met een nette state ipv het uit justs op te maken
+    -- Verder zijn die justs nergens voor nodig, je weet wanneer uit de state wanneer
+    -- de packet valid is.
+    write = isJust location && isJust value
+
+    input_value = case proc_cmd of
+        FIFO_Write v -> Just v
+        _ -> Nothing
+
+    input_value' = fromJust input_value
+
+    location' = if isJust location
+        then Nothing
+        else if isJust input_value
+            then Just (resize $ input_value' >>> 4, resize input_value')
+            else Nothing
+    
+    value' = if isJust location
+        then if isJust input_value
+            then input_value
+            else Nothing
+        else value
+
+    packet = if isJust location && isJust value
+        then (Packet (fromJust location) (fromJust value))
+        else (Packet (0, 0) 0)
+
 }

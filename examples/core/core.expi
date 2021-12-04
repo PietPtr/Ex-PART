@@ -1,9 +1,8 @@
 system in (6, 6) at (2, 2) {
-    output fifo : FIFOCommand
-    -- output pc : Maybe PC
 
-    -- pc<-processing.new_pc
-    fifo<-processing.fifo_cmd
+    input route_cmd : FIFOCommand
+    input read_packet : Bool
+    output packet : Maybe Packet
     
     processing.instr<-progmem.instr
     processing.new_pc->progmem.new_pc
@@ -35,6 +34,42 @@ system in (6, 6) at (2, 2) {
         prog_mem is prog_mem in (10, 10) at (0, 0)
         prog_mem.instr->instr
         prog_mem.new_pc<-new_pc
+    }
+
+    route_cmd->router_comm.route_cmd
+    processing.fifo_cmd->router_comm.proc_cmd
+    router_comm.packet->packet
+    router_comm.read_packet<-read_packet
+
+    router_comm in (10, 10) at (progmem.x + progmem.w, 0) {
+        input proc_cmd : FIFOCommand
+        input route_cmd : FIFOCommand
+        input read_packet : Bool
+        output value : Maybe Int8
+        output packet : Maybe Packet
+
+        ctrl is queue_controller in (10, 10) at (0, 0)
+        ctrl.proc_cmd<-proc_cmd
+        ctrl.route_cmd<-route_cmd
+        ctrl.router_read<-read_packet
+
+        in_queue is in_fifo in (10, 10) at (0, 0)
+        in_queue.datain<-ctrl.incoming_datain
+        in_queue.write<-ctrl.incoming_write
+        in_queue.read<-ctrl.incoming_read
+        ctrl.incoming_value<-in_queue.dataout
+        value<-ctrl.read_value
+        ctrl.incoming_empty<-in_queue.empty
+
+        out_queue is packet_queue in (10, 10) at (0, 0)
+        packet_control is packet_control in (10, 10) at (0, 0)
+        packet_control.proc_cmd<-proc_cmd
+        out_queue.datain<-packet_control.packet
+        out_queue.write<-packet_control.write
+        out_queue.read<-ctrl.outgoing_read
+        out_queue.empty->ctrl.outgoing_empty
+        out_queue.dataout->ctrl.outgoing_value
+        packet<-ctrl.read_packet
     }
 
 }

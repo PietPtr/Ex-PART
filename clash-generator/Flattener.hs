@@ -90,13 +90,17 @@ whereBlock system = concat $ intersperse "\n" stats
 
 
 unpackedInput :: System -> String 
-unpackedInput system = "        " ++ "(" ++ ins_str ++ ") = unbundle input"
+unpackedInput system = "        " ++ "(" ++ ins_str ++ ") = "++ unbundle ++" input"
     where
         iodefs = sys_iodefs system
         ins_str = if length (inputs' iodefs) == 0
             then "no_input"
             else concat $ intersperse ", " $ 
                 map (varName' "this") $ inputs' $ iodefs
+            
+        unbundle = if length (inputs' iodefs) > 1
+            then "unbundle"
+            else ""
 
 
 instanceWhereStatement :: [Connection'] -> [ConstantDriver] -> Instance -> String
