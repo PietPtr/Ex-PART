@@ -25,4 +25,3 @@ generateClash top = do
 flatten :: Bool -> System -> IO ()
 flatten inline system = do
     writeFile ("Clash.hs") (F.flatten inline system)
-    

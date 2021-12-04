@@ -1,22 +1,40 @@
 system in (6, 6) at (2, 2) {
-    input instr : InstructionWord
-    -- output reg_a : Int8
-    -- output reg_b : Int8
-    -- output instrout : Instruction
-    output write_instr : WriteReg
-    output fifo_cmd : FIFOCommand
+    output fifo : FIFOCommand
+    -- output pc : Maybe PC
 
-    instr->datapath.instr_word
-    datapath.fifo_cmd->fifo_cmd
-    datapath.update_regs->write_instr
+    -- pc<-processing.new_pc
+    fifo<-processing.fifo_cmd
+    
+    processing.instr<-progmem.instr
+    processing.new_pc->progmem.new_pc
 
-    regfile is registers in (5, 5) at (0, 0)
-    datapath is datapath in (5, 5) at (0, 0)
+    processing in (10, 10) at (0, 0) {
+        input instr : InstructionWord
+        output new_pc : Maybe PC
+        output fifo_cmd : FIFOCommand
 
-    datapath.reg_a<-regfile.reg_a
-    datapath.reg_b<-regfile.reg_b
+        instr->datapath.instr_word
+        datapath.fifo_cmd->fifo_cmd
+        datapath.update_pc->new_pc
 
-    regfile.read_ids<-datapath.read_ids
-    regfile.write<-datapath.update_regs
+        regfile is registers in (5, 5) at (0, 0)
+        datapath is datapath in (5, 5) at (0, 0)
+
+        datapath.reg_a<-regfile.reg_a
+        datapath.reg_b<-regfile.reg_b
+
+        regfile.read_ids<-datapath.read_ids
+        regfile.write<-datapath.update_regs
+    }
+
+    progmem in (10, 10) at (processing.w, 0) {
+        input new_pc : Maybe PC
+        output instr : InstructionWord
+
+        -- TODO: leuk dat dit een system is, is niet zo nodig though toch?
+        prog_mem is prog_mem in (10, 10) at (0, 0)
+        prog_mem.instr->instr
+        prog_mem.new_pc<-new_pc
+    }
 
 }

@@ -26,8 +26,9 @@ data Instruction
 nop = Move 0 0
 
 data FIFOCommand
-    = Write Int8
-    | Read
+    = FIFO_Write Int8
+    | FIFO_Read
+    | FIFO_Nothing
     deriving (Show, Generic, NFDataX)
 
 type ReadRegs = (RegID, RegID)
@@ -44,8 +45,8 @@ decode word = if (bit 7)
                 then WriteFIFO reg23
                 else ReadFIFO reg23
             else if bit 4
-                then Branch reg01 reg23
-                else Move reg01 reg23
+                then Branch reg23 reg01
+                else Move reg23 reg01
     where
         bit = testBit word
         -- the .&. is probably unnecessary due to the resize
@@ -71,7 +72,48 @@ encode instr = case instr of
         0b1000_0000 .|. (resize reg <<< 5) .|. (resize imm)
 
 empty_regs :: RegisterFile
-empty_regs = 1:>2:>3:>Nil
+empty_regs = 0:>1:>0:>Nil
+
+type Program = Vec 32 InstructionWord
+
+default_prog :: Program
+default_prog = map encode $
+    (LoadImm 1 17):>
+    (Add 1 2 2):>
+    (WriteFIFO 2):>
+    (LoadImm 3 5):>
+    (Branch 2 3):>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>
+    nop:>Nil
+
+writes :: FIFOCommand -> Maybe Int8
+writes (FIFO_Write a) = Just a
+writes _ = Nothing
 
 }
 
@@ -98,7 +140,7 @@ component datapath() {
         (WriteFIFO reg) -> (0, reg)
         (Add left right _) -> (left, right)
         (Move from _) -> (from, 0)
-        (Branch cond _) -> (cond, 0)
+        (Branch cond addr) -> (cond, addr)
         (LoadImm _ _) -> (0, 0)
 
     delayed_instr = decode delay
@@ -111,15 +153,16 @@ component datapath() {
         (Branch _ _) -> Nothing
         (LoadImm reg imm) -> Just (resize imm, reg)
 
-    update_pc = case delayed_instr of
+    update_pc = case instruction of
         (Branch _ _) -> if reg_a == 0
             then Just $ resize reg_b
             else Nothing
         _ -> Nothing
 
     fifo_cmd = case instruction of
-        (ReadFIFO _) -> Read
-        (WriteFIFO _) -> WriteFIFO reg_b
+        (ReadFIFO _) -> FIFO_Read
+        (WriteFIFO _) -> FIFO_Write reg_b
+        _ -> FIFO_Nothing
 
     -- TODO: Bouw het program memory eerst maar
     -- TODO: bouw een FIFO component, zorg ervoor dat de nieuwste read waarde altijd combinatorially leesbaar is, en dat dan de volgende cycle de volgende opgehaald wordt of zo
@@ -150,4 +193,17 @@ component registers() {
     reg_b = if reg_b_id == 0
         then 0
         else regs !! (reg_b_id - 1)
+}
+
+component prog_mem() {
+    input new_pc : Maybe PC
+    state program = default_prog : Program
+    state pc = 0 : PC
+    output instr : InstructionWord
+
+    instr = program !! pc
+    program' = program
+    pc' = case new_pc of
+        (Just new) -> new
+        Nothing -> pc + 1
 }
