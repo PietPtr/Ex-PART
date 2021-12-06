@@ -2,11 +2,18 @@
 import pygame
 import sys
 import color
+import argparse
 
-if len(sys.argv) == 1:
-    print("Please provide the project folder name.")
-    quit()
+# if len(sys.argv) == 1:
+#     print("Please provide the project folder name.")
+#     quit()
 
+parser = argparse.ArgumentParser()
+parser.add_argument("dir", help="An Ex-PART output directory to visualize.")
+parser.add_argument("-c", "--connections", 
+    help="Show connections (may take a long time at start-up)", 
+    action="store_true")
+args = parser.parse_args()
 
 pygame.base.init()
 pygame.font.init()
@@ -26,7 +33,7 @@ SQUARE_SIZE = BASE_SS
 VIEW = [0, 0]
 ROWS = 96
 COLS = 127
-RENDER_COMPONENT_IO = False
+RENDER_COMPONENT_IO = args.connections
 RENDER_COMPONENT_IO_WITH_LINES = True
 RENDER_COMPONENT_IO_WITH_GLOBAL_IO = False
 MOUSE_TILE = (0, 0)

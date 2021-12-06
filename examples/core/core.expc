@@ -21,7 +21,7 @@ data Instruction
     | Move RegID RegID
     | Branch RegID RegID
     | LoadImm RegID Immediate
-    deriving (Show, Generic, NFDataX)
+    deriving (Show, Generic, NFDataX, BitPack)
 
 nop = Move 0 0
 
@@ -29,7 +29,7 @@ data FIFOCommand
     = FIFO_Write Int8
     | FIFO_Read
     | FIFO_Nothing
-    deriving (Show, Generic, NFDataX)
+    deriving (Show, Generic, NFDataX, BitPack)
 
 type ReadRegs = (RegID, RegID)
 type WriteReg = Maybe (Int8, RegID)
@@ -182,7 +182,7 @@ empty_loc = (0, 0)
 nothing = Nothing
 
 data PacketControlState = Idle | GotLoc Location | Ready Location Int8
-    deriving (Show, Generic, NFDataX)
+    deriving (Show, Generic, NFDataX, BitPack)
 
 int2loc :: Int8 -> Location
 int2loc v = (resize $ v >>> 4, resize v)
@@ -204,6 +204,7 @@ component datapath() {
 
     output fifo_cmd : FIFOCommand
     output pc_out : PC
+    -- 5x4
 
     instr_out = instruction
 
@@ -266,6 +267,8 @@ component registers() {
     output reg_a : Int8
     output reg_b : Int8
 
+    -- 4x4
+
     regs' =
         case write of
             Just (value, regid) -> if regid == 0
@@ -287,6 +290,7 @@ component prog_mem() {
     input pc : PC
     state program = default_prog : Program
     output instr : InstructionWord
+    -- voor default prog, moeilijk weinig: like 3x3, maar wsch in general een stuk meer nodig
 
     instr = program !! pc
     program' = program
@@ -309,6 +313,8 @@ component queue_controller() {
     output incoming_write : Bool
     output incoming_datain : Int8
     output read_value : Maybe Int8
+
+    -- 11 LUTs, ze lagen wat verspreid, niet veel iig.
 
     incoming_read = case proc_cmd of
         FIFO_Read -> True && (not incoming_empty)
@@ -343,6 +349,7 @@ component in_fifo() {
     output dataout : Int8
     output empty : Bool
     -- output full : Bool
+    -- 6x5, at least
 
     -- https://github.com/clash-lang/clash-compiler/blob/master/examples/Fifo.hs
     wpntr' | write     = wpntr + 1
@@ -377,6 +384,7 @@ component packet_queue() {
     output dataout : Packet
     output empty : Bool
     -- output full : Bool
+    -- 5x5
 
     -- https://github.com/clash-lang/clash-compiler/blob/master/examples/Fifo.hs
     wpntr' | write     = wpntr + 1
@@ -405,7 +413,7 @@ component packet_control() {
     state ctrl_state = Idle : PacketControlState
     output packet : Packet
     output write : Bool
-
+    -- 3x3 is ruim
 
     ctrl_state' = case ctrl_state of
         Idle -> case proc_cmd of

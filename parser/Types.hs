@@ -137,6 +137,11 @@ typeToBitwidth t = case t of
         "ReadRegs" -> 4
         "WriteReg" -> 11
         "RegsiterFile" -> 24
+        "FIFOCommand" -> 10
+        "Packet" -> 16
+        "PacketControlState" -> 18
+        "Location" -> 8
+        "DataPtr" -> 3
         ('M':'a':'y':'b':'e':' ':x) -> typeToBitwidth x + 1
         other -> error $ "Types.hs: Cannot find bitwidth of type " ++ other
 
