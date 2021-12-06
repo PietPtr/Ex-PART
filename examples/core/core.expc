@@ -187,6 +187,8 @@ data PacketControlState = Idle | GotLoc Location | Ready Location Int8
 int2loc :: Int8 -> Location
 int2loc v = (resize $ v >>> 4, resize v)
 
+loc2int :: Location -> Int8
+loc2int (x, y) = resize x <<< 4 .|. resize y
 
 }
 
@@ -432,4 +434,40 @@ component packet_control() {
         Ready l v -> Packet l v
         _ -> Packet (0, 0) 0
 
+}
+
+
+
+component pkt_ser() {
+    input packet : Maybe Packet
+    state send_loc = True : Bool
+    output value : Maybe Int8
+
+    send_loc' = not send_loc
+
+    (loc, val) = case packet of
+        Just (Packet loc val) -> (loc, val)
+        Nothing -> ((0, 0), 0)
+
+    value = case packet of
+        Just _ ->  case send_loc of
+            True -> Just $ loc2int loc
+            False -> Just val
+        Nothing -> Nothing
+}
+
+component pkt_des() {
+    input value : Maybe Int8
+    state recv_loc = True : Bool
+    state prev_value = Nothing : Maybe Int8
+    output packet : Maybe Packet
+
+    recv_loc' = not recv_loc
+    prev_value' = value
+
+    packet = case value of
+        Nothing -> Nothing
+        Just v -> case prev_value of
+            Just l -> Just $ Packet (int2loc l) v
+            Nothing -> Nothing
 }

@@ -1,70 +1,80 @@
-system in (10, 7) at (2, 2) {
-
+system in (20, 20) at (2, 2) {
     input route_cmd : FIFOCommand
     input read_packet : Bool
     output packet : Maybe Packet
-    
-    processing.instr<-progmem.instr
-    processing.pc->progmem.pc
 
-    processing in (4, 5) at (0, 0) {
-        input instr : InstructionWord
-        input fifo_val : Maybe Int8
-        output pc : PC
-        output fifo_cmd : FIFOCommand
+    route_cmd->core.route_cmd
+    read_packet->core.read_packet
+    core.packet->packet
 
-        instr->datapath.instr_word
-        datapath.fifo_cmd->fifo_cmd
-        datapath.pc_out->pc
 
-        regfile is registers in (processing.w, processing.h) at (0, 0)
-        datapath is datapath in (processing.w, processing.h) at (0, 0)
-
-        datapath.reg_a<-regfile.reg_a
-        datapath.reg_b<-regfile.reg_b
-        datapath.fifo_val<-fifo_val
-
-        regfile.read_ids<-datapath.read_ids
-        regfile.write<-datapath.update_regs
-    }
-
-    progmem is prog_mem in (1, processing.h) at (processing.w, 0)
-
-    route_cmd->router_comm.route_cmd
-    processing.fifo_cmd->router_comm.proc_cmd
-    router_comm.packet->packet
-    router_comm.read_packet<-read_packet
-    processing.fifo_val<-router_comm.value
-
-    router_comm in (5, processing.h) at (progmem.x + progmem.w, 0) {
-        input proc_cmd : FIFOCommand
+    core in (10, 7) at (0, 0) {
         input route_cmd : FIFOCommand
         input read_packet : Bool
-        output value : Maybe Int8
         output packet : Maybe Packet
+        
+        processing.instr<-progmem.instr
+        processing.pc->progmem.pc
 
-        ctrl is queue_controller in (5, router_comm.h) at (0, 0)
-        ctrl.proc_cmd<-proc_cmd
-        ctrl.route_cmd<-route_cmd
-        ctrl.router_read<-read_packet
+        processing in (4, 5) at (0, 0) {
+            input instr : InstructionWord
+            input fifo_val : Maybe Int8
+            output pc : PC
+            output fifo_cmd : FIFOCommand
 
-        in_queue is in_fifo in (ctrl.h + 1, ctrl.h) at (0, 0)
-        in_queue.datain<-ctrl.incoming_datain
-        in_queue.write<-ctrl.incoming_write
-        in_queue.read<-ctrl.incoming_read
-        ctrl.incoming_value<-in_queue.dataout
-        value<-ctrl.read_value
-        ctrl.incoming_empty<-in_queue.empty
+            instr->datapath.instr_word
+            datapath.fifo_cmd->fifo_cmd
+            datapath.pc_out->pc
 
-        out_queue is packet_queue in (in_queue.w + progmem.w + processing.w, 3) at (-5, progmem.h)
-        packet_control is packet_control in (out_queue.w, out_queue.h) at (out_queue.x, out_queue.y)
-        packet_control.proc_cmd<-proc_cmd
-        out_queue.datain<-packet_control.packet
-        out_queue.write<-packet_control.write
-        out_queue.read<-ctrl.outgoing_read
-        out_queue.empty->ctrl.outgoing_empty
-        out_queue.dataout->ctrl.outgoing_value
-        packet<-ctrl.read_packet
+            regfile is registers in (processing.w, processing.h) at (0, 0)
+            datapath is datapath in (processing.w, processing.h) at (0, 0)
+
+            datapath.reg_a<-regfile.reg_a
+            datapath.reg_b<-regfile.reg_b
+            datapath.fifo_val<-fifo_val
+
+            regfile.read_ids<-datapath.read_ids
+            regfile.write<-datapath.update_regs
+        }
+
+        progmem is prog_mem in (1, processing.h) at (processing.w, 0)
+
+        route_cmd->router_comm.route_cmd
+        processing.fifo_cmd->router_comm.proc_cmd
+        router_comm.packet->packet
+        router_comm.read_packet<-read_packet
+        processing.fifo_val<-router_comm.value
+
+        router_comm in (5, processing.h) at (progmem.x + progmem.w, 0) {
+            input proc_cmd : FIFOCommand
+            input route_cmd : FIFOCommand
+            input read_packet : Bool
+            output value : Maybe Int8
+            output packet : Maybe Packet
+
+            ctrl is queue_controller in (5, router_comm.h) at (0, 0)
+            ctrl.proc_cmd<-proc_cmd
+            ctrl.route_cmd<-route_cmd
+            ctrl.router_read<-read_packet
+
+            in_queue is in_fifo in (ctrl.h + 1, ctrl.h) at (0, 0)
+            in_queue.datain<-ctrl.incoming_datain
+            in_queue.write<-ctrl.incoming_write
+            in_queue.read<-ctrl.incoming_read
+            ctrl.incoming_value<-in_queue.dataout
+            value<-ctrl.read_value
+            ctrl.incoming_empty<-in_queue.empty
+
+            out_queue is packet_queue in (in_queue.w + progmem.w + processing.w, 3) at (-5, progmem.h)
+            packet_control is packet_control in (out_queue.w, out_queue.h) at (out_queue.x, out_queue.y)
+            packet_control.proc_cmd<-proc_cmd
+            out_queue.datain<-packet_control.packet
+            out_queue.write<-packet_control.write
+            out_queue.read<-ctrl.outgoing_read
+            out_queue.empty->ctrl.outgoing_empty
+            out_queue.dataout->ctrl.outgoing_value
+            packet<-ctrl.read_packet
+        }
+
     }
-
 }

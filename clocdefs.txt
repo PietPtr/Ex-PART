@@ -763,7 +763,7 @@ Haskell
     extension hsc
     extension lhs
     3rd_gen_scale 2.11
-ExPART
+Ex-PART
     filter remove_haskell_comments >filename<
     extension expi
     extension expc
