@@ -65,7 +65,7 @@ system in (20, 20) at (2, 2) {
             value<-ctrl.read_value
             ctrl.incoming_empty<-in_queue.empty
 
-            out_queue is packet_queue in (in_queue.w + progmem.w + processing.w, 3) at (-5, progmem.h)
+            out_queue is packet_queue in (in_queue.w + progmem.w + processing.w, 6) at (-5, progmem.h)
             packet_control is packet_control in (out_queue.w, out_queue.h) at (out_queue.x, out_queue.y)
             packet_control.proc_cmd<-proc_cmd
             out_queue.datain<-packet_control.packet

@@ -117,13 +117,14 @@ clean expcPath expiPath lpfName outDir = do
     auto expcPath expiPath lpfName outDir
     where
         extensions = [".json", ".config", ".expc", ".expi", ".hs", ".err", ".log"]
-        dirs = map (\f -> outDir ++ "/" ++ f) [".hs", "builds"]
+        dirs = map (\f -> outDir ++ "/" ++ f) ["builds", ".hs"]
         deleteFiles files = map (\f -> outDir ++ "/" ++ f) $
             filter (\f -> snd (splitExtension f) `elem` extensions) files
 
         removeDirectoryRecursiveIfExists :: FilePath -> IO ()
         removeDirectoryRecursiveIfExists path = do
             exists <- doesPathExist path
+            putStrLn $ show exists ++ " " ++ path
             when exists (removeDirectoryRecursive path)
 
 

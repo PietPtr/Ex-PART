@@ -11,22 +11,50 @@ import GHC.IO.Handle
 
 import Preprocessing
 import Postprocessing
+import Data.List.Split
 
 synth_ecp5 :: String
 synth_ecp5 = "synth_ecp5 -noccu2 -nomux -nobram -nodram -noflatten -nodsp"
 
 compileToVerilog' :: [String] -> System -> IO ()
 compileToVerilog' cmpNames top = do
-    mapM_ runClash procsAndNames
+    runClashParallel procsAndNames
     where
         procsAndNames = zip cmpNames (clashProcesses cmpNames)
 
 compileToVerilog :: System -> IO ()
 compileToVerilog top = do
-    mapM_ runClash procsAndNames
+    runClashParallel procsAndNames
     where
         cmpNames = map cmp_type (top_cmps $ sys_topdata top)
         procsAndNames = zip cmpNames (clashProcesses cmpNames)
+
+
+-- TODO (lowprio): can be parallelized better by taking the transpose of batches and running all those sublist in a separate thread.
+runClashParallel :: [(String, CreateProcess)] -> IO ()
+runClashParallel procsAndNames = do
+    mapM_ runClashes batches
+    where
+        batches = chunksOf 3 procsAndNames  -- Adjust this number if more cores can be used.
+        
+        runClashes procsAndNames = do
+            handles <- mapM runClash procsAndNames
+            mapM_ finishClashProcess handles
+        
+        finishClashProcess (cmpName, processHandle, outHandle, errHandle) = do
+            stdout <- hGetContents outHandle
+            stderr <- hGetContents errHandle
+            code <- waitForProcess processHandle
+            writeFile ("builds/"++cmpName++"/clash.log") stdout
+            writeFile ("builds/"++cmpName++"/clash.err") stderr
+
+            case code of
+                ExitFailure code -> do
+                    putStr $ "[Clash] " ++ stderr
+                    error $ "Yosys.hs: Clash terminated with code " ++ show code
+                ExitSuccess -> pure ()
+
+
 
 -- assumes clash has been generated
 compileFullToVerilog :: IO ()
@@ -51,21 +79,22 @@ compileFullToVerilog = do
 
 -- TODO (lowprio): Reorganise: Yosys.hs executes Clash, should be in clash/ somewhere.
 -- TODO (lowprio): this pattern of process execution is repeated very often, and is contains the much output -> long runtime bug, build one generic version which streams such as nextpnr
-runClash :: (String, CreateProcess) -> IO ()
+runClash :: (String, CreateProcess) -> IO (String, ProcessHandle, Handle, Handle)
 runClash (cmpName, clash) = do
     putStrLn $ "        | ...of component " ++ cmpName
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess clash
-    stdout <- hGetContents outHandle
-    stderr <- hGetContents errHandle
-    code <- waitForProcess processHandle
-    writeFile ("builds/"++cmpName++"/clash.log") stdout
-    writeFile ("builds/"++cmpName++"/clash.err") stderr
+    return (cmpName, processHandle, outHandle, errHandle)
+    -- stdout <- hGetContents outHandle
+    -- stderr <- hGetContents errHandle
+    -- code <- waitForProcess processHandle
+    -- writeFile ("builds/"++cmpName++"/clash.log") stdout
+    -- writeFile ("builds/"++cmpName++"/clash.err") stderr
 
-    case code of
-        ExitFailure code -> do
-            putStr $ "[Clash] " ++ stderr
-            error $ "Yosys.hs: Clash terminated with code " ++ show code
-        ExitSuccess -> pure ()
+    -- case code of
+    --     ExitFailure code -> do
+    --         putStr $ "[Clash] " ++ stderr
+    --         error $ "Yosys.hs: Clash terminated with code " ++ show code
+    --     ExitSuccess -> pure ()
 
 
 groupVerilogs :: System -> IO ()
