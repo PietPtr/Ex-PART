@@ -1,11 +1,93 @@
-system in (20, 20) at (2, 2) {
-    input route_cmd : FIFOCommand
-    input read_packet : Bool
+pru in (20, 20) at (2, 2) {
     output packet : Maybe Packet
+    input north_i : Maybe Int8
+    input east_i : Maybe Int8
+    input south_i : Maybe Int8
+    input west_i : Maybe Int8
 
-    route_cmd->core.route_cmd
-    read_packet->core.read_packet
+    router.north_i<-north_i
+    router.east_i<-east_i
+    router.south_i<-south_i
+    router.west_i<-west_i
+
+    router.route_cmd->core.route_cmd
+    router.ready_for_packet->core.read_packet
     core.packet->packet
+    core.packet->router.packet_from_core
+
+    router in (10, 10) at (core.x + core.w, 0) {
+        input north_i : Maybe Int8
+        input east_i : Maybe Int8
+        input south_i : Maybe Int8
+        input west_i : Maybe Int8
+
+        output north_o : Maybe Int8
+        output east_o : Maybe Int8
+        output south_o : Maybe Int8
+        output west_o : Maybe Int8
+
+        output route_cmd : FIFOCommand
+        output ready_for_packet : Bool
+        input packet_from_core : Maybe Packet
+
+        unplaced send_queue in (10, 10) {
+            input packet : Maybe Packet
+            output value : Maybe Int8
+
+            queue is packet_queue in (10, 10) at (0, 0)
+            serializer is pkt_ser in (10, 10) at (0, 0)
+
+            queue.write<-write_to_send_queue
+            queue.datain<-packet
+
+            serializer.value->value
+            serializer.packet<-queue.dataout
+            serializer.empty_send_queue<-queue.empty
+            serializer.read_from_send_queue->queue.read
+        }
+
+        repeat deserializers at (0, 0) {
+            component = pkt_des in (10, 10),
+            amount = 4,
+            layout = horizontal
+        }
+
+        deserializers[1].value<-north_i
+        deserializers[1].packet->dir_dec.from_north
+        deserializers[2].value<-east_i
+        deserializers[2].packet->dir_dec.from_east
+        deserializers[3].value<-south_i
+        deserializers[3].packet->dir_dec.from_south
+        deserializers[4].value<-west_i
+        deserializers[4].packet->dir_dec.from_west
+
+        dir_dec is direction_decider in (10, 10) at (0, 0)
+        dir_dec.ready->ready_for_packet
+        dir_dec.to_proc->route_cmd
+        dir_dec.my_x<-(1)
+        dir_dec.my_y<-(1)
+        dir_dec.from_core<-packet_from_core
+
+        -- north_queue is send_queue in (10, 10) at (0, 0)
+        -- north_queue.packet<-dir_dec.to_north
+        -- north_queue.value->north_o
+
+        repeat queues at (0, 0) {
+            component = send_queue in (10, 10),
+            amount = 4,
+            layout = horizontal
+        }
+
+        queues[1].packet<-dir_dec.to_north
+        queues[1].value->north_o
+        queues[2].packet<-dir_dec.to_east
+        queues[2].value->east_o
+        queues[3].packet<-dir_dec.to_south
+        queues[3].value->south_o
+        queues[4].packet<-dir_dec.to_west
+        queues[4].value->west_o
+
+    }
 
 
     core in (10, 7) at (0, 0) {
@@ -69,7 +151,6 @@ system in (20, 20) at (2, 2) {
             packet_control is packet_control in (out_queue.w, out_queue.h) at (out_queue.x, out_queue.y)
             packet_control.proc_cmd<-proc_cmd
             out_queue.datain<-packet_control.packet
-            out_queue.write<-packet_control.write
             out_queue.read<-ctrl.outgoing_read
             out_queue.empty->ctrl.outgoing_empty
             out_queue.dataout->ctrl.outgoing_value

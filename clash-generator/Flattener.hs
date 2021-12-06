@@ -5,8 +5,9 @@ import ComponentConversion
 
 import qualified Data.Set as Set
 import Data.Set (Set, union, unions)
-import Data.List (intersperse, intercalate)
+import Data.List (intersperse, intercalate, nubBy)
 import Data.Maybe
+import Debug.Trace
 
 -- Given any system, recursively generate one Clash project for the entire thing
 
@@ -86,8 +87,10 @@ whereBlock system = concat $ intersperse "\n" stats
         -- TODO (lowprio): use the element abstraction to unify this implementation more
              ++ (map (instanceWhereStatement (sys_connections system) (sys_constantDrivers system)) $ sys_instances system)
              ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system) 
-             ++ (map (constantWhereStatement) (sys_constantDrivers system))
+             ++ (map (constantWhereStatement) uniqueDrivers)
 
+        uniqueDrivers = nubBy equalDrivers (sys_constantDrivers system)
+        equalDrivers (ConstantDriver v1 _) (ConstantDriver v2 _) = v1 == v2
 
 unpackedInput :: System -> String 
 unpackedInput system = "        " ++ "(" ++ ins_str ++ ") = "++ unbundle ++" input"
@@ -117,7 +120,7 @@ instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "
         findConn (SInput portname _) = case filter equal conns of
             (c:_) -> varName c
             _ -> case filter driving consts of
-                ((ConstantDriver value _):_) -> constPrefix ++ value
+                ((ConstantDriver value _):_) -> tail constPrefix ++ value
                 _ -> error $ "Flattener.hs: No connection specified for component " ++ 
                     name ++ " (is " ++ cmpName ++ "), port `" ++ portname ++ "`"
             where
