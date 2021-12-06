@@ -72,67 +72,89 @@ encode instr = case instr of
         0b1000_0000 .|. (resize reg <<< 5) .|. (resize imm)
 
 empty_regs :: RegisterFile
-empty_regs = 0:>1:>0:>Nil
+empty_regs = 0:>0:>0:>Nil
 
 type Program = Vec 32 InstructionWord
 
 test_router_inp :: [(Bool, FIFOCommand)]
 test_router_inp = [
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
         (True, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
         (True, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing),
-        (False, FIFO_Nothing)
-    ]
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Write 13),
+        (True, FIFO_Write 21),
+        (True, FIFO_Nothing),
+        (True, FIFO_Write 7),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Write 59),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Write 3),
+        (True, FIFO_Write 3),
+        (True, FIFO_Write 3),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Write 19),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Write 17),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Write 1),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Write 0),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing),
+        (True, FIFO_Nothing)
+    ] L.++ (L.take 30 $ L.repeat (True, FIFO_Nothing))
 
 default_prog :: Program
-default_prog = map encode $
-    (LoadImm 1 17):>
-    (WriteFIFO 1):>
-    (WriteFIFO 1):>
-    (LoadImm 2 1):>
-    (WriteFIFO 1):>
-    (Add 2 1 1):>
-    (WriteFIFO 1):>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>
-    nop:>Nil
+default_prog = map encode $ program ++ repeat (nop)
+    where
+        program = 
+            (LoadImm 1 1):>     -- 0 Load non-zero value in reg1 to avoid jumping
+            (LoadImm 3 7):>     -- 1 Set jump addr to write sequence
+            (ReadFIFO 1):>      -- 2 read from fifo
+            (Branch 1 3):>      -- 3 if we receive zero, jump to write sequence
+            (Add 1 2 2):>       -- 4 otherwise, add input to sum reg
+            (LoadImm 3 1):>     -- 5 Set jump addr to start of program
+            (Branch 0 3):>      -- 6 Always jump to address 1, i.e. read again
+            
+            (LoadImm 3 17):>    -- 7 Set destination to (1, 1)
+            (WriteFIFO 3):>     -- 8 write destination
+            (WriteFIFO 2):>     -- 9 write sum value
+            (LoadImm 3 11):>    -- 10 set jump addr to end program
+            (Branch 0 3):>      -- 11 End program, infinite loop
+            Nil
+
 
 writes :: FIFOCommand -> Maybe Int8
 writes (FIFO_Write a) = Just a
@@ -159,20 +181,29 @@ empty_loc = (0, 0)
 
 nothing = Nothing
 
+data PacketControlState = Idle | GotLoc Location | Ready Location Int8
+    deriving (Show, Generic, NFDataX)
+
+int2loc :: Int8 -> Location
+int2loc v = (resize $ v >>> 4, resize v)
+
+
 }
 
 component datapath() {
     input instr_word : InstructionWord
     input reg_a : Int8
     input reg_b : Int8
+    input fifo_val : Maybe Int8
 
     state delay = 0 : InstructionWord
+    state pc = 0 : PC
 
     output read_ids : ReadRegs
     output update_regs : WriteReg
 
     output fifo_cmd : FIFOCommand
-    output update_pc : Maybe PC
+    output pc_out : PC
 
     instr_out = instruction
 
@@ -190,7 +221,9 @@ component datapath() {
     delayed_instr = decode delay
 
     update_regs = case instruction of
-        (ReadFIFO _) -> Nothing -- TODO dit moet natuuk wel ergens ooit
+        (ReadFIFO dest) -> case fifo_val of
+            Just v -> Just (v, dest)
+            Nothing -> Nothing
         (WriteFIFO _) -> Nothing
         (Add _ _ dest) -> Just (reg_a + reg_b, dest)
         (Move _ to) -> Just (reg_a, to)
@@ -201,14 +234,26 @@ component datapath() {
         (Branch _ _) -> if reg_a == 0
             then Just $ resize reg_b
             else Nothing
-        _ -> Nothing
+        (ReadFIFO _) -> case fifo_val of
+            Nothing -> Just pc
+
 
     fifo_cmd = case instruction of
         (ReadFIFO _) -> FIFO_Read
         (WriteFIFO _) -> FIFO_Write reg_b
         _ -> FIFO_Nothing
 
-    -- TODO: bouw een FIFO component, zorg ervoor dat de nieuwste read waarde altijd combinatorially leesbaar is, en dat dan de volgende cycle de volgende opgehaald wordt of zo
+
+    pc' = case instruction of
+        (Branch _ _) -> if reg_a == 0
+            then resize reg_b
+            else pc + 1
+        (ReadFIFO _) -> case fifo_val of
+            Nothing -> pc -- block on no value
+            _ -> pc + 1
+        _ -> pc + 1
+
+    pc_out = pc
 
 }
 
@@ -239,16 +284,12 @@ component registers() {
 }
 
 component prog_mem() {
-    input new_pc : Maybe PC
+    input pc : PC
     state program = default_prog : Program
-    state pc = 0 : PC
     output instr : InstructionWord
 
     instr = program !! pc
     program' = program
-    pc' = case new_pc of
-        (Just new) -> new
-        Nothing -> pc + 1
 }
 
 
@@ -275,6 +316,7 @@ component queue_controller() {
     
     incoming_write = case route_cmd of
         FIFO_Write _ -> True
+        _ -> False
 
     incoming_datain = case route_cmd of
         FIFO_Write v -> v
@@ -286,7 +328,7 @@ component queue_controller() {
         then Just incoming_value
         else Nothing
 
-    read_packet = trace (show (router_read, not outgoing_empty)) $ if outgoing_read
+    read_packet = if outgoing_read
         then Just outgoing_value
         else Nothing
 }
@@ -312,7 +354,7 @@ component in_fifo() {
     wind  = wpntr .&. mask
     rind  = rpntr .&. mask
 
-    elms' | write     = trace ("Wrote value " L.++ show datain L.++ "to incoming data FIFO") $ replace wind datain elms
+    elms' | write     = replace wind datain elms
           | otherwise = elms
 
     n = 3
@@ -342,11 +384,11 @@ component packet_queue() {
     rpntr' | read      = rpntr + 1
            | otherwise = rpntr
 
-    mask  = resize (maxBound :: Unsigned 3)
+    mask  = resize (maxBound :: Unsigned 2)
     wind  = wpntr .&. mask
     rind  = rpntr .&. mask
 
-    elms' | write     = trace ("Wrote packet " L.++ show datain L.++ "to packet FIFO") $ replace wind datain elms
+    elms' | write     = replace wind datain elms
           | otherwise = elms
 
     n = 3
@@ -360,37 +402,26 @@ component packet_queue() {
 
 component packet_control() {
     input proc_cmd : FIFOCommand
-    state location = nothing : Maybe Location
-    state value = nothing : Maybe Int8
+    state ctrl_state = Idle : PacketControlState
     output packet : Packet
     output write : Bool
 
 
-    -- TODO: herschrijf dit met een nette state ipv het uit justs op te maken
-    -- Verder zijn die justs nergens voor nodig, je weet wanneer uit de state wanneer
-    -- de packet valid is.
-    write = isJust location && isJust value
-
-    input_value = case proc_cmd of
-        FIFO_Write v -> Just v
-        _ -> Nothing
-
-    input_value' = fromJust input_value
-
-    location' = if isJust location
-        then Nothing
-        else if isJust input_value
-            then Just (resize $ input_value' >>> 4, resize input_value')
-            else Nothing
+    ctrl_state' = case ctrl_state of
+        Idle -> case proc_cmd of
+            (FIFO_Write v) -> GotLoc (int2loc v)
+            _ -> Idle
+        GotLoc l -> case proc_cmd of
+            (FIFO_Write v) -> Ready l v
+            _ -> GotLoc l
+        Ready _ _ -> Idle
     
-    value' = if isJust location
-        then if isJust input_value
-            then input_value
-            else Nothing
-        else value
-
-    packet = if isJust location && isJust value
-        then (Packet (fromJust location) (fromJust value))
-        else (Packet (0, 0) 0)
+    write = case ctrl_state of
+        Ready _ _ -> True
+        _ -> False
+    
+    packet = case ctrl_state of
+        Ready l v -> Packet l v
+        _ -> Packet (0, 0) 0
 
 }

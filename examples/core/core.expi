@@ -5,41 +5,44 @@ system in (6, 6) at (2, 2) {
     output packet : Maybe Packet
     
     processing.instr<-progmem.instr
-    processing.new_pc->progmem.new_pc
+    processing.pc->progmem.pc
 
     processing in (10, 10) at (0, 0) {
         input instr : InstructionWord
-        output new_pc : Maybe PC
+        input fifo_val : Maybe Int8
+        output pc : PC
         output fifo_cmd : FIFOCommand
 
         instr->datapath.instr_word
         datapath.fifo_cmd->fifo_cmd
-        datapath.update_pc->new_pc
+        datapath.pc_out->pc
 
         regfile is registers in (5, 5) at (0, 0)
         datapath is datapath in (5, 5) at (0, 0)
 
         datapath.reg_a<-regfile.reg_a
         datapath.reg_b<-regfile.reg_b
+        datapath.fifo_val<-fifo_val
 
         regfile.read_ids<-datapath.read_ids
         regfile.write<-datapath.update_regs
     }
 
     progmem in (10, 10) at (processing.w, 0) {
-        input new_pc : Maybe PC
+        input pc : PC
         output instr : InstructionWord
 
         -- TODO: leuk dat dit een system is, is niet zo nodig though toch?
         prog_mem is prog_mem in (10, 10) at (0, 0)
         prog_mem.instr->instr
-        prog_mem.new_pc<-new_pc
+        prog_mem.pc<-pc
     }
 
     route_cmd->router_comm.route_cmd
     processing.fifo_cmd->router_comm.proc_cmd
     router_comm.packet->packet
     router_comm.read_packet<-read_packet
+    processing.fifo_val<-router_comm.value
 
     router_comm in (10, 10) at (progmem.x + progmem.w, 0) {
         input proc_cmd : FIFOCommand

@@ -33,7 +33,7 @@ concatCombinatory blocks
 -- create a Definitions.hs with all comb blocks and a module def and imports
 genDefs :: TopData -> String
 genDefs (TopData combinatories _) = 
-    "{-# LANGUAGE NumericUnderscores #-}\nmodule Definitions where\nimport Clash.Prelude\n\n" ++
+    "{-# LANGUAGE NumericUnderscores #-}\nmodule Definitions where\nimport Clash.Prelude\nimport qualified Data.List as L\n\n" ++
     concatCombinatory combinatories
 genDefs (NotTop) = error "Preliminary.hs: Something went wrong during elaboration, the top system does not have top-data."
 
