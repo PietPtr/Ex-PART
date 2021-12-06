@@ -112,7 +112,7 @@ option_stat
 
 
 layout :: Parser String
-layout = string "vertical" <|> string "horizontal"
+layout = string "vertical" <|> string "horizontal" <|> string "identical"
 
 unplaced_instance :: Parser UnplacedInstance
 unplaced_instance = UnplacedInstance

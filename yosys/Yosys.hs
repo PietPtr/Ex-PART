@@ -35,7 +35,7 @@ runClashParallel :: [(String, CreateProcess)] -> IO ()
 runClashParallel procsAndNames = do
     mapM_ runClashes batches
     where
-        batches = chunksOf 3 procsAndNames  -- Adjust this number if more cores can be used.
+        batches = chunksOf 1 procsAndNames  -- Adjust this number if more cores can be used.
         
         runClashes procsAndNames = do
             handles <- mapM runClash procsAndNames
