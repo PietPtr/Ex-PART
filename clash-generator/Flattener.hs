@@ -37,7 +37,7 @@ flatten inline top = intercalate "\n\n" $
             else "-- Monolithic file, everything is inlined by default."
 
 flatten' :: Bool -> System -> String
-flatten' inline system = subsysDefs ++ "\n\n\n" ++ sysdef
+flatten' inline system = sysdef
     where
         subsysDefs = intercalate "\n\n" $
             map (flatten' inline) (sys_subsystems system)
@@ -47,7 +47,10 @@ flatten' inline system = subsysDefs ++ "\n\n\n" ++ sysdef
             typeDef system ++
              definition system ++ 
              "\n    where\n" ++ 
-             whereBlock system
+             whereBlock system ++ "\n" ++
+             indent subsysDefs -- TODO: this is not the best solution to prevent re-used systems clashing in scope of course...
+
+        indent str = unlines $ map ("        " ++ ) $ lines str
         
         inlineDef = if inline
             then noinline (sys_name system)
@@ -84,10 +87,8 @@ whereBlock :: System -> String
 whereBlock system = concat $ intersperse "\n" stats
     where
         stats = [unpackedInput system]
-        -- TODO (lowprio): use the element abstraction to unify this implementation more
-             ++ (map (instanceWhereStatement (sys_connections system) (sys_constantDrivers system)) $ sys_instances system)
-             ++ (map (systemWhereStatement (sys_connections system)) $ sys_subsystems system) 
-             ++ (map (constantWhereStatement) uniqueDrivers)
+            ++ (map (elementWhereStatement (sys_connections system) (sys_constantDrivers system)) $ sys_elems system)
+            ++ (map (constantWhereStatement) uniqueDrivers)
 
         uniqueDrivers = nubBy equalDrivers (sys_constantDrivers system)
         equalDrivers (ConstantDriver v1 _) (ConstantDriver v2 _) = v1 == v2
@@ -105,42 +106,32 @@ unpackedInput system = "        " ++ "(" ++ ins_str ++ ") = "++ unbundle ++" inp
             then "unbundle"
             else ""
 
-
-instanceWhereStatement :: [Connection'] -> [ConstantDriver] -> Instance -> String
-instanceWhereStatement conns consts inst = whereStatement ins outs (cmpName ++ "M")
+elementWhereStatement :: [Connection'] -> [ConstantDriver] -> Element -> String
+elementWhereStatement conns consts elem = whereStatement ins outs clashName
     where
-        component = cins_cmp inst
-        cmpName = cmp_type component
-        name = cins_name inst
-        ins = map findConn $ inputs $ cmp_isoStats component
-        outs = map (\(SOutput portName _) -> name ++ "_" ++ portName)
-            $ outputs $ cmp_isoStats component
-
-        findConn :: ISOStat -> String
-        findConn (SInput portname _) = case filter equal conns of
+        clashName = if elem_isSystem elem
+            then elem_name elem
+            else elem_type elem ++ "M"
+        
+        ins = map findConn $ inputs' $ elem_iodefs elem
+        outs = map (varName' $ elem_name elem) $ outputs' $ elem_iodefs elem
+        
+        findConn :: IOStat -> String
+        findConn (Input portname _) = case filter equal conns of
             (c:_) -> varName c
             _ -> case filter driving consts of
                 ((ConstantDriver value _):_) -> tail constPrefix ++ value
-                _ -> error $ "Flattener.hs: No connection specified for component " ++ 
-                    name ++ " (is " ++ cmpName ++ "), port `" ++ portname ++ "`"
+                _ -> error $ "Flattener.hs: No connection specified for element " ++ 
+                    elem_name elem ++ " (is " ++ elem_type elem ++ "), port `" ++ portname ++ "`"
             where
-                equal (Connection' (CID _ _) (CID inst_name' portname') _) = 
-                    inst_name' == cins_name inst && 
+                equal (Connection' (CID _ _) (CID elem_name' portname') _) = 
+                    elem_name' == elem_name elem && 
                     portname == portname'
-                
-                driving (ConstantDriver _ (CID inst_name' portname')) = 
-                    inst_name' == cins_name inst &&
+
+                driving (ConstantDriver _ (CID elem_name' portname')) = 
+                    elem_name' == elem_name elem &&
                     portname == portname'
-        findConn _ = error "Flattener.hs: This case should not have happenned, only call this function with SInputs."
 
-
-
-systemWhereStatement :: [Connection'] -> System -> String
-systemWhereStatement conns system = whereStatement ins outs name
-    where
-        name = sys_name system
-        ins = map varName $ map (findIOConn conns name) $ inputs' $ sys_iodefs system
-        outs = map (varName' $ sys_name system) $ outputs' $ sys_iodefs system
 
 constantWhereStatement :: ConstantDriver -> String
 constantWhereStatement (ConstantDriver value _) = 
@@ -150,7 +141,7 @@ findIOConn :: [Connection'] -> String -> IOStat -> Connection'
 findIOConn conns sysid io = 
     case filter equal conns of
         (c:_) -> c
-        _ -> error $ "Flattener.hs: No connection specified for io statement " ++ show io ++ " in system " ++ sysid
+        _ -> error $ "Flattener.hs: No connection specified for io statement " ++ show io ++ " in system " ++ sysid ++ "\n" ++ (unlines $ map show conns)
     where
         equal (Connection' (CID _ _) (CID sys_name' portname') _) = 
             sys_name' == sysid && 

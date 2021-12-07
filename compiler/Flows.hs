@@ -13,6 +13,7 @@ clean :: System -> FilePath -> IO ()
 clean system outDir = do
     createDirAndEnter outDir
 
+    writeElaborated system
     writeLocations system
     generateClash system
     flattenForSim system

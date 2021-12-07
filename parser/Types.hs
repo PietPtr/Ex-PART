@@ -4,6 +4,7 @@
 
 module Types where
 
+import Data.List
 import Data.Maybe
 import Debug.Trace
 
@@ -90,7 +91,9 @@ data IOStat
     | Output Name Type
     deriving (Show, Eq)
 
-
+instance Pretty IOStat where
+    pretty (Input name t) = "input " ++ name ++ " : " ++ t
+    pretty (Output name t) = "output " ++ name ++ " : " ++ t
 
 isoStatToBitwidth :: ISOStat -> Integer
 isoStatToBitwidth stat = case stat of
@@ -200,6 +203,12 @@ data Instance
         sins_coords :: Coords
     } deriving (Show, Eq)
 
+instance Pretty Instance where
+    pretty (CmpInstance{..}) = 
+        cins_name ++ " is " ++ cmp_type cins_cmp ++ " in " ++ pretty cins_size ++ " at " ++ pretty cins_coords
+    pretty (SysInstance{..}) =
+        sins_name ++ " is " ++ sins_systype ++ " in " ++ pretty sins_size ++ " at " ++ pretty sins_coords
+
 ins_isCmpInstance :: Instance -> Bool
 ins_isCmpInstance CmpInstance{} = True
 ins_isCmpInstance _ = False
@@ -270,8 +279,15 @@ data CID
     = CID String String -- system port
     deriving (Show, Eq, Ord)
 
+-- TODO: move pretty to its own file?
+instance Pretty CID where
+    pretty (CID cmp port) = cmp ++ "." ++ port
+
 data ConstantDriver = ConstantDriver String CID
     deriving (Show, Eq)
+
+instance Pretty ConstantDriver where
+    pretty (ConstantDriver value cid) = pretty cid ++ "<-(" ++ value ++ ")"
 
 data MultiConnection = MultiConn MCID MCID
     deriving (Show, Eq)
@@ -297,6 +313,31 @@ data System = System {
         sys_connections :: [Connection'],
         sys_constantDrivers :: [ConstantDriver]
     } deriving (Show)
+
+instance Pretty System where
+    pretty top = pretty' 1 top
+        where
+            pretty' :: Int -> System -> String
+            pretty' level system = 
+                sys_name ++ " in " ++ pretty sys_size ++ " at " ++ pretty sys_coords ++ " {" ++ nl ++
+                (intercalate nl $ map pretty sys_iodefs) ++ nl ++ nl ++
+                (intercalate nl $ map pretty (sort sys_connections)) ++ nl ++ 
+                (intercalate nl $ map pretty sys_constantDrivers) ++ nl ++ 
+                (intercalate nl $ map pretty instance_elems) ++ nl ++ 
+                (intercalate nl $ map (pretty' $ level + 1) subsystems) ++ "\n" ++ indent_ ++
+                "}"
+                where
+                    System {..} = system
+                    indent = take (level * 4) $ repeat ' '
+                    nl = "\n" ++ indent
+                    indent_ = take ((level - 1) * 4) $ repeat ' '
+
+                    (subsys_elems, instance_elems) = partition elem_isSystem sys_elems
+                    subsystems = map toSystem subsys_elems
+                    toSystem elem = case elem_implementation elem of
+                        (SubsysImpl system) -> system
+
+
 
 -- fake accessor, saves memory usage i guess, but takes more time, classic trade-off.
 sys_subsystems :: System -> [System]
@@ -339,6 +380,11 @@ data Element = Element {
         elem_iodefs :: [IOStat],
         elem_implementation :: Implementation
     } deriving (Show)
+
+instance Pretty Element where
+    pretty elem = case elem_implementation elem of
+        (InstanceImpl inst) -> pretty inst
+        (SubsysImpl system) -> pretty system
 
 elem_isSystem :: Element -> Bool
 elem_isSystem e = case elem_implementation e of
@@ -385,7 +431,10 @@ data TopData
 
 data Connection'
     = Connection' CID CID Integer -- Includes bitwidth
-    deriving Show
+    deriving (Show, Eq, Ord)
+
+instance Pretty Connection' where
+    pretty (Connection' from to bw) = pretty from ++ "->" ++ pretty to ++ "  -- " ++ show bw
 
 constPrefix = "$const_"
 

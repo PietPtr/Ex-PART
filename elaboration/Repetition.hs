@@ -121,7 +121,7 @@ makeElement elems components rep i = Element {
 
 -- TODO: this code is bug-ridden en was written blindly. With this implementation it is very hard to refer to width/height properties of an unplaced system. But I guess we just "can't" now.
 reformElemCoords :: String -> String -> Element -> Element
-reformElemCoords en rn elem = trace (show $ (en, rn, elem_name elem)) elem {
+reformElemCoords en rn elem = elem {
         elem_size = reformCoords' $ elem_size elem,
         elem_coords = reformCoords' $ elem_coords elem,
         elem_implementation = case elem_implementation elem of
@@ -159,7 +159,7 @@ reformLayout elemname repname coord = case coord of
     c -> c
     where
         f = reformLayout elemname repname
-        repl id = trace (show (4, id, elemname, repname)) $ if id == elemname
+        repl id = if id == elemname
             then repname
             else id
 

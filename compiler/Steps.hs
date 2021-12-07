@@ -18,6 +18,11 @@ createDirAndEnter outDir = do
     threadDelay 1000 -- This is terrible (:
     setCurrentDirectory outDir
 
+writeElaborated :: System -> IO ()
+writeElaborated system = do
+    putStrLn $ "[Ex-PART] Writing elaborated design as expi..."
+    writeFile ("elaborated.expi") (pretty system)
+
 writeLocations :: System -> IO ()
 writeLocations system = do
     putStrLn "[Ex-PART] Generating locations.json..."
