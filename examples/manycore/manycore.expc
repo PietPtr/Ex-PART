@@ -148,11 +148,13 @@ default_prog = map encode $ program ++ repeat (nop)
             (LoadImm 3 1):>     -- 5 Set jump addr to start of program
             (Branch 0 3):>      -- 6 Always jump to address 1, i.e. read again
             
-            (LoadImm 3 35):>    -- 7 Set destination to (2, 3)
-            (WriteFIFO 3):>     -- 8 write destination
-            (WriteFIFO 2):>     -- 9 write sum value
-            (LoadImm 3 11):>    -- 10 set jump addr to end program
-            (Branch 0 3):>      -- 11 End program, infinite loop
+            (LoadImm 3 31):>    -- 7 Set destination to (2, 3)
+            (LoadImm 1 4):>     -- 8 We need this convoluted way, since (2, 3) is 35
+            (Add 1 3 3):>       -- 9 as an encoded value, which does not fit in 5 bits imm_values...
+            (WriteFIFO 3):>     -- 10 write destination
+            (WriteFIFO 2):>     -- 11 write sum value
+            (LoadImm 3 13):>    -- 12 set jump addr to end program
+            (Branch 0 3):>      -- 13 End program, infinite loop
             Nil
 
 
@@ -274,8 +276,6 @@ component datapath() {
     output fifo_cmd : FIFOCommand
     output pc_out : PC
     -- 5x4
-
-    instr_out = instruction
 
     instruction = decode instr_word
     delay' = instr_word

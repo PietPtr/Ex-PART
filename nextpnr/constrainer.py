@@ -38,10 +38,11 @@ def create_regions_system(system):
         if "tl" in sys and "br" in sys:
             # this is a bottom mealy
             regionID = ".".join(path)
+            # TODO (lowprio): gooi error wanneer een van deze punten out of bounds van de FPGA is
+            print(f"ctx.createRectangularRegion('{regionID}', {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
             ctx.createRectangularRegion(regionID, 
                 int(sys["tl"]["x"]), int(sys["tl"]["y"]),
                 int(sys["br"]["x"]), int(sys["br"]["y"]))
-            print(f"ctx.createRectangularRegion('{regionID}', {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
             path.pop()
         else:
             subsystems = sys

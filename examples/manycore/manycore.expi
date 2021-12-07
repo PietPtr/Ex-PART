@@ -1,11 +1,11 @@
-manycore in (128, 96) at (2, 2) {
+manycore in (100, 80) at (2, 2) {
     input job_data : Maybe Int8
     output sums_out : Maybe Int8
 
     job_data->core_layout.topleft_in
     core_layout.botright_out->sums_out
 
-    core_layout in (128, 96) at (5, 0) {
+    core_layout in (100, 80) at (5, 2) {
         input topleft_in : Maybe Int8
         output botright_out : Maybe Int8
 
@@ -14,7 +14,7 @@ manycore in (128, 96) at (2, 2) {
 
         -- Column 1
         chain col_1 at (0, 0) {
-            component = pru in (26, 14),
+            component = pru in (35, 20),
             amount = 2,
             layout = vertical,
             chain_in = north_i,
@@ -40,7 +40,7 @@ manycore in (128, 96) at (2, 2) {
 
         -- Column 2
         chain col_2 at (col_1_1.w, 0) {
-            component = pru in (26, 14),
+            component = pru in (col_1_1.w, col_1_1.h),
             amount = 2,
             layout = vertical,
             chain_in = north_i,
@@ -81,7 +81,7 @@ manycore in (128, 96) at (2, 2) {
         io_cap.inp->col_2[2].south_i
 
         -- The PRU design which is the basis of the manycore.
-        unplaced pru in (26, 14) {
+        unplaced pru in (28, 14) {
             input north_i : Maybe Int8
             input east_i : Maybe Int8
             input south_i : Maybe Int8
@@ -133,8 +133,8 @@ manycore in (128, 96) at (2, 2) {
                     input packet : Maybe Packet
                     output value : Maybe Int8
 
-                    queue is packet_queue in (7, 14) at (0, 0)
-                    serializer is pkt_ser in (4, 14) at (queue.w - 4, 0)
+                    queue is packet_queue in (10, 14) at (0, 0)
+                    serializer is pkt_ser in (10, 14) at (0, 0)
 
                     queue.datain<-packet
 
@@ -159,14 +159,14 @@ manycore in (128, 96) at (2, 2) {
                 deserializers[4].value<-west_i
                 deserializers[4].packet->dir_dec.from_west
 
-                dir_dec is direction_decider in (8, 11) at (0, 0)
+                dir_dec is direction_decider in (11, 11) at (0, 0)
                 dir_dec.ready->ready_for_packet
                 dir_dec.to_proc->route_cmd
                 dir_dec.my_x<-my_x
                 dir_dec.my_y<-my_y
                 dir_dec.from_core<-packet_from_core
 
-                repeat queues at (dir_dec.x + dir_dec.w, 0) {
+                repeat queues at (dir_dec.x + dir_dec.w - 5, 0) {
                     component = send_queue in (7, 14),
                     amount = 4,
                     layout = identical
@@ -192,7 +192,7 @@ manycore in (128, 96) at (2, 2) {
                 processing.instr<-progmem.instr
                 processing.pc->progmem.pc
 
-                processing in (4, 7) at (0, 0) {
+                processing in (4, 6) at (0, 0) {
                     input instr : InstructionWord
                     input fifo_val : Maybe Int8
                     output pc : PC
@@ -213,7 +213,7 @@ manycore in (128, 96) at (2, 2) {
                     regfile.write<-datapath.update_regs
                 }
 
-                progmem is prog_mem in (1, processing.h) at (processing.w, 0)
+                progmem is prog_mem in (2, processing.h) at (processing.w, 0)
 
                 route_cmd->router_comm.route_cmd
                 processing.fifo_cmd->router_comm.proc_cmd
@@ -241,7 +241,7 @@ manycore in (128, 96) at (2, 2) {
                     value<-ctrl.read_value
                     ctrl.incoming_empty<-in_queue.empty
 
-                    out_queue is packet_queue in (in_queue.w + progmem.w + processing.w, 6) at (-5, progmem.h)
+                    out_queue is packet_queue in (20, 10) at (-6, 5)
                     packet_control is packet_control in (out_queue.w, out_queue.h) at (out_queue.x, out_queue.y)
                     packet_control.proc_cmd<-proc_cmd
                     out_queue.datain<-packet_control.packet
