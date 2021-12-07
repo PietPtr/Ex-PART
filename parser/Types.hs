@@ -323,7 +323,7 @@ instance Pretty System where
                 (intercalate nl $ map pretty sys_iodefs) ++ nl ++ nl ++
                 (intercalate nl $ map pretty (sort sys_connections)) ++ nl ++ 
                 (intercalate nl $ map pretty sys_constantDrivers) ++ nl ++ 
-                (intercalate nl $ map pretty instance_elems) ++ nl ++ 
+                (intercalate nl $ map pretty instance_elems) ++ nl ++ nl ++ 
                 (intercalate nl $ map (pretty' $ level + 1) subsystems) ++ "\n" ++ indent_ ++
                 "}"
                 where
@@ -434,6 +434,7 @@ data Connection'
     deriving (Show, Eq, Ord)
 
 instance Pretty Connection' where
+    -- TODO (lowprio): prints this, but this should be omitted.
     pretty (Connection' from to bw) = pretty from ++ "->" ++ pretty to ++ "  -- " ++ show bw
 
 constPrefix = "$const_"

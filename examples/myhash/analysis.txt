@@ -1,0 +1,11 @@
+stat              Ex-PART     Monolithic    Hierarchic
+----------------  ----------  ------------  ------------
+LUTs used          3104       *2817          3104
+Slices used        1691       *1521          1685
+Max frequency     *35.11 MHz   34.52 MHz     32.85 MHz
+Flip-flops used    362        *330           362
+Synthesis time    *2.93s       8.94s         3.20s
+HeAP placer time   7.39s       6.33s        *4.54s
+SA placer time     17.84s      14.14s       *11.84s
+Router1 time       9.34s      *6.35s         6.62s
+Total time         37.50s      35.76s       *26.20s

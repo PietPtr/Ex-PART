@@ -99,6 +99,7 @@ sim :: System -> FilePath -> IO ()
 sim system outDir = do
     createDirAndEnter outDir
 
+    writeElaborated system
     generateClash system
     flattenForSim system
 
