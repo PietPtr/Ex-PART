@@ -1,0 +1,258 @@
+manycore in (128, 96) at (2, 2) {
+    input job_data : Maybe Int8
+    output sums_out : Maybe Int8
+
+    job_data->core_layout.topleft_in
+    core_layout.botright_out->sums_out
+
+    core_layout in (128, 96) at (5, 0) {
+        input topleft_in : Maybe Int8
+        output botright_out : Maybe Int8
+
+        topleft_in->col_1[1].west_i
+        col_2[2].south_o->botright_out
+
+        -- Column 1
+        chain col_1 at (0, 0) {
+            component = pru in (26, 14),
+            amount = 2,
+            layout = vertical,
+            chain_in = north_i,
+            chain_out = south_o
+        }
+        -- chain can only do one way, so we need to do the other manually
+        col_1[2].north_o->col_1[1].south_i
+
+        -- Cannot propagate constants through chains, so we'll do it this way :/
+        col_1[1].my_y<-(1)
+        col_1[2].my_y<-(2)
+        -- col_1[3].my_y<-(1)
+        -- col_1[4].my_y<-(1)
+
+        col_1[1].my_x<-(1)
+        col_1[2].my_x<-(1)
+        -- col_1[3].my_x<-(3)
+        -- col_1[4].my_x<-(4)
+
+        -- C1<=>C2 link
+        col_1:east_o->col_2:west_i
+        col_1:east_i<-col_2:west_o
+
+        -- Column 2
+        chain col_2 at (col_1_1.w, 0) {
+            component = pru in (26, 14),
+            amount = 2,
+            layout = vertical,
+            chain_in = north_i,
+            chain_out = south_o
+        }
+
+        col_2[2].north_o->col_2[1].south_i
+
+        col_2[1].my_y<-(1)
+        col_2[2].my_y<-(2)
+        col_2[1].my_x<-(2)
+        col_2[2].my_x<-(2)
+
+        -- Caps on unused sides of a PRU:
+        cap10 is cap in (core_layout.w, core_layout.h) at (0, 0)
+        cap20 is cap in (core_layout.w, core_layout.h) at (0, 0)
+        cap31 is cap in (core_layout.w, core_layout.h) at (0, 0)
+        cap32 is cap in (core_layout.w, core_layout.h) at (0, 0)
+        cap13 is cap in (core_layout.w, core_layout.h) at (0, 0)
+        cap02 is cap in (core_layout.w, core_layout.h) at (0, 0)
+
+        col_1[1].north_i<-cap10.inp
+        col_1[1].north_o->cap10.out
+        col_1[2].west_i<-cap02.inp
+        col_1[2].west_o->cap02.out
+        col_1[2].south_i<-cap13.inp
+        col_1[2].south_o->cap13.out
+        col_2[1].north_i<-cap20.inp
+        col_2[1].north_o->cap20.out
+        col_2[1].east_i<-cap31.inp
+        col_2[1].east_o->cap31.out
+        col_2[2].east_i<-cap32.inp
+        col_2[2].east_o->cap32.out
+        
+        io_cap is cap in (core_layout.w, core_layout.h) at (0, 0)
+
+        io_cap.out<-col_1[1].west_o
+        io_cap.inp->col_2[2].south_i
+
+        -- The PRU design which is the basis of the manycore.
+        unplaced pru in (26, 14) {
+            input north_i : Maybe Int8
+            input east_i : Maybe Int8
+            input south_i : Maybe Int8
+            input west_i : Maybe Int8
+            output north_o : Maybe Int8
+            output east_o : Maybe Int8
+            output south_o : Maybe Int8
+            output west_o : Maybe Int8
+
+            input my_x : Unsigned 4
+            input my_y : Unsigned 4
+
+            router.north_i<-north_i
+            router.east_i<-east_i
+            router.south_i<-south_i
+            router.west_i<-west_i
+            
+            router.north_o->north_o
+            router.east_o->east_o
+            router.south_o->south_o
+            router.west_o->west_o
+
+            router.my_x<-my_x
+            router.my_y<-my_y
+
+            router.route_cmd->core.route_cmd
+            router.ready_for_packet->core.read_packet
+            router.packet_from_core<-core.packet
+
+            router in (14, 14) at (core.w, 0) {
+                input north_i : Maybe Int8
+                input east_i : Maybe Int8
+                input south_i : Maybe Int8
+                input west_i : Maybe Int8
+
+                output north_o : Maybe Int8
+                output east_o : Maybe Int8
+                output south_o : Maybe Int8
+                output west_o : Maybe Int8
+
+                output route_cmd : FIFOCommand
+                output ready_for_packet : Bool
+                input packet_from_core : Maybe Packet
+
+                input my_x : Unsigned 4
+                input my_y : Unsigned 4
+
+                unplaced send_queue in (11, 14) {
+                    input packet : Maybe Packet
+                    output value : Maybe Int8
+
+                    queue is packet_queue in (7, 14) at (0, 0)
+                    serializer is pkt_ser in (4, 14) at (queue.w - 4, 0)
+
+                    queue.datain<-packet
+
+                    serializer.value->value
+                    serializer.packet<-queue.dataout
+                    serializer.empty_send_queue<-queue.empty
+                    serializer.read_from_send_queue->queue.read
+                }
+
+                repeat deserializers at (0, 0) {
+                    component = pkt_des in (dir_dec.w, dir_dec.h),
+                    amount = 4,
+                    layout = identical
+                }
+
+                deserializers[1].value<-north_i
+                deserializers[1].packet->dir_dec.from_north
+                deserializers[2].value<-east_i
+                deserializers[2].packet->dir_dec.from_east
+                deserializers[3].value<-south_i
+                deserializers[3].packet->dir_dec.from_south
+                deserializers[4].value<-west_i
+                deserializers[4].packet->dir_dec.from_west
+
+                dir_dec is direction_decider in (8, 11) at (0, 0)
+                dir_dec.ready->ready_for_packet
+                dir_dec.to_proc->route_cmd
+                dir_dec.my_x<-my_x
+                dir_dec.my_y<-my_y
+                dir_dec.from_core<-packet_from_core
+
+                repeat queues at (dir_dec.x + dir_dec.w, 0) {
+                    component = send_queue in (7, 14),
+                    amount = 4,
+                    layout = identical
+                }
+
+                queues[1].packet<-dir_dec.to_north
+                queues[1].value->north_o
+                queues[2].packet<-dir_dec.to_east
+                queues[2].value->east_o
+                queues[3].packet<-dir_dec.to_south
+                queues[3].value->south_o
+                queues[4].packet<-dir_dec.to_west
+                queues[4].value->west_o
+
+            }
+
+
+            core in (11, 7) at (0, 0) {
+                input route_cmd : FIFOCommand
+                input read_packet : Bool
+                output packet : Maybe Packet
+                
+                processing.instr<-progmem.instr
+                processing.pc->progmem.pc
+
+                processing in (4, 7) at (0, 0) {
+                    input instr : InstructionWord
+                    input fifo_val : Maybe Int8
+                    output pc : PC
+                    output fifo_cmd : FIFOCommand
+
+                    instr->datapath.instr_word
+                    datapath.fifo_cmd->fifo_cmd
+                    datapath.pc_out->pc
+
+                    regfile is registers in (processing.w, processing.h) at (0, 0)
+                    datapath is datapath in (processing.w, processing.h) at (0, 0)
+
+                    datapath.reg_a<-regfile.reg_a
+                    datapath.reg_b<-regfile.reg_b
+                    datapath.fifo_val<-fifo_val
+
+                    regfile.read_ids<-datapath.read_ids
+                    regfile.write<-datapath.update_regs
+                }
+
+                progmem is prog_mem in (1, processing.h) at (processing.w, 0)
+
+                route_cmd->router_comm.route_cmd
+                processing.fifo_cmd->router_comm.proc_cmd
+                router_comm.packet->packet
+                router_comm.read_packet<-read_packet
+                processing.fifo_val<-router_comm.value
+
+                router_comm in (5, processing.h) at (progmem.x + progmem.w, 0) {
+                    input proc_cmd : FIFOCommand
+                    input route_cmd : FIFOCommand
+                    input read_packet : Bool
+                    output value : Maybe Int8
+                    output packet : Maybe Packet
+
+                    ctrl is queue_controller in (5, router_comm.h) at (0, 0)
+                    ctrl.proc_cmd<-proc_cmd
+                    ctrl.route_cmd<-route_cmd
+                    ctrl.router_read<-read_packet
+
+                    in_queue is in_fifo in (ctrl.w + 1, ctrl.h) at (0, 0)
+                    in_queue.datain<-ctrl.incoming_datain
+                    in_queue.write<-ctrl.incoming_write
+                    in_queue.read<-ctrl.incoming_read
+                    ctrl.incoming_value<-in_queue.dataout
+                    value<-ctrl.read_value
+                    ctrl.incoming_empty<-in_queue.empty
+
+                    out_queue is packet_queue in (in_queue.w + progmem.w + processing.w, 6) at (-5, progmem.h)
+                    packet_control is packet_control in (out_queue.w, out_queue.h) at (out_queue.x, out_queue.y)
+                    packet_control.proc_cmd<-proc_cmd
+                    out_queue.datain<-packet_control.packet
+                    out_queue.read<-ctrl.outgoing_read
+                    out_queue.empty->ctrl.outgoing_empty
+                    out_queue.dataout->ctrl.outgoing_value
+                    packet<-ctrl.read_packet
+                }
+
+            }
+        }
+
+    }
+}
