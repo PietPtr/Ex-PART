@@ -58,6 +58,11 @@ def reset_range():
     x_range = [i for i in range(124)]
     y_range = [i for i in range(93)]
 
+    # set blank spots for rows where the ECP5 85k does not have LUTs:
+    ECP5_85K_NO_LUT_ROWS = [10, 22, 34, 46, 58, 70, 82]
+    for row in ECP5_85K_NO_LUT_ROWS:
+        y_range.insert(row, " ")
+
 x_range = []
 y_range = []
 relative_coords = False

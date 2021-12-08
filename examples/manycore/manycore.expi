@@ -5,7 +5,7 @@ manycore in (100, 80) at (2, 2) {
     job_data->core_layout.topleft_in
     core_layout.botright_out->sums_out
 
-    core_layout in (100, 80) at (5, 2) {
+    core_layout in (100, 80) at (5, 0) {
         input topleft_in : Maybe Int8
         output botright_out : Maybe Int8
 
@@ -14,7 +14,7 @@ manycore in (100, 80) at (2, 2) {
 
         -- Column 1
         chain col_1 at (0, 0) {
-            component = pru in (30, 17),
+            component = pru in (30, 16),
             amount = 2,
             layout = vertical,
             chain_in = north_i,
@@ -111,7 +111,7 @@ manycore in (100, 80) at (2, 2) {
             router.ready_for_packet->core.read_packet
             router.packet_from_core<-core.packet
 
-            router in (14, 14) at (core.w, 0) {
+            router in (30, 30) at (core.w, 0) {
                 input north_i : Maybe Int8
                 input east_i : Maybe Int8
                 input south_i : Maybe Int8
@@ -241,7 +241,7 @@ manycore in (100, 80) at (2, 2) {
                     value<-ctrl.read_value
                     ctrl.incoming_empty<-in_queue.empty
 
-                    out_queue is packet_queue in (20, 10) at (-6, 5)
+                    out_queue is packet_queue in (20, 11) at (-6, 5)
                     packet_control is packet_control in (out_queue.w, out_queue.h) at (out_queue.x, out_queue.y)
                     packet_control.proc_cmd<-proc_cmd
                     out_queue.datain<-packet_control.packet

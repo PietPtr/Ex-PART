@@ -259,6 +259,21 @@ to_br_data = [
         (Nothing, Nothing)
     ]
 
+mc_input :: [Maybe Int8]
+mc_input = [
+        Just 17, Just 5, 
+        Nothing, Nothing, 
+        Just 18, Just 13,
+        Nothing, Nothing,
+        Nothing, Nothing,
+        Nothing, Nothing,
+        Just 17, Just 5, 
+        Just 18, Just 13,
+        Nothing, Nothing,
+        Just 17, Just 0,
+        Just 18, Just 0
+    ] L.++ (L.take 30 $ L.repeat Nothing)
+
 }
 
 component datapath() {
