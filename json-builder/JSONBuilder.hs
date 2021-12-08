@@ -12,7 +12,7 @@ writeLocationsJSON system = do
         then encodeFile ("locations.json") json
         else putStrLn ("Error in Location JSON writing.")
     where
-        json = ignoreNoLUTRows $ relToAbs (reduceAll instances) startPos system
+        json = relToAbs (reduceAll instances) startPos system
 
         instances = allInstsWithCoords system
 
