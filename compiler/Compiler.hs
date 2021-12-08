@@ -189,7 +189,7 @@ location expcPath expiPath lpfPath outDir = do
     Flows.location system outDir
 
     setCurrentDirectory startDir
-    putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
+    putStrLn $ "[Ex-PART] Finished processes for location analysis"
 
 
 sim :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()

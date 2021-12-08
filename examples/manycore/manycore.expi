@@ -14,7 +14,7 @@ manycore in (100, 80) at (2, 2) {
 
         -- Column 1
         chain col_1 at (0, 0) {
-            component = pru in (35, 20),
+            component = pru in (30, 17),
             amount = 2,
             layout = vertical,
             chain_in = north_i,
