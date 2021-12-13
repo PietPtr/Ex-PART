@@ -12,6 +12,11 @@ manycore in (100, 92) at (4, 4) {
         topleft_in->col_1[1].west_i
         col_4[4].south_o->botright_out
 
+        io_cap is cap in (core_layout.w, core_layout.h) at (0, 0)
+
+        io_cap.out<-col_1[1].west_o
+        io_cap.inp->col_4[4].south_i
+
         -- Column 1
         chain col_1 at (0, 0) {
             component = pru in (router.w, router.h),
@@ -114,10 +119,10 @@ manycore in (100, 92) at (4, 4) {
         col_4[3].my_y<-(3)
         col_4[4].my_y<-(4)
         
-        col_4[1].my_x<-(3)
-        col_4[2].my_x<-(3)
-        col_4[3].my_x<-(3)
-        col_4[4].my_x<-(3)
+        col_4[1].my_x<-(4)
+        col_4[2].my_x<-(4)
+        col_4[3].my_x<-(4)
+        col_4[4].my_x<-(4)
 
 
 
@@ -156,11 +161,6 @@ manycore in (100, 92) at (4, 4) {
         col_4[1-4]:east_o->caps[11-14]:out
         col_4[1-4]:east_i<-caps[11-14]:inp
 
-        
-        io_cap is cap in (core_layout.w, core_layout.h) at (0, 0)
-
-        io_cap.out<-col_1[1].west_o
-        io_cap.inp->col_4[4].south_i
 
         -- The PRU design which is the basis of the manycore.
         unplaced pru in (28, 14) {
@@ -193,7 +193,7 @@ manycore in (100, 92) at (4, 4) {
             router.ready_for_packet->core.read_packet
             router.packet_from_core<-core.packet
 
-            router in (30, 22) at (0, 0) {
+            router in (25, 22) at (0, 0) {
                 input north_i : Maybe Int8
                 input east_i : Maybe Int8
                 input south_i : Maybe Int8
