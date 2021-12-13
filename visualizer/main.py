@@ -42,6 +42,7 @@ while True:
         
     grid.draw_grid(screen) 
     grid.draw_ranges(screen)
+    grid.draw_pins(screen)
 
     systems.draw_system_labels(screen, files.locations)
 

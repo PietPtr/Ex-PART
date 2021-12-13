@@ -27,6 +27,7 @@ last_load = 0
 
 pygame.font.init() 
 myfont = pygame.font.SysFont('Courier', 14)
+largefont = pygame.font.SysFont('Courier', 28)
 
 BASE_SS = pygame.display.Info().current_w // 75
 SQUARE_SIZE = BASE_SS
