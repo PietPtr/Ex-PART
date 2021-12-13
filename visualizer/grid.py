@@ -7,6 +7,10 @@ with open('/usr/share/ex-part/visualizer/tiledata.csv', 'r') as file:
     reader = csv.reader(file)
     tiledata = list(reader)
 
+with open('/usr/share/ex-part/visualizer/iodata.csv', 'r') as file:
+    reader = csv.reader(file)
+    iodata = list(reader)
+
 
 def parse_grid_coord(coord):
     split = coord.split("C")
