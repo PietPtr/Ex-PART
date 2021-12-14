@@ -18,17 +18,19 @@ class PinTag():
             
 
     def draw(self, screen):
-        # if init.SQUARE_SIZE < 10:
-        #     return
-        GRID_DIST = 50
+        if init.SQUARE_SIZE < init.BASE_SS:
+            return
+        zoom = (init.SQUARE_SIZE / init.BASE_SS) * 0.24
+        GRID_DIST = 150 * zoom
 
         location = (self.x, self.y)
         if location not in PinTag.loc_ctr:
             PinTag.loc_ctr[location] = 0
         text = init.largefont.render(self.text, True, (80, 80, 80))
         text_width, text_height = init.largefont.size(self.text)
-        zoom = (init.SQUARE_SIZE / init.BASE_SS) * 0.24
         text = pygame.transform.scale(text, (int(text_width * zoom), int(text_height * zoom)))
+        text_width *= zoom
+        text_height *= zoom
 
         x_offset = 0
         y_offset = 0
@@ -40,18 +42,36 @@ class PinTag():
             self.y * init.SQUARE_SIZE
         )
 
+        loc_count = PinTag.loc_ctr[location]
+
         if self.x == 0:
-            x_offset = -text_width * zoom - GRID_DIST
-            y_offset = PinTag.loc_ctr[location] * text_height * zoom
-            line_x = -text_width * zoom
-            line_y = (text_height * zoom) / 2
+            x_offset = -text_width - GRID_DIST
+            y_offset = loc_count * text_height
+            line_x = x_offset + text_width
+            line_y = loc_count * text_height + text_height / 2
         elif self.x == 126:
             x_offset = init.SQUARE_SIZE + GRID_DIST
-            y_offset = PinTag.loc_ctr[location] * text_height * zoom
-            line_x = 0
-            line_y = 0
+            y_offset = loc_count * text_height
+            line_x = x_offset
+            line_y = y_offset + text_height / 2
+        elif self.y == 0:
+            text = pygame.transform.rotate(text, 270)
+            y_offset = -text_width - GRID_DIST
+            x_offset = loc_count * text_height
+            line_x = x_offset + text_height / 2
+            line_y = y_offset + text_width
+        elif self.y == 95:
+            text = pygame.transform.rotate(text, 270)
+            y_offset = GRID_DIST
+            x_offset = loc_count * text_height
+            line_x = x_offset + text_height / 2
+            line_y = y_offset
+
 
         (vx, vy) = init.view(x + x_offset, y + y_offset)
+        if self.x == 0:
+            print(x + x_offset, y + y_offset)
+            print(vx, vy)
 
         screen.blit(text, (vx, vy))
         PinTag.loc_ctr[location] += 1
