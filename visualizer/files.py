@@ -78,6 +78,8 @@ def file_color(load_time):
         return (84, 199, 116)
 
 def draw_file_indicators(screen):
+    if init.PAPER:
+        return
     pnr_text = init.myfont.render(bitstream_filename, True, (80, 80, 80))
     loc_text = init.myfont.render(locations_filename, True, (80, 80, 80))
 

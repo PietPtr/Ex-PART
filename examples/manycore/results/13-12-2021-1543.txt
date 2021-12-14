@@ -1,0 +1,13 @@
+stat              Monolithic
+----------------  ------------
+LUTs used         *9954
+Slices used       *10168
+Max frequency     *74.24 MHz
+Flip-flops used   *14932
+Synthesis time     87.20s
+HeAP placer time  *24.73s
+SA placer time    *38.33s
+Router1 time      *35.78s
+Total time        *186.04s
+
+Monolithic run van de expi op 5e3f43c3db6319c854c6c8367b63a3fa94fc9bff.

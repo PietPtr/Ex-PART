@@ -17,7 +17,7 @@ screen = pygame.display.set_mode(size)
 
 while True:
     for event in pygame.event.get():
-        handle_event(event)
+        handle_event(event, screen)
 
     """
     Updates and logic
@@ -42,6 +42,7 @@ while True:
         
     grid.draw_grid(screen) 
     grid.draw_ranges(screen)
+    grid.draw_pins(screen)
 
     systems.draw_system_labels(screen, files.locations)
 
@@ -54,6 +55,5 @@ while True:
     # TODO (lowprio): if in een build mapje, allow met pijltjestoetsen te switchen tussen componenten
 
     pygame.display.flip()
-    time.sleep(16 / 1000)
     files.try_load_pnr()
     files.try_load_locs()

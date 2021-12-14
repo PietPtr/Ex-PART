@@ -1,0 +1,14 @@
+stat              Ex-PART    
+----------------  ---------- 
+LUTs used          14560     
+Slices used        13322     
+Max frequency      58.30 MHz 
+Flip-flops used    17632     
+Synthesis time    *3.93s     
+HeAP placer time   29.92s    
+SA placer time     98.71s    
+Router1 time       353.42s   
+Total time         485.98s
+
+zelfde expi als vorige run, nu met een (25, 22) rectangle per core.
+Hij doet er meteen een stuk langer over, maar we krigjen wel 10 MHz hogere fmax.

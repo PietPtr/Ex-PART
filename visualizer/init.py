@@ -3,6 +3,7 @@ import pygame
 import sys
 import color
 import argparse
+import time
 
 # if len(sys.argv) == 1:
 #     print("Please provide the project folder name.")
@@ -13,12 +14,17 @@ parser.add_argument("dir", help="An Ex-PART output directory to visualize.")
 parser.add_argument("-c", "--connections", 
     help="Show connections (may take a long time at start-up)", 
     action="store_true")
+parser.add_argument("-p", "--paper",
+    help="Render in a more paper-friendly manner.",
+    action="store_true")
 args = parser.parse_args()
+
+PAPER = args.paper
 
 pygame.base.init()
 pygame.font.init()
 
-size = width, height = 1280, 720
+
 black = 0, 0, 0
 white = 255, 255, 255
 red = 255, 100, 100
@@ -27,6 +33,7 @@ last_load = 0
 
 pygame.font.init() 
 myfont = pygame.font.SysFont('Courier', 14)
+largefont = pygame.font.SysFont('Courier', 28)
 
 BASE_SS = pygame.display.Info().current_w // 75
 SQUARE_SIZE = BASE_SS
@@ -38,6 +45,11 @@ RENDER_COMPONENT_IO_WITH_LINES = True
 RENDER_COMPONENT_IO_WITH_GLOBAL_IO = False
 MOUSE_TILE = (0, 0)
 OVER_COMPONENT = None
+
+
+size = width, height = 1280, 720
+if PAPER:
+    size = width, height = BASE_SS * 127, BASE_SS * 96
 
 
 def cell_name_to_json_path(cell_name):
@@ -73,7 +85,7 @@ def view(x, y):
     return (x + VIEW[0], y + VIEW[1])
 
 
-def handle_event(event):
+def handle_event(event, screen):
     global SQUARE_SIZE
     global MOUSE_TILE
     global width, x_range
@@ -96,6 +108,8 @@ def handle_event(event):
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_F1:
             color.randomize_colors()
+        if event.key == pygame.K_F2:
+            pygame.image.save(screen, f"screenshot{int(time.time())}.png")
         if event.key == pygame.K_r:
             if relative_coords:
                 relative_coords = False
@@ -128,6 +142,9 @@ def handle_event(event):
             
 def start_frame(screen):
     global OVER_COMPONENT
-    screen.fill((221, 231, 251))
+    if PAPER:
+        screen.fill(0xffffff)
+    else:
+        screen.fill((221, 231, 251))
     
     OVER_COMPONENT = None

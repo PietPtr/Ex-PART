@@ -148,13 +148,15 @@ default_prog = map encode $ program ++ repeat (nop)
             (LoadImm 3 1):>     -- 5 Set jump addr to start of program
             (Branch 0 3):>      -- 6 Always jump to address 1, i.e. read again
             
-            (LoadImm 3 31):>    -- 7 Set destination to (2, 3)
-            (LoadImm 1 4):>     -- 8 We need this convoluted way, since (2, 3) is 35
+            (LoadImm 3 31):>    -- 7 Set destination to (4, 5)
+            (LoadImm 1 31):>    -- 8 We need this convoluted way, since (4, 5) is 69
             (Add 1 3 3):>       -- 9 as an encoded value, which does not fit in 5 bits imm_values...
-            (WriteFIFO 3):>     -- 10 write destination
-            (WriteFIFO 2):>     -- 11 write sum value
-            (LoadImm 3 13):>    -- 12 set jump addr to end program
-            (Branch 0 3):>      -- 13 End program, infinite loop
+            (LoadImm 1 7):>     -- 10 31 + 31 + 7 = 69, probably better to use the 5th loadimm bit for
+            (Add 1 3 3):>       -- 11 load upper vs load lower, but meh
+            (WriteFIFO 3):>     -- 12 write destination
+            (WriteFIFO 2):>     -- 13 write sum value
+            (LoadImm 3 15):>    -- 14 set jump addr to end program
+            (Branch 0 3):>      -- 15 End program, infinite loop
             Nil
 
 
@@ -272,7 +274,7 @@ mc_input = [
         Nothing, Nothing,
         Just 17, Just 0,
         Just 18, Just 0
-    ] L.++ (L.take 30 $ L.repeat Nothing)
+    ] L.++ (L.take 1000 $ L.repeat Nothing)
 
 }
 

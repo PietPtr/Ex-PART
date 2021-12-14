@@ -9,3 +9,16 @@ HeAP placer time   7.46s       6.26s        *4.46s
 SA placer time     13.99s     *10.37s        12.10s
 Router1 time       9.59s      *9.36s         10.53s
 Total time         34.38s      46.55s       *30.55s
+
+Run on 2021-12-14 1430, 50da4532cc0d4196eeb4395e1c40ba42cf799d56:
+stat              Ex-PART     Monolithic    Hierarchic
+----------------  ----------  ------------  ------------
+LUTs used          6606       *6249          6602
+Slices used        4537       *4400          4505
+Max frequency      17.04 MHz  *18.38 MHz     17.45 MHz
+Flip-flops used    3176        3176          3176
+Synthesis time    *5.02s       25.32s        5.91s
+HeAP placer time   16.24s     *8.29s         14.81s
+SA placer time     33.32s      22.09s       *16.19s
+Router1 time       25.76s     *12.00s        12.43s
+Total time         80.34s      67.70s       *49.34s
