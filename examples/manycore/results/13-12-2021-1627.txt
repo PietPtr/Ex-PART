@@ -1,0 +1,13 @@
+stat              Hierarchic
+----------------  ------------
+LUTs used          14848
+Slices used        13664
+Max frequency      57.40 MHz
+Flip-flops used    17632
+Synthesis time     7.00s
+HeAP placer time   41.45s
+SA placer time     105.81s
+Router1 time       2007.70s
+Total time         2161.96s
+
+Hierarchic run in 36 minuten, beter dan de vier uur van afgelopen vrijdag, geen idee hoe dat is gekomen... Draaide op 5e3f43c3db6319c854c6c8367b63a3fa94fc9bff, verder geen spannende extra settings.

@@ -1,0 +1,14 @@
+stat              Ex-PART
+----------------  ----------
+LUTs used          14560
+Slices used        13322
+Max frequency      59.28 MHz
+Flip-flops used    17632
+Synthesis time     3.93s
+HeAP placer time   33.25s
+SA placer time     87.35s
+Router1 time       173.77s
+Total time         298.30s
+
+4x4 grid placement, alles volledige vrijheid binnen een (30, 22) rectangle.
+commit hash: 3bc957655ff1aea81f16ebb06104aafca17e7ebf
