@@ -9,6 +9,9 @@ class LegendEntry:
 
 
 def draw_legend(screen, component_names):
+    if init.PAPER:
+        return
+        
     width = 0
     height = 2
     v_space = 6

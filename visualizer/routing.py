@@ -43,8 +43,11 @@ def build_routemap(nets):
 
 
 def draw_routing(screen):
+    if init.PAPER:
+        return
     pygame.draw.rect(screen, 0xffffff, pygame.Rect(init.view(0, 0), 
        (init.SQUARE_SIZE * init.COLS, init.SQUARE_SIZE * init.ROWS)))
+       
 
     for (coord, amount) in pip_counts.items():
         (xstr, ystr) = coord.split("/")

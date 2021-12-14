@@ -69,10 +69,7 @@ class PinTag():
 
 
         (vx, vy) = init.view(x + x_offset, y + y_offset)
-        if self.x == 0:
-            print(x + x_offset, y + y_offset)
-            print(vx, vy)
-
+        
         screen.blit(text, (vx, vy))
         PinTag.loc_ctr[location] += 1
 
@@ -103,6 +100,9 @@ def parse_grid_coord(coord):
     return (x, y)
 
 def draw_tilecolors(screen):
+    if init.PAPER:
+        return
+
     OFFSET = init.SQUARE_SIZE * 0.2
     for [name, coord, tile_color_str] in tiledata:
         (x, y) = parse_grid_coord(coord)
@@ -133,6 +133,9 @@ make_io()
 
 def draw_pins(screen):
     global tags
+
+    if init.PAPER:
+        return
     
     PinTag.loc_ctr = dict()
     for pin in tags:
@@ -141,6 +144,8 @@ def draw_pins(screen):
 def draw_ranges(screen):
     global x_range
     global y_range
+    if init.PAPER:
+        return
 
     if init.SQUARE_SIZE > 15:
         W = 14
