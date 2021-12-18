@@ -6,6 +6,8 @@ NOTE: this software was written for academic research, therefore no time was spe
 
 ## Getting Started
 
+In `docs` you will find several guides on programming with Ex-PART. Ex-PART repurposes Clash's syntax for many of its constructs. Therefore it is good to be at least slightly familiar with Clash. Ex-PART is written completely in Haskell, given that Ex-PART is very much immature software, experience with reading Haskell code, and some understanding of its type system is necessary. Although the Haskell features used here are quite elementary, here are some subjects this project uses that you may need to brush up on: Parsec, Records, (TODO: more stuff?)
+
 In `docs/setting-up.md` you will find the nessecary versions of all the software Ex-PART depends on, and information on how to best structure and build an Ex-PART project.
 
 In `examples/` several examples detailing all Ex-PART's features are located. The examples in the paper are `collatz`, `md5_reuse`, and `manycore`.

@@ -69,7 +69,7 @@ As far as I am aware, Ex-PART does not have any dependencies that do not ship wi
 
 Ex-PART comes with several 'compilation flows', these are basically build scripts that build the project using different approaches. All flows can be found in `/compiler/Compiler.hs` and have type `Flow`. A flow can be run by itself, it always requires four arguments: the `.expc` file, the `.expi` file, the constraints (`.lpf`) file, and the output directory. If the first three files have the same name (as suggested in the previous section) they can be run with the `make :: Flow -> String -> IO ()` function, which takes a flow, a project name of one of the projects in the examples, and runs the flow for that project.
 
-Compile flows often change directory. When a compile flow crashes the directory is not reset to the main directory. Use `:r` to reset this.
+Compile flows often change directory. When a compile flow crashes the directory is not reset to the main directory. Use `:r` to reset this. This is of course not very convenient, see issue [#8](https://github.com/PietPtr/Ex-PART/issues/8).
 
 ## Flow documentation
 
