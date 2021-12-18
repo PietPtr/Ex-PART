@@ -14,7 +14,7 @@ import Control.Concurrent
 import System.FilePath
 
 
-auto :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+auto :: Flow
 auto expcPath expiPath lpfName outDir = do
     startDir <- getCurrentDirectory
     lpfLoc <- makeAbsolute lpfName
@@ -106,7 +106,7 @@ auto expcPath expiPath lpfName outDir = do
         newComponents news olds = [ c | c <- news, not ((cmp_type c) `elem` (map cmp_type olds)) ]
 
 
-clean :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+clean :: Flow
 clean expcPath expiPath lpfName outDir = do
     exists <- doesPathExist outDir
     when exists $ do
@@ -128,7 +128,7 @@ clean expcPath expiPath lpfName outDir = do
             when exists (removeDirectoryRecursive path)
 
 
-monolithic :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+monolithic :: Flow
 monolithic expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
 
@@ -140,7 +140,7 @@ monolithic expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Done. Bitstream is " ++ outDir ++ "/bitstream.config."
 
-hierarchic :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+hierarchic :: Flow
 hierarchic expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
 
@@ -154,7 +154,7 @@ hierarchic expcPath expiPath lpfPath outDir = do
 
 
 -- detailed usage stats can then be obtained by analyze.py or inspecting the logs.
-resource :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+resource :: Flow
 resource expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
 
@@ -166,7 +166,7 @@ resource expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
-resource' :: [String] -> FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+resource' :: [String] -> Flow
 resource' components expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
 
@@ -179,7 +179,7 @@ resource' components expcPath expiPath lpfPath outDir = do
     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
 -- TODO (lowprio): abstract over an IO statement (partial, resource, monolithic, hierarhic)
-location :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+location :: Flow
 location expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
 
@@ -204,7 +204,7 @@ sim expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished flattening the design for simulation"
 
-pnr :: FilePath -> FilePath -> FilePath -> FilePath -> IO ()
+pnr :: Flow
 pnr expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
     lpfLoc <- makeAbsolute lpfPath
@@ -214,7 +214,7 @@ pnr expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished running nextpnr"
 
-type Flow = (FilePath -> FilePath -> FilePath -> String -> IO ())
+type Flow = (FilePath -> FilePath -> FilePath -> FilePath -> IO ())
 
 -- Easy helper function for consistently named projects
 -- TODO (lowprio): There exists some function to execute an IO action within a directory, and even if it fails it returns to the original directory. Use that instead of setCurrentDirectory.
