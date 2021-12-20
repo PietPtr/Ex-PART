@@ -171,12 +171,16 @@ def draw_ranges(screen):
                 y += 1
 
 def draw_grid(screen):
+    rows = init.ROWS
+    if init.PAPER:
+        rows -= len(init.ECP5_85K_NO_LUT_ROWS)
+
     for x in range(init.COLS + 1):
         pygame.draw.line(screen, 0xaaaaaa, 
             init.view(x * init.SQUARE_SIZE, 0), 
-            init.view(x * init.SQUARE_SIZE, init.ROWS * init.SQUARE_SIZE))
+            init.view(x * init.SQUARE_SIZE, rows * init.SQUARE_SIZE))
 
-    for y in range(init.ROWS + 1):
+    for y in range(rows + 1):
         pygame.draw.line(screen, 0xaaaaaa, 
             init.view(0, y * init.SQUARE_SIZE), 
             init.view(init.COLS * init.SQUARE_SIZE, y * init.SQUARE_SIZE))

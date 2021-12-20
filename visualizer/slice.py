@@ -9,8 +9,13 @@ class Slice:
     def __init__(self, component_name, x, y, l, active):
         self.component_name = component_name
         self.display_name = init.cell_name_to_json_path(component_name).split(".")[-1]
+        if '_' in self.display_name:
+            self.display_name = '_'.join(self.display_name.split('_')[0:-1])
         self.x = x
         self.y = y
+        if init.PAPER:
+            no_lut_rows = len(list(filter(lambda r: self.y > r, init.ECP5_85K_NO_LUT_ROWS)))
+            self.y -= no_lut_rows
         self.letter = l
         self.active = active
 

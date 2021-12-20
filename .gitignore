@@ -23,4 +23,5 @@ core
 router
 smallnet
 manycore
+built_manycore
 *.png
