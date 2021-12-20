@@ -43,12 +43,19 @@ flatten' inline system = sysdef
             map (flatten' inline) (sys_subsystems system)
 
         sysdef = 
+            -- inlineDef ++
+            -- typeDef system ++
+            --  definition system ++ 
+            --  "\n    where\n" ++ 
+            --  whereBlock system ++ "\n" ++
+            --  indent subsysDefs 
+             -- TODO: this is not the best solution to prevent re-used systems clashing in scope of course...
             inlineDef ++
             typeDef system ++
-             definition system ++ 
-             "\n    where\n" ++ 
-             whereBlock system ++ "\n" ++
-             indent subsysDefs -- TODO: this is not the best solution to prevent re-used systems clashing in scope of course...
+            definition system ++ 
+            "\n    where\n" ++ 
+            whereBlock system ++ "\n" ++
+            subsysDefs 
 
         indent str = unlines $ map ("        " ++ ) $ lines str
         

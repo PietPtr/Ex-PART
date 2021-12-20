@@ -57,6 +57,7 @@ runClashParallel procsAndNames = do
 
 
 -- assumes clash has been generated
+-- TODO: I use hGetContents everywhere, which is extremely slow, rewrite running tools as in Nextpnr.hs
 compileFullToVerilog :: IO ()
 compileFullToVerilog = do
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess (proc "clash" [
