@@ -1,3 +1,9 @@
+In this guide as much as possible information on how to _program a design_ in Ex-PART is provided. Since Ex-PART was developed for a Master thesis, there are quite some hacks and pitfalls you may encounter. Furthermore, Ex-PART has quite a lot of features to use when programming.
+
+This guide fully focusses on allowing you to design hardware in Ex-PART. If anything goes wrong (crashes, produces unexpected results, etc), take a look at the maintenance manual to find out how to continue, and where you may need to apply a fix.
+
+Check Github's table of content feature for Markdown files to see what you can find here.
+
 
 # General Remarks
 
@@ -51,17 +57,24 @@ Tips:
 
 ## Metric Analysis
 
-All the tools Ex-PART runs to obtain results emit outputs and errors, that may be valuable for debugging and evaluating a design. Since these are spread all over the place, a script gathering these metrics is available in the root directory: `analyze.py`. Simply run it with the name of an Ex-PART output directory as its argument and it will search all available logs for metrics. If it can't find any it will print it as a dash. If hierarchic and monolithic output folders are available it will print the metrics in a table to easily compare them. Just as the visualiser, this script can be run on directories in the `builds/` directory to gain insights into resources used by components.
+All the tools Ex-PART runs to obtain results emit outputs and errors that may be valuable for debugging and evaluating a design. Since these are spread all over the place, a script gathering these metrics is available in the root directory: `analyze.py`. Simply run it with the name of an Ex-PART output directory as its argument and it will search all available logs for metrics. If it can't find any it will print it as a dash. If hierarchic and monolithic output folders are available it will print the metrics in a table to easily compare them. Just as the visualiser, this script can be run on directories in the `builds/` directory to gain insights into resources used by components.
 
-# Explanation of a basic Ex-PART program
+## The Output Directory
+
+A ton of information is available in the output directory, all the logs, intermediate files, simulation files, etcetera.
+
+# Thorough Explanation of a basic Ex-PART program
+
 
 In this chapter we will walk through the collatz example (`examples/collatz/`). This file describes a piece of hardware that keeps a number in a 16 bit register, and applies the rules of the [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture), i.e. if the number in the register is even it is divided by two, and if it is odd it is multiplied by three and one is added to it. 
 
 TODO: add the diagram from the paper.
 
+## `.expc` file
+
 Now, an explanation of the `.expc` file:
 
-```
+```haskell
 haskell {
 (>>>) :: Bits a => a -> Int -> a
 (>>>) = shiftR
@@ -75,7 +88,7 @@ type Value = Unsigned 16
 ```
 In a `haskell` block arbitrary Haskell code can be added to the design. Each component has access to these definitions. Do not indent them as they are copied straight to a `Definitions.hs` file. Define helper functions, type and data definitions, and debug stuff here.
 
-```
+```haskell
 component router() {
     input val : Value
     output odd : Maybe Value
@@ -90,37 +103,15 @@ A component definition. After the keyword `component` the name of the component 
 The first lines of a component are the input, output, and state definitions. This component happens to be a combinational component: it has no state. This component receives a 16-bit value (namely `val`, of type `Value`, which was defined to be an `Unsigned 16` in the `haskell` block from earlier). It has two outputs, both of type `Maybe Value`.
 
 
+```haskell
+component onEven() {}
+component onOdd() {}
+component merger() {}
 ```
-component onEven() {
-    input val : Maybe Value
-    output res : Maybe Value
 
-    res = case val of
-        Just v -> Just $ v >>> 1
-        Nothing -> Nothing
-}
+These component are also all combinational, so not much news happens here, so their implementation is ommitted.
 
-component onOdd() {
-    input val : Maybe Value
-    output res : Maybe Value
-
-    res = case val of
-        Just v -> Just $ (v <<< 1 + v) + 1
-        Nothing -> Nothing
-}
-
-component merger() {
-    input vo : Maybe Value
-    input ve : Maybe Value
-    output res : Value
-    
-    res = case vo of
-        Just v -> v
-        Nothing -> case ve of
-            Just v -> v
-            Nothing -> 0
-}
-
+```haskell
 component control() {
     input next_val : Value
     input set_val : Maybe Value
@@ -134,6 +125,120 @@ component control() {
     result_value = last_val
 }
 ```
+This is a component with state. Its state is defined in the fourth line of the example above. It is given a type just like the inputs and outputs. Additionally an initial value is supplied, namely `0`.
+
+To define the state transition, an expression is defined for `last_val'`. Notice that this expression can depend on any of the inputs, and the previous state. It can also depend on some other state, or their next states, as long as they do not form a mutually recursive dependence. 
+
+## `.expi` file
+
+With the components defined, the `.expi` file can be written to layout those component in a hierarchy.
+
+```haskell
+system in (6, 5) at (2, 2) {
+
+```
+The top-level system is called `system`, takes up an area of six by five, and is located at position (2, 2) on the ECP5. This coordinate system is zero-indexed, and uses the same system as the [HTML documentation of the ECP5](http://yosyshq.net/prjtrellis-db/).
+
+The size of systems is not checked by Ex-PART, if you specify (1, 1) here it may work is well. Where it is taken into account is when any of the components _refer_ to this value, that is if a component is placed at e.g. `(system.x, 0)`. This size is currently not in any way inferable, if you resize components in a hierarchy and you need to use an accurate size for the system, you need to update the system size manually. See also issue [#12](https://github.com/PietPtr/Ex-PART/issues/12) on inferable sizes.
+
+```haskell
+    input setting : Maybe Value
+    output result : Value
+```
+The I/O of the top-level system. As the input we define a setting, this `Maybe Value` can set the value in the register to which the Collatz conjecture rules must be applied. `control` is a component that has an input of type `Maybe Value` for exactly this purpose, so once that component is instantiated we must route this input to that component.
+
+Since this is I/O of the _top_-level system, this is also the I/O that must be constrained in the `.lpf` file. 
+
+```haskell
+    controller is control in (6, 1) at (0, 0)
+```
+The `control` component is instantiated. It is given the name 'controller', an area of six by one, and the location _(0, 0)_. This location is relative to the system it is a child of, so on the FPGA this component will be located at (2, 2).
+
+The size could also have been defined as `(system.w, 1)`, for example.
+
+```haskell
+    controller.set_val<-setting
+    controller.result_value->result
+```
+The controller's inputs are linked to the inputs of its parent system. Notice that the arrow notation can go both ways. A port of the control component is referred to by writing the _name_ of the instance of the component, followed by a period, and then the port name. 
+
+Local system ports do not need this period-syntax, they are simply referred to by name, as is done with `setting` and `result`.
+
+With these statements the system I/O port setting and result are connected to the controller, so that the controller component drives/is driven by the FPGA I/O ports as intended.
+
+
+```haskell
+    collatzer in (controller.w, 4) at (0, controller.h) {
+```
+A subsystem is defined. At this point it is probably a good idea to view the file this comes from, as the indentation here will make it much clearer that this is a _sub_system. 
+
+```haskell
+        input val_in : Value
+        output val_out : Value
+
+        router is router in (1, onOdd.h + onEven.h) at (0, 0)
+        onOdd is onOdd in (collatzer.w - 2, 2) at (collatzer.x + 1, 0)
+        onEven is onEven in (onOdd.w, onOdd.h) at (onOdd.x, onOdd.h)
+        merger is merger in (1, onOdd.h + onEven.h) at (onOdd.x + onOdd.w, 0)
+
+        router.val<-val_in
+        router.odd->onOdd.val
+        router.even->onEven.val
+        onOdd.res->merger.vo
+        onEven.res->merger.ve
+        merger.res->val_out
+    }
+
+    collatzer.val_in<-controller.result_value
+    collatzer.val_out->controller.next_val
+}
+```
+
+# Simulation with Clash
+
+
+
+# Bitstream Generation
 
 # Feature List
+
+## Comments
+
+## `.expc` file
+
+## `haskell` block
+
+## Component definition
+
+### I/O ports and state
+
+### Transition statements
+
+## `.expi` file
+
+## Coordinates and Sizes
+
+## System Definitions
+
+### I/O ports
+
+### Subsystems
+
+## Component Instantiation
+
+## Port connection
+
+## Constant Drivers
+
+## Repeat statement
+
+## Chain statement
+
+## Multiconnections
+
+## Unplaced Systems
+
+## System Instantiation
+
+
 

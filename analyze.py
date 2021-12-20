@@ -87,6 +87,11 @@ def ff_usage(logs):
     usage = int(cut(usage_str)[3].split('/')[0])
     return usage
 
+def arcs(logs):
+    usage_str = find_first_line(logs.nextpnr, "arcs.")
+    usage = int(cut(usage_str)[2])
+    return usage
+
 def synth_time(logs):
     stat_line = find_first_line(logs.yosys, "End of script.")
     last = cut(stat_line, "CPU: user ")[1]
@@ -115,6 +120,7 @@ stats = [
     Statistic("Slices used", slice_usage, fmt="%i"),
     Statistic("Max frequency", max_frequency, " MHz", max),
     Statistic("Flip-flops used", ff_usage, fmt="%i"),
+    Statistic("Arcs in design", arcs, " arcs", fmt="%i"),
     Statistic("Synthesis time", synth_time, "s", min),
     Statistic("HeAP placer time", heap_time, "s"),
     Statistic("SA placer time", sa_time, "s"),
