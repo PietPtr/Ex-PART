@@ -1,8 +1,40 @@
+- [Designing Hardware with Ex-PART](#designing-hardware-with-ex-part)
+- [General Remarks](#general-remarks)
+- [Design Feedback](#design-feedback)
+  - [Visualisation](#visualisation)
+    - [Example commands](#example-commands)
+  - [Metric Analysis](#metric-analysis)
+  - [The Output Directory](#the-output-directory)
+- [Thorough Explanation of a basic Ex-PART program](#thorough-explanation-of-a-basic-ex-part-program)
+  - [`.expc` file](#expc-file)
+  - [`.expi` file](#expi-file)
+- [Simulation with Clash](#simulation-with-clash)
+- [Post-Synthesis Simulation](#post-synthesis-simulation)
+- [Bitstream Generation](#bitstream-generation)
+- [Error Messages](#error-messages)
+- [Feature List](#feature-list)
+  - [Comments](#comments)
+  - [Types](#types)
+  - [`.expc` file](#expc-file-1)
+  - [`haskell` block](#haskell-block)
+  - [Component definition](#component-definition)
+  - [`.expi` file](#expi-file-1)
+  - [Coordinates and Sizes](#coordinates-and-sizes)
+  - [System Definitions](#system-definitions)
+  - [Component Instantiation](#component-instantiation)
+  - [Port connection](#port-connection)
+  - [Constant Drivers](#constant-drivers)
+  - [Repeat statement](#repeat-statement)
+  - [Chain statement](#chain-statement)
+  - [Multiconnections](#multiconnections)
+  - [Unplaced Systems](#unplaced-systems)
+  - [System Instantiation](#system-instantiation)
+
+# Designing Hardware with Ex-PART
+
 In this guide as much as possible information on how to _program a design_ in Ex-PART is provided. Since Ex-PART was developed for a Master thesis, there are quite some hacks and pitfalls you may encounter. Furthermore, Ex-PART has quite a lot of features to use when programming.
 
 This guide fully focusses on allowing you to design hardware in Ex-PART. If anything goes wrong (crashes, produces unexpected results, etc), take a look at the maintenance manual to find out how to continue, and where you may need to apply a fix.
-
-Check Github's table of content feature for Markdown files to see what you can find here.
 
 
 # General Remarks
@@ -61,14 +93,16 @@ All the tools Ex-PART runs to obtain results emit outputs and errors that may be
 
 ## The Output Directory
 
-A ton of information is available in the output directory, all the logs, intermediate files, simulation files, etcetera.
+A ton of information is available in the output directory, all the logs, intermediate files, simulation files, etc. If anything goes wrong, do look at those files as some errors may have ended up only there and not in the output of Ex-PART.
 
 # Thorough Explanation of a basic Ex-PART program
 
 
 In this chapter we will walk through the collatz example (`examples/collatz/`). This file describes a piece of hardware that keeps a number in a 16 bit register, and applies the rules of the [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture), i.e. if the number in the register is even it is divided by two, and if it is odd it is multiplied by three and one is added to it. 
 
-TODO: add the diagram from the paper.
+In the image below the architecture is shown. Every box is a mealy machine as will be defined in the component (`.expc`) file, and every line is a connection between I/O ports of the components. Lines are annotated with the _type_ of the output and input port they connect.
+
+![Collatz conjecture calculator architecture](./resources/collatz.svg)
 
 ## `.expc` file
 
@@ -170,17 +204,24 @@ With these statements the system I/O port setting and result are connected to th
 ```haskell
     collatzer in (controller.w, 4) at (0, controller.h) {
 ```
-A subsystem is defined. At this point it is probably a good idea to view the file this comes from, as the indentation here will make it much clearer that this is a _sub_system. 
+A subsystem with the name `collatzer` is defined. At this point it is probably a good idea to view the file this comes from, as the indentation here will make it much clearer that this is a _sub_-system. 
 
 ```haskell
         input val_in : Value
         output val_out : Value
+```
+This subsystem also has its own input and output ports. Since the goal of this system is to calculate the next value of its input according to the rules of the Collatz conjecture, the types of the single input and output port are both `Value`.
 
+```haskell
         router is router in (1, onOdd.h + onEven.h) at (0, 0)
         onOdd is onOdd in (collatzer.w - 2, 2) at (collatzer.x + 1, 0)
         onEven is onEven in (onOdd.w, onOdd.h) at (onOdd.x, onOdd.h)
         merger is merger in (1, onOdd.h + onEven.h) at (onOdd.x + onOdd.w, 0)
+```
+All the necessary components are instantiated. To showcase what kind of expressions are possible in the coordinate and size expressions they have been written to be highly dependent on other values. Notice that both components (like `onOdd`), a system (`collatzer`), and constants are used in these expressions. See also issue [#13](https://github.com/PietPtr/Ex-PART/issues/13) and [#14](https://github.com/PietPtr/Ex-PART/issues/14).
 
+
+```haskell
         router.val<-val_in
         router.odd->onOdd.val
         router.even->onEven.val
@@ -188,57 +229,369 @@ A subsystem is defined. At this point it is probably a good idea to view the fil
         onEven.res->merger.ve
         merger.res->val_out
     }
+```
+To finish up the subsystem `collatzer` the connections are defined as in the diagram shown at the start of this chapter. If you try to connect ports of different types, Ex-PART will throw an error.
 
+```haskell
     collatzer.val_in<-controller.result_value
     collatzer.val_out->controller.next_val
 }
 ```
+The I/O ports on the subsystem need to be connected to the controller, and that is exactly what we do here. The ports of the subsystem can be referenced by using the name of the subsystem, a period, and then the port name.
 
 # Simulation with Clash
 
+The following flows generate simulation files: `clean`, `auto`, `monolithic`, `hierarchic`, and of course `sim` (which is there _just_ for simulation file generation).
 
+"Simulation files" in Ex-PART are simply Clash files, i.e. Haskell code. After using either one of these flows you will find the files `Definitions.hs` and `Clash.hs`. `Definitions.hs` contains everything you put inside `haskell` blocks, and `Clash.hs` contains all the mealy machines representing components, and all functions created from the `.expi` file. If you're familiar with Clash it may be very useful to inspect these generated files when checking for functional correctness. They have been generated in a way that they ought to be relatively readable. Furhermore, in the output directory a directory called `builds` is created, which contains a directory for every component in the design. These directories also contain Clash files for just those components. These are called `Synth_<component>.hs`, where `<component>` is the component name.
+
+To simulate your entire project, use the command:
+
+```shell
+clashi Definitions.hs Clash.hs
+```
+
+To simulate just one component with the name `component`:
+
+```shell
+clashi Definitions.hs builds/component/Synth_component.hs
+```
+
+Once in the `clashi` shell, test for functional correctness as usual using Clash's `simulate`, `sample`, etc. functions.
+
+# Post-Synthesis Simulation
+
+Since Ex-PART operates directly on the JSON file that Yosys outputs, no post-synthesis simulation in the classic sense is available.
 
 # Bitstream Generation
 
+Ex-PART uses nextpnr to generate bitstreams. Nextpnr emits bitstreams in both JSON format and the Trellis textual configuration format. Both of these versions are available in the output directory as `bitstream.json` and `bitstream.config`. With the program `ecppack` (which is part of [project Trellis](https://github.com/YosysHQ/prjtrellis)) `bitstream.config` can be converted from a textual representation to a bitstream that can be programmed to an ECP5 FPGA. 
+
+# Error Messages
+
+Ex-PART's error system is _very_ simple: it uses haskell's `error :: String -> a` function whenever anything unexpected happens. Occasionally Ex-PART will dump extra output in the error message as well. This list aims to go through all error messages Ex-PART may throw and provide a short explanation on why this error may be thrown and what can be done to fix it.
+
+TODO: alle error messages
+
 # Feature List
+
+Below you find a comprehensive feature list of the language Ex-PART. For every feature a brief explanation is provided, syntax examples are given, and the examples which use the feature are listed. For a short description of their implementation the same list is available in [the maintenance manual](maintenance.md).
 
 ## Comments
 
+Comments are a little iffy in Ex-PART. In .expi files single line comments usually work:
+
+```haskell
+a is a in (5, 3) at (0, 0) -- this is a single line comment
+```
+
+In expc files comments at least do always work in the expression statement parts, as those are directly copied to Haskell code during compilation. However, comments outside components and between input, output and state definitions _may_ not work. Multiline comments do not work, as the `}` character is used to determine if a component definition has finished.
+
+```haskell
+-- × This comment will fail
+component router() {
+    input val : Value
+    -- × This comment will fail
+    output odd : Maybe Value
+    output even : Maybe Value
+
+    -- ✓ A working comment
+    even = if testBit val 0 then Nothing else Just val -- ✓ This comment is fine
+    odd  = if testBit val 0 then Just val else Nothing
+    {- × This multiline comment
+         will cause problems
+    -}
+}
+```
+
+## Types
+
+In both component definitions and system definitions ports and states need to be annotated with a _type_. These types are exactly Haskell types, so it is always possible to give ports any type Clash supports. Do note that the parser of the types in Ex-PART does not support everything, so to circumvent any parse errors you may get in types, define a type synonym in a `haskell` block. For example, this line may not parse:
+
+```haskell
+    input inp : Maybe (Vec 4 (Unsigned 16))
+```
+
+Solve this by defining this `haskell` block:
+
+```haskell
+haskell {
+type SomeInputType = Maybe (Vec 4 (Unsigned 16))
+}
+```
+
+And changing the erroneous line to:
+```haskell
+    input inp : SomeInputType
+```
+
+
 ## `.expc` file
+The component or `.expc` file is where components and generally available Haskell code is defined. Every example contains an `.expc` file as without components no hardware can be described.
 
 ## `haskell` block
+In a `haskell` block general Haskell code can be written. Any function can use the function or type definitions defined in such a Haskell block.
+
+In this example two synonyms for the Clash functions `shiftR` and `shiftL` are defined, and a type synonym for `Unsigned 16` is set.
+
+```haskell
+haskell {
+(>>>) :: Bits a => a -> Int -> a
+(>>>) = shiftR
+
+(<<<) :: Bits a => a -> Int -> a
+(<<<) = shiftL
+
+type Value = Unsigned 16
+}
+```
+This is useful because now it is possible to easily change the bitwidth of every port and state in the components simply by changing the type to which `Value` aliases.
+
+Do not indent any code in this block, as Clash will give errors during Verilog compilation or simulation.
+
+Every example uses a `haskell` block since basically always you'll need to define some helper functions and types / type aliases. There may be a bug as well regarding `.expc` files without a `haskell` block: issue [#4](https://github.com/PietPtr/Ex-PART/issues/4).
 
 ## Component definition
 
-### I/O ports and state
+A general component definition looks as follows:
 
-### Transition statements
+```haskell
+component <name>() {
+    input <input n>                     : <input_type n>
+    state <state n> = <initial_state n> : <state_type n>
+    output <output n>                   : <output_type n>
+
+    <state n>' = <state_expr n>
+    <output n> = <output_expr n>
+}
+```
+Where `<text n>` means that there can be any number `n` of such statements.
+
+- `<input n>`: the name of some input port.
+- `<input_type n>`: the type of some input port.
+- `<state n>`: the name of a state.
+- `<initial_state n>`: the value for the initial state of that state. The parser is quite weak for this initial state (e.g. `Just 0` may not work), define a constant function in a `haskell` block to circumvent this (e.g. `my_initial_state = Just 0`, and setting the initial state to `my_initial_state`).
+- `<output n>`: the name of some output port.
+- `<output_type n>`: the type of some output port.
+- `<state_expr n>`: the transition expression for this state. This expression is simply a Haskell expression. Any Haskell construct can be used here, except for records, as they contain the character `}` in their syntax (see also issue [#15](https://github.com/PietPtr/Ex-PART/issues/15)). A transition expression can use any of the variables that are in scope in the component: inputs, other states, even the next values for other states, as long as there is no mutually recursive dependency between them. To find out if this has happened (on accident), run the Clash simulation. If it produces no output there probably is such a mutually recursive pair in a component somewhere.
+- `<output_expr n>`: the transition expression for the output.
+
+Example components are given in the "Thorough Explanation of a Basic Ex-PART Program" section, and of course every example project contains many components.
 
 ## `.expi` file
 
+In the instantiation or `.expi` file the components defined in the `.expc` file are laid out on the two-dimensional grid of the FPGA. 
+
 ## Coordinates and Sizes
+
+Every system definition and component instantiation has a size and location. These are both given as two-tuples, with the `(width, height)` for the size and the `(x, y)` for the location. In these tuples _layout expressions_ can be used. The operators `+` and `-` are available to define layouts. Furthermore, layout properties of other components can be used. The layout properties for a component called `component` are as follows:
+
+- `component.w`: the width of `component`
+- `component.h`: the height of `component`
+- `component.x`: the x coordinate of `component`
+- `component.y`: the y coordinate of `component`
+
+There exists somewhat of a global scope for these variables: somewhat because Ex-PART does not give errors if any names in this scope overlap, it simply returns the first value it finds.
+
+Parentheses can be used to impose precedence on subexpressions as is usual in arithmetic expressions.
+
+In almost every example many examples can be found of these expressions being used.
+
 
 ## System Definitions
 
-### I/O ports
+A system definition is of the following form:
 
-### Subsystems
+```haskell
+<system_name> in (<system_width>, <system_height>) at (<system_x>, <system_y>) {
+    input <input n> : <input_type n>
+    output <output n> : <output_type n>
+
+    <instantions>
+    <connections>
+    <subsystems>
+    <elaborated_features>
+}
+```
+
+- `<system_name>`: the name of this system, can be any identifier.
+- `<system_width>`: the width of the system.
+- `<system_height>`: the height of the system.
+- `<system_x>`: the x coordinate of the system.
+- `<system_y>`: the y coordinate of the system.
+- `<input n>`: some input of the system.
+- `<input_type n>`: the type of some input of the system.
+- `<output n>`: some output of the system.
+- `<output_type n>`: the type of some output of the system.
+- `<instantions>`: component or system instantiations. The order of statements in of this and the following three kinds does not matter.
+- `<connections>`: connections between ports of systems and components.
+- `<subsystems>`: subsystem definitions. A definition for a subsystem is exactly the same as a system, just indented by one more level (by convention).
+- `<elaborated_features>`: Some extra syntactic sugar is available to make development of repetitive designs easier, these features are all "elaborated" to a collection of the previous three kinds (instantiations, connections, subsystems).
+
+Top-level systems have some more requirements/caveats: the width, height, x, and y expressions _must_ be constant expressions: they cannot depend on any other component or system. Furthermore, the ports defined as I/O ports in the top-level system are the ports that must be constrained to the FPGA's I/O pins in the `.lpf` file.
 
 ## Component Instantiation
 
+The basic way to layout components is as follows:
+
+```haskell
+<instance_name> is <component_name> in (<width>, <height>) at (<x>, <y>)
+```
+
+- `<instance_name>`: the name given to this instantiation. May be the same name as the component that is instantiated.
+- `<component_name>`: the name of the component that is to be instantiated, this is the name of one of the components in the component file. 
+- `<width>`, `<height>`, `<x>`, `<y>`: layout expressions for this instance.
+
 ## Port connection
+
+Ports of instances and systems can be connected as follows:
+
+```haskell
+<from_element>.<from_port>-><to_element>.<to_port>
+<to_element>.<to_port><-<from_element>.<from_port>
+```
+Notice the `.` and `->`/`<-` denoting port/element separation and connection, respectively. Both directions are available, use whichever is more convenient to read or write at the moment.
+
+An "element" refers here to anything that has ports: systems, components, and subsystems.
+
+Ports of the current system are referred to without any element:
+```haskell
+<system_input>-><to_element>.<to_port>
+<from_element>.<from_port>-><system_output>
+```
+
+View the example section and code examples for many examples on connection. There is some extended syntax for so-called [multiconnections](#multiconnections) and [constant drivers](#constant-drivers), explained in their respective sections.
 
 ## Constant Drivers
 
+When some input of a component must be driven by a constant value, you would have to define a mealy machine with one output that is constantly driven by that value. This is quite cumbersome, so shorthand is available to do this:
+
+```haskell
+router.x<-(4)
+```
+Taken from the manycore example, where a router must know its own position, and that value is simply constantly driven to the `x` input port of the router. A constant driver is of the form `(<constant>)`, and may only appear on the dash-side of the arrow (obviously, as otherwise you would route the output of some component to a constant value, that doesn't make any sense). 
+
+Constant driver support is quite limited at the moment: it is only possible to drive numbers constantly. It would be preferable to have that be any constant value available in Haskell, but as Haskell allows defining your own data types that would result in a bit more complicated parsing.
+
+If you're willing to give up simulation it _is_ possible though. Let's suppose we have a component with a port of type `(Maybe (Unsigned 4))`. Suppose we want to drive `Nothing` on it constantly. Since `Nothing :: Maybe (Unsigned 4)` is represented as '`0....`' (cf. `pack (Nothing :: Maybe (Unsigned 4)))` in Clash), by driving the constant `(0)` we will get the intended effect in hardware. This is not simulatable since the Clash code will throw a type-error, as `0` is not of type `Maybe a`.
+
+Another approach that does preserve simulation is defining a mealy machine as follows in the `.expc` file:
+
+```haskell
+component constantNothing() {
+    output c :: Maybe (Unsigned 4)
+
+    c = Nothing
+}
+```
+
+Instantiate the component anywhere, and connect its `constantNothing.c` port to the port that must be driven by Nothing.
+
+See issue [#16](https://github.com/PietPtr/Ex-PART/issues/16).
+
+Examples using constant drivers: manycore, chain, core, constants.
+
 ## Repeat statement
+
+The repeat statement simply _repeats_ a component or system several times. In Clash this corresponds loosely with a map. Its syntax is as follows:
+
+```haskell
+    repeat <repeat_name> at (<x>, <y>) {
+        component = <element> in (<width>, <height>),
+        amount = <amount>,
+        layout = <layout>
+    }
+```
+
+- `<repeat_name>`: The name of this repetition. This name is referred to in [multiconnections](#multiconnections).
+- `<x>`, `<y>`: The location of the _first_ instance in this repetition.
+- `<width>`, `<height>`: The width and height of _every_ instance in this repetition.
+- `<element>`: The component or subsystem name to be repeated. A subsystem can be repeated too, if you have instantiated some system somewhere it is possible to _also_ lay it out using repeat as well. For more info see the section on [unplaced systems](#unplaced-systems).
+- `<amount>`: How often the element must be repeated.
+- `<layout>`: either `horizontal`, `vertical`, or `identical`. These describe how the layout must be continued: in a horizontal or vertical line, or placing every component at the same position.
+
+[This image](resources/repeat_result.png) is an example of a vertical layout of some component of size (4, 2), at location (2, 2), with amount five.
+
+The order of the settings does not matter.
+
+Once instantiated, individual components of the repeat can still be addressed:
+
+```haskell
+<repeat_name>[<index>].<port>->some_port
+```
+
+Where `<repeat_name>` is the name given to the repetition, and `<index>` is a **1-indexed (so the first component in the repetition is `repetition[1]`)** accessor for the components. This is 1-indexed since this is _not_ an array in memory, this is a line of components laid out in 2D space. When, in real life, some line of objects is laid out, it is most natural to refer to the leftmost or topmost component as the "first", not the "zeroth". Furthermore, with 1-indexed component references the last component index is equal to the amount, which is again quite natural: if there are in total five objects somewhere, you refer to the last as the "fifth" in natural language and hence as `repetition[5]` in Ex-PART.
+
+Accessing more than one component at the same time as possible with [multiconnections](#multiconnections)
+
+Coordinate and size expressions do not support indexing in the parser. It is possible to circumvent this: internally a statement such as `component[1]` is translated to an instance with the name `component_1`, and this identifier _is_ available in coordinate and size expressions. This hack is used in the manycore. See also issue [#17](https://github.com/PietPtr/Ex-PART/issues/17).
+
+Examples using the repeat statement: repeat, manycore, chain, core, smallnet, router.
 
 ## Chain statement
 
+Use the chain component to build _chains_ of components. In Clash this corresponds loosely to a fold. Its syntax is as follows:
+
+```haskell
+    chain <chain_name> at (<x>, <y>) {
+        component = <element> in (<width>, <height>),
+        amount = <amount>,
+        layout = <layout>,
+        chain_in = <chain_in_port>,
+        chain_out = <chain_out_port>
+    }
+```
+
+The diagram below shows what hardware this generates.
+
+![Chain diagram](resources/chain.svg)
+
+Given the top component, with an some input port `<chain_in_port>` and an output port `<chain_out_port>` _of the same type_, the `chain` primitive builds a chain of `<amount>` components, connecting the `<chain_out_port>` of the nth component to the `<chain_in_port>` of the (n+1)th component. 
+
+Other inputs and outputs may be available, as shown in the diagram. These still can be accessed using the same access syntax as in the repeat statement. Accessing more than one component at the same time as possible with [multiconnections](#multiconnections)
+
+This is used in the examples: manycore, chain.
+
 ## Multiconnections
+
+
+To easily connect many ports of chains or repetitions of components to other chains and repetitions (to e.g. create a twodimensional grid of hardware) multiconnections are available. They can take several forms:
+
+```haskell
+<from_repetition>:<from_port> -> <to_repetition>:<to_port>
+drivers:out -> sum_chain:next
+```
+Using the `:` with a repetition instead of a `.` denotes that for _every_ component in the `<from_repetition>`, the port `<from_port>` must be connected to the `<to_port>` of every component in the `<to_repetition>`. This only works when both repetitions are of exactly the same size. When they are not the following syntax is available to select parts of a range:
+
+```haskell
+<from_repetition>[<from_index>-<to_index>]:<from_port>
+repetition[1-3]:port
+```
+This denotes that the `<from_port>` in every component with index ≥ `<from_index>` and ≤ `to_index` are connected. More examples of this usage are available in the repeat and manycore example.
+
+
+This is used in the examples: manycore, chain, repeat.
 
 ## Unplaced Systems
 
+As mentioned, it is chain or repeat a _system_ instead of just components. However, to define a system hierarchy implies immediately instantiating it as well. When you just want a chain of the same system hierarchy, and not one extra system somewhere, it is possible to add the qualifier `unplaced` before a system definition:
+
+```haskell
+unplaced <system_name> in (<width>, <height>) { ... }
+unplaced pru in (28, 14) { ... }
+```
+
+This qualifier tells Ex-PART that this system hierarchy may be reused or instantiated _somewhere_, just not here. 
+
+This is done in the manycore example.
+
 ## System Instantiation
 
+Systems can also be re-instantiated using similar syntax to components. This allows you to define a system, and then add several more instances of the system. This is done in the md5_reuse example: first the MD5 hashing hierarchy is defined as the subsystem named `hash1`. Then under that system three statements are located that instantiate three more of the same system to build a design that can perform the same calculation four times in parallel.
 
+```
+<instance_name> is <system_name> in (<width>, <height>) at (<x>, <y>)
+```
+
+Notice that this is exactly the same syntax as component instantiation. The only difference in semantics is that now we use a _system name_ instead of a component name. This `<system_name>` is one of the systems in the `.expi` file, and may be [`unplaced`](#unplaced-systems).
 

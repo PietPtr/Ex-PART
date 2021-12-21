@@ -10,7 +10,7 @@ In `docs` you will find several guides on programming with Ex-PART. Ex-PART repu
 
 In `docs/setting-up.md` you will find the nessecary versions of all the software Ex-PART depends on, and information on how to best structure and build an Ex-PART project.
 
-In `examples/` several examples detailing all Ex-PART's features are located. The examples in the paper are `collatz`, `md5_reuse`, and `manycore`.
+In `examples/` several examples detailing all Ex-PART's features are located. The examples in the paper are `collatz`, `md5_reuse`, and `manycore`. Some explanations of what the examples are supposed to do can be found in `docs/examples.md`.
 
 `docs/programming.md` is the guide for programming in Ex-PART. It contains documentation for every language construct, tips on how to best configure your editor, and warnings onn everything that seems like it should work but doesn't.
 

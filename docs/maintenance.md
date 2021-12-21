@@ -17,7 +17,47 @@
 ## Nextpnr (`nextpnr`)
 
 
-# Error Messages
+# Feature Implementations
 
-Ex-PART's error system is _very_ simple: it uses haskell's `error :: String -> a` function whenever anything unexpected happens. Occasionally Ex-PART will dump extra output in the error message as well. This list aims to go through all error messages Ex-PART may throw and provide a short explanation on why this error may be thrown and what can be done to fix it.
+Below the same feature list as in the [programming manual](programming.md) is shown. Here a brief explanation of the implementation of the feature is provided, including where to find the code.
+
+## Comments
+
+## `.expc` file
+
+## `haskell` block
+
+## Component definition
+
+### I/O ports and state
+
+### Transition statements
+
+## `.expi` file
+
+## Coordinates and Sizes
+
+## System Definitions
+
+### I/O ports
+
+### Subsystems
+
+## Component Instantiation
+
+## Port connection
+
+## Constant Drivers
+
+## Repeat statement
+
+## Chain statement
+
+## Multiconnections
+
+## Unplaced Systems
+
+## System Instantiation
+
+
 
