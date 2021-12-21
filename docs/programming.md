@@ -637,6 +637,8 @@ If an error is not mentioned here, it is probably in [the maintenance guide](mai
   - The system searched for an element of a certain name but couldn't find either a component or a subsystem of that name. Check if you spelled the system or component name correctly in every repetition.
 - `elaboration/Repetition.hs:172:` Unknown layout procedure.
   - The only available layout procedures are `horizontal`, `vertical`, and `identical` ([Repeat](#repeat-statement)). Use only those, or implement a new one at this line.
+- `json-builder/Locations.hs:154:` Could not find ID $id in provided list.
+  - The identifier $id in a coordinate or size expression could not be found. Make sure that the identifier was typed correctly and is indeed defined in the instantiation file.
 - `json-builder/JSONBuilder.hs:21:` Top-level coordinates must be constants.
   - As defined in [System Definitions](#system-definitions), the top-level system must have constant coordinates. Ex-PART found a non-constant coordinate.
 - `json-builder/JSONBuilder.hs:32:` expi file contains a cyclic coordinate definition, cannot generate location JSON.
