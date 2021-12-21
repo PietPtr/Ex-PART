@@ -11,7 +11,6 @@
 - [Simulation with Clash](#simulation-with-clash)
 - [Post-Synthesis Simulation](#post-synthesis-simulation)
 - [Bitstream Generation](#bitstream-generation)
-- [Error Messages](#error-messages)
 - [Feature List](#feature-list)
   - [Comments](#comments)
   - [Types](#types)
@@ -29,6 +28,8 @@
   - [Multiconnections](#multiconnections)
   - [Unplaced Systems](#unplaced-systems)
   - [System Instantiation](#system-instantiation)
+- [Error Messages](#error-messages)
+  - [Errors List](#errors-list)
 
 # Designing Hardware with Ex-PART
 
@@ -267,12 +268,6 @@ Since Ex-PART operates directly on the JSON file that Yosys outputs, no post-syn
 
 Ex-PART uses nextpnr to generate bitstreams. Nextpnr emits bitstreams in both JSON format and the Trellis textual configuration format. Both of these versions are available in the output directory as `bitstream.json` and `bitstream.config`. With the program `ecppack` (which is part of [project Trellis](https://github.com/YosysHQ/prjtrellis)) `bitstream.config` can be converted from a textual representation to a bitstream that can be programmed to an ECP5 FPGA. 
 
-# Error Messages
-
-Ex-PART's error system is _very_ simple: it uses haskell's `error :: String -> a` function whenever anything unexpected happens. Occasionally Ex-PART will dump extra output in the error message as well. This list aims to go through all error messages Ex-PART may throw and provide a short explanation on why this error may be thrown and what can be done to fix it.
-
-TODO: alle error messages
-
 # Feature List
 
 Below you find a comprehensive feature list of the language Ex-PART. For every feature a brief explanation is provided, syntax examples are given, and the examples which use the feature are listed. For a short description of their implementation the same list is available in [the maintenance manual](maintenance.md).
@@ -396,6 +391,8 @@ There exists somewhat of a global scope for these variables: somewhat because Ex
 Parentheses can be used to impose precedence on subexpressions as is usual in arithmetic expressions.
 
 In almost every example many examples can be found of these expressions being used.
+
+See also issue [#13](https://github.com/PietPtr/Ex-PART/issues/13) on cycle checking in coordinate and size expressions.
 
 
 ## System Definitions
@@ -595,3 +592,67 @@ Systems can also be re-instantiated using similar syntax to components. This all
 
 Notice that this is exactly the same syntax as component instantiation. The only difference in semantics is that now we use a _system name_ instead of a component name. This `<system_name>` is one of the systems in the `.expi` file, and may be [`unplaced`](#unplaced-systems).
 
+# Error Messages
+
+Ex-PART's error system is _very_ simple: it uses haskell's `error :: String -> a` function whenever anything unexpected happens. Occasionally Ex-PART will dump extra output in the error message as well. This list aims to go through all error messages Ex-PART may throw and provide a short explanation on why this error may be thrown and what can be done to fix it.
+
+If an error is not mentioned here, it is probably in [the maintenance guide](maintenance.md), as it may be indicative of an error in Ex-PART instead of in your code.
+
+## Errors List
+
+- `clash-generator/Flattener.hs:131:` No connection specified for element $name (is $type), port $portname
+  - The flattener searched for a driver for the port $portname of element $name (which is of component or system type $type), but could not find it. Check if that port is indeed connected to something.
+- `clash-generator/Flattener.hs:151:` No connection specified for io statement $io in system $sysid
+  - Flatenner couldn't find a driver for the IO port $io of a system called $sysid. Also prints all the connections that it did find. Check if that port is connected.
+- `compiler/Compiler.hs:91:` No components in expc file...
+  - An .expc file must contain at least one component.
+- `elaboration/ElaborateConnection.hs:9:` Cannot connect ports $from -> $to as they have differing types: $fromType -> $toType.
+  - Ports must have the same type when they are connected, this error is thrown when two ports are connected with different types.
+- `elaboration/ElaborateConnection.hs:25:` Cannot find port with name $portName in $iostats
+  - The port with name $portName was not found in the IO statements of an element. It prints the IO statements it did find.
+- `elaboration/ElaborateConnection.hs:27:` Found several ports with name $portName in $iostats
+  - Only place in Ex-PART that actually errors when several entities of the same names are found, instead of just picking the first one. There are several ports with the name $portName. To help debugging, the IO statements that were searched were found.
+- `elaboration/ElaborateConnection.hs:40:` Cannot find element with name $name in $elemnames
+  - During Yosys postprocessing a bitwidth of ports must be found, and that can be quite hidden in the data structures. That's why these elements must be searched through and these kind of errors may be thrown. If an element that does not exist occurs in e.g. a connection statement this error may be thrown.
+- `elaboration/ElaborateConnection.hs:42:` Found several components with name 
+  - Similar issues but with several components with the name.
+- `elaboration/Elaboration.hs:76:` Cannot find system $name in this scope. $(map systr_name systrees)
+  - Is thrown for system instantiations that refer to systems that are not in scope. Check if the system is in scope or you've given your instantiation/repetition statement the correct type.
+- `elaboration/Multiconnection.hs:8:` Cannot connect differing amount of ports: $from' -> $to'
+  - Multiconnections can only connect ranges of the same size. Take care that the ranges you tried to connect are indeed of the same size.
+- `elaboration/Multiconnection.hs:20:` Cannot find repetition with name \$repname for multiconnection \$repname:\$portname
+  - The specified multiconnection refers to a repitition with $repname, the system did not find any repetition with that name in scope. Check if you are referring to the correct repetition.
+- `elaboration/Repetition.hs:34:` Missing option `chain_in` in chain statement
+  - Chain statements _must_ contain a `chain_in` option ([Chains](#chain-statement))
+- `elaboration/Repetition.hs:37:` Missing option `chain_out` in chain statement
+  - Chain statements _must_ contain a `chain_out` option ([Chains](#chain-statement))
+- `elaboration/Repetition.hs:42:` Missing option `component` in repetition statement.
+  - Repeat and chain statements _must_ contain a `component` option ([Chains](#chain-statement), [Repeat](#repeat-statement))
+- `elaboration/Repetition.hs:45:` Missing option `amount` in a repetition statement.
+  - Repeat and chain statements _must_ contain a `amount` option ([Chains](#chain-statement), [Repeat](#repeat-statement))
+- `elaboration/Repetition.hs:48:` Missing option `layout` in a repetition statement.
+  - Repeat and chain statements _must_ contain a `layout` option ([Chains](#chain-statement), [Repeat](#repeat-statement))
+- `elaboration/Repetition.hs:119:` Cannot find element $elemName in source files.
+  - The system searched for an element of a certain name but couldn't find either a component or a subsystem of that name. Check if you spelled the system or component name correctly in every repetition.
+- `elaboration/Repetition.hs:172:` Unknown layout procedure.
+  - The only available layout procedures are `horizontal`, `vertical`, and `identical` ([Repeat](#repeat-statement)). Use only those, or implement a new one at this line.
+- `json-builder/JSONBuilder.hs:21:` Top-level coordinates must be constants.
+  - As defined in [System Definitions](#system-definitions), the top-level system must have constant coordinates. Ex-PART found a non-constant coordinate.
+- `json-builder/JSONBuilder.hs:32:` expi file contains a cyclic coordinate definition, cannot generate location JSON.
+  - Ex-PART found a cyclic dependency for coordinates or sizes, see issue [#13](https://github.com/PietPtr/Ex-PART/issues/13)
+- `nextpnr/Nextpnr.hs:28:` nextpnr terminated with code $code
+  - Somewhere in nextpnr an error occured, usually this is a failed assertion, a segfault, or some error in the python script (`nextpnr/constrainer.py`). In any case, take a look at `nextpnr.err` for more information.
+- `parser/Types.hs:149:` Cannot find bitwidth of type $type
+  - Bitwidth for types are hardcoded in Ex-PART, as that was the fastest solution for now. It _should_ use Clash's system that maps types to bitwidths (See also issue [#2](https://github.com/PietPtr/Ex-PART/issues/2)). If you want to add a type's bitwidth, add it to the case statement here.
+- `yosys/Postprocessing.hs:204:` Could not find driver $cid in $(sys_connections system)
+  - $cid is some connection ID, so an element and a port. In the connections in the current system, no driver driving this connection ID was found. It also provides a list of connections of the system so you can see which connections _were_ found.
+- `yosys/Postprocessing.hs:331:` cannot find net for cid in netmap \$cid (\$netmap)
+  - Errors here are harder to debug and more often errors in Ex-PART.
+- `yosys/Postprocessing.hs:333:` No net found, something is disconnected... $port (\$relevantConnections) (\$netmap)
+  - Some output port $port is not connected to anything.
+- `yosys/Preprocessing.hs:63:` Found zero-output component.
+  - Components must have at least one output.
+- `yosys/Yosys.hs:54:` Clash terminated with code $code
+  - Clash terminated with an error. Take a look at the `clash.err` in one of the folders in `builds/` in the output directory.
+- `yosys/Yosys.hs:138:` Yosys terminated with code $code
+  - Yosys had some error, take a look at the `yosys.err` and `yosys.log` in the output directory.
