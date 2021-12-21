@@ -299,7 +299,6 @@ data Range
     deriving (Show, Eq)
 
 -- The data structure after elaboration.
--- Easier to work with.
 data System = System {
         sys_unplaced :: Bool,
         sys_name :: String,

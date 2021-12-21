@@ -53,6 +53,10 @@ It is possible to use different names for the expc/expi/lpf file, but using the 
 
 # Running Ex-PART
 
+## Make
+
+First run either `make install` or `make symlink` with root privileges. This will create the directory `/usr/share/ex-part`, and either copy or symlink certain files (scripts, CSVs) there. Ex-PART always assumes that this folder exists and that the relevant resource files are located there.
+
 ## ghci
 
 Ex-PART does not come with a nice `main` function, instead it is generally run through `ghci`. To run it, navigate to the root directory of this repository and run:

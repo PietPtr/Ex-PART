@@ -4,7 +4,7 @@ import Types
 import Data.List
 
 -- X step 1: fill in arguments
--- Version Two: implement this
+-- TODO (lowprio): add constant component arguments (generics)
 
 -- step 2: create Haskell type signature from ISO
 haskellifyISO :: (ISOStat -> String) -> [ISOStat] -> String

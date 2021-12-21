@@ -54,6 +54,7 @@ This guide fully focusses on allowing you to design hardware in Ex-PART. If anyt
 
 - The feature list below also details some hacks, tips, and tricks for these features that may ease development or help understanding why something behaves unexpectedly.
 
+- When driving the same input with two outputs, none of the tools will give warning, the design is just synthesized to ... something. Beware.
 
 
 # Design Feedback
@@ -365,7 +366,7 @@ Where `<text n>` means that there can be any number `n` of such statements.
 - `<input n>`: the name of some input port.
 - `<input_type n>`: the type of some input port.
 - `<state n>`: the name of a state.
-- `<initial_state n>`: the value for the initial state of that state. The parser is quite weak for this initial state (e.g. `Just 0` may not work), define a constant function in a `haskell` block to circumvent this (e.g. `my_initial_state = Just 0`, and setting the initial state to `my_initial_state`).
+- `<initial_state n>`: the value for the initial state of that state. The parser is quite weak for this initial state (e.g. `Just 0` may not work), define a constant function in a `haskell` block to circumvent this (e.g. `my_initial_state = Just 0`, and setting the initial state to `my_initial_state`). When you forget this value, a very unclear parse error pops up. When these statements don't parse it's usually because the initial state was left out.
 - `<output n>`: the name of some output port.
 - `<output_type n>`: the type of some output port.
 - `<state_expr n>`: the transition expression for this state. This expression is simply a Haskell expression. Any Haskell construct can be used here, except for records, as they contain the character `}` in their syntax (see also issue [#15](https://github.com/PietPtr/Ex-PART/issues/15)). A transition expression can use any of the variables that are in scope in the component: inputs, other states, even the next values for other states, as long as there is no mutually recursive dependency between them. To find out if this has happened (on accident), run the Clash simulation. If it produces no output there probably is such a mutually recursive pair in a component somewhere.
