@@ -5,6 +5,8 @@ from init import *
 import color
 
 def draw_system_rects(screen, system_list):
+    if init.PAPER:
+        return
     for system in system_list:
         key = next(iter(system))
         if 'br' in system[key] and 'tl' in system[key]:
@@ -26,6 +28,8 @@ def draw_system_rects(screen, system_list):
                 draw_system_rects(screen, system[key])
 
 def draw_system_labels(screen, system_list):
+    if init.PAPER:
+        return
     for system in system_list:
         key = next(iter(system))
         if 'br' in system[key] and 'tl' in system[key]:
