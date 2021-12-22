@@ -551,31 +551,31 @@ Other inputs and outputs may be available, as shown in the diagram. These still 
 This is used in the examples: manycore, chain.
 
 ## Multiconnections
-
-
-To easily connect many ports of chains or repetitions of components to other chains and repetitions (to e.g. create a twodimensional grid of hardware) multiconnections are available. They can take several forms:
+To easily connect many ports of chains or repetitions of components to other chains and repetitions (to e.g. create a two-dimensional grid of hardware) multiconnections are available. They can take several forms:
 
 ```haskell
 <from_repetition>:<from_port> -> <to_repetition>:<to_port>
+-- Example:
 drivers:out -> sum_chain:next
 ```
 Using the `:` with a repetition instead of a `.` denotes that for _every_ component in the `<from_repetition>`, the port `<from_port>` must be connected to the `<to_port>` of every component in the `<to_repetition>`. This only works when both repetitions are of exactly the same size. When they are not the following syntax is available to select parts of a range:
 
 ```haskell
 <from_repetition>[<from_index>-<to_index>]:<from_port>
+-- Example:
 repetition[1-3]:port
 ```
 This denotes that the `<from_port>` in every component with index ≥ `<from_index>` and ≤ `to_index` are connected. More examples of this usage are available in the repeat and manycore example.
-
 
 This is used in the examples: manycore, chain, repeat.
 
 ## Unplaced Systems
 
-As mentioned, it is chain or repeat a _system_ instead of just components. However, to define a system hierarchy implies immediately instantiating it as well. When you just want a chain of the same system hierarchy, and not one extra system somewhere, it is possible to add the qualifier `unplaced` before a system definition:
+As mentioned, it is possible to chain or repeat a _system_ instead of just components. However, to define a system hierarchy implies immediately instantiating it as well. When you just want a chain of the same system hierarchy, and not one extra system somewhere, it is possible to add the qualifier `unplaced` before a system definition:
 
 ```haskell
 unplaced <system_name> in (<width>, <height>) { ... }
+-- Example taken from manycore.
 unplaced pru in (28, 14) { ... }
 ```
 
@@ -595,9 +595,9 @@ Notice that this is exactly the same syntax as component instantiation. The only
 
 # Error Messages
 
-Ex-PART's error system is _very_ simple: it uses haskell's `error :: String -> a` function whenever anything unexpected happens. Occasionally Ex-PART will dump extra output in the error message as well. This list aims to go through all error messages Ex-PART may throw and provide a short explanation on why this error may be thrown and what can be done to fix it.
+Ex-PART's error system is _very_ simple: it uses haskell's `error :: String -> a` function whenever anything unexpected happens (see issue [#20](https://github.com/PietPtr/Ex-PART/issues/20)). Occasionally Ex-PART will dump extra output in the error message as well. This list aims to go through all error messages Ex-PART may throw and provide a short explanation on why this error may be thrown and what can be done to fix it.
 
-If an error is not mentioned here, it is probably in [the maintenance guide](maintenance.md), as it may be indicative of an error in Ex-PART instead of in your code.
+If an error is not mentioned here, it is probably in [the maintenance guide](maintenance.md), as it may be indicative of an error in Ex-PART instead of in your `.expc` or `.expi`.
 
 ## Errors List
 
@@ -612,15 +612,15 @@ If an error is not mentioned here, it is probably in [the maintenance guide](mai
 - `elaboration/ElaborateConnection.hs:25:` Cannot find port with name $portName in $iostats
   - The port with name $portName was not found in the IO statements of an element. It prints the IO statements it did find.
 - `elaboration/ElaborateConnection.hs:27:` Found several ports with name $portName in $iostats
-  - Only place in Ex-PART that actually errors when several entities of the same names are found, instead of just picking the first one. There are several ports with the name $portName. To help debugging, the IO statements that were searched were found.
+  - Only place in Ex-PART that actually errors when several entities of the same names are found, instead of just picking the first one. There are several ports with the name $portName and there should not be. To help debugging, the IO statements that were searched were found.
 - `elaboration/ElaborateConnection.hs:40:` Cannot find element with name $name in $elemnames
   - During Yosys postprocessing a bitwidth of ports must be found, and that can be quite hidden in the data structures. That's why these elements must be searched through and these kind of errors may be thrown. If an element that does not exist occurs in e.g. a connection statement this error may be thrown.
 - `elaboration/ElaborateConnection.hs:42:` Found several components with name 
   - Similar issues but with several components with the name.
-- `elaboration/Elaboration.hs:76:` Cannot find system $name in this scope. $(map systr_name systrees)
-  - Is thrown for system instantiations that refer to systems that are not in scope. Check if the system is in scope or you've given your instantiation/repetition statement the correct type.
+- `elaboration/Elaboration.hs:76:` Cannot find system $name in this scope. $sytem_names
+  - Is thrown for system instantiations that refer to systems that are not in scope. Check if the system is in scope or you've given your instantiation/repetition statement the correct type. Also prints a list of names of systems it did find.
 - `elaboration/Multiconnection.hs:8:` Cannot connect differing amount of ports: $from' -> $to'
-  - Multiconnections can only connect ranges of the same size. Take care that the ranges you tried to connect are indeed of the same size.
+  - Multiconnections can only connect ranges of the same size. Take care that the ranges you tried to connect are indeed of the same size. This can be especially obfuscated when not using the range operator.
 - `elaboration/Multiconnection.hs:20:` Cannot find repetition with name \$repname for multiconnection \$repname:\$portname
   - The specified multiconnection refers to a repitition with $repname, the system did not find any repetition with that name in scope. Check if you are referring to the correct repetition.
 - `elaboration/Repetition.hs:34:` Missing option `chain_in` in chain statement
@@ -642,7 +642,7 @@ If an error is not mentioned here, it is probably in [the maintenance guide](mai
 - `json-builder/JSONBuilder.hs:21:` Top-level coordinates must be constants.
   - As defined in [System Definitions](#system-definitions), the top-level system must have constant coordinates. Ex-PART found a non-constant coordinate.
 - `json-builder/JSONBuilder.hs:32:` expi file contains a cyclic coordinate definition, cannot generate location JSON.
-  - Ex-PART found a cyclic dependency for coordinates or sizes, see issue [#13](https://github.com/PietPtr/Ex-PART/issues/13)
+  - Ex-PART found a cyclic dependency for coordinates or sizes, see issue [#13](https://github.com/PietPtr/Ex-PART/issues/13) for more information on seemingly resolvable dependencies.
 - `nextpnr/Nextpnr.hs:28:` nextpnr terminated with code $code
   - Somewhere in nextpnr an error occured, usually this is a failed assertion, a segfault, or some error in the python script (`nextpnr/constrainer.py`). In any case, take a look at `nextpnr.err` for more information.
 - `parser/Types.hs:149:` Cannot find bitwidth of type $type
@@ -650,9 +650,9 @@ If an error is not mentioned here, it is probably in [the maintenance guide](mai
 - `yosys/Postprocessing.hs:204:` Could not find driver $cid in $(sys_connections system)
   - $cid is some connection ID, so an element and a port. In the connections in the current system, no driver driving this connection ID was found. It also provides a list of connections of the system so you can see which connections _were_ found.
 - `yosys/Postprocessing.hs:331:` cannot find net for cid in netmap \$cid (\$netmap)
-  - Errors here are harder to debug and more often errors in Ex-PART.
+  - Errors here are harder to debug and more often they are errors in Ex-PART and not in your code.
 - `yosys/Postprocessing.hs:333:` No net found, something is disconnected... $port (\$relevantConnections) (\$netmap)
-  - Some output port $port is not connected to anything.
+  - Some output port $port is not connected to anything. Much debug output is printed here as well, so you may miss the error because of all the extra output.
 - `yosys/Preprocessing.hs:63:` Found zero-output component.
   - Components must have at least one output.
 - `yosys/Yosys.hs:54:` Clash terminated with code $code
