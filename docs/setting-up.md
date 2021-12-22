@@ -93,9 +93,13 @@ This detection is not always very good, as detailed in [#7](https://github.com/P
 
 Builds the project as a monolithic design: it produces Clash.hs (normally used for synthesis), which has every function inlined by default. This file is converted to one enormous Verilog file with clash, synthesized with Yosys, and placed and routed without any placement constraints by nextpnr. 
 
+The build files for the monolithic flow are stored in the `monolithic/` directory in the given output directory.
+
 ### `hierarchic`
 
 Similar process as the monolithic flow, but adds annotations to Clash.hs to _not_ inline every function. This produces a hierachic Verilog project that is sythesized by Yosys and placed and routed without placement constraints by nextpnr.
+
+The build files for the hierarchic flow are stored in the `hierarchic/` directory in the given output directory.
 
 ### `resource`
 
