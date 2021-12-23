@@ -1,3 +1,21 @@
+- [Prerequisites](#prerequisites)
+- [Project directory structure](#project-directory-structure)
+- [Running Ex-PART](#running-ex-part)
+  - [Make](#make)
+  - [ghci](#ghci)
+- [Flows](#flows)
+  - [Running flows](#running-flows)
+  - [List of Available Flows](#list-of-available-flows)
+    - [`clean`](#clean)
+    - [`auto`](#auto)
+    - [`monolithic`](#monolithic)
+    - [`hierarchic`](#hierarchic)
+    - [`resource`](#resource)
+    - [`resource'`](#resource-1)
+    - [`sim`](#sim)
+    - [`location`](#location)
+    - [`pnr`](#pnr)
+
 # Prerequisites
 
 Ex-PART is built on exactly these versions of software involved, any older or newer may work, but probably won't as Ex-PART uses features which are changed often. Find here all used software and their `--version` return strings.
@@ -12,7 +30,8 @@ Ex-PART is built on exactly these versions of software involved, any older or ne
 > 
 > 
 > `nextpnr-ecp5 -- Next Generation Place and Route (Version dd637643)`
-> 
+
+Ex-PART uses nextpnr's Python script extension, so make sure you enable Python when building nextpnr.
 
 > Clash version 1.4.6
 > 
@@ -75,7 +94,7 @@ Ex-PART comes with several 'compilation flows', these are basically build script
 
 Compile flows often change directory. When a compile flow crashes the directory is not reset to the main directory. Use `:r` to reset this. This is of course not very convenient, see issue [#8](https://github.com/PietPtr/Ex-PART/issues/8).
 
-## Flow documentation
+## List of Available Flows
 
 Here all available flows are listed, including their caveats and features.
 
