@@ -1,0 +1,96 @@
+{
+    "components": [
+        "router"
+    ],
+    "flags": [
+        20,
+        20,
+        false
+    ],
+    "hash": -2344077909275233191,
+    "dependencies": {
+        "transitive": []
+    },
+    "version": "unstable",
+    "files": [
+        {
+            "name": "router.sdc",
+            "sha256": "13d4c1aafcc09a84d81d3b60d513cb901384a10e27e5a5a16572a600f15895f3"
+        },
+        {
+            "name": "router.v",
+            "sha256": "4227f173e7b2efb89369a9e7e4643baaab6fc711be6fae8f9e01ce9e77443685"
+        }
+    ],
+    "top_component": {
+        "ports_flat": {
+            "in": [
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "clk",
+                    "is_clock": true,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "rst",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "en",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 16,
+                    "name": "val",
+                    "is_clock": false,
+                    "type_name": "[15:0]"
+                }
+            ],
+            "out": [
+                {
+                    "width": 17,
+                    "name": "odd",
+                    "is_clock": false,
+                    "type_name": "[16:0]"
+                },
+                {
+                    "width": 17,
+                    "name": "even",
+                    "is_clock": false,
+                    "type_name": "[16:0]"
+                }
+            ]
+        },
+        "name": "router"
+    },
+    "domains": {
+        "System": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "XilinxSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Synchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "IntelSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        }
+    }
+}

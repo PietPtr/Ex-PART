@@ -1,0 +1,96 @@
+{
+    "components": [
+        "merger"
+    ],
+    "flags": [
+        20,
+        20,
+        false
+    ],
+    "hash": 4864151926435295068,
+    "dependencies": {
+        "transitive": []
+    },
+    "version": "unstable",
+    "files": [
+        {
+            "name": "merger.sdc",
+            "sha256": "13d4c1aafcc09a84d81d3b60d513cb901384a10e27e5a5a16572a600f15895f3"
+        },
+        {
+            "name": "merger.v",
+            "sha256": "297b9640c9bd2fbf39c93d4995ee760cffee30dc7842b6bf62285a70b6e3b9cc"
+        }
+    ],
+    "top_component": {
+        "ports_flat": {
+            "in": [
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "clk",
+                    "is_clock": true,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "rst",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "en",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 17,
+                    "name": "vo",
+                    "is_clock": false,
+                    "type_name": "[16:0]"
+                },
+                {
+                    "width": 17,
+                    "name": "ve",
+                    "is_clock": false,
+                    "type_name": "[16:0]"
+                }
+            ],
+            "out": [
+                {
+                    "width": 16,
+                    "name": "res",
+                    "is_clock": false,
+                    "type_name": "[15:0]"
+                }
+            ]
+        },
+        "name": "merger"
+    },
+    "domains": {
+        "System": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "XilinxSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Synchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "IntelSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        }
+    }
+}

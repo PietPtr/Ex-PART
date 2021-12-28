@@ -1,0 +1,8 @@
+GHC: Parsing and optimising modules took: 2.394s
+GHC: Loading external modules from interface files took: 0.000s
+GHC: Parsing annotations took: 0.001s
+Clash: Parsing and compiling primitives took 0.197s
+GHC+Clash: Loading modules cumulatively took 3.273s
+Clash: Compiling Main.topEntity
+Clash: Using cached result for: Main.topEntity
+Clash: Total compilation took 3.294s

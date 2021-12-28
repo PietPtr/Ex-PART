@@ -1,0 +1,125 @@
+{
+    "components": [
+        "system_controlM",
+        "system_routerM",
+        "system_onOddM",
+        "system_onEvenM",
+        "system_mergerM",
+        "system_collatzer",
+        "system_system",
+        "system"
+    ],
+    "flags": [
+        20,
+        20,
+        false
+    ],
+    "hash": 308258979129658427,
+    "dependencies": {
+        "transitive": []
+    },
+    "version": "unstable",
+    "files": [
+        {
+            "name": "system.sdc",
+            "sha256": "13d4c1aafcc09a84d81d3b60d513cb901384a10e27e5a5a16572a600f15895f3"
+        },
+        {
+            "name": "system_controlM.v",
+            "sha256": "939a2745ad6a50b1a0379f07b4317b60b4c934bc767bf7fd243e73e11fdceaf0"
+        },
+        {
+            "name": "system_routerM.v",
+            "sha256": "c150cc0d0f45147dca819253a998b3b9d4c53eeb3538c7410836b4e879d41aa6"
+        },
+        {
+            "name": "system_onOddM.v",
+            "sha256": "6c125bd0ebaed231962a025ded0b16d377fca3efc83f00f8a5bd4d74eabfc2c0"
+        },
+        {
+            "name": "system_onEvenM.v",
+            "sha256": "0d6fd1137423ef86ce5951ad89d5a20a92b52f7fc042015081164059d6b641e7"
+        },
+        {
+            "name": "system_mergerM.v",
+            "sha256": "ab19ec561e984d2f02d6f2b377136cc180656eed9daea06df9dc3258e8ae3256"
+        },
+        {
+            "name": "system_collatzer.v",
+            "sha256": "72d51082befd1b54567796a0d8f6ea8a2ef3e8973a08b4b05bf619fae1713dfc"
+        },
+        {
+            "name": "system_system.v",
+            "sha256": "043b594eab5ff63523532f69837bcdaa86803268acbd08f569089636d78b8ac7"
+        },
+        {
+            "name": "system.v",
+            "sha256": "2ccfd4808ccdcc09867ac37ce67ae47670a0473f62edd03038605b4af7273198"
+        }
+    ],
+    "top_component": {
+        "ports_flat": {
+            "in": [
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "clk",
+                    "is_clock": true,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "rst",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "domain": "System",
+                    "width": 1,
+                    "name": "en",
+                    "is_clock": false,
+                    "type_name": ""
+                },
+                {
+                    "width": 17,
+                    "name": "setting",
+                    "is_clock": false,
+                    "type_name": "[16:0]"
+                }
+            ],
+            "out": [
+                {
+                    "width": 16,
+                    "name": "result",
+                    "is_clock": false,
+                    "type_name": "[15:0]"
+                }
+            ]
+        },
+        "name": "system"
+    },
+    "domains": {
+        "System": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "XilinxSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Synchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        },
+        "IntelSystem": {
+            "period": 10000,
+            "init_behavior": "Defined",
+            "reset_kind": "Asynchronous",
+            "active_edge": "Rising",
+            "reset_polarity": "ActiveHigh"
+        }
+    }
+}

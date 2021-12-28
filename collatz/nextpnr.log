@@ -1,0 +1,9 @@
+------------------------ constrainer.py --------------------------
+ctx.createRectangularRegion('system.controller', 2, 2, 7, 2)
+ctx.createRectangularRegion('system.collatzer.merger', 7, 3, 7, 6)
+ctx.createRectangularRegion('system.collatzer.onEven', 3, 5, 6, 6)
+ctx.createRectangularRegion('system.collatzer.onOdd', 3, 3, 6, 4)
+ctx.createRectangularRegion('system.collatzer.router', 2, 3, 2, 6)
+Analyzing 70 cells.
+Constrained 31 cells, left 39 cells unconstrained.
+------------------------ constrainer.py --------------------------
