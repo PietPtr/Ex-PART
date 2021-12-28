@@ -237,8 +237,9 @@ nets' system bitCtr (c@(Connection' from _ netBitwidth):connections) netmap =
         -- (Also does some stuff with strictness, probably not important?)
         map' = Map.insertWith seq from net netmap 
         net = if isconst
-            -- TODO (bug): verify whether the endianness is correct
-            then (map (const 0) $ snd $ splitAt (length binary) net') ++ binary
+            -- Sets the most significant bit _last_ in the Yosys bits
+            -- (see yosys' command help write_json for a little more info)
+            then reverse ((map (const 0) $ snd $ splitAt (length binary) net') ++ binary)
             else net'
 
         net' = [bitCtr..(bitCtr+netBitwidth-1)]
