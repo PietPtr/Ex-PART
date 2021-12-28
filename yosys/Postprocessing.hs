@@ -17,14 +17,13 @@ import Types
 type Netmap = Map.Map CID Net
 
 -- Warning: 
---      research what happens when two signals drive the same input, clash may give a warning?
+--      What happens when two signals drive the same input?
 --      Nothing happens! No warnings, the design is synthesized anyway, so beware.
 
--- definieer een mooi datatype, bouw bestaande System/Program om hiernaartoe, het nice makend
--- definieer dan een toJSON hiervoor, verander het naar een Value, en prop het in de bestaande JSON
+
 data Module = Module {
     mod_name :: String,
-    mod_top :: Bool, -- all attributes...
+    mod_top :: Bool,
     mod_ports :: [Port],
     mod_cells :: [Cell] 
     } deriving Show
@@ -44,7 +43,7 @@ data PortAndDir = PortAndDir String PortDir
 data Cell = Cell {
     cell_name :: String,
     cell_type :: String,
-    cell_portDirections :: [PortAndDir], -- copy this from the type / module (Program => Component => ISOStats)
+    cell_portDirections :: [PortAndDir],
     cell_connections :: [CellConn]
     } deriving Show
 
@@ -184,7 +183,7 @@ makeModules system = mod :
             where
                 constCID = (CID elemName "out")
                 elemName = constModuleName (ConstantDriver value cid)
-                bitwidth = portBitwidth system cid --fromIntegral $ length $ toBinary value 
+                bitwidth = portBitwidth system cid
 
         cdToInstance :: ConstantDriver -> Instance
         cdToInstance (ConstantDriver value cid) = CmpInstance {
@@ -234,7 +233,9 @@ nets' _ _ [] map = map
 nets' system bitCtr (c@(Connection' from _ netBitwidth):connections) netmap =
     nets' system (bitCtr+netBitwidth) connections map'
     where
-        map' = Map.insertWith seq from net netmap -- seq :: a -> b -> b ensures the original value is kept
+        -- seq :: a -> b -> b ensures the original value is kept 
+        -- (Also does some stuff with strictness, probably not important?)
+        map' = Map.insertWith seq from net netmap 
         net = if isconst
             -- TODO (bug): verify whether the endianness is correct
             then (map (const 0) $ snd $ splitAt (length binary) net') ++ binary
@@ -242,7 +243,7 @@ nets' system bitCtr (c@(Connection' from _ netBitwidth):connections) netmap =
 
         net' = [bitCtr..(bitCtr+netBitwidth-1)]
 
-        -- Constant driver specific shit
+        -- Constant driver specific stuff
         (CID cmpName portName) = from
         isconst = constPrefix `isPrefixOf` cmpName
         (_:valueStr) = snd $ break (=='_') cmpName

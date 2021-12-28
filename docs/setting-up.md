@@ -18,7 +18,7 @@
 
 # Prerequisites
 
-Ex-PART is built on exactly these versions of software involved, any older or newer may work, but probably won't as Ex-PART uses features which are changed often. Find here all used software and their `--version` return strings.
+Ex-PART is built on exactly these versions of software involved, any older or newer may work, but probably won't as Ex-PART uses features which are changed often. Find here all used software and their `--version` strings.
 
 > Yosys version 0.10.0:
 > 

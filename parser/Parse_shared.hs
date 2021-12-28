@@ -45,15 +45,17 @@ ioStatement
     =   Input  <$> (string "input"  *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n')
     <|> Output <$> (string "output" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n')
 
+
+-- ISSUE #1:
 -- there must be a better way to do the haskell parsing, either actually follow the grammar or find a library...
 -- best effort for now to get at least some string resembling a haskell type out of it...
--- Clash will error for now if the type is bullshit.
--- let's specifically disallow list types for now, as clash won't be able to work with them anyway
+-- Clash will error if the type is bullshit.
+-- Specifically disallow list types for now, as clash won't be able to work with them anyway
 -- sadly also disallows record syntax
 haskell_type :: Parser String
 haskell_type = many1 $ oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '|']
 
--- ISSUE 1: Until now parsing haskell code like this hasn't failed spectacularly, but doing it this way is terrible.
+-- ISSUE #1: Until now parsing haskell code like this hasn't failed spectacularly, but doing it this way is terrible.
 haskell_stat :: Parser String
 haskell_stat = (many1 $ (oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '\t', '\n', '-', '<', '>', '$', '+', '-', '\'', '=', '|', ':', '*', '`', '!', '?', '.', '&', '/', '"']))
 
@@ -64,6 +66,6 @@ haskell_where_statement :: Parser String
 haskell_where_statement =  (\a b c d e -> a ++ b ++ c ++ d ++ e) <$>
     identifier <*> ows <*> string "=" <*> ows <*> haskell_stat
 
--- geen records voor nu i guess...
+-- ISSUE #15: This implies we cannot use records...
 haskell :: Parser String
 haskell = many $ noneOf ['{', '}']

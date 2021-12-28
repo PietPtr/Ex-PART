@@ -166,7 +166,7 @@ coords = (,)
 layout_expr_table =
     [ [Infix (symbol "+" >> (return CAdd)) AssocLeft, Infix (symbol "-" *> (pure CSub)) AssocLeft ] ]
 
--- Allow array indexing, and parse cmp[n] to cmp_n
+-- ISSUE #17: Allow array indexing, and parse cmp[n] to cmp_n
 layout_expr :: Parser LayoutExpr
 layout_expr = buildExpressionParser layout_expr_table layout_term <?> "layout expression"
 
@@ -231,7 +231,7 @@ constant_driver :: Parser String
 constant_driver = (\pl c pr -> pl ++ c ++ pr) <$> 
     (string "(") *> ((\c -> show (read c :: Int)) <$> const) <* (string ")")
     where
-        -- Only numeric constants are supported.
+        -- ISSUE #16: Only numeric constants are supported.
         symbols = ['0'..'9']
         text = (many1 $ oneOf symbols)
 

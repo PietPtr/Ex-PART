@@ -43,18 +43,6 @@ instance ToJSON Pos where
 instance ToJSON AbsolutePositionTree where
     toJSON (Leaf name tl br) = object [ pack name .= object ["tl" .= tl, "br" .= br]]
     toJSON (Node name children) = object [(pack name) .= toJSON children]
-    
--- ecp5_85K_NO_LUT_ROWS = [10, 22, 34, 46, 58, 70, 82]
-
--- ignoreNoLUTRows :: AbsolutePositionTree -> AbsolutePositionTree
--- ignoreNoLUTRows (Leaf id (Pos tl_x tl_y) (Pos br_x br_y)) =
---     (Leaf id (Pos tl_x (update tl_y)) (Pos br_x (update br_y + brDiff)))
---     where
---         update y = trace (show (id, y, rows y)) $ y + rows y
---         rows y = fromIntegral $ length $ filter (y>=) ecp5_85K_NO_LUT_ROWS
---         brDiff = rows (br_y + rows br_y) - rows br_y
-
--- ignoreNoLUTRows (Node id subtrees) = (Node id (map ignoreNoLUTRows subtrees))
 
 relToAbs :: [(String, WH, Pos)] -> Pos -> System -> AbsolutePositionTree
 relToAbs positions current system =  Node (sys_name system) $ leaves ++ subsystems
@@ -147,7 +135,7 @@ hasCycle graph = (or $ concat $ map (isInCycle graph) nodes) || hasLoop
         hasLoop = any (\(v, ns) -> v `elem` ns) (assocs graph)
 
 
--- IDEA: iets van hashmaps doen hier? (premature optimization)
+-- ISSUE #28: perhaps use maps here.
 findID :: [(String, Size, Coords)] -> String -> (String, Size, Coords)
 findID instances id = case filter (\(name, _, _) -> name == id) instances of
     (x:_) -> x

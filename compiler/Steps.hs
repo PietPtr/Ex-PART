@@ -15,7 +15,7 @@ createDirAndEnter :: FilePath -> IO ()
 createDirAndEnter outDir = do
     putStrLn $ "[Ex-PART] Creating directory `" ++ outDir ++ "'..."
     createDirectoryIfMissing True outDir
-    threadDelay 1000 -- This is terrible (:
+    threadDelay 1000 -- Is there a better way to do this? These statements depend on eachother but are not blocking.
     setCurrentDirectory outDir
 
 writeElaborated :: System -> IO ()

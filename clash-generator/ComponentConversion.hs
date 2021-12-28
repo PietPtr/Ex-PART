@@ -3,10 +3,10 @@ module ComponentConversion where
 import Types
 import Data.List
 
--- X step 1: fill in arguments
+-- X fill in arguments
 -- ISSUE #19: add constant component arguments (generics)
 
--- step 2: create Haskell type signature from ISO
+-- create Haskell type signature from ISO
 haskellifyISO :: (ISOStat -> String) -> [ISOStat] -> String
 haskellifyISO func stats = "(" ++ (concat $ intersperse ", " $ map func stats) ++ ")"
 
@@ -23,7 +23,7 @@ stateType isoStats = haskellifyISO (\(SState _ _ t) -> t) (states isoStats)
 outputType :: [ISOStat] -> String
 outputType isoStats = haskellifyISO (\(SOutput _ t) -> t) (outputs isoStats)
 
--- step 3: create skeleton Haskell def
+-- create skeleton Haskell def
 createEquation :: Component -> String
 createEquation (Component name _ isoStats _) = 
     name ++ " " ++ stateNames ++ " " ++ inputNames ++ " = (" ++ stateNames' ++ ", " ++ outputNames ++ ")"
@@ -33,13 +33,13 @@ createEquation (Component name _ isoStats _) =
         outputNames = haskellifyISO (\(SOutput name _) -> name) (outputs isoStats)
         stateNames' = haskellifyISO (\(SState name _ _) -> name ++ "\'") (states isoStats)
 
--- step 4: fill in where clause
--- BUG: dit soort trucedozen gaan echt weirde errors geven bij eindgebruikers die dingen anders doen dan ik
+-- fill in where clause
+-- If some unexpected stuff is hapenning in component definitions, try to keep indentation four spaces, or look at the examples for inspiration...
 createWhereClause :: Component -> String
 createWhereClause (Component _ _ _ whereBlock) = "    where\n    " ++ 
     (unlines $ map ("    " ++) $ lines whereBlock)
 
--- step 5: prepare for synthesis
+-- prepare for synthesis
 createMealy :: Component -> String
 createMealy (Component name _ isoStats _) = concat $ intersperse "\n" 
     [mealyType, mealyDef, ""]
@@ -95,7 +95,7 @@ haskellifyConstExpr expr = case expr of
     (Constant n) -> show n
     (HaskellData n) -> n
 
--- step 6: add imports and combine everything
+-- add imports and combine everything
 toClash' :: Component -> String
 toClash' cmp = concat $ intersperse "\n" $
     [ createTypeSignature cmp

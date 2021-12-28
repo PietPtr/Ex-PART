@@ -106,7 +106,7 @@ ioStatToBitWidth stat = case stat of
     (Input _ t) -> typeToBitwidth t
     (Output _ t) -> typeToBitwidth t
 
--- ISSUE 2: actually do this nicely instead of hardcoded widths for some types...
+-- ISSUE #2: actually do this nicely instead of hardcoded widths for some types...
 typeToBitwidth :: String -> Integer
 typeToBitwidth t = case t of
         "Value" -> 16
@@ -339,7 +339,7 @@ instance Pretty System where
 
 
 
--- fake accessor, saves memory usage i guess, but takes more time, classic trade-off.
+-- fake accessor.
 sys_subsystems :: System -> [System]
 sys_subsystems system = mapMaybe toSystem (sys_elems system)
     where

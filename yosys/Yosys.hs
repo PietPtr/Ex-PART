@@ -57,7 +57,7 @@ runClashParallel procsAndNames = do
 
 
 -- assumes clash has been generated
--- ISSUE 33: I use hGetContents everywhere, which is extremely slow, rewrite running tools as in Nextpnr.hs
+-- ISSUE #33: hGetContents is used everywhere, which is extremely slow for long outputs, rewrite running tools as in Nextpnr.hs
 compileFullToVerilog :: IO ()
 compileFullToVerilog = do
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess (proc "clash" [
@@ -78,8 +78,8 @@ compileFullToVerilog = do
             error $ "Yosys.hs: Clash terminated with code " ++ show code
         ExitSuccess -> pure ()
 
--- ISSUE 22: Reorganise: Yosys.hs executes Clash, should be in clash/ somewhere.
--- ISSUE 34: this pattern of process execution is repeated very often, and is contains the much output -> long runtime bug, build one generic version which streams such as nextpnr
+-- ISSUE #22: Reorganise: Yosys.hs executes Clash, should be in clash/ somewhere.
+-- ISSUE #34: this pattern of process execution is repeated very often, and is contains the much output -> long runtime bug, build one generic version which streams such as nextpnr
 runClash :: (String, CreateProcess) -> IO (String, ProcessHandle, Handle, Handle)
 runClash (cmpName, clash) = do
     putStrLn $ "        | ...of component " ++ cmpName

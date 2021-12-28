@@ -26,7 +26,6 @@ concatHaskell :: [HaskellDef] -> String
 concatHaskell blocks 
     = concat 
     $ map unlines 
-    -- $ map (map trim) 
     $ map lines 
     $ map (\(HaskellDef code) -> code) blocks 
 

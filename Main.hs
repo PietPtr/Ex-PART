@@ -3,7 +3,7 @@ module Main where
 import Prelude
 
 
--- import stuff such that in GHCi we can inspect types
+-- import stuff such that we can inspect types in GHCi
 import System.Environment
 
 import Parser

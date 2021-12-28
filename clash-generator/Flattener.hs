@@ -34,7 +34,7 @@ flatten inline top = intercalate "\n\n" $
 
         inlinedefs = if inline
             then intercalate "\n" (map (\n -> noinline (n ++ "M")) (Set.toList names))
-            else "-- Monolithic file, everything is inlined by default."
+            else "-- Monolithic file, everything is inlined (by default)"
 
 flatten' :: Bool -> System -> String
 flatten' inline system = sysdef
@@ -49,7 +49,7 @@ flatten' inline system = sysdef
             --  "\n    where\n" ++ 
             --  whereBlock system ++ "\n" ++
             --  indent subsysDefs 
-            -- ISSUE 25: Do not define the function for the same system twice:
+            -- ISSUE #25: Do not define the function for the same system twice:
             inlineDef ++
             typeDef system ++
             definition system ++ 

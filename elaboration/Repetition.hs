@@ -69,7 +69,6 @@ makeElement elems components rep i = Element {
                         cins_cmp = cmp,
                         cins_args = []
                     }
-                -- Nothing -> -- this nothing will have fired by now
             (Just elem) -> case elem_implementation elem of
                 (InstanceImpl inst) -> case inst of
                     cmpi@CmpInstance{} -> InstanceImpl $ cmpi {
@@ -167,7 +166,7 @@ reformLayout elemname repname coord = case coord of
 makeCoords :: String -> String -> Coords -> Integer -> Coords
 makeCoords _ _ coords 1 = coords
 makeCoords name layout coords i = case layout of
-    -- ISSUE 30: add layout expressions
+    -- ISSUE #30: add layout expressions
     "horizontal" -> (CAdd prevX (CWidth n), y) 
     "vertical" -> (x, CAdd prevY (CHeight n))
     "identical" -> (x, y)
