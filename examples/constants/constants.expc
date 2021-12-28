@@ -15,3 +15,10 @@ component counter() {
     
     out = count
 }
+
+component threemsbs() {
+    input num : Unsigned 24
+    output msbs : Unsigned 3
+
+    msbs = resize (num `shiftR` 21)
+}

@@ -1,10 +1,12 @@
 system in (21, 5) at (2, 2) {
-    output result : Unsigned 24
+    output result : Unsigned 3
 
     count is counter in (3, 3) at (0, 0)
+    msbs is threemsbs in (4, 3) at (0, 0)
 
-    count.out->result
+    count.out->msbs.num
     (1)->count.enable
     (16674)->count.interval
-    
+
+    msbs.msbs->result   
 }
