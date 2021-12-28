@@ -23,7 +23,7 @@ def build_connections(cells):
             cmp_name = path[-2]
             cell_map[cmp_name][cell] = content
         except IndexError:
-            pass # probably some IO crapje anyway, i.e. not a component
+            pass # probably some IO anyway, i.e. not a component
 
     for (cmp_name, celldir) in cell_map.items():
         connections_for_component(cmp_name, celldir, cells)

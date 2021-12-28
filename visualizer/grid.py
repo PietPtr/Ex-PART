@@ -124,10 +124,6 @@ def make_io():
         )
         tags.append(tag)
 
-        # location = (tag.x, tag.y)
-        # if location not in PinTag.loc_ctr:
-        #     PinTag.loc_ctr[location] = 0
-        # PinTag.loc_ctr[location] += 1
 
 make_io()
 

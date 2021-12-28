@@ -21,11 +21,8 @@ def draw_legend(screen, component_names):
         cmp_name = init.cell_name_to_json_path(cmp_type)
         init.myfont.underline = False
 
-        try:
-            if init.OVER_COMPONENT == cmp_type:
-                init.myfont.underline = True
-        except:
-            pass # lol
+        if init.OVER_COMPONENT == cmp_type:
+            init.myfont.underline = True
 
         text = init.myfont.render(cmp_name, True, (80, 80, 80))
         surfaces.append((text, cmp_type))

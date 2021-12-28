@@ -4,8 +4,6 @@ import pygame
 import init
 
 def color(name):
-    # if init.PAPER:
-    #     return pygame.Color(0, 0, 0)
     global mods
     name = name + name + name
     n = [ord(n) % 16 for n in name]

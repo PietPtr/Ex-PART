@@ -12,7 +12,6 @@ with open("base.json") as f:
 del old_data["modules"]["\\$top"]
 
 for module in new_modules:
-    # always just one but whatever
     for (module_name, module_data) in module.items():
         old_data["modules"][module_name] = module_data
 
