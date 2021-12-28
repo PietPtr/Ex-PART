@@ -49,7 +49,7 @@ flatten' inline system = sysdef
             --  "\n    where\n" ++ 
             --  whereBlock system ++ "\n" ++
             --  indent subsysDefs 
-             -- TODO: this is not the best solution to prevent re-used systems clashing in scope of course...
+            -- ISSUE 25: Do not define the function for the same system twice:
             inlineDef ++
             typeDef system ++
             definition system ++ 

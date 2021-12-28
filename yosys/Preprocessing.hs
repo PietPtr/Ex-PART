@@ -20,7 +20,7 @@ clashProcesses cmpNames = map
 readAndAppend :: String -> IO ()
 readAndAppend name = do
     verilogSrc <- readFile 
-        $ "builds/" ++ name ++ "/hdl/Main.topEntity/" ++ name ++ ".v" -- TODO (lowprio): dit doe ik wel erg vaak handmatig
+        $ "builds/" ++ name ++ "/hdl/Main.topEntity/" ++ name ++ ".v"
     appendFile ("builds/.grouped/grouped.v") verilogSrc
 
 

@@ -603,8 +603,6 @@ component direction_decider() {
 
     read_timer' = read_timer + 1
 
-    -- TODO: this routing strat always prefers x-directions, may cause congestion there...
-    -- Can be fixed by an alternating dirstate based on x/y position, but it's blind guessing whether that actually helps things
     dest (Just (Packet (x, y) _))
         | x > my_x = Just East
         | x < my_x = Just West

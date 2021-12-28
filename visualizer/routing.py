@@ -29,7 +29,7 @@ def parse_routing(routing_str):
 
         else:
             pass # It's a strength thingy I guess
-            # TODO: check if we're not missing something
+            # Might have missed something here, but usually it goes right
 
 def build_routemap(nets):
     print("Building routemap...")

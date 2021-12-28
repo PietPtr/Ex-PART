@@ -7,6 +7,7 @@
     - [Controls](#controls)
   - [Metric Analysis](#metric-analysis)
   - [The Output Directory](#the-output-directory)
+  - [`Clash.hs`](#clashhs)
 - [Thorough Explanation of a basic Ex-PART program](#thorough-explanation-of-a-basic-ex-part-program)
   - [`.expc` file](#expc-file)
   - [`.expi` file](#expi-file)
@@ -49,6 +50,8 @@ This guide fully focusses on allowing you to design hardware in Ex-PART. If anyt
 - Parse errors may occur when spaces or other whitespace occurs in the wrong place. The parser does not allow some kinds of statements to end with whitespace, for example.
 
 - Parse errors will also occur when the character '}' occurs unexpectedly, since this character is used to detect the end of a block (like a `haskell` block, as will be explained later). This character occurs in Haskell multiline comments and in records, hence these cannot be used in Ex-PART.
+  
+- If parse errors in Haskell statements happen because of other reasons, it's possible that you used a character that is not mentioned in `haskell_stat` in `Parse_shared.hs` (See also issue [#1](https://github.com/PietPtr/Ex-PART/issues/1))
 
 - Bitwidths of types are not determined automatically. In `parser/Types.hs` a switch statement is located that matches the name of a type to a bitwidth. Usually this becomes clear by the error "cannot find bitwdith for type `<Type>`". This means that if you use any type that it is not listed there, or define a type synonym of the same name but with a different bitwidth that is defined there, Ex-PART will not function correctly (Issue [#2](https://github.com/PietPtr/Ex-PART/issues/2)). If you want to add a type, either solve this problem correctly by looking at how Clash determines type bitwidths, or simply add / modify the case statement.
 
@@ -111,6 +114,10 @@ All the tools Ex-PART runs to obtain results emit outputs and errors that may be
 ## The Output Directory
 
 A ton of information is available in the output directory, all the logs, intermediate files, simulation files, etc. If anything goes wrong, do look at those files as some errors may have ended up only there and not in the output of Ex-PART.
+
+## `Clash.hs`
+
+For every project a `Clash.hs` file is generated, this is intended for simulation, but running it with Clash can also catch type- and other errors.
 
 # Thorough Explanation of a basic Ex-PART program
 
@@ -297,7 +304,7 @@ Comments are a little iffy in Ex-PART. In .expi files single line comments usual
 a is a in (5, 3) at (0, 0) -- this is a single line comment
 ```
 
-In expc files comments at least do always work in the expression statement parts, as those are directly copied to Haskell code during compilation. However, comments outside components and between input, output and state definitions _may_ not work. Multiline comments do not work, as the `}` character is used to determine if a component definition has finished.
+In expc files comments at least do always work in the expression statement parts, as those are directly copied to Haskell code during compilation. However, comments outside components and between input, output and state definitions _may_ not work. Multiline comments do not work, as the `}` character is used to determine if a component definition has finished (issue [#31](https://github.com/PietPtr/Ex-PART/issues/31)).
 
 ```haskell
 -- × This comment fails

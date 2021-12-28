@@ -13,8 +13,8 @@ nextpnr lpf options = do
         ["--85k",
          "--json", "synthesized.json",
          "--lpf", lpf,
-         "--write", "bitstream.json",
-         "--lpf-allow-unconstrained" -- TODO (lowprio): this should be off by default
+         "--write", "bitstream.json"
+        --  "--lpf-allow-unconstrained"  this should be off by default
         ] ++ options ++ bitstreamOptions)
          {std_out=CreatePipe, std_err=CreatePipe}
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess processDef
@@ -42,6 +42,6 @@ nextpnr lpf options = do
                 then putStrLn "[Ex-PART] nextpnr terminated."
                 else do
                     line <- hGetLine errHandle
-                    putStrLn $ "[nextpnr] " ++ line -- TODO (lowprio): allow filter spec?
+                    putStrLn $ "[nextpnr] " ++ line
                     appendFile "nextpnr.err" (line ++ "\n")
                     readloop errHandle

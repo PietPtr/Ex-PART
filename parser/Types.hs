@@ -106,7 +106,7 @@ ioStatToBitWidth stat = case stat of
     (Input _ t) -> typeToBitwidth t
     (Output _ t) -> typeToBitwidth t
 
--- TODO (lowprio): actually do this nicely instead of hardcoded widths for some types...
+-- ISSUE 2: actually do this nicely instead of hardcoded widths for some types...
 typeToBitwidth :: String -> Integer
 typeToBitwidth t = case t of
         "Value" -> 16
@@ -279,9 +279,10 @@ data CID
     = CID String String -- system port
     deriving (Show, Eq, Ord)
 
--- TODO: move pretty to its own file?
 instance Pretty CID where
-    pretty (CID cmp port) = cmp ++ "." ++ port
+    pretty (CID cmp port) = if cmp == "this"
+        then port
+        else cmp ++ "." ++ port
 
 data ConstantDriver = ConstantDriver String CID
     deriving (Show, Eq)
@@ -433,9 +434,6 @@ data Connection'
     deriving (Show, Eq, Ord)
 
 instance Pretty Connection' where
-    -- TODO (lowprio): prints this, but this should be omitted.
     pretty (Connection' from to bw) = pretty from ++ "->" ++ pretty to ++ "  -- " ++ show bw
 
 constPrefix = "$const_"
-
--- TODO (lowprio): een standaard library van mealy machines zou niet misstaan

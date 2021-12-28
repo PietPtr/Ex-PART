@@ -119,7 +119,8 @@ makeElement elems components rep i = Element {
                 Nothing -> error $ "Repetition.hs: Cannot find element " ++ elemName ++ " in source files."
         
 
--- TODO: this code is bug-ridden en was written blindly. With this implementation it is very hard to refer to width/height properties of an unplaced system. But I guess we just "can't" now.
+-- this code is bug-ridden en was written blindly. With this implementation it is very hard to refer to width/height properties of an unplaced system. But I guess we just "can't" now.
+-- ISSUE #29
 reformElemCoords :: String -> String -> Element -> Element
 reformElemCoords en rn elem = elem {
         elem_size = reformCoords' $ elem_size elem,
@@ -166,7 +167,8 @@ reformLayout elemname repname coord = case coord of
 makeCoords :: String -> String -> Coords -> Integer -> Coords
 makeCoords _ _ coords 1 = coords
 makeCoords name layout coords i = case layout of
-    "horizontal" -> (CAdd prevX (CWidth n), y) -- TODO (lowprio): add reverse_horizontal and reverse_vertical (reqs more powerful coord exprs)
+    -- ISSUE 30: add layout expressions
+    "horizontal" -> (CAdd prevX (CWidth n), y) 
     "vertical" -> (x, CAdd prevY (CHeight n))
     "identical" -> (x, y)
     _ -> error "Repeat.hs: Unknown layout procedure."

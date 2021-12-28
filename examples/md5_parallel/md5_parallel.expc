@@ -1,4 +1,4 @@
-combinatory {
+haskell {
 
 import Data.List as L
 

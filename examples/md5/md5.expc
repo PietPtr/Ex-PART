@@ -89,8 +89,7 @@ component message_store() {
     output m : UInt
     output stall : Bool
 
-    -- TODO: test nog even of je twee keer de zero hash kan maken, en dan het goede antwoord krijgt.
-
+    
     (message') = case data_in of
         (Just d) -> case data_ctr of
             (LoadingData ctr_index) -> (replace ctr_index d message)

@@ -31,7 +31,7 @@ portType iostats portName = case filter (findIOStat) iostats of
             (Output name _) -> name == portName
             (Input name _) -> name == portName
 
--- TODO (lowprio): can be prettier if the IOStats are put in a hashmap or something
+-- ISSUE #28: can be prettier if the IOStats are put in a hashmap or something
 findIOStatByName :: [Element] -> [IOStat] -> String -> [IOStat]
 findIOStatByName elems sysIO name = if name == "this"
     then sysIO

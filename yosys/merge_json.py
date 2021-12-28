@@ -1,7 +1,7 @@
 import json
 import sys
 
-# TODO (lowprio): het is zo stom dat dit in python is, waarom kan dit niet even nice ook in Aeson :(
+# ISSUE #24: This should not be written in python, but Aeson should be used for this...
 
 with open("interconnect.json") as f:
     new_modules = json.load(f)

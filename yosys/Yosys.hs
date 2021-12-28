@@ -30,7 +30,7 @@ compileToVerilog top = do
         procsAndNames = zip cmpNames (clashProcesses cmpNames)
 
 
--- TODO (lowprio): can be parallelized better by taking the transpose of batches and running all those sublist in a separate thread.
+-- ISSUE #27: can be parallelized better by taking the transpose of batches and running all those sublist in a separate thread.
 runClashParallel :: [(String, CreateProcess)] -> IO ()
 runClashParallel procsAndNames = do
     mapM_ runClashes batches
@@ -57,7 +57,7 @@ runClashParallel procsAndNames = do
 
 
 -- assumes clash has been generated
--- TODO: I use hGetContents everywhere, which is extremely slow, rewrite running tools as in Nextpnr.hs
+-- ISSUE 33: I use hGetContents everywhere, which is extremely slow, rewrite running tools as in Nextpnr.hs
 compileFullToVerilog :: IO ()
 compileFullToVerilog = do
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess (proc "clash" [
@@ -78,24 +78,14 @@ compileFullToVerilog = do
             error $ "Yosys.hs: Clash terminated with code " ++ show code
         ExitSuccess -> pure ()
 
--- TODO (lowprio): Reorganise: Yosys.hs executes Clash, should be in clash/ somewhere.
--- TODO (lowprio): this pattern of process execution is repeated very often, and is contains the much output -> long runtime bug, build one generic version which streams such as nextpnr
+-- ISSUE 22: Reorganise: Yosys.hs executes Clash, should be in clash/ somewhere.
+-- ISSUE 34: this pattern of process execution is repeated very often, and is contains the much output -> long runtime bug, build one generic version which streams such as nextpnr
 runClash :: (String, CreateProcess) -> IO (String, ProcessHandle, Handle, Handle)
 runClash (cmpName, clash) = do
     putStrLn $ "        | ...of component " ++ cmpName
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess clash
     return (cmpName, processHandle, outHandle, errHandle)
-    -- stdout <- hGetContents outHandle
-    -- stderr <- hGetContents errHandle
-    -- code <- waitForProcess processHandle
-    -- writeFile ("builds/"++cmpName++"/clash.log") stdout
-    -- writeFile ("builds/"++cmpName++"/clash.err") stderr
 
-    -- case code of
-    --     ExitFailure code -> do
-    --         putStr $ "[Clash] " ++ stderr
-    --         error $ "Yosys.hs: Clash terminated with code " ++ show code
-    --     ExitSuccess -> pure ()
 
 
 groupVerilogs :: System -> IO ()

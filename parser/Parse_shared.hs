@@ -53,7 +53,7 @@ ioStatement
 haskell_type :: Parser String
 haskell_type = many1 $ oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '|']
 
--- TODO (lowprio): Dit is tot nu toe nog niet stuk gegaan, maar haskell op deze manier parsen is best matig
+-- ISSUE 1: Until now parsing haskell code like this hasn't failed spectacularly, but doing it this way is terrible.
 haskell_stat :: Parser String
 haskell_stat = (many1 $ (oneOf $ ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ [' ', '_', '(', ')', ',', '\t', '\n', '-', '<', '>', '$', '+', '-', '\'', '=', '|', ':', '*', '`', '!', '?', '.', '&', '/', '"']))
 

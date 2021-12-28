@@ -11,8 +11,8 @@ data Statement
     | ComponentStat Component
     deriving Show
 
--- TODO (lowprio): there seem to be some issues with parsing if the expc file starts with an empty line
--- TODO (lowprio): I don't think comments outside haskell expressions actually work in expc files
+-- There seem to be some issues with parsing if the expc file starts with an empty line
+-- ISSUE 31: I don't think comments outside haskell expressions actually work in expc files
 expcdesign :: Parser ExpcDesign
 expcdesign = f <$> many (statement <* ows)
     where
@@ -26,11 +26,11 @@ expcdesign = f <$> many (statement <* ows)
 
 statement :: Parser Statement
 statement
-    =   try (HaskellStat <$> combinatory)
+    =   try (HaskellStat <$> haskell_block)
     <|> (ComponentStat <$> component)
 
-combinatory :: Parser String
-combinatory = string "haskell" *> ows *> char '{' *> haskell <* char '}'
+haskell_block :: Parser String
+haskell_block = string "haskell" *> ows *> char '{' *> haskell <* char '}'
 
 constExpr :: Parser ConstExpr
 constExpr = (Constant <$> integer)
@@ -40,7 +40,7 @@ isoStatement :: Parser ISOStat
 isoStatement
     =   try (SInput <$> (string "input" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n'))
     <|> try (SState <$> (string "state" *> ws *> identifier <* ows <* char '=' <* ows) <*> 
-        (constExpr) <*> (ows *> char ':' *> ows *> haskell_type <* char '\n')) -- TODO (lowprio): somehow add a nice error when the initial state is missing
+        (constExpr) <*> (ows *> char ':' *> ows *> haskell_type <* char '\n')) -- ISSUE 10: somehow add a nice error when the initial state is missing
     <|> try (SOutput <$> (string "output" *> ws *> identifier <* ows <* char ':' <* ows) <*> (haskell_type <* char '\n'))
 
 component :: Parser Component

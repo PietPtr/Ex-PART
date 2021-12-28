@@ -52,7 +52,7 @@ while True:
     files.draw_file_indicators(screen)
 
 
-    # TODO (lowprio): if in een build mapje, allow met pijltjestoetsen te switchen tussen componenten
+    # ISSUE 32: Allow easy switching between same-level directories using arrow keys.
 
     pygame.display.flip()
     files.try_load_pnr()

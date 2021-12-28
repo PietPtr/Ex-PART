@@ -43,9 +43,9 @@ auto expcPath expiPath lpfName outDir = do
             defsAndTypes <- pure $ (top_defs topdata /= expcdes_defs oldDesign)
             if (defsAndTypes)
                 then do
-                    -- A bit overkill to go clean when the defs/combinatory change, but otherwise _very_ hard to find
+                    -- A bit overkill to go clean when the haskell blocks change, but otherwise _very_ hard to find
                     -- what component to re-build.
-                    putStrLn $ "[Ex-PART] Modified definitions or combinatory found, picking clean flow."
+                    putStrLn $ "[Ex-PART] Modified Haskell block found, picking clean flow."
                     Flows.clean system outDir
                     finish lpfLoc outDir startDir
                 else do
@@ -178,7 +178,7 @@ resource' components expcPath expiPath lpfPath outDir = do
     setCurrentDirectory startDir
     putStrLn $ "[Ex-PART] Finished processes for resource usage analysis"
 
--- TODO (lowprio): abstract over an IO statement (partial, resource, monolithic, hierarhic)
+-- ISSUE #26: abstract over an IO statement (partial, resource, monolithic, hierarhic)
 location :: Flow
 location expcPath expiPath lpfPath outDir = do
     startDir <- getCurrentDirectory
@@ -217,7 +217,7 @@ pnr expcPath expiPath lpfPath outDir = do
 type Flow = (FilePath -> FilePath -> FilePath -> FilePath -> IO ())
 
 -- Easy helper function for consistently named projects
--- TODO (lowprio): There exists some function to execute an IO action within a directory, and even if it fails it returns to the original directory. Use that instead of setCurrentDirectory.
+-- ISSUE #8: There exists some function to execute an IO action within a directory, and if it fails it returns to the original directory. Use that instead of setCurrentDirectory.
 make :: Flow -> String -> IO ()
 make flow prj = do
     let path = "examples/" ++ prj ++ "/" ++ prj

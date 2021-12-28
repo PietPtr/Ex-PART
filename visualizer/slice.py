@@ -20,7 +20,7 @@ class Slice:
         self.active = active
 
     def draw(self, screen):
-        # TODO (lowprio): does not take different slices on a tile into account
+        # Warning: does not take different slices on a tile into account
         if init.MOUSE_TILE == (self.x, self.y):
             init.OVER_COMPONENT = self.display_name
 

@@ -5,6 +5,9 @@ from pprint import pprint
 
 top_entity_name = str(ctx.top_module)
 
+ECP5_ROWS = 95
+ECP5_COLS = 126
+
 def cell_name_to_json_path(cell_name):
     full_name = cell_name.split('.')
     expart_name = full_name[:-1]
@@ -38,10 +41,14 @@ def create_regions_system(system):
         if "tl" in sys and "br" in sys:
             # this is a bottom mealy
             regionID = ".".join(path)
-            # TODO (lowprio): gooi error wanneer een van deze punten out of bounds van de FPGA is
-
 
             print(f"ctx.createRectangularRegion('{regionID}', {sys['tl']['x']}, {sys['tl']['y']}, {sys['br']['x']}, {sys['br']['y']})")
+            if (sys["tl"]["x"] > ECP5_COLS or sys["tl"]["x"] < 0 or
+                sys["tl"]["y"] > ECP5_ROWS or sys["tl"]["y"] < 0 or
+                sys["br"]["x"] > ECP5_COLS or sys["br"]["x"] < 0 or
+                sys["br"]["y"] > ECP5_ROWS or sys["br"]["y"] < 0):
+                raise Exception("Point out of bounds!")
+
             ctx.createRectangularRegion(regionID, 
                 int(sys["tl"]["x"]), int(sys["tl"]["y"]),
                 int(sys["br"]["x"]), int(sys["br"]["y"]))

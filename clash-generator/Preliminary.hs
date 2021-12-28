@@ -21,9 +21,9 @@ makeComponentDirs components =
         compNames = map cmp_type components
 
 
--- concat a list of combinatory blocks
-concatCombinatory :: [HaskellDef] -> String
-concatCombinatory blocks 
+-- concat a list of haskell blocks
+concatHaskell :: [HaskellDef] -> String
+concatHaskell blocks 
     = concat 
     $ map unlines 
     -- $ map (map trim) 
@@ -34,7 +34,7 @@ concatCombinatory blocks
 genDefs :: TopData -> String
 genDefs (TopData combinatories _) = 
     "{-# LANGUAGE NumericUnderscores #-}\nmodule Definitions where\nimport Clash.Prelude\nimport qualified Data.List as L\n\n" ++
-    concatCombinatory combinatories -- TODO (lowprio): this is not called a combinatory anymore but a haskell block.
+    concatHaskell combinatories
 genDefs (NotTop) = error "Preliminary.hs: Something went wrong during elaboration, the top system does not have top-data."
 
 writeDefs :: TopData -> IO ()
