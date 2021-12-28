@@ -14,7 +14,7 @@ nextpnr lpf options = do
          "--json", "synthesized.json",
          "--lpf", lpf,
          "--write", "bitstream.json"
-        --  "--lpf-allow-unconstrained"  this should be off by default
+        --  "--lpf-allow-unconstrained" -- this should be off by default
         ] ++ options ++ bitstreamOptions)
          {std_out=CreatePipe, std_err=CreatePipe}
     (_, Just outHandle, Just errHandle, processHandle) <- createProcess processDef

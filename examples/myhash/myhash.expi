@@ -1,6 +1,11 @@
 system in (26, 26) at (20, 4) {
     input word : Maybe InWord
     output hash : Maybe MyHash
+    
+    -- Compile this design with "--lpf-allow-unconstrained" in Nextpnr.hs
+    -- There aren't really 33 pins for input and output available on the ECP5
+    -- So there should be some serdes stuff included as well, but that was
+    -- not important for the research
 
     inputter is inputter in (10, 1) at (0, 0)
 

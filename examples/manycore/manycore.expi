@@ -193,7 +193,7 @@ manycore in (100, 92) at (4, 4) {
             router.ready_for_packet->core.read_packet
             router.packet_from_core<-core.packet
 
-            router in (25, 22) at (0, 0) {
+            router in (30, 22) at (0, 0) {
                 input north_i : Maybe Int8
                 input east_i : Maybe Int8
                 input south_i : Maybe Int8

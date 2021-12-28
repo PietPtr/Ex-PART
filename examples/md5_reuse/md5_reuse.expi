@@ -2,6 +2,11 @@ system in (100, 80) at (2, 2) {
     input msg_words : Maybe UInt
     output hashes : Maybe UInt
 
+    -- Compile this design with "--lpf-allow-unconstrained" in Nextpnr.hs
+    -- There aren't really 33 pins for input and output available on the ECP5
+    -- So there should be some serdes stuff included as well, but that was
+    -- not important for the research
+
     msg_words->hash1.data
     hash1.hash->hashes
 

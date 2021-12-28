@@ -8,9 +8,9 @@ component compute() {
     input inp : Bitwidth
     state s = 0 : Bitwidth
     output out : Bitwidth
-    -- Werken comments al (buiten haskell dingen dus wel)
+    
     s' = inp
-    -- of juist erbinnen
+    
     out = (s * 13) `mod` 17 - 4
 
 }

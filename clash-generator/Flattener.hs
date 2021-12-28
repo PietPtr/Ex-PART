@@ -43,19 +43,19 @@ flatten' inline system = sysdef
             map (flatten' inline) (sys_subsystems system)
 
         sysdef = 
-            -- inlineDef ++
-            -- typeDef system ++
-            --  definition system ++ 
-            --  "\n    where\n" ++ 
-            --  whereBlock system ++ "\n" ++
-            --  indent subsysDefs 
             -- ISSUE #25: Do not define the function for the same system twice:
             inlineDef ++
             typeDef system ++
-            definition system ++ 
-            "\n    where\n" ++ 
-            whereBlock system ++ "\n" ++
-            subsysDefs 
+             definition system ++ 
+             "\n    where\n" ++ 
+             whereBlock system ++ "\n" ++
+             indent subsysDefs 
+            -- inlineDef ++
+            -- typeDef system ++
+            -- definition system ++ 
+            -- "\n    where\n" ++ 
+            -- whereBlock system ++ "\n" ++
+            -- subsysDefs 
 
         indent str = unlines $ map ("        " ++ ) $ lines str
         
