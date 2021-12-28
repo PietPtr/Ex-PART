@@ -1,0 +1,30 @@
+system in (6, 6) at (2, 2) {
+    output result : Value
+    input setting : Maybe Value
+    
+    collatzer.val_out->controller.next_val  -- 16
+    controller.result_value->collatzer.val_in  -- 16
+    controller.result_value->result  -- 16
+    setting->controller.set_val  -- 17
+    
+    controller is control in (6, 1) at (0, 0)
+    
+    collatzer in (controller.w, 4) at (0, controller.h) {
+        output val_out : Value
+        input val_in : Value
+        
+        merger.res->val_out  -- 16
+        onEven.res->merger.ve  -- 17
+        onOdd.res->merger.vo  -- 17
+        router.even->onEven.val  -- 17
+        router.odd->onOdd.val  -- 17
+        val_in->router.val  -- 16
+        
+        merger is merger in (1, onOdd.h + onEven.h) at (onOdd.x + onOdd.w, 0)
+        onEven is onEven in (onOdd.w, onOdd.h) at (onOdd.x, onOdd.h)
+        onOdd is onOdd in (collatzer.w - 2, 2) at (collatzer.x + 1, 0)
+        router is router in (1, onOdd.h + onEven.h) at (0, 0)
+        
+        
+    }
+}

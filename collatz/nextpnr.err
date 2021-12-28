@@ -1,0 +1,277 @@
+Warning: Use of default value for --package is deprecated. Please add '--package CABGA381' to arguments.
+Info: constraining clock net 'clk' to 25.00 MHz
+Info: Running script hook pre-pack...
+Info: Script hook pre-pack finished.
+
+Info: Logic utilisation before packing:
+Info:     Total LUT4s:        54/83640     0%
+Info:         logic LUTs:     54/83640     0%
+Info:         carry LUTs:      0/83640     0%
+Info:           RAM LUTs:      0/41820     0%
+Info:          RAMW LUTs:      0/20910     0%
+
+Info:      Total DFFs:        32/83640     0%
+
+Info: Packing IOs..
+Info: pin 'setting[16]$tr_io' constrained to Bel 'X126/Y53/PIOA'.
+Info: pin 'setting[15]$tr_io' constrained to Bel 'X126/Y56/PIOB'.
+Info: pin 'setting[14]$tr_io' constrained to Bel 'X126/Y56/PIOA'.
+Info: pin 'setting[13]$tr_io' constrained to Bel 'X126/Y92/PIOB'.
+Info: pin 'setting[12]$tr_io' constrained to Bel 'X126/Y92/PIOA'.
+Info: pin 'setting[11]$tr_io' constrained to Bel 'X0/Y41/PIOB'.
+Info: pin 'setting[10]$tr_io' constrained to Bel 'X0/Y41/PIOA'.
+Info: pin 'setting[9]$tr_io' constrained to Bel 'X0/Y44/PIOB'.
+Info: pin 'setting[8]$tr_io' constrained to Bel 'X0/Y44/PIOA'.
+Info: pin 'setting[7]$tr_io' constrained to Bel 'X0/Y20/PIOB'.
+Info: pin 'setting[6]$tr_io' constrained to Bel 'X0/Y20/PIOA'.
+Info: pin 'setting[5]$tr_io' constrained to Bel 'X0/Y14/PIOB'.
+Info: pin 'setting[4]$tr_io' constrained to Bel 'X0/Y14/PIOA'.
+Info: pin 'setting[3]$tr_io' constrained to Bel 'X0/Y35/PIOB'.
+Info: pin 'setting[2]$tr_io' constrained to Bel 'X0/Y35/PIOA'.
+Info: pin 'setting[1]$tr_io' constrained to Bel 'X0/Y11/PIOB'.
+Info: pin 'setting[0]$tr_io' constrained to Bel 'X0/Y11/PIOA'.
+Info: pin 'rst$tr_io' constrained to Bel 'X6/Y95/PIOA'.
+Info: pin 'result[15]$tr_io' constrained to Bel 'X4/Y0/PIOB'.
+Info: pin 'result[14]$tr_io' constrained to Bel 'X4/Y0/PIOA'.
+Info: pin 'result[13]$tr_io' constrained to Bel 'X11/Y0/PIOB'.
+Info: pin 'result[12]$tr_io' constrained to Bel 'X11/Y0/PIOA'.
+Info: pin 'result[11]$tr_io' constrained to Bel 'X15/Y0/PIOB'.
+Info: pin 'result[10]$tr_io' constrained to Bel 'X15/Y0/PIOA'.
+Info: pin 'result[9]$tr_io' constrained to Bel 'X18/Y0/PIOB'.
+Info: pin 'result[8]$tr_io' constrained to Bel 'X18/Y0/PIOA'.
+Info: pin 'result[7]$tr_io' constrained to Bel 'X58/Y0/PIOB'.
+Info: pin 'result[6]$tr_io' constrained to Bel 'X58/Y0/PIOA'.
+Info: pin 'result[5]$tr_io' constrained to Bel 'X60/Y0/PIOB'.
+Info: pin 'result[4]$tr_io' constrained to Bel 'X60/Y0/PIOA'.
+Info: pin 'result[3]$tr_io' constrained to Bel 'X63/Y0/PIOB'.
+Info: pin 'result[2]$tr_io' constrained to Bel 'X63/Y0/PIOA'.
+Info: pin 'result[1]$tr_io' constrained to Bel 'X65/Y0/PIOB'.
+Info: pin 'result[0]$tr_io' constrained to Bel 'X65/Y0/PIOA'.
+Info: pin 'en$tr_io' constrained to Bel 'X126/Y53/PIOB'.
+Info: pin 'clk$tr_io' constrained to Bel 'X0/Y47/PIOA'.
+Info: Packing constants..
+Info: Packing carries...
+Info: Finding LUTFF pairs...
+Info: Packing LUT5-7s...
+Info: Finding LUT-LUT pairs...
+Info: Packing paired LUTs into a SLICE...
+Info: Packing unpaired LUTs into a SLICE...
+Info: Packing unpaired FFs into a SLICE...
+Info: Generating derived timing constraints...
+Info: Promoting globals...
+Info:     promoting clock net clk$TRELLIS_IO_IN to global network
+Info: Checksum: 0x705dc441
+
+Info: Annotating ports with timing budgets for target frequency 12.00 MHz
+Info: Checksum: 0x91af36fb
+
+Info: Device utilisation:
+Info: 	       TRELLIS_SLICE:    33/41820     0%
+Info: 	          TRELLIS_IO:    36/  365     9%
+Info: 	                DCCA:     1/   56     1%
+Info: 	              DP16KD:     0/  208     0%
+Info: 	          MULT18X18D:     0/  156     0%
+Info: 	              ALU54B:     0/   78     0%
+Info: 	             EHXPLLL:     0/    4     0%
+Info: 	             EXTREFB:     0/    2     0%
+Info: 	                DCUA:     0/    2     0%
+Info: 	           PCSCLKDIV:     0/    2     0%
+Info: 	             IOLOGIC:     0/  224     0%
+Info: 	            SIOLOGIC:     0/  141     0%
+Info: 	                 GSR:     0/    1     0%
+Info: 	               JTAGG:     0/    1     0%
+Info: 	                OSCG:     0/    1     0%
+Info: 	               SEDGA:     0/    1     0%
+Info: 	                 DTR:     0/    1     0%
+Info: 	             USRMCLK:     0/    1     0%
+Info: 	             CLKDIVF:     0/    4     0%
+Info: 	           ECLKSYNCB:     0/   10     0%
+Info: 	             DLLDELD:     0/    8     0%
+Info: 	              DDRDLL:     0/    4     0%
+Info: 	             DQSBUFM:     0/   14     0%
+Info: 	     TRELLIS_ECLKBUF:     0/    8     0%
+Info: 	        ECLKBRIDGECS:     0/    2     0%
+Info: 	                DCSC:     0/    2     0%
+
+Info: Running script hook pre-place...
+Info: Region created:  system.controller. 2 2 7 2
+Info: Region created:  system.collatzer.merger. 7 3 7 6
+Info: Region created:  system.collatzer.onEven. 3 5 6 6
+Info: Region created:  system.collatzer.onOdd. 3 3 6 4
+Info: Region created:  system.collatzer.router. 2 3 2 6
+Info: Script hook pre-place finished.
+Info: Placed 36 cells based on constraints.
+Info: Creating initial analytic placement for 31 cells, random placement wirelen = 7574.
+Info:     at initial placer iter 0, wirelen = 2182
+Info:     at initial placer iter 1, wirelen = 2182
+Info:     at initial placer iter 2, wirelen = 2182
+Info:     at initial placer iter 3, wirelen = 2182
+Info: Running main analytical placer.
+Info:     at iteration #1, type TRELLIS_SLICE: wirelen solved = 2182, spread = 2187, legal = 2221; time = 0.02s
+Info: HeAP Placer Time: 0.07s
+Info:   of which solving equations: 0.01s
+Info:   of which spreading cells: 0.01s
+Info:   of which strict legalisation: 0.00s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 21, wirelen = 2221
+Info:   at iteration #2: temp = 0.000000, timing cost = 18, wirelen = 2214 
+Info: SA placement time 0.02s
+
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 99.12 MHz (PASS at 25.00 MHz)
+
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 27.96 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 9.65 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ 12044,  15511) |** 
+Info: [ 15511,  18978) |****************************** 
+Info: [ 18978,  22445) | 
+Info: [ 22445,  25912) | 
+Info: [ 25912,  29379) |**************** 
+Info: [ 29379,  32846) |******* 
+Info: [ 32846,  36313) |********* 
+Info: [ 36313,  39780) | 
+Info: [ 39780,  43247) | 
+Info: [ 43247,  46714) | 
+Info: [ 46714,  50181) | 
+Info: [ 50181,  53648) | 
+Info: [ 53648,  57115) | 
+Info: [ 57115,  60582) | 
+Info: [ 60582,  64049) | 
+Info: [ 64049,  67516) | 
+Info: [ 67516,  70983) | 
+Info: [ 70983,  74450) |**** 
+Info: [ 74450,  77917) |**** 
+Info: [ 77917,  81384) |******** 
+Info: Checksum: 0x74c68559
+Info: Running script hook pre-route...
+Info: Script hook pre-route finished.
+Info: Routing globals...
+Info:     routing clock net $glbnet$clk$TRELLIS_IO_IN using global 0
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 247 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:        277 |       20        257 |   20   257 |         0|       0.09       0.09|
+Info: Routing complete.
+Info: Router1 time 0.09s
+Info: Checksum: 0xeb7efcae
+
+Info: Critical path report for clock '$glbnet$clk$TRELLIS_IO_IN' (posedge -> posedge):
+Info: curr total
+Info:  0.5  0.5  Source control-instance-controller.c$ds_app_arg_LUT4_Z_14_SLICE.Q0
+Info:  1.2  1.7    Net collatzer-system-collatzer.$frontend$53 budget 3.736000 ns (4,2) -> (5,3)
+Info:                Sink collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_12_B_LUT4_Z_SLICE.C0
+Info:                Defined in:
+Info:                  builds/.grouped/grouped.v:14.26-14.38
+Info:  0.2  1.9  Source collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_12_B_LUT4_Z_SLICE.F0
+Info:  0.7  2.6    Net collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_12_B[2] budget 3.735000 ns (5,3) -> (6,3)
+Info:                Sink collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_9_A_LUT4_Z_SLICE.D0
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  2.8  Source collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_9_A_LUT4_Z_SLICE.F0
+Info:  0.5  3.4    Net collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_9_A[2] budget 3.735000 ns (6,3) -> (6,3)
+Info:                Sink collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_9_SLICE.D1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  3.6  Source collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_9_SLICE.F1
+Info:  0.5  4.1    Net collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_8_B[0] budget 3.735000 ns (6,3) -> (6,3)
+Info:                Sink collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_8_SLICE.D1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  4.3  Source collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_8_SLICE.F1
+Info:  0.7  5.0    Net collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_6_B[2] budget 3.735000 ns (6,3) -> (6,4)
+Info:                Sink collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_6_SLICE.D1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  5.2  Source collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_6_SLICE.F1
+Info:  0.3  5.5    Net collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_4_B[2] budget 3.735000 ns (6,4) -> (6,4)
+Info:                Sink collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_4_SLICE.D1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  5.7  Source collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_4_SLICE.F1
+Info:  0.4  6.2    Net collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_2_B[0] budget 3.735000 ns (6,4) -> (6,4)
+Info:                Sink collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_2_SLICE.D0
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  6.4  Source collatzer-system-collatzer.onOdd-instance-onOdd.res_LUT4_Z_2_SLICE.F0
+Info:  0.8  7.2    Net collatzer-system-collatzer.$frontend$84 budget 3.735000 ns (6,4) -> (5,2)
+Info:                Sink control-instance-controller.c$ds_app_arg_LUT4_Z_SLICE.D1
+Info:                Defined in:
+Info:                  builds/.grouped/grouped.v:118.15-118.21
+Info:  0.2  7.4  Source control-instance-controller.c$ds_app_arg_LUT4_Z_SLICE.F1
+Info:  0.4  7.8    Net $frontend$85 budget 3.735000 ns (5,2) -> (5,2)
+Info:                Sink control-instance-controller.c$ds_app_arg_LUT4_Z_1_SLICE.D0
+Info:                Defined in:
+Info:                  builds/.grouped/grouped.v:21.15-21.25
+Info:  0.2  8.0  Source control-instance-controller.c$ds_app_arg_LUT4_Z_1_SLICE.F0
+Info:  0.1  8.2    Net control-instance-controller.c$ds_app_arg[14] budget 3.735000 ns (5,2) -> (5,2)
+Info:                Sink control-instance-controller.c$ds_app_arg_LUT4_Z_1_SLICE.DI0
+Info:                Defined in:
+Info:                  builds/.grouped/grouped.v:17.15-17.27
+Info:  0.0  8.2  Setup control-instance-controller.c$ds_app_arg_LUT4_Z_1_SLICE.DI0
+Info: 2.6 ns logic, 5.5 ns routing
+
+Info: Critical path report for cross-domain path '<async>' -> 'posedge $glbnet$clk$TRELLIS_IO_IN':
+Info: curr total
+Info:  0.0  0.0  Source setting[13]$tr_io.O
+Info: 11.7 11.7    Net $frontend$34 budget 19.882000 ns (126,92) -> (7,2)
+Info:                Sink control-instance-controller.c$ds_app_arg_LUT4_Z_2_SLICE.B0
+Info:                Defined in:
+Info:                  builds/.grouped/grouped.v:23.15-23.24
+Info:  0.2 12.0  Source control-instance-controller.c$ds_app_arg_LUT4_Z_2_SLICE.F0
+Info:  0.1 12.1    Net control-instance-controller.c$ds_app_arg[13] budget 4.176000 ns (7,2) -> (7,2)
+Info:                Sink control-instance-controller.c$ds_app_arg_LUT4_Z_2_SLICE.DI0
+Info:                Defined in:
+Info:                  builds/.grouped/grouped.v:17.15-17.27
+Info:  0.0 12.1  Setup control-instance-controller.c$ds_app_arg_LUT4_Z_2_SLICE.DI0
+Info: 0.2 ns logic, 11.9 ns routing
+
+Info: Critical path report for cross-domain path 'posedge $glbnet$clk$TRELLIS_IO_IN' -> '<async>':
+Info: curr total
+Info:  0.5  0.5  Source control-instance-controller.c$ds_app_arg_LUT4_Z_14_SLICE.Q0
+Info:  4.1  4.6    Net collatzer-system-collatzer.$frontend$53 budget 82.807999 ns (4,2) -> (65,0)
+Info:                Sink result[1]$tr_io.I
+Info:                Defined in:
+Info:                  builds/.grouped/grouped.v:14.26-14.38
+Info: 0.5 ns logic, 4.1 ns routing
+
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 122.29 MHz (PASS at 25.00 MHz)
+
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 12.11 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 4.62 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ 27885,  30584) |**************** 
+Info: [ 30584,  33283) |********************* 
+Info: [ 33283,  35982) |************************ 
+Info: [ 35982,  38681) |*** 
+Info: [ 38681,  41380) | 
+Info: [ 41380,  44079) | 
+Info: [ 44079,  46778) | 
+Info: [ 46778,  49477) | 
+Info: [ 49477,  52176) | 
+Info: [ 52176,  54875) | 
+Info: [ 54875,  57574) | 
+Info: [ 57574,  60273) | 
+Info: [ 60273,  62972) | 
+Info: [ 62972,  65671) | 
+Info: [ 65671,  68370) | 
+Info: [ 68370,  71069) | 
+Info: [ 71069,  73768) | 
+Info: [ 73768,  76467) | 
+Info: [ 76467,  79166) |****** 
+Info: [ 79166,  81865) |********** 
+Info: Running script hook post-route...
+Info: Script hook post-route finished.
+
+1 warning, 0 errors
+
+Info: Program finished normally.

@@ -16,4 +16,6 @@ In `examples/` several examples detailing all Ex-PART's features are located. Th
 
 `docs/maintenance.md` is the Ex-PART maintenance manual. If you want to add a feature to Ex-PART, read this guide to discover where that can be done. It also contains an explanation of the project structure.
 
-As Ex-PART was developed for a master thesis, there are still many issues with the software. Inspect the Github issues tab to discover what bugs are present and which enhancements are possible.
+As Ex-PART was developed for a master thesis, there are still many issues with the software. Inspect the Github issues tab to find what bugs are present and which enhancements are possible.
+
+In case the software does not run, one build directory (`collatz`) is committed to the repository, such that at least one run of building a project is available for inspection.
