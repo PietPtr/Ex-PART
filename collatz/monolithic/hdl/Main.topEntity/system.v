@@ -12,12 +12,6 @@ module system
       // Outputs
     , output wire [15:0] result
     );
-  // Clash.hs:(49,1)-(50,57)
-  wire [15:0] c$ds_app_arg;
-  // Clash.hs:12:1-7
-  reg [15:0] last_val = 16'd0;
-  // Clash.hs:12:1-7
-  wire [15:0] new_value;
   wire [33:0] result_1;
   wire [33:0] result_2;
   wire [16:0] c$app_arg;
@@ -29,34 +23,26 @@ module system
   wire [15:0] v;
   wire [16:0] result_4;
   // Clash.hs:(61,1)-(62,56)
-  wire [16:0] c$ds_app_arg_2;
+  wire [16:0] c$ds_app_arg_1;
   // Clash.hs:37:1-6
   wire [15:0] v_0;
   // Clash.hs:(53,1)-(54,63)
   wire [15:0] c$ds_case_alt;
   // Clash.hs:(53,1)-(54,63)
-  wire [15:0] c$ds_app_arg_3;
+  wire [15:0] c$ds_app_arg_2;
   // Clash.hs:21:1-6
   wire [15:0] v_1;
   // Clash.hs:21:1-6
   wire [15:0] v_2;
+  // Clash.hs:(49,1)-(50,57)
+  wire [15:0] c$ds_app_arg_3;
+  // Clash.hs:12:1-7
+  reg [15:0] last_val = 16'd0;
+  // Clash.hs:12:1-7
+  wire [15:0] new_value;
   wire [15:0] c$bv;
   wire [16:0] c$app_arg_selection_3;
-  wire [16:0] c$ds_app_arg_selection_2;
-
-  assign c$ds_app_arg = setting[16:16] ? new_value : c$ds_app_arg_3;
-
-  // register begin
-  always @(posedge clk or  posedge  rst) begin : last_val_register
-    if ( rst) begin
-      last_val <= 16'd0;
-    end else if (en) begin
-      last_val <= c$ds_app_arg;
-    end
-  end
-  // register end
-
-  assign new_value = setting[15:0];
+  wire [16:0] c$ds_app_arg_selection_1;
 
   assign result_1 = result_2;
 
@@ -80,19 +66,33 @@ module system
 
   assign result_4 = c$app_arg_1;
 
-  assign c$ds_app_arg_selection_2 = result_1[16:0];
+  assign c$ds_app_arg_selection_1 = result_1[16:0];
 
-  assign c$ds_app_arg_2 = c$ds_app_arg_selection_2[16:16] ? {1'b1,v_0 >> (64'sd1)} : {1'b0,16'bxxxxxxxxxxxxxxxx};
+  assign c$ds_app_arg_1 = c$ds_app_arg_selection_1[16:16] ? {1'b1,v_0 >> (64'sd1)} : {1'b0,16'bxxxxxxxxxxxxxxxx};
 
   assign v_0 = result_1[15:0];
 
-  assign c$ds_case_alt = c$ds_app_arg_2[16:16] ? v_2 : 16'd0;
+  assign c$ds_case_alt = c$ds_app_arg_1[16:16] ? v_2 : 16'd0;
 
-  assign c$ds_app_arg_3 = result_3[16:16] ? v_1 : c$ds_case_alt;
+  assign c$ds_app_arg_2 = result_3[16:16] ? v_1 : c$ds_case_alt;
 
   assign v_1 = result_3[15:0];
 
-  assign v_2 = c$ds_app_arg_2[15:0];
+  assign v_2 = c$ds_app_arg_1[15:0];
+
+  assign c$ds_app_arg_3 = setting[16:16] ? new_value : c$ds_app_arg_2;
+
+  // register begin
+  always @(posedge clk or  posedge  rst) begin : last_val_register
+    if ( rst) begin
+      last_val <= 16'd0;
+    end else if (en) begin
+      last_val <= c$ds_app_arg_3;
+    end
+  end
+  // register end
+
+  assign new_value = setting[15:0];
 
   assign result = last_val;
 

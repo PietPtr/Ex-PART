@@ -1,11 +1,10 @@
 {
     "components": [
-        "system_controlM",
         "system_routerM",
         "system_onOddM",
         "system_onEvenM",
         "system_mergerM",
-        "system_collatzer",
+        "system_controlM",
         "system_system",
         "system"
     ],
@@ -14,7 +13,7 @@
         20,
         false
     ],
-    "hash": 308258979129658427,
+    "hash": -7937757344458169438,
     "dependencies": {
         "transitive": []
     },
@@ -25,32 +24,28 @@
             "sha256": "13d4c1aafcc09a84d81d3b60d513cb901384a10e27e5a5a16572a600f15895f3"
         },
         {
-            "name": "system_controlM.v",
-            "sha256": "939a2745ad6a50b1a0379f07b4317b60b4c934bc767bf7fd243e73e11fdceaf0"
-        },
-        {
             "name": "system_routerM.v",
             "sha256": "c150cc0d0f45147dca819253a998b3b9d4c53eeb3538c7410836b4e879d41aa6"
         },
         {
             "name": "system_onOddM.v",
-            "sha256": "6c125bd0ebaed231962a025ded0b16d377fca3efc83f00f8a5bd4d74eabfc2c0"
+            "sha256": "8a459247c5b8dcf60267d9cd8377a56771fb3178e41cc38a131693cea7bd8e17"
         },
         {
             "name": "system_onEvenM.v",
-            "sha256": "0d6fd1137423ef86ce5951ad89d5a20a92b52f7fc042015081164059d6b641e7"
+            "sha256": "d873e06075d416348ae3f05bb206fadfae7707fc843e7bfbf9fa1c9ec93c1a65"
         },
         {
             "name": "system_mergerM.v",
-            "sha256": "ab19ec561e984d2f02d6f2b377136cc180656eed9daea06df9dc3258e8ae3256"
+            "sha256": "c095e69d236b22445dce3d6dec0d4978b5afcb1e282dbcdfd20de4e16f8985e9"
         },
         {
-            "name": "system_collatzer.v",
-            "sha256": "72d51082befd1b54567796a0d8f6ea8a2ef3e8973a08b4b05bf619fae1713dfc"
+            "name": "system_controlM.v",
+            "sha256": "939a2745ad6a50b1a0379f07b4317b60b4c934bc767bf7fd243e73e11fdceaf0"
         },
         {
             "name": "system_system.v",
-            "sha256": "043b594eab5ff63523532f69837bcdaa86803268acbd08f569089636d78b8ac7"
+            "sha256": "45ff0d6e6b0014b1366af3832962045b220e5fd4e64af0ed3796f398c18a828f"
         },
         {
             "name": "system.v",

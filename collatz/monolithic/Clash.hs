@@ -6,7 +6,7 @@ import Data.Maybe
 
 
 
--- Monolithic file, everything is inlined by default.
+-- Monolithic file, everything is inlined (by default)
 
 control :: (Value) -> (Value, Maybe Value) -> ((Value), (Value))
 control (last_val) (next_val, set_val) = ((last_val'), (result_value))
@@ -74,15 +74,15 @@ system input = (controller_result_value)
         (this_setting) =  input
         (controller_result_value) = controlM $ bundle (collatzer_val_out, this_setting)
         (collatzer_val_out) = collatzer (controller_result_value)
-collatzer :: HiddenClockResetEnable dom =>
-    Signal dom (Value) -> Signal dom (Value)
-collatzer input = (merger_res)
-    where
-        (this_val_in) =  input
-        (merger_res) = mergerM $ bundle (onOdd_res, onEven_res)
-        (onEven_res) = onEvenM (router_even)
-        (onOdd_res) = onOddM (router_odd)
-        (router_odd, router_even) = unbundle $ routerM (this_val_in)
+        collatzer :: HiddenClockResetEnable dom =>
+            Signal dom (Value) -> Signal dom (Value)
+        collatzer input = (merger_res)
+            where
+                (this_val_in) =  input
+                (merger_res) = mergerM $ bundle (onOdd_res, onEven_res)
+                (onEven_res) = onEvenM (router_even)
+                (onOdd_res) = onOddM (router_odd)
+                (router_odd, router_even) = unbundle $ routerM (this_val_in)
 
 
 {-# ANN topEntity

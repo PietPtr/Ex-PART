@@ -12,12 +12,52 @@ module system_system
       // Outputs
     , output wire [15:0] result
     );
+  wire [33:0] result_0;
+  wire [16:0] result_1;
+  wire [16:0] result_2;
+  wire [15:0] result_3;
   wire [15:0] c$result_rec;
-  wire [15:0] result_0;
+  wire [16:0] result_fun_arg;
+  wire [16:0] result_fun_arg_0;
+  wire [33:0] result_fun_arg_1;
   wire [32:0] c$result_rec_fun_arg;
 
-  assign c$result_rec_fun_arg = {result_0,
-                                 eta};
+  system_routerM system_routerM_result_0
+    ( .result (result_0)
+    , .c$ds_bindCsr (c$bindCsr)
+    , .c$ds_bindCsr_0 (c$bindCsr_0)
+    , .c$ds_bindCsr_1 (c$bindCsr_1)
+    , .eta (c$result_rec) );
+
+  assign result_fun_arg = result_0[33:17];
+
+  system_onOddM system_onOddM_result_1
+    ( .result (result_1)
+    , .c$controller_result_value_bindCsr (c$bindCsr)
+    , .c$controller_result_value_bindCsr_0 (c$bindCsr_0)
+    , .c$controller_result_value_bindCsr_1 (c$bindCsr_1)
+    , .eta (result_fun_arg) );
+
+  assign result_fun_arg_0 = result_0[16:0];
+
+  system_onEvenM system_onEvenM_result_2
+    ( .result (result_2)
+    , .c$controller_result_value_bindCsr (c$bindCsr)
+    , .c$controller_result_value_bindCsr_0 (c$bindCsr_0)
+    , .c$controller_result_value_bindCsr_1 (c$bindCsr_1)
+    , .eta (result_fun_arg_0) );
+
+  assign result_fun_arg_1 = {result_1,
+                             result_2};
+
+  system_mergerM system_mergerM_result_3
+    ( .result (result_3)
+    , .c$controller_result_value_bindCsr (c$bindCsr)
+    , .c$controller_result_value_bindCsr_0 (c$bindCsr_0)
+    , .c$controller_result_value_bindCsr_1 (c$bindCsr_1)
+    , .eta (result_fun_arg_1) );
+
+  assign c$result_rec_fun_arg = {result_3,   eta};
 
   system_controlM system_controlM_c$result_rec
     ( .result (c$result_rec)
@@ -25,13 +65,6 @@ module system_system
     , .c$controller_result_value_bindCsr_0 (c$bindCsr_0)
     , .c$controller_result_value_bindCsr_1 (c$bindCsr_1)
     , .i1 (c$result_rec_fun_arg) );
-
-  system_collatzer system_collatzer_result_0
-    ( .result (result_0)
-    , .c$controller_result_value_bindCsr (c$bindCsr)
-    , .c$controller_result_value_bindCsr_0 (c$bindCsr_0)
-    , .c$controller_result_value_bindCsr_1 (c$bindCsr_1)
-    , .eta (c$result_rec) );
 
   assign result = c$result_rec;
 

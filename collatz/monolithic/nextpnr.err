@@ -60,10 +60,10 @@ Info: Packing unpaired FFs into a SLICE...
 Info: Generating derived timing constraints...
 Info: Promoting globals...
 Info:     promoting clock net clk$TRELLIS_IO_IN to global network
-Info: Checksum: 0x36688dfb
+Info: Checksum: 0xa59eee64
 
 Info: Annotating ports with timing budgets for target frequency 12.00 MHz
-Info: Checksum: 0x52e50f93
+Info: Checksum: 0xd657a3ac
 
 Info: Device utilisation:
 Info: 	       TRELLIS_SLICE:    27/41820     0%
@@ -103,45 +103,46 @@ Info:     at initial placer iter 2, wirelen = 2081
 Info:     at initial placer iter 3, wirelen = 2076
 Info: Running main analytical placer.
 Info:     at iteration #1, type TRELLIS_SLICE: wirelen solved = 2078, spread = 2120, legal = 2123; time = 0.01s
-Info: HeAP Placer Time: 0.03s
-Info:   of which solving equations: 0.00s
+Info: HeAP Placer Time: 0.06s
+Info:   of which solving equations: 0.01s
 Info:   of which spreading cells: 0.00s
 Info:   of which strict legalisation: 0.00s
 
 Info: Running simulated annealing placer for refinement.
-Info:   at iteration #1: temp = 0.000000, timing cost = 25, wirelen = 2123
-Info:   at iteration #2: temp = 0.000000, timing cost = 17, wirelen = 2126 
-Info: SA placement time 0.01s
+Info:   at iteration #1: temp = 0.000000, timing cost = 27, wirelen = 2123
+Info:   at iteration #5: temp = 0.000000, timing cost = 15, wirelen = 2113
+Info:   at iteration #6: temp = 0.000000, timing cost = 14, wirelen = 2108 
+Info: SA placement time 0.04s
 
-Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 99.11 MHz (PASS at 25.00 MHz)
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 106.72 MHz (PASS at 25.00 MHz)
 
-Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 26.16 ns
-Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 10.00 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 26.28 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 10.01 ns
 
 Info: Slack histogram:
 Info:  legend: * represents 1 endpoint(s)
 Info:          + represents [1,1) endpoint(s)
-Info: [ 13844,  17143) |**** 
-Info: [ 17143,  20442) |**************************** 
-Info: [ 20442,  23741) | 
-Info: [ 23741,  27040) |**************** 
-Info: [ 27040,  30339) |** 
-Info: [ 30339,  33638) |******** 
-Info: [ 33638,  36937) |**** 
-Info: [ 36937,  40236) |** 
-Info: [ 40236,  43535) | 
-Info: [ 43535,  46834) | 
-Info: [ 46834,  50133) | 
-Info: [ 50133,  53432) | 
-Info: [ 53432,  56731) | 
-Info: [ 56731,  60030) | 
-Info: [ 60030,  63329) | 
-Info: [ 63329,  66628) | 
-Info: [ 66628,  69927) | 
-Info: [ 69927,  73226) | 
-Info: [ 73226,  76525) |******** 
-Info: [ 76525,  79824) |******** 
-Info: Checksum: 0x58ab655d
+Info: [ 13724,  17035) |** 
+Info: [ 17035,  20346) |****************************** 
+Info: [ 20346,  23657) | 
+Info: [ 23657,  26968) |**************** 
+Info: [ 26968,  30279) | 
+Info: [ 30279,  33590) |******** 
+Info: [ 33590,  36901) |****** 
+Info: [ 36901,  40212) |** 
+Info: [ 40212,  43523) | 
+Info: [ 43523,  46834) | 
+Info: [ 46834,  50145) | 
+Info: [ 50145,  53456) | 
+Info: [ 53456,  56767) | 
+Info: [ 56767,  60078) | 
+Info: [ 60078,  63389) | 
+Info: [ 63389,  66700) | 
+Info: [ 66700,  70011) | 
+Info: [ 70011,  73322) | 
+Info: [ 73322,  76633) |******** 
+Info: [ 76633,  79944) |******** 
+Info: Checksum: 0x839db2fe
 Info: Running script hook pre-route...
 Info: Script hook pre-route finished.
 Info: Routing globals...
@@ -152,113 +153,113 @@ Info: Setting up routing queue.
 Info: Routing 230 arcs.
 Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
 Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
-Info:        241 |       11        230 |   11   230 |         0|       0.10       0.10|
+Info:        248 |       17        231 |   17   231 |         0|       0.14       0.14|
 Info: Routing complete.
-Info: Router1 time 0.10s
-Info: Checksum: 0xb844ef34
+Info: Router1 time 0.14s
+Info: Checksum: 0xa66152e6
 
 Info: Critical path report for clock '$glbnet$clk$TRELLIS_IO_IN' (posedge -> posedge):
 Info: curr total
-Info:  0.5  0.5  Source c$ds_app_arg_LUT4_Z_12_SLICE.Q0
-Info:  0.9  1.4    Net last_val[3] budget 4.177000 ns (12,8) -> (12,9)
-Info:                Sink c$ds_app_arg_LUT4_Z_10_C_LUT4_Z_C_LUT4_Z_B_LUT4_Z_SLICE.C1
+Info:  0.5  0.5  Source c$ds_app_arg_3_LUT4_Z_13_C_LUT4_Z_SLICE.Q1
+Info:  0.9  1.4    Net last_val[2] budget 4.177000 ns (11,9) -> (12,9)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_10_C_LUT4_Z_C_LUT4_Z_B_LUT4_Z_SLICE.C1
 Info:                Defined in:
-Info:                  hdl/Main.topEntity/system.v:42.15-42.18
-Info:  0.2  1.7  Source c$ds_app_arg_LUT4_Z_10_C_LUT4_Z_C_LUT4_Z_B_LUT4_Z_SLICE.F1
-Info:  0.5  2.1    Net c$ds_app_arg_LUT4_Z_10_C_LUT4_Z_C_LUT4_Z_B[1] budget 4.177000 ns (12,9) -> (12,8)
-Info:                Sink c$ds_app_arg_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B_LUT4_Z_SLICE.D0
-Info:                Defined in:
-Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  2.4  Source c$ds_app_arg_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B_LUT4_Z_SLICE.F0
-Info:  0.4  2.8    Net c$ds_app_arg_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B[0] budget 4.177000 ns (12,8) -> (12,8)
-Info:                Sink c$ds_app_arg_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B_LUT4_Z_SLICE.D1
+Info:                  hdl/Main.topEntity/system.v:36.15-36.18
+Info:  0.2  1.7  Source c$ds_app_arg_3_LUT4_Z_10_C_LUT4_Z_C_LUT4_Z_B_LUT4_Z_SLICE.F1
+Info:  0.7  2.4    Net c$ds_app_arg_3_LUT4_Z_10_C_LUT4_Z_C_LUT4_Z_B[1] budget 4.177000 ns (12,9) -> (12,8)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B_LUT4_Z_SLICE.D0
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  3.0  Source c$ds_app_arg_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B_LUT4_Z_SLICE.F1
-Info:  0.3  3.3    Net c$ds_app_arg_LUT4_Z_7_C_LUT4_Z_C_LUT4_Z_B[0] budget 4.176000 ns (12,8) -> (12,9)
-Info:                Sink c$ds_app_arg_LUT4_Z_8_SLICE.D1
+Info:  0.2  2.7  Source c$ds_app_arg_3_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B_LUT4_Z_SLICE.F0
+Info:  0.4  3.1    Net c$ds_app_arg_3_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B[2] budget 4.177000 ns (12,8) -> (12,8)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B_LUT4_Z_SLICE.D1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  3.5  Source c$ds_app_arg_LUT4_Z_8_SLICE.F1
-Info:  0.3  3.8    Net c$ds_app_arg_LUT4_Z_5_C_LUT4_Z_C_LUT4_Z_B[2] budget 4.176000 ns (12,9) -> (12,9)
-Info:                Sink c$ds_app_arg_LUT4_Z_5_SLICE.D1
+Info:  0.2  3.3  Source c$ds_app_arg_3_LUT4_Z_9_D_LUT4_Z_B_LUT4_Z_B_LUT4_Z_SLICE.F1
+Info:  0.3  3.6    Net c$ds_app_arg_3_LUT4_Z_7_C_LUT4_Z_C_LUT4_Z_B[2] budget 4.176000 ns (12,8) -> (12,8)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_8_SLICE.D1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  4.1  Source c$ds_app_arg_LUT4_Z_5_SLICE.F1
-Info:  0.7  4.7    Net c$ds_app_arg_LUT4_Z_3_C_LUT4_Z_B[2] budget 4.176000 ns (12,9) -> (12,11)
-Info:                Sink c$ds_app_arg_LUT4_Z_4_SLICE.D1
+Info:  0.2  3.8  Source c$ds_app_arg_3_LUT4_Z_8_SLICE.F1
+Info:  0.7  4.6    Net c$ds_app_arg_3_LUT4_Z_5_C_LUT4_Z_C_LUT4_Z_B[2] budget 4.176000 ns (12,8) -> (12,9)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_5_SLICE.D1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  5.0  Source c$ds_app_arg_LUT4_Z_4_SLICE.F1
-Info:  0.7  5.6    Net c$ds_app_arg_LUT4_Z_1_B_LUT4_Z_C[1] budget 4.176000 ns (12,11) -> (14,11)
-Info:                Sink c$ds_app_arg_LUT4_Z_2_SLICE.D1
+Info:  0.2  4.8  Source c$ds_app_arg_3_LUT4_Z_5_SLICE.F1
+Info:  0.3  5.1    Net c$ds_app_arg_3_LUT4_Z_3_C_LUT4_Z_B[2] budget 4.176000 ns (12,9) -> (12,9)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_4_SLICE.D1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  5.9  Source c$ds_app_arg_LUT4_Z_2_SLICE.F1
-Info:  0.5  6.4    Net c$ds_app_arg_LUT4_Z_1_B[0] budget 4.176000 ns (14,11) -> (14,11)
-Info:                Sink c$ds_app_arg_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.D1
+Info:  0.2  5.3  Source c$ds_app_arg_3_LUT4_Z_4_SLICE.F1
+Info:  1.1  6.4    Net c$ds_app_arg_3_LUT4_Z_1_C_LUT4_Z_C[1] budget 4.176000 ns (12,9) -> (12,11)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_2_SLICE.D1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  6.6  Source c$ds_app_arg_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.F1
-Info:  0.1  6.7    Net c$ds_app_arg[13] budget 4.176000 ns (14,11) -> (14,11)
-Info:                Sink c$ds_app_arg_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.DI1
+Info:  0.2  6.7  Source c$ds_app_arg_3_LUT4_Z_2_SLICE.F1
+Info:  0.5  7.1    Net c$ds_app_arg_3_LUT4_Z_1_C[1] budget 4.176000 ns (12,11) -> (12,11)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.D1
 Info:                Defined in:
-Info:                  hdl/Main.topEntity/system.v:16.15-16.27
-Info:  0.0  6.7  Setup c$ds_app_arg_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.DI1
-Info: 2.4 ns logic, 4.3 ns routing
+Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
+Info:  0.2  7.4  Source c$ds_app_arg_3_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.F1
+Info:  0.0  7.4    Net c$ds_app_arg_3[13] budget 4.176000 ns (12,11) -> (12,11)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.DI1
+Info:                Defined in:
+Info:                  hdl/Main.topEntity/system.v:38.15-38.29
+Info:  0.0  7.4  Setup c$ds_app_arg_3_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.DI1
+Info: 2.4 ns logic, 5.0 ns routing
 
 Info: Critical path report for cross-domain path '<async>' -> 'posedge $glbnet$clk$TRELLIS_IO_IN':
 Info: curr total
 Info:  0.0  0.0  Source setting[13]$tr_io.O
-Info: 11.3 11.3    Net new_value[13] budget 19.882000 ns (126,92) -> (14,11)
-Info:                Sink c$ds_app_arg_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.B1
+Info: 11.1 11.1    Net new_value[13] budget 19.882000 ns (126,92) -> (12,11)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.B1
 Info:                Defined in:
 Info:                  hdl/Main.topEntity/system.v:10.20-10.27
-Info:  0.2 11.6  Source c$ds_app_arg_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.F1
-Info:  0.1 11.7    Net c$ds_app_arg[13] budget 4.176000 ns (14,11) -> (14,11)
-Info:                Sink c$ds_app_arg_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.DI1
+Info:  0.2 11.4  Source c$ds_app_arg_3_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.F1
+Info:  0.0 11.4    Net c$ds_app_arg_3[13] budget 4.176000 ns (12,11) -> (12,11)
+Info:                Sink c$ds_app_arg_3_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.DI1
 Info:                Defined in:
-Info:                  hdl/Main.topEntity/system.v:16.15-16.27
-Info:  0.0 11.7  Setup c$ds_app_arg_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.DI1
-Info: 0.2 ns logic, 11.5 ns routing
+Info:                  hdl/Main.topEntity/system.v:38.15-38.29
+Info:  0.0 11.4  Setup c$ds_app_arg_3_LUT4_Z_2_C_LUT4_Z_C_LUT4_Z_SLICE.DI1
+Info: 0.2 ns logic, 11.2 ns routing
 
 Info: Critical path report for cross-domain path 'posedge $glbnet$clk$TRELLIS_IO_IN' -> '<async>':
 Info: curr total
-Info:  0.5  0.5  Source c$ds_app_arg_LUT4_Z_14_C_LUT4_Z_SLICE.Q1
-Info:  4.0  4.5    Net last_val[1] budget 82.810997 ns (11,9) -> (65,0)
-Info:                Sink result[1]$tr_io.I
+Info:  0.5  0.5  Source c$ds_app_arg_3_LUT4_Z_13_C_LUT4_Z_SLICE.Q1
+Info:  4.1  4.6    Net last_val[2] budget 82.810997 ns (11,9) -> (63,0)
+Info:                Sink result[2]$tr_io.I
 Info:                Defined in:
-Info:                  hdl/Main.topEntity/system.v:42.15-42.18
-Info: 0.5 ns logic, 4.0 ns routing
+Info:                  hdl/Main.topEntity/system.v:36.15-36.18
+Info: 0.5 ns logic, 4.1 ns routing
 
-Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 148.46 MHz (PASS at 25.00 MHz)
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 135.12 MHz (PASS at 25.00 MHz)
 
-Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 11.69 ns
-Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 4.51 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 11.43 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 4.58 ns
 
 Info: Slack histogram:
 Info:  legend: * represents 1 endpoint(s)
 Info:          + represents [1,1) endpoint(s)
-Info: [ 28309,  30955) |********** 
-Info: [ 30955,  33601) |************************ 
-Info: [ 33601,  36247) |************************* 
-Info: [ 36247,  38893) |***** 
-Info: [ 38893,  41539) | 
-Info: [ 41539,  44185) | 
-Info: [ 44185,  46831) | 
-Info: [ 46831,  49477) | 
-Info: [ 49477,  52123) | 
-Info: [ 52123,  54769) | 
-Info: [ 54769,  57415) | 
-Info: [ 57415,  60061) | 
-Info: [ 60061,  62707) | 
-Info: [ 62707,  65353) | 
-Info: [ 65353,  67999) | 
-Info: [ 67999,  70645) | 
-Info: [ 70645,  73291) | 
-Info: [ 73291,  75937) | 
-Info: [ 75937,  78583) | 
-Info: [ 78583,  81229) |**************** 
+Info: [ 28574,  31212) |*********************** 
+Info: [ 31212,  33850) |*************************** 
+Info: [ 33850,  36488) |********** 
+Info: [ 36488,  39126) |**** 
+Info: [ 39126,  41764) | 
+Info: [ 41764,  44402) | 
+Info: [ 44402,  47040) | 
+Info: [ 47040,  49678) | 
+Info: [ 49678,  52316) | 
+Info: [ 52316,  54954) | 
+Info: [ 54954,  57592) | 
+Info: [ 57592,  60230) | 
+Info: [ 60230,  62868) | 
+Info: [ 62868,  65506) | 
+Info: [ 65506,  68144) | 
+Info: [ 68144,  70782) | 
+Info: [ 70782,  73420) | 
+Info: [ 73420,  76058) | 
+Info: [ 76058,  78696) | 
+Info: [ 78696,  81334) |**************** 
 Info: Running script hook post-route...
 Info: Script hook post-route finished.
 

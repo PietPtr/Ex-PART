@@ -4,9 +4,9 @@
 `timescale 100fs/100fs
 module system_onOddM
     ( // Inputs
-      input  c$bindCsr // clock
-    , input  c$bindCsr_0 // reset
-    , input  c$bindCsr_1 // enable
+      input  c$controller_result_value_bindCsr // clock
+    , input  c$controller_result_value_bindCsr_0 // reset
+    , input  c$controller_result_value_bindCsr_1 // enable
     , input [16:0] eta
 
       // Outputs

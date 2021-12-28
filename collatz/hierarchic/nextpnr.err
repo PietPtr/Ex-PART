@@ -60,13 +60,13 @@ Info: Packing unpaired FFs into a SLICE...
 Info: Generating derived timing constraints...
 Info: Promoting globals...
 Info:     promoting clock net clk$TRELLIS_IO_IN to global network
-Info: Checksum: 0x2bf93397
+Info: Checksum: 0x05de888a
 
 Info: Annotating ports with timing budgets for target frequency 12.00 MHz
-Info: Checksum: 0x873068c1
+Info: Checksum: 0x99159c00
 
 Info: Device utilisation:
-Info: 	       TRELLIS_SLICE:    33/41820     0%
+Info: 	       TRELLIS_SLICE:    35/41820     0%
 Info: 	          TRELLIS_IO:    36/  365     9%
 Info: 	                DCCA:     1/   56     1%
 Info: 	              DP16KD:     0/  208     0%
@@ -96,52 +96,52 @@ Info: 	                DCSC:     0/    2     0%
 Info: Running script hook pre-place...
 Info: Script hook pre-place finished.
 Info: Placed 36 cells based on constraints.
-Info: Creating initial analytic placement for 31 cells, random placement wirelen = 7574.
-Info:     at initial placer iter 0, wirelen = 2088
-Info:     at initial placer iter 1, wirelen = 2068
-Info:     at initial placer iter 2, wirelen = 2078
-Info:     at initial placer iter 3, wirelen = 2071
+Info: Creating initial analytic placement for 33 cells, random placement wirelen = 7176.
+Info:     at initial placer iter 0, wirelen = 2194
+Info:     at initial placer iter 1, wirelen = 2104
+Info:     at initial placer iter 2, wirelen = 2087
+Info:     at initial placer iter 3, wirelen = 2097
 Info: Running main analytical placer.
-Info:     at iteration #1, type TRELLIS_SLICE: wirelen solved = 2078, spread = 2141, legal = 2141; time = 0.01s
-Info: HeAP Placer Time: 0.03s
-Info:   of which solving equations: 0.01s
-Info:   of which spreading cells: 0.00s
+Info:     at iteration #1, type TRELLIS_SLICE: wirelen solved = 2095, spread = 2133, legal = 2152; time = 0.02s
+Info: HeAP Placer Time: 0.10s
+Info:   of which solving equations: 0.03s
+Info:   of which spreading cells: 0.01s
 Info:   of which strict legalisation: 0.00s
 
 Info: Running simulated annealing placer for refinement.
-Info:   at iteration #1: temp = 0.000000, timing cost = 23, wirelen = 2141
-Info:   at iteration #2: temp = 0.000000, timing cost = 15, wirelen = 2141 
-Info: SA placement time 0.01s
+Info:   at iteration #1: temp = 0.000000, timing cost = 20, wirelen = 2152
+Info:   at iteration #2: temp = 0.000000, timing cost = 15, wirelen = 2156 
+Info: SA placement time 0.04s
 
-Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 96.78 MHz (PASS at 25.00 MHz)
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 126.04 MHz (PASS at 25.00 MHz)
 
-Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 26.04 ns
-Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 9.77 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 26.40 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 10.24 ns
 
 Info: Slack histogram:
 Info:  legend: * represents 1 endpoint(s)
 Info:          + represents [1,1) endpoint(s)
-Info: [ 13964,  17263) |** 
-Info: [ 17263,  20562) |****************************** 
-Info: [ 20562,  23861) | 
-Info: [ 23861,  27160) |**************** 
-Info: [ 27160,  30459) |**** 
-Info: [ 30459,  33758) |***** 
-Info: [ 33758,  37057) |******* 
-Info: [ 37057,  40356) | 
-Info: [ 40356,  43655) | 
-Info: [ 43655,  46954) | 
-Info: [ 46954,  50253) | 
-Info: [ 50253,  53552) | 
-Info: [ 53552,  56851) | 
-Info: [ 56851,  60150) | 
-Info: [ 60150,  63449) | 
-Info: [ 63449,  66748) | 
-Info: [ 66748,  70047) | 
-Info: [ 70047,  73346) | 
-Info: [ 73346,  76645) |******** 
-Info: [ 76645,  79944) |******** 
-Info: Checksum: 0xd1caecce
+Info: [ 13604,  16945) |** 
+Info: [ 16945,  20286) |****************************** 
+Info: [ 20286,  23627) | 
+Info: [ 23627,  26968) |*************** 
+Info: [ 26968,  30309) |* 
+Info: [ 30309,  33650) |*********** 
+Info: [ 33650,  36991) |***** 
+Info: [ 36991,  40332) | 
+Info: [ 40332,  43673) | 
+Info: [ 43673,  47014) | 
+Info: [ 47014,  50355) | 
+Info: [ 50355,  53696) | 
+Info: [ 53696,  57037) | 
+Info: [ 57037,  60378) | 
+Info: [ 60378,  63719) | 
+Info: [ 63719,  67060) | 
+Info: [ 67060,  70401) | 
+Info: [ 70401,  73742) |**** 
+Info: [ 73742,  77083) |**** 
+Info: [ 77083,  80424) |******** 
+Info: Checksum: 0x3837961f
 Info: Running script hook pre-route...
 Info: Script hook pre-route finished.
 Info: Routing globals...
@@ -152,118 +152,118 @@ Info: Setting up routing queue.
 Info: Routing 247 arcs.
 Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
 Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
-Info:        259 |       10        249 |   10   249 |         0|       0.06       0.06|
+Info:        252 |        5        247 |    5   247 |         0|       0.18       0.18|
 Info: Routing complete.
-Info: Router1 time 0.06s
-Info: Checksum: 0x7bc8b95f
+Info: Router1 time 0.18s
+Info: Checksum: 0x17201dfc
 
 Info: Critical path report for clock '$glbnet$clk$TRELLIS_IO_IN' (posedge -> posedge):
 Info: curr total
-Info:  0.5  0.5  Source system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_13_SLICE.Q0
-Info:  1.0  1.5    Net result[2]$TRELLIS_IO_OUT budget 3.736000 ns (16,9) -> (15,9)
-Info:                Sink system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_12_B_LUT4_Z_SLICE.D0
+Info:  0.5  0.5  Source system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_12_SLICE.Q1
+Info:  1.0  1.5    Net result[3]$TRELLIS_IO_OUT budget 3.736000 ns (12,9) -> (12,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_12_B_LUT4_Z_SLICE.B0
 Info:                Defined in:
 Info:                  hdl/Main.topEntity/system.v:13.26-13.32
-Info:  0.2  1.8  Source system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_12_B_LUT4_Z_SLICE.F0
-Info:  0.5  2.3    Net system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_12_B[2] budget 3.735000 ns (15,9) -> (15,9)
-Info:                Sink system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_9_A_LUT4_Z_SLICE.D0
+Info:  0.2  1.7  Source system_system_result.system_onOddM_result_1.result_LUT4_Z_12_B_LUT4_Z_SLICE.F0
+Info:  0.4  2.1    Net system_system_result.system_onOddM_result_1.result_LUT4_Z_12_B[2] budget 3.736000 ns (12,9) -> (12,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_9_A_LUT4_Z_SLICE.C0
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  2.5  Source system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_9_A_LUT4_Z_SLICE.F0
-Info:  0.2  2.7    Net system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_9_A[2] budget 3.735000 ns (15,9) -> (15,9)
-Info:                Sink system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_9_SLICE.D1
+Info:  0.2  2.4  Source system_system_result.system_onOddM_result_1.result_LUT4_Z_9_A_LUT4_Z_SLICE.F0
+Info:  0.5  2.9    Net system_system_result.system_onOddM_result_1.result_LUT4_Z_9_A[2] budget 3.736000 ns (12,9) -> (12,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_8_B_LUT4_Z_SLICE.D0
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  2.9  Source system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_9_SLICE.F1
-Info:  0.7  3.6    Net system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_8_B[0] budget 3.735000 ns (15,9) -> (15,11)
-Info:                Sink system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_8_SLICE.D1
+Info:  0.2  3.1  Source system_system_result.system_onOddM_result_1.result_LUT4_Z_8_B_LUT4_Z_SLICE.F0
+Info:  0.2  3.3    Net system_system_result.system_onOddM_result_1.result_LUT4_Z_8_B[0] budget 3.736000 ns (12,9) -> (12,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_8_B_LUT4_Z_SLICE.D1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  3.9  Source system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_8_SLICE.F1
-Info:  0.7  4.6    Net system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_6_B[2] budget 3.735000 ns (15,11) -> (14,12)
-Info:                Sink system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_6_SLICE.D1
+Info:  0.2  3.6  Source system_system_result.system_onOddM_result_1.result_LUT4_Z_8_B_LUT4_Z_SLICE.F1
+Info:  0.7  4.2    Net system_system_result.system_onOddM_result_1.result_LUT4_Z_6_B[2] budget 3.735000 ns (12,9) -> (13,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_4_B_LUT4_Z_SLICE.D0
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  4.9  Source system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_6_SLICE.F1
-Info:  0.4  5.3    Net system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_4_B[2] budget 3.735000 ns (14,12) -> (14,12)
-Info:                Sink system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_4_SLICE.D1
+Info:  0.2  4.5  Source system_system_result.system_onOddM_result_1.result_LUT4_Z_4_B_LUT4_Z_SLICE.F0
+Info:  0.4  4.9    Net system_system_result.system_onOddM_result_1.result_LUT4_Z_4_B[2] budget 3.735000 ns (13,9) -> (13,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_4_B_LUT4_Z_SLICE.D1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  5.5  Source system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_4_SLICE.F1
-Info:  0.3  5.8    Net system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_2_B[0] budget 3.735000 ns (14,12) -> (14,12)
-Info:                Sink system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_2_SLICE.D0
+Info:  0.2  5.1  Source system_system_result.system_onOddM_result_1.result_LUT4_Z_4_B_LUT4_Z_SLICE.F1
+Info:  0.5  5.6    Net system_system_result.system_onOddM_result_1.result_LUT4_Z_2_B[0] budget 3.735000 ns (13,9) -> (13,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_1_SLICE.D0
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24
-Info:  0.2  6.0  Source system_system_result.system_collatzer_result_0.system_onOddM_result_1.result_LUT4_Z_2_SLICE.F0
-Info:  0.5  6.5    Net system_system_result.system_collatzer_result_0.result_1[14] budget 3.735000 ns (14,12) -> (15,12)
+Info:  0.2  5.8  Source system_system_result.system_onOddM_result_1.result_LUT4_Z_1_SLICE.F0
+Info:  0.7  6.6    Net system_system_result.result_1[15] budget 3.735000 ns (13,9) -> (15,11)
+Info:                Sink system_system_result.system_routerM_result_0.result_LUT4_Z_SLICE.D1
+Info:                Defined in:
+Info:                  hdl/Main.topEntity/system_system.v:22.15-22.31
+Info:  0.2  6.8  Source system_system_result.system_routerM_result_0.result_LUT4_Z_SLICE.F1
+Info:  0.4  7.2    Net system_system_result.result_3[15] budget 3.735000 ns (15,11) -> (15,11)
 Info:                Sink system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_SLICE.D1
 Info:                Defined in:
-Info:                  hdl/Main.topEntity/system_collatzer.v:20.15-20.31
-Info:  0.2  6.7  Source system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_SLICE.F1
-Info:  0.5  7.2    Net system_system_result.result_0[14] budget 3.735000 ns (15,12) -> (15,12)
-Info:                Sink system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_1_SLICE.D0
-Info:                Defined in:
-Info:                  hdl/Main.topEntity/system_system.v:16.15-16.23
-Info:  0.2  7.4  Source system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_1_SLICE.F0
-Info:  0.1  7.6    Net system_system_result.system_controlM_c$result_rec.c$ds_app_arg[14] budget 3.735000 ns (15,12) -> (15,12)
-Info:                Sink system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_1_SLICE.DI0
+Info:                  hdl/Main.topEntity/system_system.v:18.15-18.23
+Info:  0.2  7.5  Source system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_SLICE.F1
+Info:  0.1  7.6    Net system_system_result.system_controlM_c$result_rec.c$ds_app_arg[15] budget 3.735000 ns (15,11) -> (15,11)
+Info:                Sink system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_SLICE.DI1
 Info:                Defined in:
 Info:                  hdl/Main.topEntity/system_controlM.v:16.15-16.27
-Info:  0.0  7.6  Setup system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_1_SLICE.DI0
+Info:  0.0  7.6  Setup system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_SLICE.DI1
 Info: 2.6 ns logic, 4.9 ns routing
 
 Info: Critical path report for cross-domain path '<async>' -> 'posedge $glbnet$clk$TRELLIS_IO_IN':
 Info: curr total
 Info:  0.0  0.0  Source setting[13]$tr_io.O
-Info: 10.8 10.8    Net setting[13]$TRELLIS_IO_IN budget 19.882000 ns (126,92) -> (14,12)
-Info:                Sink system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_2_SLICE.B0
+Info: 11.2 11.2    Net setting[13]$TRELLIS_IO_IN budget 19.882000 ns (126,92) -> (13,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_1_SLICE.B1
 Info:                Defined in:
 Info:                  hdl/Main.topEntity/system.v:10.20-10.27
-Info:  0.2 11.1  Source system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_2_SLICE.F0
-Info:  0.1 11.2    Net system_system_result.system_controlM_c$result_rec.c$ds_app_arg[13] budget 4.176000 ns (14,12) -> (14,12)
-Info:                Sink system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_2_SLICE.DI0
+Info:  0.2 11.4  Source system_system_result.system_onOddM_result_1.result_LUT4_Z_1_SLICE.F1
+Info:  0.1 11.6    Net system_system_result.system_controlM_c$result_rec.c$ds_app_arg[13] budget 4.176000 ns (13,9) -> (13,9)
+Info:                Sink system_system_result.system_onOddM_result_1.result_LUT4_Z_1_SLICE.DI1
 Info:                Defined in:
 Info:                  hdl/Main.topEntity/system_controlM.v:16.15-16.27
-Info:  0.0 11.2  Setup system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_2_SLICE.DI0
-Info: 0.2 ns logic, 11.0 ns routing
+Info:  0.0 11.6  Setup system_system_result.system_onOddM_result_1.result_LUT4_Z_1_SLICE.DI1
+Info: 0.2 ns logic, 11.3 ns routing
 
 Info: Critical path report for cross-domain path 'posedge $glbnet$clk$TRELLIS_IO_IN' -> '<async>':
 Info: curr total
-Info:  0.5  0.5  Source system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_15_SLICE.Q0
-Info:  4.1  4.6    Net result[0]$TRELLIS_IO_OUT budget 82.807999 ns (15,11) -> (65,0)
-Info:                Sink result[0]$tr_io.I
+Info:  0.5  0.5  Source system_system_result.system_controlM_c$result_rec.c$ds_app_arg_LUT4_Z_13_SLICE.Q1
+Info:  4.1  4.6    Net result[2]$TRELLIS_IO_OUT budget 82.810997 ns (11,9) -> (63,0)
+Info:                Sink result[2]$tr_io.I
 Info:                Defined in:
 Info:                  hdl/Main.topEntity/system.v:13.26-13.32
 Info: 0.5 ns logic, 4.1 ns routing
 
-Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 132.01 MHz (PASS at 25.00 MHz)
+Info: Max frequency for clock '$glbnet$clk$TRELLIS_IO_IN': 131.80 MHz (PASS at 25.00 MHz)
 
-Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 11.22 ns
-Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 4.60 ns
+Info: Max delay <async>                           -> posedge $glbnet$clk$TRELLIS_IO_IN: 11.56 ns
+Info: Max delay posedge $glbnet$clk$TRELLIS_IO_IN -> <async>                          : 4.58 ns
 
 Info: Slack histogram:
 Info:  legend: * represents 1 endpoint(s)
 Info:          + represents [1,1) endpoint(s)
-Info: [ 28785,  31407) |*************** 
-Info: [ 31407,  34029) |************************************* 
-Info: [ 34029,  36651) |*********** 
-Info: [ 36651,  39273) |* 
-Info: [ 39273,  41895) | 
-Info: [ 41895,  44517) | 
-Info: [ 44517,  47139) | 
-Info: [ 47139,  49761) | 
-Info: [ 49761,  52383) | 
-Info: [ 52383,  55005) | 
-Info: [ 55005,  57627) | 
-Info: [ 57627,  60249) | 
-Info: [ 60249,  62871) | 
-Info: [ 62871,  65493) | 
-Info: [ 65493,  68115) | 
-Info: [ 68115,  70737) | 
-Info: [ 70737,  73359) | 
-Info: [ 73359,  75981) | 
-Info: [ 75981,  78603) | 
-Info: [ 78603,  81225) |**************** 
+Info: [ 28435,  31089) |************** 
+Info: [ 31089,  33743) |******************************** 
+Info: [ 33743,  36397) |***************** 
+Info: [ 36397,  39051) |* 
+Info: [ 39051,  41705) | 
+Info: [ 41705,  44359) | 
+Info: [ 44359,  47013) | 
+Info: [ 47013,  49667) | 
+Info: [ 49667,  52321) | 
+Info: [ 52321,  54975) | 
+Info: [ 54975,  57629) | 
+Info: [ 57629,  60283) | 
+Info: [ 60283,  62937) | 
+Info: [ 62937,  65591) | 
+Info: [ 65591,  68245) | 
+Info: [ 68245,  70899) | 
+Info: [ 70899,  73553) | 
+Info: [ 73553,  76207) | 
+Info: [ 76207,  78861) |** 
+Info: [ 78861,  81515) |************** 
 Info: Running script hook post-route...
 Info: Script hook post-route finished.
 
