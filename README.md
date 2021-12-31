@@ -19,3 +19,7 @@ In `examples/` several examples detailing all Ex-PART's features are located. Th
 As Ex-PART was developed for a master thesis, there are still many issues with the software. Inspect the Github issues tab to find what bugs are present and which enhancements are possible.
 
 In case the software does not run, one build directory (`collatz`) is committed to the repository, such that at least one run of building a project is available for inspection.
+
+## Notes on the Paper
+
+In the (as of yet unpublished) paper on Ex-PART, a hierarchy of component instantiations and connections is called a _module_. In the code and explanation in this repository it is called a _system_. The name module is used in the paper as it ought to call up the concept of Verilog modules, which are slightly more general than Ex-PART's systems.
