@@ -1,5 +1,5 @@
 {
-  "creator": "Next Generation Place and Route (Version dd637643)",
+  "creator": "Next Generation Place and Route (Version nextpnr-0.1-64-g089ca825)",
   "modules": {
     "top": {
       "settings": {
@@ -115,7 +115,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X121/Y50/SLICEB"
+            "NEXTPNR_BEL": "X108/Y43/SLICEA"
           },
           "port_directions": {
             "WADO3": "output",
@@ -234,7 +234,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X4/Y3/SLICED"
+            "NEXTPNR_BEL": "X5/Y4/SLICEA"
           },
           "port_directions": {
             "WADO3": "output",
@@ -353,7 +353,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X5/Y3/SLICEB"
+            "NEXTPNR_BEL": "X6/Y3/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -472,7 +472,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X106/Y72/SLICEC"
+            "NEXTPNR_BEL": "X99/Y65/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -580,7 +580,7 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
-            "LUT1_INITVAL": "1100111100110000",
+            "LUT1_INITVAL": "1100110000111100",
             "LUT0_INITVAL": "0000000000000000",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
@@ -591,7 +591,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X5/Y3/SLICEA"
+            "NEXTPNR_BEL": "X6/Y3/SLICEB"
           },
           "port_directions": {
             "WADO3": "output",
@@ -670,9 +670,9 @@
             "FCI": [  ],
             "M1": [  ],
             "M0": [  ],
-            "D1": [ 1673 ],
+            "D1": [ 1672 ],
             "C1": [ 1670 ],
-            "B1": [ 1672 ],
+            "B1": [ 1673 ],
             "A1": [  ],
             "D0": [  ],
             "C0": [  ],
@@ -710,7 +710,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X4/Y3/SLICEA"
+            "NEXTPNR_BEL": "X4/Y3/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -818,7 +818,7 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
-            "LUT1_INITVAL": "1001110011000110",
+            "LUT1_INITVAL": "1001101010100110",
             "LUT0_INITVAL": "0000000000000000",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
@@ -910,8 +910,8 @@
             "M0": [  ],
             "D1": [ 2162 ],
             "C1": [ 1682 ],
-            "B1": [ 1683 ],
-            "A1": [ 1681 ],
+            "B1": [ 1681 ],
+            "A1": [ 1683 ],
             "D0": [  ],
             "C0": [  ],
             "B0": [  ],
@@ -948,7 +948,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X2/Y3/SLICED"
+            "NEXTPNR_BEL": "X2/Y3/SLICEB"
           },
           "port_directions": {
             "WADO3": "output",
@@ -1056,7 +1056,7 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
-            "LUT1_INITVAL": "1010011010011010",
+            "LUT1_INITVAL": "1001110011000110",
             "LUT0_INITVAL": "0000000000000000",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
@@ -1067,7 +1067,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y3/SLICEA"
+            "NEXTPNR_BEL": "X5/Y3/SLICEA"
           },
           "port_directions": {
             "WADO3": "output",
@@ -1147,9 +1147,9 @@
             "M1": [  ],
             "M0": [  ],
             "D1": [ 2170 ],
-            "C1": [ 1679 ],
-            "B1": [ 1680 ],
-            "A1": [ 1681 ],
+            "C1": [ 1680 ],
+            "B1": [ 1681 ],
+            "A1": [ 1679 ],
             "D0": [  ],
             "C0": [  ],
             "B0": [  ],
@@ -1175,7 +1175,7 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
-            "LUT1_INITVAL": "1001110011000110",
+            "LUT1_INITVAL": "1010011010011010",
             "LUT0_INITVAL": "0000000000000000",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
@@ -1186,7 +1186,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X5/Y3/SLICEC"
+            "NEXTPNR_BEL": "X5/Y3/SLICEB"
           },
           "port_directions": {
             "WADO3": "output",
@@ -1266,9 +1266,9 @@
             "M1": [  ],
             "M0": [  ],
             "D1": [ 2178 ],
-            "C1": [ 1678 ],
-            "B1": [ 1679 ],
-            "A1": [ 1677 ],
+            "C1": [ 1677 ],
+            "B1": [ 1678 ],
+            "A1": [ 1679 ],
             "D0": [  ],
             "C0": [  ],
             "B0": [  ],
@@ -1295,7 +1295,7 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "1 ",
-            "LUT1_INITVAL": "1110001011000000",
+            "LUT1_INITVAL": "1100101011000000",
             "LUT0_INITVAL": "1100111111000000",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
@@ -1306,7 +1306,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X5/Y2/SLICED"
+            "NEXTPNR_BEL": "X5/Y2/SLICEA"
           },
           "port_directions": {
             "WADO3": "output",
@@ -1386,8 +1386,8 @@
             "M1": [  ],
             "M0": [  ],
             "D1": [ 1687 ],
-            "C1": [ 1670 ],
-            "B1": [ 1705 ],
+            "C1": [ 1705 ],
+            "B1": [ 1670 ],
             "A1": [ 1672 ],
             "D0": [ 1652 ],
             "C0": [ 2388 ],
@@ -1426,7 +1426,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y2/SLICED"
+            "NEXTPNR_BEL": "X6/Y2/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -1546,7 +1546,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y2/SLICEA"
+            "NEXTPNR_BEL": "X7/Y2/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -1666,7 +1666,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y2/SLICEC"
+            "NEXTPNR_BEL": "X7/Y2/SLICED"
           },
           "port_directions": {
             "WADO3": "output",
@@ -1786,7 +1786,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X5/Y2/SLICEC"
+            "NEXTPNR_BEL": "X6/Y2/SLICEB"
           },
           "port_directions": {
             "WADO3": "output",
@@ -1906,7 +1906,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X5/Y2/SLICEB"
+            "NEXTPNR_BEL": "X5/Y2/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -2025,7 +2025,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y3/SLICEC"
+            "NEXTPNR_BEL": "X6/Y3/SLICED"
           },
           "port_directions": {
             "WADO3": "output",
@@ -2133,8 +2133,8 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
-            "LUT1_INITVAL": "0011011100010011",
-            "LUT0_INITVAL": "1011010011010010",
+            "LUT1_INITVAL": "0001111100000111",
+            "LUT0_INITVAL": "1001110011000110",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
             "CEMUX": "1 ",
@@ -2144,7 +2144,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y3/SLICEB"
+            "NEXTPNR_BEL": "X6/Y3/SLICEA"
           },
           "port_directions": {
             "WADO3": "output",
@@ -2224,12 +2224,12 @@
             "M1": [  ],
             "M0": [  ],
             "D1": [ 2143 ],
-            "C1": [ 1677 ],
-            "B1": [ 1676 ],
+            "C1": [ 1676 ],
+            "B1": [ 1677 ],
             "A1": [ 1675 ],
             "D0": [ 2143 ],
-            "C0": [ 1677 ],
-            "B0": [ 1676 ],
+            "C0": [ 1676 ],
+            "B0": [ 1677 ],
             "A0": [ 1675 ]
           }
         },
@@ -2252,7 +2252,7 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
-            "LUT1_INITVAL": "0001111100000111",
+            "LUT1_INITVAL": "0011011100010011",
             "LUT0_INITVAL": "0011110011000011",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
@@ -2263,7 +2263,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y3/SLICED"
+            "NEXTPNR_BEL": "X5/Y3/SLICED"
           },
           "port_directions": {
             "WADO3": "output",
@@ -2343,12 +2343,12 @@
             "M1": [  ],
             "M0": [  ],
             "D1": [ 2178 ],
-            "C1": [ 1678 ],
-            "B1": [ 1679 ],
-            "A1": [ 1677 ],
+            "C1": [ 1677 ],
+            "B1": [ 1678 ],
+            "A1": [ 1679 ],
             "D0": [ 2178 ],
-            "C0": [ 1678 ],
-            "B0": [ 1677 ],
+            "C0": [ 1677 ],
+            "B0": [ 1678 ],
             "A0": [  ]
           }
         },
@@ -2371,7 +2371,7 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
-            "LUT1_INITVAL": "0011011100010011",
+            "LUT1_INITVAL": "0001111100000111",
             "LUT0_INITVAL": "0011110011000011",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
@@ -2382,7 +2382,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y4/SLICEC"
+            "NEXTPNR_BEL": "X5/Y4/SLICEB"
           },
           "port_directions": {
             "WADO3": "output",
@@ -2462,12 +2462,12 @@
             "M1": [  ],
             "M0": [  ],
             "D1": [ 2170 ],
-            "C1": [ 1679 ],
-            "B1": [ 1680 ],
-            "A1": [ 1681 ],
+            "C1": [ 1680 ],
+            "B1": [ 1681 ],
+            "A1": [ 1679 ],
             "D0": [ 2170 ],
-            "C0": [ 1679 ],
-            "B0": [ 1680 ],
+            "C0": [ 1680 ],
+            "B0": [ 1679 ],
             "A0": [  ]
           }
         },
@@ -2501,7 +2501,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y4/SLICEA"
+            "NEXTPNR_BEL": "X5/Y4/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -2609,7 +2609,7 @@
             "REG0_REGSET": "RESET",
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
-            "LUT1_INITVAL": "1001110011000110",
+            "LUT1_INITVAL": "1001101010100110",
             "LUT0_INITVAL": "0011110011000011",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
@@ -2620,7 +2620,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y4/SLICED"
+            "NEXTPNR_BEL": "X5/Y4/SLICED"
           },
           "port_directions": {
             "WADO3": "output",
@@ -2701,8 +2701,8 @@
             "M0": [  ],
             "D1": [ 2138 ],
             "C1": [ 1684 ],
-            "B1": [ 1685 ],
-            "A1": [ 1683 ],
+            "B1": [ 1683 ],
+            "A1": [ 1685 ],
             "D0": [ 2138 ],
             "C0": [ 1684 ],
             "B0": [ 1683 ],
@@ -2729,7 +2729,7 @@
             "REG1_SD": "0 ",
             "REG0_SD": "0 ",
             "LUT1_INITVAL": "1001110011000110",
-            "LUT0_INITVAL": "0000001100110011",
+            "LUT0_INITVAL": "0000001100001111",
             "LSRMUX": "LSR",
             "CLKMUX": "CLK",
             "CEMUX": "1 ",
@@ -2739,7 +2739,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X5/Y3/SLICED"
+            "NEXTPNR_BEL": "X5/Y3/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -2823,8 +2823,8 @@
             "B1": [ 1675 ],
             "A1": [ 1673 ],
             "D0": [ 1673 ],
-            "C0": [ 1670 ],
-            "B0": [ 1672 ],
+            "C0": [ 1672 ],
+            "B0": [ 1670 ],
             "A0": [  ]
           }
         },
@@ -2957,7 +2957,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X4/Y2/SLICED"
+            "NEXTPNR_BEL": "X5/Y2/SLICED"
           },
           "port_directions": {
             "WADO3": "output",
@@ -3175,7 +3175,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X5/Y2/SLICEA"
+            "NEXTPNR_BEL": "X5/Y2/SLICEB"
           },
           "port_directions": {
             "WADO3": "output",
@@ -3360,7 +3360,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X7/Y2/SLICEB"
+            "NEXTPNR_BEL": "X6/Y2/SLICED"
           },
           "port_directions": {
             "WADO3": "output",
@@ -3480,7 +3480,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X7/Y2/SLICEA"
+            "NEXTPNR_BEL": "X4/Y2/SLICEC"
           },
           "port_directions": {
             "WADO3": "output",
@@ -3728,7 +3728,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X7/Y2/SLICED"
+            "NEXTPNR_BEL": "X4/Y2/SLICEB"
           },
           "port_directions": {
             "WADO3": "output",
@@ -3848,7 +3848,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X7/Y2/SLICEC"
+            "NEXTPNR_BEL": "X4/Y2/SLICED"
           },
           "port_directions": {
             "WADO3": "output",
@@ -4120,7 +4120,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X4/Y2/SLICEB"
+            "NEXTPNR_BEL": "X6/Y2/SLICEA"
           },
           "port_directions": {
             "WADO3": "output",
@@ -4466,7 +4466,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X4/Y2/SLICEC"
+            "NEXTPNR_BEL": "X7/Y2/SLICEA"
           },
           "port_directions": {
             "WADO3": "output",
@@ -5042,7 +5042,7 @@
           },
           "attributes": {
             "BEL_STRENGTH": "00000000000000000000000000000001",
-            "NEXTPNR_BEL": "X6/Y2/SLICEB"
+            "NEXTPNR_BEL": "X7/Y2/SLICEB"
           },
           "port_directions": {
             "WADO3": "output",
@@ -5202,7 +5202,7 @@
           "hide_name": 1,
           "bits": [ 3011 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/CLK1_SLICE;X6/Y2/0_0_MUXCLK1->0_0_CLK1_SLICE;5;X6/Y2/MUXCLK1;X6/Y2/0_0_CLK0->0_0_MUXCLK1;5;X4/Y2/CLK2_SLICE;X4/Y2/0_0_MUXCLK2->0_0_CLK2_SLICE;5;X4/Y2/MUXCLK2;X4/Y2/0_0_CLK0->0_0_MUXCLK2;5;X4/Y2/CLK1_SLICE;X4/Y2/0_0_MUXCLK1->0_0_CLK1_SLICE;5;X4/Y2/MUXCLK1;X4/Y2/0_0_CLK0->0_0_MUXCLK1;5;X4/Y2/CLK0_SLICE;X4/Y2/0_0_MUXCLK0->0_0_CLK0_SLICE;5;X4/Y2/MUXCLK0;X4/Y2/0_0_CLK0->0_0_MUXCLK0;5;X7/Y2/CLK2_SLICE;X7/Y2/0_0_MUXCLK2->0_0_CLK2_SLICE;5;X7/Y2/MUXCLK2;X7/Y2/0_0_CLK0->0_0_MUXCLK2;5;X7/Y2/CLK3_SLICE;X7/Y2/0_0_MUXCLK3->0_0_CLK3_SLICE;5;X7/Y2/MUXCLK3;X7/Y2/0_0_CLK0->0_0_MUXCLK3;5;X7/Y2/CLK0_SLICE;X7/Y2/0_0_MUXCLK0->0_0_CLK0_SLICE;5;X7/Y2/MUXCLK0;X7/Y2/0_0_CLK0->0_0_MUXCLK0;5;X7/Y2/G_HPBX0000;;5;X7/Y2/CLK1_SLICE;X7/Y2/0_0_MUXCLK1->0_0_CLK1_SLICE;5;X7/Y2/MUXCLK1;X7/Y2/0_0_CLK0->0_0_MUXCLK1;5;X7/Y2/CLK0;X7/Y2/0_0_G_HPBX0000->0_0_CLK0;5;X5/Y2/CLK0_SLICE;X5/Y2/0_0_MUXCLK0->0_0_CLK0_SLICE;5;X5/Y2/MUXCLK0;X5/Y2/0_0_CLK0->0_0_MUXCLK0;5;X4/Y2/G_HPBX0000;;5;X4/Y2/CLK3_SLICE;X4/Y2/0_0_MUXCLK3->0_0_CLK3_SLICE;5;X4/Y2/MUXCLK3;X4/Y2/0_0_CLK0->0_0_MUXCLK3;5;X4/Y2/CLK0;X4/Y2/0_0_G_HPBX0000->0_0_CLK0;5;X5/Y2/CLK3_SLICE;X5/Y2/0_0_MUXCLK3->0_0_CLK3_SLICE;5;X5/Y2/MUXCLK3;X5/Y2/0_0_CLK0->0_0_MUXCLK3;5;X6/Y2/CLK3_SLICE;X6/Y2/0_0_MUXCLK3->0_0_CLK3_SLICE;5;X6/Y2/MUXCLK3;X6/Y2/0_0_CLK0->0_0_MUXCLK3;5;X6/Y2/CLK0_SLICE;X6/Y2/0_0_MUXCLK0->0_0_CLK0_SLICE;5;X6/Y2/MUXCLK0;X6/Y2/0_0_CLK0->0_0_MUXCLK0;5;X6/Y2/G_HPBX0000;;5;X6/Y2/CLK2_SLICE;X6/Y2/0_0_MUXCLK2->0_0_CLK2_SLICE;5;X6/Y2/MUXCLK2;X6/Y2/0_0_CLK0->0_0_MUXCLK2;5;X6/Y2/CLK0;X6/Y2/0_0_G_HPBX0000->0_0_CLK0;5;X5/Y2/CLK2_SLICE;X5/Y2/0_0_MUXCLK2->0_0_CLK2_SLICE;5;X5/Y2/MUXCLK2;X5/Y2/0_0_CLK0->0_0_MUXCLK2;5;X12/Y22/G_VPTX0000;X12/Y22/0_0_G_HPRX0000->0_0_G_VPTX0000;5;X13/Y2/L_HPBX0000;X13/Y2/0_0_G_VPTX0000->0_0_L_HPBX0000;5;X5/Y2/G_HPBX0000;;5;X5/Y2/CLK1_SLICE;X5/Y2/0_0_MUXCLK1->0_0_CLK1_SLICE;5;X5/Y2/MUXCLK1;X5/Y2/0_0_CLK0->0_0_MUXCLK1;5;X5/Y2/CLK0;X5/Y2/0_0_G_HPBX0000->0_0_CLK0;5;X0/Y0/G_LRPCLK0;X68/Y70/-68_-70_G_HPFE0100->-68_-70_G_LRPCLK0;5;X0/Y0/G_LLPCLK0;X67/Y70/-67_-70_G_HPFE0100->-67_-70_G_LLPCLK0;5;X0/Y0/G_URPCLK0;X68/Y22/-68_-22_G_HPFE0100->-68_-22_G_URPCLK0;5;X0/Y0/G_CLKO_LDCC1;;5;X0/Y0/G_HPFE0100;X3/Y46/-3_-46_G_CLKO_LDCC1->-3_-46_G_HPFE0100;5;X0/Y0/G_ULPCLK0;X67/Y22/-67_-22_G_HPFE0100->-67_-22_G_ULPCLK0;5",
+            "ROUTING": "X7/Y2/CLK1_SLICE;X7/Y2/0_0_MUXCLK1->0_0_CLK1_SLICE;5;X7/Y2/MUXCLK1;X7/Y2/0_0_CLK0->0_0_MUXCLK1;5;X7/Y2/CLK0_SLICE;X7/Y2/0_0_MUXCLK0->0_0_CLK0_SLICE;5;X7/Y2/MUXCLK0;X7/Y2/0_0_CLK0->0_0_MUXCLK0;5;X6/Y2/CLK0_SLICE;X6/Y2/0_0_MUXCLK0->0_0_CLK0_SLICE;5;X6/Y2/MUXCLK0;X6/Y2/0_0_CLK0->0_0_MUXCLK0;5;X4/Y2/CLK0_SLICE;X4/Y2/0_0_MUXCLK0->0_0_CLK0_SLICE;5;X4/Y2/MUXCLK0;X4/Y2/0_0_CLK0->0_0_MUXCLK0;5;X4/Y2/CLK3_SLICE;X4/Y2/0_0_MUXCLK3->0_0_CLK3_SLICE;5;X4/Y2/MUXCLK3;X4/Y2/0_0_CLK0->0_0_MUXCLK3;5;X4/Y2/CLK1_SLICE;X4/Y2/0_0_MUXCLK1->0_0_CLK1_SLICE;5;X4/Y2/MUXCLK1;X4/Y2/0_0_CLK0->0_0_MUXCLK1;5;X4/Y2/G_HPBX0000;;5;X4/Y2/CLK2_SLICE;X4/Y2/0_0_MUXCLK2->0_0_CLK2_SLICE;5;X4/Y2/MUXCLK2;X4/Y2/0_0_CLK0->0_0_MUXCLK2;5;X4/Y2/CLK0;X4/Y2/0_0_G_HPBX0000->0_0_CLK0;5;X6/Y2/CLK3_SLICE;X6/Y2/0_0_MUXCLK3->0_0_CLK3_SLICE;5;X6/Y2/MUXCLK3;X6/Y2/0_0_CLK0->0_0_MUXCLK3;5;X5/Y2/CLK1_SLICE;X5/Y2/0_0_MUXCLK1->0_0_CLK1_SLICE;5;X5/Y2/MUXCLK1;X5/Y2/0_0_CLK0->0_0_MUXCLK1;5;X5/Y2/CLK3_SLICE;X5/Y2/0_0_MUXCLK3->0_0_CLK3_SLICE;5;X5/Y2/MUXCLK3;X5/Y2/0_0_CLK0->0_0_MUXCLK3;5;X5/Y2/CLK0_SLICE;X5/Y2/0_0_MUXCLK0->0_0_CLK0_SLICE;5;X5/Y2/MUXCLK0;X5/Y2/0_0_CLK0->0_0_MUXCLK0;5;X6/Y2/CLK2_SLICE;X6/Y2/0_0_MUXCLK2->0_0_CLK2_SLICE;5;X6/Y2/MUXCLK2;X6/Y2/0_0_CLK0->0_0_MUXCLK2;5;X7/Y2/CLK2_SLICE;X7/Y2/0_0_MUXCLK2->0_0_CLK2_SLICE;5;X7/Y2/MUXCLK2;X7/Y2/0_0_CLK0->0_0_MUXCLK2;5;X7/Y2/G_HPBX0000;;5;X7/Y2/CLK3_SLICE;X7/Y2/0_0_MUXCLK3->0_0_CLK3_SLICE;5;X7/Y2/MUXCLK3;X7/Y2/0_0_CLK0->0_0_MUXCLK3;5;X7/Y2/CLK0;X7/Y2/0_0_G_HPBX0000->0_0_CLK0;5;X6/Y2/G_HPBX0000;;5;X6/Y2/CLK1_SLICE;X6/Y2/0_0_MUXCLK1->0_0_CLK1_SLICE;5;X6/Y2/MUXCLK1;X6/Y2/0_0_CLK0->0_0_MUXCLK1;5;X6/Y2/CLK0;X6/Y2/0_0_G_HPBX0000->0_0_CLK0;5;X12/Y22/G_VPTX0000;X12/Y22/0_0_G_HPRX0000->0_0_G_VPTX0000;5;X13/Y2/L_HPBX0000;X13/Y2/0_0_G_VPTX0000->0_0_L_HPBX0000;5;X5/Y2/G_HPBX0000;;5;X5/Y2/CLK2_SLICE;X5/Y2/0_0_MUXCLK2->0_0_CLK2_SLICE;5;X5/Y2/MUXCLK2;X5/Y2/0_0_CLK0->0_0_MUXCLK2;5;X5/Y2/CLK0;X5/Y2/0_0_G_HPBX0000->0_0_CLK0;5;X0/Y0/G_LRPCLK0;X68/Y70/-68_-70_G_HPFE0100->-68_-70_G_LRPCLK0;5;X0/Y0/G_LLPCLK0;X67/Y70/-67_-70_G_HPFE0100->-67_-70_G_LLPCLK0;5;X0/Y0/G_URPCLK0;X68/Y22/-68_-22_G_HPFE0100->-68_-22_G_URPCLK0;5;X0/Y0/G_CLKO_LDCC1;;5;X0/Y0/G_HPFE0100;X3/Y46/-3_-46_G_CLKO_LDCC1->-3_-46_G_HPFE0100;5;X0/Y0/G_ULPCLK0;X67/Y22/-67_-22_G_HPFE0100->-67_-22_G_ULPCLK0;5",
             "ECP5_IS_GLOBAL": "00000000000000000000000000000001"
           }
         },
@@ -5252,7 +5252,7 @@
           "hide_name": 0,
           "bits": [ 2635 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/F2_SLICE;;1;X6/Y2/F2;X6/Y2/0_0_F2_SLICE->0_0_F2;1;X6/Y2/DI2;X6/Y2/0_0_F2->0_0_DI2;1;X6/Y2/DI2_SLICE;X6/Y2/0_0_DI2->0_0_DI2_SLICE;1",
+            "ROUTING": "X7/Y2/F2_SLICE;;1;X7/Y2/F2;X7/Y2/0_0_F2_SLICE->0_0_F2;1;X7/Y2/DI2;X7/Y2/0_0_F2->0_0_DI2;1;X7/Y2/DI2_SLICE;X7/Y2/0_0_DI2->0_0_DI2_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5267,7 +5267,7 @@
           "hide_name": 0,
           "bits": [ 2629 ] ,
           "attributes": {
-            "ROUTING": "X4/Y2/F4_SLICE;;1;X4/Y2/F4;X4/Y2/0_0_F4_SLICE->0_0_F4;1;X4/Y2/DI4;X4/Y2/0_0_F4->0_0_DI4;1;X4/Y2/DI4_SLICE;X4/Y2/0_0_DI4->0_0_DI4_SLICE;1",
+            "ROUTING": "X7/Y2/F0_SLICE;;1;X7/Y2/F0;X7/Y2/0_0_F0_SLICE->0_0_F0;1;X7/Y2/DI0;X7/Y2/0_0_F0->0_0_DI0;1;X7/Y2/DI0_SLICE;X7/Y2/0_0_DI0->0_0_DI0_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5282,7 +5282,7 @@
           "hide_name": 0,
           "bits": [ 2623 ] ,
           "attributes": {
-            "ROUTING": "X4/Y2/F2_SLICE;;1;X4/Y2/F2;X4/Y2/0_0_F2_SLICE->0_0_F2;1;X4/Y2/DI2;X4/Y2/0_0_F2->0_0_DI2;1;X4/Y2/DI2_SLICE;X4/Y2/0_0_DI2->0_0_DI2_SLICE;1",
+            "ROUTING": "X6/Y2/F0_SLICE;;1;X6/Y2/F0;X6/Y2/0_0_F0_SLICE->0_0_F0;1;X6/Y2/DI0;X6/Y2/0_0_F0->0_0_DI0;1;X6/Y2/DI0_SLICE;X6/Y2/0_0_DI0->0_0_DI0_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5312,7 +5312,7 @@
           "hide_name": 0,
           "bits": [ 2611 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/F4_SLICE;;1;X7/Y2/F4;X7/Y2/0_0_F4_SLICE->0_0_F4;1;X7/Y2/DI4;X7/Y2/0_0_F4->0_0_DI4;1;X7/Y2/DI4_SLICE;X7/Y2/0_0_DI4->0_0_DI4_SLICE;1",
+            "ROUTING": "X4/Y2/F6_SLICE;;1;X4/Y2/F6;X4/Y2/0_0_F6_SLICE->0_0_F6;1;X4/Y2/DI6;X4/Y2/0_0_F6->0_0_DI6;1;X4/Y2/DI6_SLICE;X4/Y2/0_0_DI6->0_0_DI6_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5327,7 +5327,7 @@
           "hide_name": 0,
           "bits": [ 2605 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/F6_SLICE;;1;X7/Y2/F6;X7/Y2/0_0_F6_SLICE->0_0_F6;1;X7/Y2/DI6;X7/Y2/0_0_F6->0_0_DI6;1;X7/Y2/DI6_SLICE;X7/Y2/0_0_DI6->0_0_DI6_SLICE;1",
+            "ROUTING": "X4/Y2/F2_SLICE;;1;X4/Y2/F2;X4/Y2/0_0_F2_SLICE->0_0_F2;1;X4/Y2/DI2;X4/Y2/0_0_F2->0_0_DI2;1;X4/Y2/DI2_SLICE;X4/Y2/0_0_DI2->0_0_DI2_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5342,7 +5342,7 @@
           "hide_name": 0,
           "bits": [ 2599 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/F0_SLICE;;1;X7/Y2/F0;X7/Y2/0_0_F0_SLICE->0_0_F0;1;X7/Y2/DI0;X7/Y2/0_0_F0->0_0_DI0;1;X7/Y2/DI0_SLICE;X7/Y2/0_0_DI0->0_0_DI0_SLICE;1",
+            "ROUTING": "X4/Y2/F4_SLICE;;1;X4/Y2/F4;X4/Y2/0_0_F4_SLICE->0_0_F4;1;X4/Y2/DI4;X4/Y2/0_0_F4->0_0_DI4;1;X4/Y2/DI4_SLICE;X4/Y2/0_0_DI4->0_0_DI4_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5357,7 +5357,7 @@
           "hide_name": 0,
           "bits": [ 2593 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/F2_SLICE;;1;X7/Y2/F2;X7/Y2/0_0_F2_SLICE->0_0_F2;1;X7/Y2/DI2;X7/Y2/0_0_F2->0_0_DI2;1;X7/Y2/DI2_SLICE;X7/Y2/0_0_DI2->0_0_DI2_SLICE;1",
+            "ROUTING": "X6/Y2/F6_SLICE;;1;X6/Y2/F6;X6/Y2/0_0_F6_SLICE->0_0_F6;1;X6/Y2/DI6;X6/Y2/0_0_F6->0_0_DI6;1;X6/Y2/DI6_SLICE;X6/Y2/0_0_DI6->0_0_DI6_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5372,7 +5372,7 @@
           "hide_name": 0,
           "bits": [ 2587 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/F0_SLICE;;1;X5/Y2/F0;X5/Y2/0_0_F0_SLICE->0_0_F0;1;X5/Y2/DI0;X5/Y2/0_0_F0->0_0_DI0;1;X5/Y2/DI0_SLICE;X5/Y2/0_0_DI0->0_0_DI0_SLICE;1",
+            "ROUTING": "X5/Y2/F2_SLICE;;1;X5/Y2/F2;X5/Y2/0_0_F2_SLICE->0_0_F2;1;X5/Y2/DI2;X5/Y2/0_0_F2->0_0_DI2;1;X5/Y2/DI2_SLICE;X5/Y2/0_0_DI2->0_0_DI2_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5387,7 +5387,7 @@
           "hide_name": 0,
           "bits": [ 2581 ] ,
           "attributes": {
-            "ROUTING": "X4/Y2/F6_SLICE;;1;X4/Y2/F6;X4/Y2/0_0_F6_SLICE->0_0_F6;1;X4/Y2/DI6;X4/Y2/0_0_F6->0_0_DI6;1;X4/Y2/DI6_SLICE;X4/Y2/0_0_DI6->0_0_DI6_SLICE;1",
+            "ROUTING": "X5/Y2/F6_SLICE;;1;X5/Y2/F6;X5/Y2/0_0_F6_SLICE->0_0_F6;1;X5/Y2/DI6;X5/Y2/0_0_F6->0_0_DI6;1;X5/Y2/DI6_SLICE;X5/Y2/0_0_DI6->0_0_DI6_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5402,7 +5402,7 @@
           "hide_name": 0,
           "bits": [ 2575 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/F6_SLICE;;1;X5/Y2/F6;X5/Y2/0_0_F6_SLICE->0_0_F6;1;X5/Y2/DI6;X5/Y2/0_0_F6->0_0_DI6;1;X5/Y2/DI6_SLICE;X5/Y2/0_0_DI6->0_0_DI6_SLICE;1",
+            "ROUTING": "X5/Y2/F0_SLICE;;1;X5/Y2/F0;X5/Y2/0_0_F0_SLICE->0_0_F0;1;X5/Y2/DI0;X5/Y2/0_0_F0->0_0_DI0;1;X5/Y2/DI0_SLICE;X5/Y2/0_0_DI0->0_0_DI0_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5417,7 +5417,7 @@
           "hide_name": 0,
           "bits": [ 2569 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/F6_SLICE;;1;X6/Y2/F6;X6/Y2/0_0_F6_SLICE->0_0_F6;1;X6/Y2/DI6;X6/Y2/0_0_F6->0_0_DI6;1;X6/Y2/DI6_SLICE;X6/Y2/0_0_DI6->0_0_DI6_SLICE;1",
+            "ROUTING": "X6/Y2/F4_SLICE;;1;X6/Y2/F4;X6/Y2/0_0_F4_SLICE->0_0_F4;1;X6/Y2/DI4;X6/Y2/0_0_F4->0_0_DI4;1;X6/Y2/DI4_SLICE;X6/Y2/0_0_DI4->0_0_DI4_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5432,7 +5432,7 @@
           "hide_name": 0,
           "bits": [ 2563 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/F0_SLICE;;1;X6/Y2/F0;X6/Y2/0_0_F0_SLICE->0_0_F0;1;X6/Y2/DI0;X6/Y2/0_0_F0->0_0_DI0;1;X6/Y2/DI0_SLICE;X6/Y2/0_0_DI0->0_0_DI0_SLICE;1",
+            "ROUTING": "X7/Y2/F4_SLICE;;1;X7/Y2/F4;X7/Y2/0_0_F4_SLICE->0_0_F4;1;X7/Y2/DI4;X7/Y2/0_0_F4->0_0_DI4;1;X7/Y2/DI4_SLICE;X7/Y2/0_0_DI4->0_0_DI4_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5447,7 +5447,7 @@
           "hide_name": 0,
           "bits": [ 2557 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/F4_SLICE;;1;X6/Y2/F4;X6/Y2/0_0_F4_SLICE->0_0_F4;1;X6/Y2/DI4;X6/Y2/0_0_F4->0_0_DI4;1;X6/Y2/DI4_SLICE;X6/Y2/0_0_DI4->0_0_DI4_SLICE;1",
+            "ROUTING": "X7/Y2/F6_SLICE;;1;X7/Y2/F6;X7/Y2/0_0_F6_SLICE->0_0_F6;1;X7/Y2/DI6;X7/Y2/0_0_F6->0_0_DI6;1;X7/Y2/DI6_SLICE;X7/Y2/0_0_DI6->0_0_DI6_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5462,7 +5462,7 @@
           "hide_name": 0,
           "bits": [ 2551 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/F4_SLICE;;1;X5/Y2/F4;X5/Y2/0_0_F4_SLICE->0_0_F4;1;X5/Y2/DI4;X5/Y2/0_0_F4->0_0_DI4;1;X5/Y2/DI4_SLICE;X5/Y2/0_0_DI4->0_0_DI4_SLICE;1",
+            "ROUTING": "X6/Y2/F2_SLICE;;1;X6/Y2/F2;X6/Y2/0_0_F2_SLICE->0_0_F2;1;X6/Y2/DI2;X6/Y2/0_0_F2->0_0_DI2;1;X6/Y2/DI2_SLICE;X6/Y2/0_0_DI2->0_0_DI2_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5477,7 +5477,7 @@
           "hide_name": 0,
           "bits": [ 2545 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/F2_SLICE;;1;X5/Y2/F2;X5/Y2/0_0_F2_SLICE->0_0_F2;1;X5/Y2/DI2;X5/Y2/0_0_F2->0_0_DI2;1;X5/Y2/DI2_SLICE;X5/Y2/0_0_DI2->0_0_DI2_SLICE;1",
+            "ROUTING": "X5/Y2/F4_SLICE;;1;X5/Y2/F4;X5/Y2/0_0_F4_SLICE->0_0_F4;1;X5/Y2/DI4;X5/Y2/0_0_F4->0_0_DI4;1;X5/Y2/DI4_SLICE;X5/Y2/0_0_DI4->0_0_DI4_SLICE;1",
             "src": "builds/.grouped/grouped.v:17.15-17.27"
           }
         },
@@ -5492,7 +5492,7 @@
           "hide_name": 1,
           "bits": [ 2388 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/C0;X5/Y2/0_0_H00L0000->0_0_C0;1;X5/Y2/C0_SLICE;X5/Y2/0_0_C0->0_0_C0_SLICE;1;X7/Y2/C0_SLICE;X7/Y2/0_0_C0->0_0_C0_SLICE;1;X7/Y2/C6;X7/Y2/0_0_H02W0601->0_0_C6;1;X7/Y2/C6_SLICE;X7/Y2/0_0_C6->0_0_C6_SLICE;1;X8/Y44/V06N0103;X8/Y47/0_0_H06W0103->0_-3_V06N0103;1;X8/Y38/V06N0203;X8/Y41/0_3_V06N0103->0_-3_V06N0203;1;X8/Y32/V06N0203;X8/Y35/0_3_V06N0203->0_-3_V06N0203;1;X8/Y26/V06N0203;X8/Y29/0_3_V06N0203->0_-3_V06N0203;1;X8/Y20/V06N0303;X8/Y23/0_3_V06N0203->0_-3_V06N0303;1;X8/Y14/V06N0303;X8/Y17/0_3_V06N0303->0_-3_V06N0303;1;X8/Y8/V06N0303;X8/Y11/0_3_V06N0303->0_-3_V06N0303;1;X8/Y2/V06N0303;X8/Y5/0_3_V06N0303->0_-3_V06N0303;1;X7/Y2/H02W0601;X8/Y2/0_0_V06N0303->-1_0_H02W0601;1;X7/Y2/C2;X7/Y2/0_0_H02W0601->0_0_C2;1;X7/Y2/C2_SLICE;X7/Y2/0_0_C2->0_0_C2_SLICE;1;X6/Y2/C4;X6/Y2/0_0_H02E0401->0_0_C4;1;X6/Y2/C4_SLICE;X6/Y2/0_0_C4->0_0_C4_SLICE;1;X6/Y2/C2;X6/Y2/0_0_H02E0401->0_0_C2;1;X6/Y2/C2_SLICE;X6/Y2/0_0_C2->0_0_C2_SLICE;1;X6/Y2/C6;X6/Y2/0_0_H02E0401->0_0_C6;1;X6/Y2/C6_SLICE;X6/Y2/0_0_C6->0_0_C6_SLICE;1;X6/Y2/H02E0401;X5/Y2/0_0_V06N0203->1_0_H02E0401;1;X6/Y2/C0;X6/Y2/0_0_H02E0401->0_0_C0;1;X6/Y2/C0_SLICE;X6/Y2/0_0_C0->0_0_C0_SLICE;1;X5/Y2/C4;X5/Y2/0_0_V02N0201->0_0_C4;1;X5/Y2/C4_SLICE;X5/Y2/0_0_C4->0_0_C4_SLICE;1;X7/Y2/C4_SLICE;X7/Y2/0_0_C4->0_0_C4_SLICE;1;X7/Y2/C0;X7/Y2/0_0_H02W0601->0_0_C0;1;X5/Y4/V02N0201;X5/Y5/0_3_V06N0103->0_-1_V02N0201;1;X5/Y2/V02N0201;X5/Y3/0_1_V02N0201->0_-1_V02N0201;1;X5/Y2/C6;X5/Y2/0_0_V02N0201->0_0_C6;1;X5/Y2/C6_SLICE;X5/Y2/0_0_C6->0_0_C6_SLICE;1;X5/Y2/H00L0000;X5/Y2/0_0_V02N0201->0_0_H00L0000;1;X7/Y2/C4;X7/Y2/0_0_H02W0601->0_0_C4;1;X5/Y2/C2;X5/Y2/0_0_H00L0000->0_0_C2;1;X5/Y2/C2_SLICE;X5/Y2/0_0_C2->0_0_C2_SLICE;1;X4/Y2/C6;X4/Y2/0_0_H02W0401->0_0_C6;1;X4/Y2/C6_SLICE;X4/Y2/0_0_C6->0_0_C6_SLICE;1;X4/Y2/C2;X4/Y2/0_0_H02W0401->0_0_C2;1;X4/Y2/C2_SLICE;X4/Y2/0_0_C2->0_0_C2_SLICE;1;X4/Y2/C0;X4/Y2/0_0_H02W0401->0_0_C0;1;X4/Y2/C0_SLICE;X4/Y2/0_0_C0->0_0_C0_SLICE;1;X126/Y53/JPADDIA_PIO;;1;X126/Y53/JDIA;X126/Y53/0_0_JPADDIA_PIO->0_0_JDIA;1;X125/Y53/JF5;X126/Y53/0_0_JDIA->-1_0_JF5;1;X125/Y50/V06N0303;X125/Y53/0_0_JF5->0_-3_V06N0303;1;X122/Y47/H06W0303;X125/Y47/0_3_V06N0303->-3_0_H06W0303;1;X116/Y47/H06W0003;X119/Y47/3_0_H06W0303->-3_0_H06W0003;1;X110/Y47/H06W0103;X113/Y47/3_0_H06W0003->-3_0_H06W0103;1;X104/Y47/H06W0203;X107/Y47/3_0_H06W0103->-3_0_H06W0203;1;X98/Y47/H06W0203;X101/Y47/3_0_H06W0203->-3_0_H06W0203;1;X92/Y47/H06W0303;X95/Y47/3_0_H06W0203->-3_0_H06W0303;1;X86/Y47/H06W0303;X89/Y47/3_0_H06W0303->-3_0_H06W0303;1;X80/Y47/H06W0003;X83/Y47/3_0_H06W0303->-3_0_H06W0003;1;X74/Y47/H06W0003;X77/Y47/3_0_H06W0003->-3_0_H06W0003;1;X68/Y47/H06W0103;X71/Y47/3_0_H06W0003->-3_0_H06W0103;1;X62/Y47/H06W0203;X65/Y47/3_0_H06W0103->-3_0_H06W0203;1;X56/Y47/H06W0203;X59/Y47/3_0_H06W0203->-3_0_H06W0203;1;X50/Y47/H06W0203;X53/Y47/3_0_H06W0203->-3_0_H06W0203;1;X44/Y47/H06W0203;X47/Y47/3_0_H06W0203->-3_0_H06W0203;1;X38/Y47/H06W0203;X41/Y47/3_0_H06W0203->-3_0_H06W0203;1;X32/Y47/H06W0203;X35/Y47/3_0_H06W0203->-3_0_H06W0203;1;X26/Y47/H06W0303;X29/Y47/3_0_H06W0203->-3_0_H06W0303;1;X20/Y47/H06W0303;X23/Y47/3_0_H06W0303->-3_0_H06W0303;1;X14/Y47/H06W0003;X17/Y47/3_0_H06W0303->-3_0_H06W0003;1;X8/Y47/H06W0103;X11/Y47/3_0_H06W0003->-3_0_H06W0103;1;X5/Y44/V06N0103;X5/Y47/3_0_H06W0103->0_-3_V06N0103;1;X5/Y38/V06N0203;X5/Y41/0_3_V06N0103->0_-3_V06N0203;1;X5/Y32/V06N0303;X5/Y35/0_3_V06N0203->0_-3_V06N0303;1;X5/Y26/V06N0003;X5/Y29/0_3_V06N0303->0_-3_V06N0003;1;X5/Y20/V06N0003;X5/Y23/0_3_V06N0003->0_-3_V06N0003;1;X5/Y14/V06N0003;X5/Y17/0_3_V06N0003->0_-3_V06N0003;1;X5/Y8/V06N0103;X5/Y11/0_3_V06N0003->0_-3_V06N0103;1;X5/Y2/V06N0203;X5/Y5/0_3_V06N0103->0_-3_V06N0203;1;X4/Y2/H02W0401;X5/Y2/0_0_V06N0203->-1_0_H02W0401;1;X4/Y2/C4;X4/Y2/0_0_H02W0401->0_0_C4;1;X4/Y2/C4_SLICE;X4/Y2/0_0_C4->0_0_C4_SLICE;1",
+            "ROUTING": "X7/Y2/C6;X7/Y2/0_0_H02W0401->0_0_C6;1;X7/Y2/C6_SLICE;X7/Y2/0_0_C6->0_0_C6_SLICE;1;X7/Y2/C2;X7/Y2/0_0_H02W0401->0_0_C2;1;X7/Y2/C2_SLICE;X7/Y2/0_0_C2->0_0_C2_SLICE;1;X7/Y2/C0;X7/Y2/0_0_H02W0401->0_0_C0;1;X7/Y2/C0_SLICE;X7/Y2/0_0_C0->0_0_C0_SLICE;1;X8/Y44/V06N0303;X8/Y47/0_0_H06W0303->0_-3_V06N0303;1;X8/Y38/V06N0003;X8/Y41/0_3_V06N0303->0_-3_V06N0003;1;X8/Y32/V06N0003;X8/Y35/0_3_V06N0003->0_-3_V06N0003;1;X8/Y26/V06N0003;X8/Y29/0_3_V06N0003->0_-3_V06N0003;1;X8/Y20/V06N0003;X8/Y23/0_3_V06N0003->0_-3_V06N0003;1;X8/Y14/V06N0103;X8/Y17/0_3_V06N0003->0_-3_V06N0103;1;X8/Y8/V06N0103;X8/Y11/0_3_V06N0103->0_-3_V06N0103;1;X8/Y2/V06N0203;X8/Y5/0_3_V06N0103->0_-3_V06N0203;1;X7/Y2/H02W0401;X8/Y2/0_0_V06N0203->-1_0_H02W0401;1;X7/Y2/C4;X7/Y2/0_0_H02W0401->0_0_C4;1;X7/Y2/C4_SLICE;X7/Y2/0_0_C4->0_0_C4_SLICE;1;X6/Y2/C0;X6/Y2/0_0_H02E0601->0_0_C0;1;X6/Y2/C0_SLICE;X6/Y2/0_0_C0->0_0_C0_SLICE;1;X6/Y2/C2;X6/Y2/0_0_H02E0601->0_0_C2;1;X6/Y2/C2_SLICE;X6/Y2/0_0_C2->0_0_C2_SLICE;1;X6/Y2/C4;X6/Y2/0_0_H02E0601->0_0_C4;1;X6/Y2/C4_SLICE;X6/Y2/0_0_C4->0_0_C4_SLICE;1;X6/Y2/H02E0601;X5/Y2/0_0_V06N0303->1_0_H02E0601;1;X6/Y2/C6;X6/Y2/0_0_H02E0601->0_0_C6;1;X6/Y2/C6_SLICE;X6/Y2/0_0_C6->0_0_C6_SLICE;1;X5/Y2/C2;X5/Y2/0_0_V02N0601->0_0_C2;1;X5/Y2/C2_SLICE;X5/Y2/0_0_C2->0_0_C2_SLICE;1;X5/Y2/C4;X5/Y2/0_0_V02N0001->0_0_C4;1;X5/Y2/C4_SLICE;X5/Y2/0_0_C4->0_0_C4_SLICE;1;X5/Y4/V02N0501;X5/Y5/0_3_V06N0303->0_-1_V02N0501;1;X5/Y2/V02N0001;X5/Y3/0_1_V02N0501->0_-1_V02N0001;1;X5/Y2/C6;X5/Y2/0_0_V02N0001->0_0_C6;1;X5/Y2/C6_SLICE;X5/Y2/0_0_C6->0_0_C6_SLICE;1;X5/Y4/V02N0601;X5/Y5/0_3_V06N0303->0_-1_V02N0601;1;X5/Y2/V02N0601;X5/Y3/0_1_V02N0601->0_-1_V02N0601;1;X5/Y2/C0;X5/Y2/0_0_V02N0601->0_0_C0;1;X5/Y2/C0_SLICE;X5/Y2/0_0_C0->0_0_C0_SLICE;1;X4/Y2/C2;X4/Y2/0_0_H02W0601->0_0_C2;1;X4/Y2/C2_SLICE;X4/Y2/0_0_C2->0_0_C2_SLICE;1;X4/Y2/C4;X4/Y2/0_0_H02W0601->0_0_C4;1;X4/Y2/C4_SLICE;X4/Y2/0_0_C4->0_0_C4_SLICE;1;X4/Y2/C0;X4/Y2/0_0_H02W0601->0_0_C0;1;X4/Y2/C0_SLICE;X4/Y2/0_0_C0->0_0_C0_SLICE;1;X126/Y53/JPADDIA_PIO;;1;X126/Y53/JDIA;X126/Y53/0_0_JPADDIA_PIO->0_0_JDIA;1;X125/Y53/JF5;X126/Y53/0_0_JDIA->-1_0_JF5;1;X125/Y50/V06N0303;X125/Y53/0_0_JF5->0_-3_V06N0303;1;X122/Y47/H06W0303;X125/Y47/0_3_V06N0303->-3_0_H06W0303;1;X116/Y47/H06W0303;X119/Y47/3_0_H06W0303->-3_0_H06W0303;1;X110/Y47/H06W0003;X113/Y47/3_0_H06W0303->-3_0_H06W0003;1;X104/Y47/H06W0003;X107/Y47/3_0_H06W0003->-3_0_H06W0003;1;X98/Y47/H06W0103;X101/Y47/3_0_H06W0003->-3_0_H06W0103;1;X92/Y47/H06W0103;X95/Y47/3_0_H06W0103->-3_0_H06W0103;1;X86/Y47/H06W0103;X89/Y47/3_0_H06W0103->-3_0_H06W0103;1;X80/Y47/H06W0103;X83/Y47/3_0_H06W0103->-3_0_H06W0103;1;X74/Y47/H06W0203;X77/Y47/3_0_H06W0103->-3_0_H06W0203;1;X68/Y47/H06W0303;X71/Y47/3_0_H06W0203->-3_0_H06W0303;1;X62/Y47/H06W0303;X65/Y47/3_0_H06W0303->-3_0_H06W0303;1;X56/Y47/H06W0303;X59/Y47/3_0_H06W0303->-3_0_H06W0303;1;X50/Y47/H06W0303;X53/Y47/3_0_H06W0303->-3_0_H06W0303;1;X44/Y47/H06W0003;X47/Y47/3_0_H06W0303->-3_0_H06W0003;1;X38/Y47/H06W0103;X41/Y47/3_0_H06W0003->-3_0_H06W0103;1;X32/Y47/H06W0203;X35/Y47/3_0_H06W0103->-3_0_H06W0203;1;X26/Y47/H06W0303;X29/Y47/3_0_H06W0203->-3_0_H06W0303;1;X20/Y47/H06W0303;X23/Y47/3_0_H06W0303->-3_0_H06W0303;1;X14/Y47/H06W0303;X17/Y47/3_0_H06W0303->-3_0_H06W0303;1;X8/Y47/H06W0303;X11/Y47/3_0_H06W0303->-3_0_H06W0303;1;X5/Y44/V06N0303;X5/Y47/3_0_H06W0303->0_-3_V06N0303;1;X5/Y38/V06N0303;X5/Y41/0_3_V06N0303->0_-3_V06N0303;1;X5/Y32/V06N0303;X5/Y35/0_3_V06N0303->0_-3_V06N0303;1;X5/Y26/V06N0303;X5/Y29/0_3_V06N0303->0_-3_V06N0303;1;X5/Y20/V06N0303;X5/Y23/0_3_V06N0303->0_-3_V06N0303;1;X5/Y14/V06N0303;X5/Y17/0_3_V06N0303->0_-3_V06N0303;1;X5/Y8/V06N0303;X5/Y11/0_3_V06N0303->0_-3_V06N0303;1;X5/Y2/V06N0303;X5/Y5/0_3_V06N0303->0_-3_V06N0303;1;X4/Y2/H02W0601;X5/Y2/0_0_V06N0303->-1_0_H02W0601;1;X4/Y2/C6;X4/Y2/0_0_H02W0601->0_0_C6;1;X4/Y2/C6_SLICE;X4/Y2/0_0_C6->0_0_C6_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5500,7 +5500,7 @@
           "hide_name": 1,
           "bits": [ 2387 ] ,
           "attributes": {
-            "ROUTING": "X126/Y56/JPADDIB_PIO;;1;X126/Y56/JDIB;X126/Y56/0_0_JPADDIB_PIO->0_0_JDIB;1;X125/Y56/JQ5;X126/Y56/0_0_JDIB->-1_0_JQ5;1;X122/Y56/H06W0303;X125/Y56/0_0_JQ5->-3_0_H06W0303;1;X116/Y56/H06W0003;X119/Y56/3_0_H06W0303->-3_0_H06W0003;1;X110/Y56/H06W0003;X113/Y56/3_0_H06W0003->-3_0_H06W0003;1;X104/Y56/H06W0103;X107/Y56/3_0_H06W0003->-3_0_H06W0103;1;X98/Y56/H06W0103;X101/Y56/3_0_H06W0103->-3_0_H06W0103;1;X92/Y56/H06W0203;X95/Y56/3_0_H06W0103->-3_0_H06W0203;1;X86/Y56/H06W0203;X89/Y56/3_0_H06W0203->-3_0_H06W0203;1;X80/Y56/H06W0303;X83/Y56/3_0_H06W0203->-3_0_H06W0303;1;X74/Y56/H06W0003;X77/Y56/3_0_H06W0303->-3_0_H06W0003;1;X68/Y56/H06W0103;X71/Y56/3_0_H06W0003->-3_0_H06W0103;1;X62/Y56/H06W0103;X65/Y56/3_0_H06W0103->-3_0_H06W0103;1;X56/Y56/H06W0203;X59/Y56/3_0_H06W0103->-3_0_H06W0203;1;X50/Y56/H06W0203;X53/Y56/3_0_H06W0203->-3_0_H06W0203;1;X44/Y56/H06W0303;X47/Y56/3_0_H06W0203->-3_0_H06W0303;1;X38/Y56/H06W0303;X41/Y56/3_0_H06W0303->-3_0_H06W0303;1;X32/Y56/H06W0003;X35/Y56/3_0_H06W0303->-3_0_H06W0003;1;X26/Y56/H06W0003;X29/Y56/3_0_H06W0003->-3_0_H06W0003;1;X20/Y56/H06W0103;X23/Y56/3_0_H06W0003->-3_0_H06W0103;1;X14/Y56/H06W0203;X17/Y56/3_0_H06W0103->-3_0_H06W0203;1;X8/Y56/H06W0303;X11/Y56/3_0_H06W0203->-3_0_H06W0303;1;X5/Y53/V06N0303;X5/Y56/3_0_H06W0303->0_-3_V06N0303;1;X5/Y47/V06N0303;X5/Y50/0_3_V06N0303->0_-3_V06N0303;1;X5/Y41/V06N0303;X5/Y44/0_3_V06N0303->0_-3_V06N0303;1;X5/Y35/V06N0003;X5/Y38/0_3_V06N0303->0_-3_V06N0003;1;X5/Y29/V06N0003;X5/Y32/0_3_V06N0003->0_-3_V06N0003;1;X5/Y23/V06N0103;X5/Y26/0_3_V06N0003->0_-3_V06N0103;1;X5/Y17/V06N0203;X5/Y20/0_3_V06N0103->0_-3_V06N0203;1;X5/Y11/V06N0203;X5/Y14/0_3_V06N0203->0_-3_V06N0203;1;X5/Y5/V06N0303;X5/Y8/0_3_V06N0203->0_-3_V06N0303;1;X5/Y2/V01S0100;X5/Y2/0_3_V06N0303->0_0_V01S0100;1;X5/Y2/V02N0301;X5/Y3/0_-1_V01S0100->0_-1_V02N0301;1;X5/Y2/B2;X5/Y2/0_0_V02N0301->0_0_B2;1;X5/Y2/B2_SLICE;X5/Y2/0_0_B2->0_0_B2_SLICE;1",
+            "ROUTING": "X126/Y56/JPADDIB_PIO;;1;X126/Y56/JDIB;X126/Y56/0_0_JPADDIB_PIO->0_0_JDIB;1;X125/Y56/JQ5;X126/Y56/0_0_JDIB->-1_0_JQ5;1;X122/Y56/H06W0303;X125/Y56/0_0_JQ5->-3_0_H06W0303;1;X116/Y56/H06W0303;X119/Y56/3_0_H06W0303->-3_0_H06W0303;1;X110/Y56/H06W0303;X113/Y56/3_0_H06W0303->-3_0_H06W0303;1;X104/Y56/H06W0003;X107/Y56/3_0_H06W0303->-3_0_H06W0003;1;X98/Y56/H06W0003;X101/Y56/3_0_H06W0003->-3_0_H06W0003;1;X92/Y56/H06W0103;X95/Y56/3_0_H06W0003->-3_0_H06W0103;1;X86/Y56/H06W0203;X89/Y56/3_0_H06W0103->-3_0_H06W0203;1;X80/Y56/H06W0203;X83/Y56/3_0_H06W0203->-3_0_H06W0203;1;X74/Y56/H06W0303;X77/Y56/3_0_H06W0203->-3_0_H06W0303;1;X68/Y56/H06W0303;X71/Y56/3_0_H06W0303->-3_0_H06W0303;1;X62/Y56/H06W0003;X65/Y56/3_0_H06W0303->-3_0_H06W0003;1;X56/Y56/H06W0103;X59/Y56/3_0_H06W0003->-3_0_H06W0103;1;X50/Y56/H06W0103;X53/Y56/3_0_H06W0103->-3_0_H06W0103;1;X44/Y56/H06W0203;X47/Y56/3_0_H06W0103->-3_0_H06W0203;1;X38/Y56/H06W0303;X41/Y56/3_0_H06W0203->-3_0_H06W0303;1;X32/Y56/H06W0303;X35/Y56/3_0_H06W0303->-3_0_H06W0303;1;X26/Y56/H06W0303;X29/Y56/3_0_H06W0303->-3_0_H06W0303;1;X20/Y56/H06W0003;X23/Y56/3_0_H06W0303->-3_0_H06W0003;1;X14/Y56/H06W0103;X17/Y56/3_0_H06W0003->-3_0_H06W0103;1;X8/Y56/H06W0203;X11/Y56/3_0_H06W0103->-3_0_H06W0203;1;X5/Y53/V06N0203;X5/Y56/3_0_H06W0203->0_-3_V06N0203;1;X5/Y47/V06N0303;X5/Y50/0_3_V06N0203->0_-3_V06N0303;1;X5/Y41/V06N0303;X5/Y44/0_3_V06N0303->0_-3_V06N0303;1;X5/Y35/V06N0003;X5/Y38/0_3_V06N0303->0_-3_V06N0003;1;X5/Y29/V06N0103;X5/Y32/0_3_V06N0003->0_-3_V06N0103;1;X5/Y23/V06N0203;X5/Y26/0_3_V06N0103->0_-3_V06N0203;1;X5/Y17/V06N0303;X5/Y20/0_3_V06N0203->0_-3_V06N0303;1;X5/Y13/V02N0601;X5/Y14/0_3_V06N0303->0_-1_V02N0601;1;X5/Y9/V06N0303;X5/Y12/0_1_V02N0601->0_-3_V06N0303;1;X5/Y5/V02N0501;X5/Y6/0_3_V06N0303->0_-1_V02N0501;1;X5/Y3/V02N0501;X5/Y4/0_1_V02N0501->0_-1_V02N0501;1;X5/Y2/B4;X5/Y2/0_1_V02N0501->0_0_B4;1;X5/Y2/B4_SLICE;X5/Y2/0_0_B4->0_0_B4_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5508,7 +5508,7 @@
           "hide_name": 1,
           "bits": [ 2386 ] ,
           "attributes": {
-            "ROUTING": "X126/Y56/JPADDIA_PIO;;1;X126/Y56/JDIA;X126/Y56/0_0_JPADDIA_PIO->0_0_JDIA;1;X125/Y56/JF5;X126/Y56/0_0_JDIA->-1_0_JF5;1;X125/Y53/V06N0303;X125/Y56/0_0_JF5->0_-3_V06N0303;1;X122/Y50/H06W0303;X125/Y50/0_3_V06N0303->-3_0_H06W0303;1;X116/Y50/H06W0303;X119/Y50/3_0_H06W0303->-3_0_H06W0303;1;X110/Y50/H06W0303;X113/Y50/3_0_H06W0303->-3_0_H06W0303;1;X104/Y50/H06W0303;X107/Y50/3_0_H06W0303->-3_0_H06W0303;1;X98/Y50/H06W0003;X101/Y50/3_0_H06W0303->-3_0_H06W0003;1;X92/Y50/H06W0103;X95/Y50/3_0_H06W0003->-3_0_H06W0103;1;X86/Y50/H06W0103;X89/Y50/3_0_H06W0103->-3_0_H06W0103;1;X80/Y50/H06W0203;X83/Y50/3_0_H06W0103->-3_0_H06W0203;1;X74/Y50/H06W0303;X77/Y50/3_0_H06W0203->-3_0_H06W0303;1;X68/Y50/H06W0003;X71/Y50/3_0_H06W0303->-3_0_H06W0003;1;X62/Y50/H06W0003;X65/Y50/3_0_H06W0003->-3_0_H06W0003;1;X56/Y50/H06W0003;X59/Y50/3_0_H06W0003->-3_0_H06W0003;1;X50/Y50/H06W0003;X53/Y50/3_0_H06W0003->-3_0_H06W0003;1;X44/Y50/H06W0003;X47/Y50/3_0_H06W0003->-3_0_H06W0003;1;X38/Y50/H06W0003;X41/Y50/3_0_H06W0003->-3_0_H06W0003;1;X32/Y50/H06W0003;X35/Y50/3_0_H06W0003->-3_0_H06W0003;1;X26/Y50/H06W0003;X29/Y50/3_0_H06W0003->-3_0_H06W0003;1;X20/Y50/H06W0003;X23/Y50/3_0_H06W0003->-3_0_H06W0003;1;X14/Y50/H06W0103;X17/Y50/3_0_H06W0003->-3_0_H06W0103;1;X8/Y50/H06W0103;X11/Y50/3_0_H06W0103->-3_0_H06W0103;1;X5/Y47/V06N0103;X5/Y50/3_0_H06W0103->0_-3_V06N0103;1;X5/Y41/V06N0203;X5/Y44/0_3_V06N0103->0_-3_V06N0203;1;X5/Y35/V06N0303;X5/Y38/0_3_V06N0203->0_-3_V06N0303;1;X5/Y29/V06N0303;X5/Y32/0_3_V06N0303->0_-3_V06N0303;1;X5/Y23/V06N0003;X5/Y26/0_3_V06N0303->0_-3_V06N0003;1;X5/Y17/V06N0003;X5/Y20/0_3_V06N0003->0_-3_V06N0003;1;X5/Y11/V06N0003;X5/Y14/0_3_V06N0003->0_-3_V06N0003;1;X5/Y5/V06N0103;X5/Y8/0_3_V06N0003->0_-3_V06N0103;1;X5/Y2/V01S0000;X5/Y2/0_3_V06N0103->0_0_V01S0000;1;X5/Y2/B4;X5/Y2/0_0_V01S0000->0_0_B4;1;X5/Y2/B4_SLICE;X5/Y2/0_0_B4->0_0_B4_SLICE;1",
+            "ROUTING": "X126/Y56/JPADDIA_PIO;;1;X126/Y56/JDIA;X126/Y56/0_0_JPADDIA_PIO->0_0_JDIA;1;X125/Y56/JF5;X126/Y56/0_0_JDIA->-1_0_JF5;1;X125/Y53/V06N0303;X125/Y56/0_0_JF5->0_-3_V06N0303;1;X122/Y50/H06W0303;X125/Y50/0_3_V06N0303->-3_0_H06W0303;1;X116/Y50/H06W0303;X119/Y50/3_0_H06W0303->-3_0_H06W0303;1;X110/Y50/H06W0303;X113/Y50/3_0_H06W0303->-3_0_H06W0303;1;X104/Y50/H06W0003;X107/Y50/3_0_H06W0303->-3_0_H06W0003;1;X98/Y50/H06W0103;X101/Y50/3_0_H06W0003->-3_0_H06W0103;1;X92/Y50/H06W0103;X95/Y50/3_0_H06W0103->-3_0_H06W0103;1;X86/Y50/H06W0203;X89/Y50/3_0_H06W0103->-3_0_H06W0203;1;X80/Y50/H06W0203;X83/Y50/3_0_H06W0203->-3_0_H06W0203;1;X74/Y50/H06W0203;X77/Y50/3_0_H06W0203->-3_0_H06W0203;1;X68/Y50/H06W0203;X71/Y50/3_0_H06W0203->-3_0_H06W0203;1;X62/Y50/H06W0203;X65/Y50/3_0_H06W0203->-3_0_H06W0203;1;X56/Y50/H06W0303;X59/Y50/3_0_H06W0203->-3_0_H06W0303;1;X50/Y50/H06W0003;X53/Y50/3_0_H06W0303->-3_0_H06W0003;1;X44/Y50/H06W0003;X47/Y50/3_0_H06W0003->-3_0_H06W0003;1;X38/Y50/H06W0003;X41/Y50/3_0_H06W0003->-3_0_H06W0003;1;X32/Y50/H06W0003;X35/Y50/3_0_H06W0003->-3_0_H06W0003;1;X26/Y50/H06W0003;X29/Y50/3_0_H06W0003->-3_0_H06W0003;1;X20/Y50/H06W0003;X23/Y50/3_0_H06W0003->-3_0_H06W0003;1;X14/Y50/H06W0103;X17/Y50/3_0_H06W0003->-3_0_H06W0103;1;X8/Y50/H06W0103;X11/Y50/3_0_H06W0103->-3_0_H06W0103;1;X5/Y47/V06N0103;X5/Y50/3_0_H06W0103->0_-3_V06N0103;1;X5/Y41/V06N0103;X5/Y44/0_3_V06N0103->0_-3_V06N0103;1;X5/Y35/V06N0203;X5/Y38/0_3_V06N0103->0_-3_V06N0203;1;X5/Y29/V06N0303;X5/Y32/0_3_V06N0203->0_-3_V06N0303;1;X5/Y23/V06N0003;X5/Y26/0_3_V06N0303->0_-3_V06N0003;1;X5/Y17/V06N0103;X5/Y20/0_3_V06N0003->0_-3_V06N0103;1;X5/Y11/V06N0103;X5/Y14/0_3_V06N0103->0_-3_V06N0103;1;X5/Y5/V06N0203;X5/Y8/0_3_V06N0103->0_-3_V06N0203;1;X6/Y2/H02E0701;X5/Y2/0_3_V06N0203->1_0_H02E0701;1;X6/Y2/H00R0100;X6/Y2/0_0_H02E0701->0_0_H00R0100;1;X6/Y2/B2;X6/Y2/0_0_H00R0100->0_0_B2;1;X6/Y2/B2_SLICE;X6/Y2/0_0_B2->0_0_B2_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5516,7 +5516,7 @@
           "hide_name": 1,
           "bits": [ 2385 ] ,
           "attributes": {
-            "ROUTING": "X126/Y92/JPADDIB_PIO;;1;X126/Y92/JDIB;X126/Y92/0_0_JPADDIB_PIO->0_0_JDIB;1;X125/Y92/JQ5;X126/Y92/0_0_JDIB->-1_0_JQ5;1;X122/Y92/H06W0303;X125/Y92/0_0_JQ5->-3_0_H06W0303;1;X116/Y92/H06W0303;X119/Y92/3_0_H06W0303->-3_0_H06W0303;1;X110/Y92/H06W0003;X113/Y92/3_0_H06W0303->-3_0_H06W0003;1;X104/Y92/H06W0103;X107/Y92/3_0_H06W0003->-3_0_H06W0103;1;X98/Y92/H06W0103;X101/Y92/3_0_H06W0103->-3_0_H06W0103;1;X92/Y92/H06W0203;X95/Y92/3_0_H06W0103->-3_0_H06W0203;1;X86/Y92/H06W0303;X89/Y92/3_0_H06W0203->-3_0_H06W0303;1;X80/Y92/H06W0303;X83/Y92/3_0_H06W0303->-3_0_H06W0303;1;X74/Y92/H06W0003;X77/Y92/3_0_H06W0303->-3_0_H06W0003;1;X68/Y92/H06W0003;X71/Y92/3_0_H06W0003->-3_0_H06W0003;1;X62/Y92/H06W0103;X65/Y92/3_0_H06W0003->-3_0_H06W0103;1;X56/Y92/H06W0103;X59/Y92/3_0_H06W0103->-3_0_H06W0103;1;X50/Y92/H06W0103;X53/Y92/3_0_H06W0103->-3_0_H06W0103;1;X44/Y92/H06W0203;X47/Y92/3_0_H06W0103->-3_0_H06W0203;1;X38/Y92/H06W0303;X41/Y92/3_0_H06W0203->-3_0_H06W0303;1;X32/Y92/H06W0003;X35/Y92/3_0_H06W0303->-3_0_H06W0003;1;X26/Y92/H06W0103;X29/Y92/3_0_H06W0003->-3_0_H06W0103;1;X20/Y92/H06W0103;X23/Y92/3_0_H06W0103->-3_0_H06W0103;1;X14/Y92/H06W0103;X17/Y92/3_0_H06W0103->-3_0_H06W0103;1;X8/Y92/H06W0103;X11/Y92/3_0_H06W0103->-3_0_H06W0103;1;X8/Y89/V06N0103;X8/Y92/0_0_H06W0103->0_-3_V06N0103;1;X8/Y83/V06N0103;X8/Y86/0_3_V06N0103->0_-3_V06N0103;1;X8/Y77/V06N0103;X8/Y80/0_3_V06N0103->0_-3_V06N0103;1;X8/Y71/V06N0103;X8/Y74/0_3_V06N0103->0_-3_V06N0103;1;X8/Y65/V06N0103;X8/Y68/0_3_V06N0103->0_-3_V06N0103;1;X8/Y59/V06N0103;X8/Y62/0_3_V06N0103->0_-3_V06N0103;1;X8/Y53/V06N0103;X8/Y56/0_3_V06N0103->0_-3_V06N0103;1;X8/Y47/V06N0203;X8/Y50/0_3_V06N0103->0_-3_V06N0203;1;X8/Y41/V06N0303;X8/Y44/0_3_V06N0203->0_-3_V06N0303;1;X8/Y35/V06N0003;X8/Y38/0_3_V06N0303->0_-3_V06N0003;1;X8/Y29/V06N0003;X8/Y32/0_3_V06N0003->0_-3_V06N0003;1;X8/Y23/V06N0003;X8/Y26/0_3_V06N0003->0_-3_V06N0003;1;X8/Y17/V06N0103;X8/Y20/0_3_V06N0003->0_-3_V06N0103;1;X8/Y11/V06N0203;X8/Y14/0_3_V06N0103->0_-3_V06N0203;1;X8/Y5/V06N0303;X8/Y8/0_3_V06N0203->0_-3_V06N0303;1;X7/Y2/H02W0501;X8/Y2/0_3_V06N0303->-1_0_H02W0501;1;X7/Y2/H00R0100;X7/Y2/0_0_H02W0501->0_0_H00R0100;1;X7/Y2/B2;X7/Y2/0_0_H00R0100->0_0_B2;1;X7/Y2/B2_SLICE;X7/Y2/0_0_B2->0_0_B2_SLICE;1",
+            "ROUTING": "X126/Y92/JPADDIB_PIO;;1;X126/Y92/JDIB;X126/Y92/0_0_JPADDIB_PIO->0_0_JDIB;1;X125/Y92/JQ5;X126/Y92/0_0_JDIB->-1_0_JQ5;1;X122/Y92/H06W0303;X125/Y92/0_0_JQ5->-3_0_H06W0303;1;X116/Y92/H06W0303;X119/Y92/3_0_H06W0303->-3_0_H06W0303;1;X110/Y92/H06W0303;X113/Y92/3_0_H06W0303->-3_0_H06W0303;1;X104/Y92/H06W0003;X107/Y92/3_0_H06W0303->-3_0_H06W0003;1;X98/Y92/H06W0003;X101/Y92/3_0_H06W0003->-3_0_H06W0003;1;X92/Y92/H06W0103;X95/Y92/3_0_H06W0003->-3_0_H06W0103;1;X86/Y92/H06W0103;X89/Y92/3_0_H06W0103->-3_0_H06W0103;1;X80/Y92/H06W0203;X83/Y92/3_0_H06W0103->-3_0_H06W0203;1;X74/Y92/H06W0203;X77/Y92/3_0_H06W0203->-3_0_H06W0203;1;X68/Y92/H06W0303;X71/Y92/3_0_H06W0203->-3_0_H06W0303;1;X62/Y92/H06W0003;X65/Y92/3_0_H06W0303->-3_0_H06W0003;1;X56/Y92/H06W0103;X59/Y92/3_0_H06W0003->-3_0_H06W0103;1;X50/Y92/H06W0203;X53/Y92/3_0_H06W0103->-3_0_H06W0203;1;X44/Y92/H06W0203;X47/Y92/3_0_H06W0203->-3_0_H06W0203;1;X38/Y92/H06W0303;X41/Y92/3_0_H06W0203->-3_0_H06W0303;1;X32/Y92/H06W0003;X35/Y92/3_0_H06W0303->-3_0_H06W0003;1;X26/Y92/H06W0103;X29/Y92/3_0_H06W0003->-3_0_H06W0103;1;X20/Y92/H06W0203;X23/Y92/3_0_H06W0103->-3_0_H06W0203;1;X14/Y92/H06W0303;X17/Y92/3_0_H06W0203->-3_0_H06W0303;1;X8/Y92/H06W0303;X11/Y92/3_0_H06W0303->-3_0_H06W0303;1;X5/Y89/V06N0303;X5/Y92/3_0_H06W0303->0_-3_V06N0303;1;X5/Y83/V06N0003;X5/Y86/0_3_V06N0303->0_-3_V06N0003;1;X5/Y77/V06N0103;X5/Y80/0_3_V06N0003->0_-3_V06N0103;1;X5/Y71/V06N0203;X5/Y74/0_3_V06N0103->0_-3_V06N0203;1;X5/Y65/V06N0303;X5/Y68/0_3_V06N0203->0_-3_V06N0303;1;X5/Y59/V06N0303;X5/Y62/0_3_V06N0303->0_-3_V06N0303;1;X5/Y53/V06N0003;X5/Y56/0_3_V06N0303->0_-3_V06N0003;1;X5/Y47/V06N0003;X5/Y50/0_3_V06N0003->0_-3_V06N0003;1;X5/Y41/V06N0003;X5/Y44/0_3_V06N0003->0_-3_V06N0003;1;X5/Y35/V06N0103;X5/Y38/0_3_V06N0003->0_-3_V06N0103;1;X5/Y29/V06N0203;X5/Y32/0_3_V06N0103->0_-3_V06N0203;1;X5/Y23/V06N0303;X5/Y26/0_3_V06N0203->0_-3_V06N0303;1;X5/Y17/V06N0003;X5/Y20/0_3_V06N0303->0_-3_V06N0003;1;X5/Y11/V06N0003;X5/Y14/0_3_V06N0003->0_-3_V06N0003;1;X5/Y5/V06N0103;X5/Y8/0_3_V06N0003->0_-3_V06N0103;1;X6/Y2/H02E0101;X5/Y2/0_3_V06N0103->1_0_H02E0101;1;X6/Y2/B6;X6/Y2/0_0_H02E0101->0_0_B6;1;X6/Y2/B6_SLICE;X6/Y2/0_0_B6->0_0_B6_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5524,7 +5524,7 @@
           "hide_name": 1,
           "bits": [ 2384 ] ,
           "attributes": {
-            "ROUTING": "X126/Y92/JPADDIA_PIO;;1;X126/Y92/JDIA;X126/Y92/0_0_JPADDIA_PIO->0_0_JDIA;1;X125/Y92/JF5;X126/Y92/0_0_JDIA->-1_0_JF5;1;X125/Y89/V06N0303;X125/Y92/0_0_JF5->0_-3_V06N0303;1;X122/Y86/H06W0303;X125/Y86/0_3_V06N0303->-3_0_H06W0303;1;X116/Y86/H06W0303;X119/Y86/3_0_H06W0303->-3_0_H06W0303;1;X110/Y86/H06W0003;X113/Y86/3_0_H06W0303->-3_0_H06W0003;1;X104/Y86/H06W0103;X107/Y86/3_0_H06W0003->-3_0_H06W0103;1;X98/Y86/H06W0103;X101/Y86/3_0_H06W0103->-3_0_H06W0103;1;X92/Y86/H06W0103;X95/Y86/3_0_H06W0103->-3_0_H06W0103;1;X86/Y86/H06W0103;X89/Y86/3_0_H06W0103->-3_0_H06W0103;1;X80/Y86/H06W0203;X83/Y86/3_0_H06W0103->-3_0_H06W0203;1;X74/Y86/H06W0303;X77/Y86/3_0_H06W0203->-3_0_H06W0303;1;X68/Y86/H06W0303;X71/Y86/3_0_H06W0303->-3_0_H06W0303;1;X62/Y86/H06W0303;X65/Y86/3_0_H06W0303->-3_0_H06W0303;1;X56/Y86/H06W0303;X59/Y86/3_0_H06W0303->-3_0_H06W0303;1;X50/Y86/H06W0303;X53/Y86/3_0_H06W0303->-3_0_H06W0303;1;X44/Y86/H06W0303;X47/Y86/3_0_H06W0303->-3_0_H06W0303;1;X38/Y86/H06W0303;X41/Y86/3_0_H06W0303->-3_0_H06W0303;1;X32/Y86/H06W0003;X35/Y86/3_0_H06W0303->-3_0_H06W0003;1;X26/Y86/H06W0103;X29/Y86/3_0_H06W0003->-3_0_H06W0103;1;X20/Y86/H06W0103;X23/Y86/3_0_H06W0103->-3_0_H06W0103;1;X14/Y86/H06W0203;X17/Y86/3_0_H06W0103->-3_0_H06W0203;1;X8/Y86/H06W0203;X11/Y86/3_0_H06W0203->-3_0_H06W0203;1;X8/Y83/V06N0203;X8/Y86/0_0_H06W0203->0_-3_V06N0203;1;X8/Y77/V06N0303;X8/Y80/0_3_V06N0203->0_-3_V06N0303;1;X8/Y71/V06N0303;X8/Y74/0_3_V06N0303->0_-3_V06N0303;1;X8/Y65/V06N0003;X8/Y68/0_3_V06N0303->0_-3_V06N0003;1;X8/Y59/V06N0003;X8/Y62/0_3_V06N0003->0_-3_V06N0003;1;X8/Y53/V06N0003;X8/Y56/0_3_V06N0003->0_-3_V06N0003;1;X8/Y47/V06N0103;X8/Y50/0_3_V06N0003->0_-3_V06N0103;1;X8/Y41/V06N0203;X8/Y44/0_3_V06N0103->0_-3_V06N0203;1;X8/Y35/V06N0203;X8/Y38/0_3_V06N0203->0_-3_V06N0203;1;X8/Y29/V06N0203;X8/Y32/0_3_V06N0203->0_-3_V06N0203;1;X8/Y23/V06N0303;X8/Y26/0_3_V06N0203->0_-3_V06N0303;1;X8/Y17/V06N0003;X8/Y20/0_3_V06N0303->0_-3_V06N0003;1;X8/Y11/V06N0103;X8/Y14/0_3_V06N0003->0_-3_V06N0103;1;X8/Y5/V06N0103;X8/Y8/0_3_V06N0103->0_-3_V06N0103;1;X7/Y2/H02W0101;X8/Y2/0_3_V06N0103->-1_0_H02W0101;1;X7/Y2/B0;X7/Y2/0_0_H02W0101->0_0_B0;1;X7/Y2/B0_SLICE;X7/Y2/0_0_B0->0_0_B0_SLICE;1",
+            "ROUTING": "X126/Y92/JPADDIA_PIO;;1;X126/Y92/JDIA;X126/Y92/0_0_JPADDIA_PIO->0_0_JDIA;1;X125/Y92/JF5;X126/Y92/0_0_JDIA->-1_0_JF5;1;X125/Y89/V06N0303;X125/Y92/0_0_JF5->0_-3_V06N0303;1;X122/Y86/H06W0303;X125/Y86/0_3_V06N0303->-3_0_H06W0303;1;X116/Y86/H06W0003;X119/Y86/3_0_H06W0303->-3_0_H06W0003;1;X110/Y86/H06W0103;X113/Y86/3_0_H06W0003->-3_0_H06W0103;1;X104/Y86/H06W0203;X107/Y86/3_0_H06W0103->-3_0_H06W0203;1;X98/Y86/H06W0203;X101/Y86/3_0_H06W0203->-3_0_H06W0203;1;X92/Y86/H06W0303;X95/Y86/3_0_H06W0203->-3_0_H06W0303;1;X86/Y86/H06W0303;X89/Y86/3_0_H06W0303->-3_0_H06W0303;1;X80/Y86/H06W0303;X83/Y86/3_0_H06W0303->-3_0_H06W0303;1;X74/Y86/H06W0303;X77/Y86/3_0_H06W0303->-3_0_H06W0303;1;X68/Y86/H06W0003;X71/Y86/3_0_H06W0303->-3_0_H06W0003;1;X62/Y86/H06W0103;X65/Y86/3_0_H06W0003->-3_0_H06W0103;1;X56/Y86/H06W0103;X59/Y86/3_0_H06W0103->-3_0_H06W0103;1;X50/Y86/H06W0203;X53/Y86/3_0_H06W0103->-3_0_H06W0203;1;X44/Y86/H06W0303;X47/Y86/3_0_H06W0203->-3_0_H06W0303;1;X38/Y86/H06W0003;X41/Y86/3_0_H06W0303->-3_0_H06W0003;1;X32/Y86/H06W0103;X35/Y86/3_0_H06W0003->-3_0_H06W0103;1;X26/Y86/H06W0103;X29/Y86/3_0_H06W0103->-3_0_H06W0103;1;X20/Y86/H06W0203;X23/Y86/3_0_H06W0103->-3_0_H06W0203;1;X14/Y86/H06W0303;X17/Y86/3_0_H06W0203->-3_0_H06W0303;1;X8/Y86/H06W0303;X11/Y86/3_0_H06W0303->-3_0_H06W0303;1;X5/Y83/V06N0303;X5/Y86/3_0_H06W0303->0_-3_V06N0303;1;X5/Y77/V06N0003;X5/Y80/0_3_V06N0303->0_-3_V06N0003;1;X5/Y71/V06N0003;X5/Y74/0_3_V06N0003->0_-3_V06N0003;1;X5/Y65/V06N0003;X5/Y68/0_3_V06N0003->0_-3_V06N0003;1;X5/Y59/V06N0003;X5/Y62/0_3_V06N0003->0_-3_V06N0003;1;X5/Y53/V06N0103;X5/Y56/0_3_V06N0003->0_-3_V06N0103;1;X5/Y47/V06N0203;X5/Y50/0_3_V06N0103->0_-3_V06N0203;1;X5/Y41/V06N0203;X5/Y44/0_3_V06N0203->0_-3_V06N0203;1;X5/Y35/V06N0303;X5/Y38/0_3_V06N0203->0_-3_V06N0303;1;X5/Y29/V06N0003;X5/Y32/0_3_V06N0303->0_-3_V06N0003;1;X5/Y23/V06N0103;X5/Y26/0_3_V06N0003->0_-3_V06N0103;1;X5/Y17/V06N0203;X5/Y20/0_3_V06N0103->0_-3_V06N0203;1;X5/Y11/V06N0303;X5/Y14/0_3_V06N0203->0_-3_V06N0303;1;X5/Y5/V06N0003;X5/Y8/0_3_V06N0303->0_-3_V06N0003;1;X4/Y2/H02W0301;X5/Y2/0_3_V06N0003->-1_0_H02W0301;1;X4/Y2/B4;X4/Y2/0_0_H02W0301->0_0_B4;1;X4/Y2/B4_SLICE;X4/Y2/0_0_B4->0_0_B4_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5532,7 +5532,7 @@
           "hide_name": 1,
           "bits": [ 2383 ] ,
           "attributes": {
-            "ROUTING": "X0/Y41/JPADDIB_PIO;;1;X0/Y41/JDIB;X0/Y41/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y41/JQ5;X0/Y41/0_0_JDIB->1_0_JQ5;1;X4/Y41/H06E0303;X1/Y41/0_0_JQ5->3_0_H06E0303;1;X7/Y38/V06N0303;X7/Y41/-3_0_H06E0303->0_-3_V06N0303;1;X7/Y32/V06N0003;X7/Y35/0_3_V06N0303->0_-3_V06N0003;1;X7/Y26/V06N0103;X7/Y29/0_3_V06N0003->0_-3_V06N0103;1;X7/Y20/V06N0203;X7/Y23/0_3_V06N0103->0_-3_V06N0203;1;X7/Y14/V06N0303;X7/Y17/0_3_V06N0203->0_-3_V06N0303;1;X7/Y8/V06N0303;X7/Y11/0_3_V06N0303->0_-3_V06N0303;1;X7/Y4/V02N0601;X7/Y5/0_3_V06N0303->0_-1_V02N0601;1;X7/Y2/V02N0701;X7/Y3/0_1_V02N0601->0_-1_V02N0701;1;X7/Y2/B6;X7/Y2/0_0_V02N0701->0_0_B6;1;X7/Y2/B6_SLICE;X7/Y2/0_0_B6->0_0_B6_SLICE;1",
+            "ROUTING": "X0/Y41/JPADDIB_PIO;;1;X0/Y41/JDIB;X0/Y41/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y41/JQ5;X0/Y41/0_0_JDIB->1_0_JQ5;1;X4/Y41/H06E0303;X1/Y41/0_0_JQ5->3_0_H06E0303;1;X4/Y38/V06N0303;X4/Y41/0_0_H06E0303->0_-3_V06N0303;1;X4/Y32/V06N0003;X4/Y35/0_3_V06N0303->0_-3_V06N0003;1;X4/Y26/V06N0003;X4/Y29/0_3_V06N0003->0_-3_V06N0003;1;X4/Y20/V06N0103;X4/Y23/0_3_V06N0003->0_-3_V06N0103;1;X4/Y14/V06N0103;X4/Y17/0_3_V06N0103->0_-3_V06N0103;1;X4/Y8/V06N0103;X4/Y11/0_3_V06N0103->0_-3_V06N0103;1;X4/Y4/V02N0201;X4/Y5/0_3_V06N0103->0_-1_V02N0201;1;X4/Y2/V02N0301;X4/Y3/0_1_V02N0201->0_-1_V02N0301;1;X4/Y2/B2;X4/Y2/0_0_V02N0301->0_0_B2;1;X4/Y2/B2_SLICE;X4/Y2/0_0_B2->0_0_B2_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5540,7 +5540,7 @@
           "hide_name": 1,
           "bits": [ 2382 ] ,
           "attributes": {
-            "ROUTING": "X0/Y41/JPADDIA_PIO;;1;X0/Y41/JDIA;X0/Y41/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y41/JF5;X0/Y41/0_0_JDIA->1_0_JF5;1;X1/Y38/V06N0303;X1/Y41/0_0_JF5->0_-3_V06N0303;1;X1/Y32/V06N0003;X1/Y35/0_3_V06N0303->0_-3_V06N0003;1;X4/Y29/H06E0003;X1/Y29/0_3_V06N0003->3_0_H06E0003;1;X7/Y26/V06N0003;X7/Y29/-3_0_H06E0003->0_-3_V06N0003;1;X7/Y20/V06N0003;X7/Y23/0_3_V06N0003->0_-3_V06N0003;1;X7/Y14/V06N0003;X7/Y17/0_3_V06N0003->0_-3_V06N0003;1;X7/Y8/V06N0003;X7/Y11/0_3_V06N0003->0_-3_V06N0003;1;X7/Y4/V02N0301;X7/Y5/0_3_V06N0003->0_-1_V02N0301;1;X7/Y2/V02N0601;X7/Y3/0_1_V02N0301->0_-1_V02N0601;1;X7/Y2/H00R0000;X7/Y2/0_0_V02N0601->0_0_H00R0000;1;X7/Y2/B4;X7/Y2/0_0_H00R0000->0_0_B4;1;X7/Y2/B4_SLICE;X7/Y2/0_0_B4->0_0_B4_SLICE;1",
+            "ROUTING": "X0/Y41/JPADDIA_PIO;;1;X0/Y41/JDIA;X0/Y41/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y41/JF5;X0/Y41/0_0_JDIA->1_0_JF5;1;X1/Y38/V06N0303;X1/Y41/0_0_JF5->0_-3_V06N0303;1;X4/Y35/H06E0303;X1/Y35/0_3_V06N0303->3_0_H06E0303;1;X4/Y32/V06N0303;X4/Y35/0_0_H06E0303->0_-3_V06N0303;1;X4/Y26/V06N0303;X4/Y29/0_3_V06N0303->0_-3_V06N0303;1;X4/Y20/V06N0303;X4/Y23/0_3_V06N0303->0_-3_V06N0303;1;X4/Y14/V06N0303;X4/Y17/0_3_V06N0303->0_-3_V06N0303;1;X4/Y10/V02N0601;X4/Y11/0_3_V06N0303->0_-1_V02N0601;1;X4/Y6/V06N0303;X4/Y9/0_1_V02N0601->0_-3_V06N0303;1;X4/Y2/V02N0501;X4/Y3/0_3_V06N0303->0_-1_V02N0501;1;X4/Y2/B6;X4/Y2/0_0_V02N0501->0_0_B6;1;X4/Y2/B6_SLICE;X4/Y2/0_0_B6->0_0_B6_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5548,7 +5548,7 @@
           "hide_name": 1,
           "bits": [ 2381 ] ,
           "attributes": {
-            "ROUTING": "X0/Y44/JPADDIB_PIO;;1;X0/Y44/JDIB;X0/Y44/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y44/JQ5;X0/Y44/0_0_JDIB->1_0_JQ5;1;X4/Y44/H06E0303;X1/Y44/0_0_JQ5->3_0_H06E0303;1;X4/Y41/V06N0303;X4/Y44/0_0_H06E0303->0_-3_V06N0303;1;X4/Y35/V06N0003;X4/Y38/0_3_V06N0303->0_-3_V06N0003;1;X4/Y29/V06N0103;X4/Y32/0_3_V06N0003->0_-3_V06N0103;1;X4/Y23/V06N0203;X4/Y26/0_3_V06N0103->0_-3_V06N0203;1;X4/Y17/V06N0303;X4/Y20/0_3_V06N0203->0_-3_V06N0303;1;X4/Y11/V06N0003;X4/Y14/0_3_V06N0303->0_-3_V06N0003;1;X4/Y7/V02N0001;X4/Y8/0_3_V06N0003->0_-1_V02N0001;1;X4/Y5/V02N0101;X4/Y6/0_1_V02N0001->0_-1_V02N0101;1;X4/Y3/V02N0101;X4/Y4/0_1_V02N0101->0_-1_V02N0101;1;X4/Y2/B0;X4/Y2/0_1_V02N0101->0_0_B0;1;X4/Y2/B0_SLICE;X4/Y2/0_0_B0->0_0_B0_SLICE;1",
+            "ROUTING": "X0/Y44/JPADDIB_PIO;;1;X0/Y44/JDIB;X0/Y44/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y44/JQ5;X0/Y44/0_0_JDIB->1_0_JQ5;1;X1/Y41/V06N0303;X1/Y44/0_0_JQ5->0_-3_V06N0303;1;X4/Y38/H06E0303;X1/Y38/0_3_V06N0303->3_0_H06E0303;1;X4/Y35/V06N0303;X4/Y38/0_0_H06E0303->0_-3_V06N0303;1;X4/Y29/V06N0003;X4/Y32/0_3_V06N0303->0_-3_V06N0003;1;X4/Y23/V06N0103;X4/Y26/0_3_V06N0003->0_-3_V06N0103;1;X4/Y17/V06N0203;X4/Y20/0_3_V06N0103->0_-3_V06N0203;1;X4/Y11/V06N0303;X4/Y14/0_3_V06N0203->0_-3_V06N0303;1;X4/Y7/V02N0501;X4/Y8/0_3_V06N0303->0_-1_V02N0501;1;X4/Y5/V02N0001;X4/Y6/0_1_V02N0501->0_-1_V02N0001;1;X4/Y3/V02N0101;X4/Y4/0_1_V02N0001->0_-1_V02N0101;1;X4/Y2/B0;X4/Y2/0_1_V02N0101->0_0_B0;1;X4/Y2/B0_SLICE;X4/Y2/0_0_B0->0_0_B0_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5556,7 +5556,7 @@
           "hide_name": 1,
           "bits": [ 2380 ] ,
           "attributes": {
-            "ROUTING": "X0/Y44/JPADDIA_PIO;;1;X0/Y44/JDIA;X0/Y44/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y44/JF5;X0/Y44/0_0_JDIA->1_0_JF5;1;X1/Y41/V06N0303;X1/Y44/0_0_JF5->0_-3_V06N0303;1;X4/Y38/H06E0303;X1/Y38/0_3_V06N0303->3_0_H06E0303;1;X4/Y35/V06N0303;X4/Y38/0_0_H06E0303->0_-3_V06N0303;1;X4/Y29/V06N0303;X4/Y32/0_3_V06N0303->0_-3_V06N0303;1;X4/Y23/V06N0303;X4/Y26/0_3_V06N0303->0_-3_V06N0303;1;X4/Y17/V06N0003;X4/Y20/0_3_V06N0303->0_-3_V06N0003;1;X4/Y11/V06N0103;X4/Y14/0_3_V06N0003->0_-3_V06N0103;1;X4/Y7/V02N0201;X4/Y8/0_3_V06N0103->0_-1_V02N0201;1;X4/Y5/V02N0201;X4/Y6/0_1_V02N0201->0_-1_V02N0201;1;X4/Y3/V02N0301;X4/Y4/0_1_V02N0201->0_-1_V02N0301;1;X4/Y2/B2;X4/Y2/0_1_V02N0301->0_0_B2;1;X4/Y2/B2_SLICE;X4/Y2/0_0_B2->0_0_B2_SLICE;1",
+            "ROUTING": "X0/Y44/JPADDIA_PIO;;1;X0/Y44/JDIA;X0/Y44/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y44/JF5;X0/Y44/0_0_JDIA->1_0_JF5;1;X4/Y44/H06E0303;X1/Y44/0_0_JF5->3_0_H06E0303;1;X7/Y41/V06N0303;X7/Y44/-3_0_H06E0303->0_-3_V06N0303;1;X7/Y35/V06N0003;X7/Y38/0_3_V06N0303->0_-3_V06N0003;1;X7/Y29/V06N0103;X7/Y32/0_3_V06N0003->0_-3_V06N0103;1;X7/Y23/V06N0203;X7/Y26/0_3_V06N0103->0_-3_V06N0203;1;X7/Y17/V06N0203;X7/Y20/0_3_V06N0203->0_-3_V06N0203;1;X7/Y11/V06N0303;X7/Y14/0_3_V06N0203->0_-3_V06N0303;1;X7/Y5/V06N0003;X7/Y8/0_3_V06N0303->0_-3_V06N0003;1;X6/Y2/H02W0301;X7/Y2/0_3_V06N0003->-1_0_H02W0301;1;X6/Y2/B0;X6/Y2/0_0_H02W0301->0_0_B0;1;X6/Y2/B0_SLICE;X6/Y2/0_0_B0->0_0_B0_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5564,7 +5564,7 @@
           "hide_name": 1,
           "bits": [ 2379 ] ,
           "attributes": {
-            "ROUTING": "X0/Y20/JPADDIB_PIO;;1;X0/Y20/JDIB;X0/Y20/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y20/JQ5;X0/Y20/0_0_JDIB->1_0_JQ5;1;X4/Y20/H06E0303;X1/Y20/0_0_JQ5->3_0_H06E0303;1;X4/Y19/V02N0601;X4/Y20/0_0_H06E0303->0_-1_V02N0601;1;X4/Y15/V06N0303;X4/Y18/0_1_V02N0601->0_-3_V06N0303;1;X4/Y9/V06N0303;X4/Y12/0_3_V06N0303->0_-3_V06N0303;1;X4/Y5/V02N0601;X4/Y6/0_3_V06N0303->0_-1_V02N0601;1;X4/Y3/V02N0701;X4/Y4/0_1_V02N0601->0_-1_V02N0701;1;X4/Y2/B4;X4/Y2/0_1_V02N0701->0_0_B4;1;X4/Y2/B4_SLICE;X4/Y2/0_0_B4->0_0_B4_SLICE;1",
+            "ROUTING": "X0/Y20/JPADDIB_PIO;;1;X0/Y20/JDIB;X0/Y20/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y20/JQ5;X0/Y20/0_0_JDIB->1_0_JQ5;1;X4/Y20/H06E0303;X1/Y20/0_0_JQ5->3_0_H06E0303;1;X7/Y17/V06N0303;X7/Y20/-3_0_H06E0303->0_-3_V06N0303;1;X7/Y11/V06N0003;X7/Y14/0_3_V06N0303->0_-3_V06N0003;1;X7/Y7/V02N0301;X7/Y8/0_3_V06N0003->0_-1_V02N0301;1;X7/Y5/V02N0301;X7/Y6/0_1_V02N0301->0_-1_V02N0301;1;X7/Y3/V02N0301;X7/Y4/0_1_V02N0301->0_-1_V02N0301;1;X7/Y2/B0;X7/Y2/0_1_V02N0301->0_0_B0;1;X7/Y2/B0_SLICE;X7/Y2/0_0_B0->0_0_B0_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5572,7 +5572,7 @@
           "hide_name": 1,
           "bits": [ 2378 ] ,
           "attributes": {
-            "ROUTING": "X0/Y20/JPADDIA_PIO;;1;X0/Y20/JDIA;X0/Y20/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y20/JF5;X0/Y20/0_0_JDIA->1_0_JF5;1;X1/Y17/V06N0303;X1/Y20/0_0_JF5->0_-3_V06N0303;1;X1/Y11/V06N0003;X1/Y14/0_3_V06N0303->0_-3_V06N0003;1;X1/Y5/V06N0103;X1/Y8/0_3_V06N0003->0_-3_V06N0103;1;X4/Y2/H06E0103;X1/Y2/0_3_V06N0103->3_0_H06E0103;1;X6/Y2/H02W0101;X7/Y2/-3_0_H06E0103->-1_0_H02W0101;1;X6/Y2/B2;X6/Y2/0_0_H02W0101->0_0_B2;1;X6/Y2/B2_SLICE;X6/Y2/0_0_B2->0_0_B2_SLICE;1",
+            "ROUTING": "X0/Y20/JPADDIA_PIO;;1;X0/Y20/JDIA;X0/Y20/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y20/JF5;X0/Y20/0_0_JDIA->1_0_JF5;1;X1/Y17/V06N0303;X1/Y20/0_0_JF5->0_-3_V06N0303;1;X4/Y14/H06E0303;X1/Y14/0_3_V06N0303->3_0_H06E0303;1;X7/Y13/V02N0601;X7/Y14/-3_0_H06E0303->0_-1_V02N0601;1;X7/Y9/V06N0303;X7/Y12/0_1_V02N0601->0_-3_V06N0303;1;X7/Y6/V01S0100;X7/Y6/0_3_V06N0303->0_0_V01S0100;1;X7/Y6/V02N0101;X7/Y7/0_-1_V01S0100->0_-1_V02N0101;1;X7/Y4/V02N0101;X7/Y5/0_1_V02N0101->0_-1_V02N0101;1;X7/Y2/V02N0101;X7/Y3/0_1_V02N0101->0_-1_V02N0101;1;X7/Y2/B2;X7/Y2/0_0_V02N0101->0_0_B2;1;X7/Y2/B2_SLICE;X7/Y2/0_0_B2->0_0_B2_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5580,7 +5580,7 @@
           "hide_name": 1,
           "bits": [ 2377 ] ,
           "attributes": {
-            "ROUTING": "X0/Y14/JPADDIB_PIO;;1;X0/Y14/JDIB;X0/Y14/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y14/JQ5;X0/Y14/0_0_JDIB->1_0_JQ5;1;X1/Y11/V06N0303;X1/Y14/0_0_JQ5->0_-3_V06N0303;1;X1/Y5/V06N0003;X1/Y8/0_3_V06N0303->0_-3_V06N0003;1;X4/Y5/H06E0003;X1/Y5/0_0_V06N0003->3_0_H06E0003;1;X4/Y2/V06N0003;X4/Y5/0_0_H06E0003->0_-3_V06N0003;1;X5/Y2/H02E0301;X4/Y2/0_0_V06N0003->1_0_H02E0301;1;X6/Y2/B4;X6/Y2/-1_0_H02E0301->0_0_B4;1;X6/Y2/B4_SLICE;X6/Y2/0_0_B4->0_0_B4_SLICE;1",
+            "ROUTING": "X0/Y14/JPADDIB_PIO;;1;X0/Y14/JDIB;X0/Y14/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y14/JQ5;X0/Y14/0_0_JDIB->1_0_JQ5;1;X1/Y13/V02N0501;X1/Y14/0_0_JQ5->0_-1_V02N0501;1;X1/Y9/V06N0303;X1/Y12/0_1_V02N0501->0_-3_V06N0303;1;X4/Y6/H06E0303;X1/Y6/0_3_V06N0303->3_0_H06E0303;1;X7/Y5/V02N0501;X7/Y6/-3_0_H06E0303->0_-1_V02N0501;1;X7/Y3/V02N0501;X7/Y4/0_1_V02N0501->0_-1_V02N0501;1;X7/Y2/B6;X7/Y2/0_1_V02N0501->0_0_B6;1;X7/Y2/B6_SLICE;X7/Y2/0_0_B6->0_0_B6_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5588,7 +5588,7 @@
           "hide_name": 1,
           "bits": [ 2376 ] ,
           "attributes": {
-            "ROUTING": "X0/Y14/JPADDIA_PIO;;1;X0/Y14/JDIA;X0/Y14/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y14/JF5;X0/Y14/0_0_JDIA->1_0_JF5;1;X4/Y14/H06E0303;X1/Y14/0_0_JF5->3_0_H06E0303;1;X7/Y13/V02N0501;X7/Y14/-3_0_H06E0303->0_-1_V02N0501;1;X7/Y9/V06N0303;X7/Y12/0_1_V02N0501->0_-3_V06N0303;1;X7/Y3/V06N0003;X7/Y6/0_3_V06N0303->0_-3_V06N0003;1;X6/Y3/H02W0001;X7/Y3/0_0_V06N0003->-1_0_H02W0001;1;X6/Y2/V02N0001;X6/Y3/0_0_H02W0001->0_-1_V02N0001;1;X6/Y2/V00B0000;X6/Y2/0_0_V02N0001->0_0_V00B0000;1;X6/Y2/B0;X6/Y2/0_0_V00B0000->0_0_B0;1;X6/Y2/B0_SLICE;X6/Y2/0_0_B0->0_0_B0_SLICE;1",
+            "ROUTING": "X0/Y14/JPADDIA_PIO;;1;X0/Y14/JDIA;X0/Y14/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y14/JF5;X0/Y14/0_0_JDIA->1_0_JF5;1;X1/Y11/V06N0303;X1/Y14/0_0_JF5->0_-3_V06N0303;1;X1/Y5/V06N0303;X1/Y8/0_3_V06N0303->0_-3_V06N0303;1;X1/Y2/V01S0100;X1/Y2/0_3_V06N0303->0_0_V01S0100;1;X4/Y3/H06E0303;X1/Y3/0_-1_V01S0100->3_0_H06E0303;1;X7/Y2/V02N0501;X7/Y3/-3_0_H06E0303->0_-1_V02N0501;1;X7/Y2/B4;X7/Y2/0_0_V02N0501->0_0_B4;1;X7/Y2/B4_SLICE;X7/Y2/0_0_B4->0_0_B4_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5596,7 +5596,7 @@
           "hide_name": 1,
           "bits": [ 2375 ] ,
           "attributes": {
-            "ROUTING": "X0/Y35/JPADDIB_PIO;;1;X0/Y35/JDIB;X0/Y35/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y35/JQ5;X0/Y35/0_0_JDIB->1_0_JQ5;1;X1/Y32/V06N0303;X1/Y35/0_0_JQ5->0_-3_V06N0303;1;X4/Y29/H06E0303;X1/Y29/0_3_V06N0303->3_0_H06E0303;1;X7/Y28/V02N0601;X7/Y29/-3_0_H06E0303->0_-1_V02N0601;1;X7/Y24/V06N0303;X7/Y27/0_1_V02N0601->0_-3_V06N0303;1;X7/Y18/V06N0303;X7/Y21/0_3_V06N0303->0_-3_V06N0303;1;X7/Y12/V06N0303;X7/Y15/0_3_V06N0303->0_-3_V06N0303;1;X7/Y6/V06N0303;X7/Y9/0_3_V06N0303->0_-3_V06N0303;1;X6/Y3/H02W0501;X7/Y3/0_3_V06N0303->-1_0_H02W0501;1;X6/Y2/V02N0501;X6/Y3/0_0_H02W0501->0_-1_V02N0501;1;X6/Y2/B6;X6/Y2/0_0_V02N0501->0_0_B6;1;X6/Y2/B6_SLICE;X6/Y2/0_0_B6->0_0_B6_SLICE;1",
+            "ROUTING": "X0/Y35/JPADDIB_PIO;;1;X0/Y35/JDIB;X0/Y35/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y35/JQ5;X0/Y35/0_0_JDIB->1_0_JQ5;1;X1/Y34/V02N0501;X1/Y35/0_0_JQ5->0_-1_V02N0501;1;X1/Y30/V06N0303;X1/Y33/0_1_V02N0501->0_-3_V06N0303;1;X4/Y27/H06E0303;X1/Y27/0_3_V06N0303->3_0_H06E0303;1;X7/Y24/V06N0303;X7/Y27/-3_0_H06E0303->0_-3_V06N0303;1;X7/Y18/V06N0003;X7/Y21/0_3_V06N0303->0_-3_V06N0003;1;X7/Y12/V06N0103;X7/Y15/0_3_V06N0003->0_-3_V06N0103;1;X7/Y6/V06N0203;X7/Y9/0_3_V06N0103->0_-3_V06N0203;1;X6/Y3/H02W0701;X7/Y3/0_3_V06N0203->-1_0_H02W0701;1;X6/Y2/V02N0701;X6/Y3/0_0_H02W0701->0_-1_V02N0701;1;X6/Y2/B4;X6/Y2/0_0_V02N0701->0_0_B4;1;X6/Y2/B4_SLICE;X6/Y2/0_0_B4->0_0_B4_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5604,7 +5604,7 @@
           "hide_name": 1,
           "bits": [ 2374 ] ,
           "attributes": {
-            "ROUTING": "X0/Y35/JPADDIA_PIO;;1;X0/Y35/JDIA;X0/Y35/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y35/JF5;X0/Y35/0_0_JDIA->1_0_JF5;1;X4/Y35/H06E0303;X1/Y35/0_0_JF5->3_0_H06E0303;1;X4/Y32/V06N0303;X4/Y35/0_0_H06E0303->0_-3_V06N0303;1;X4/Y26/V06N0003;X4/Y29/0_3_V06N0303->0_-3_V06N0003;1;X4/Y20/V06N0003;X4/Y23/0_3_V06N0003->0_-3_V06N0003;1;X4/Y14/V06N0103;X4/Y17/0_3_V06N0003->0_-3_V06N0103;1;X4/Y8/V06N0103;X4/Y11/0_3_V06N0103->0_-3_V06N0103;1;X4/Y2/V06N0103;X4/Y5/0_3_V06N0103->0_-3_V06N0103;1;X5/Y2/H02E0101;X4/Y2/0_0_V06N0103->1_0_H02E0101;1;X5/Y2/B6;X5/Y2/0_0_H02E0101->0_0_B6;1;X5/Y2/B6_SLICE;X5/Y2/0_0_B6->0_0_B6_SLICE;1",
+            "ROUTING": "X0/Y35/JPADDIA_PIO;;1;X0/Y35/JDIA;X0/Y35/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y35/JF5;X0/Y35/0_0_JDIA->1_0_JF5;1;X1/Y32/V06N0303;X1/Y35/0_0_JF5->0_-3_V06N0303;1;X1/Y26/V06N0003;X1/Y29/0_3_V06N0303->0_-3_V06N0003;1;X4/Y23/H06E0003;X1/Y23/0_3_V06N0003->3_0_H06E0003;1;X4/Y20/V06N0003;X4/Y23/0_0_H06E0003->0_-3_V06N0003;1;X4/Y16/V02N0001;X4/Y17/0_3_V06N0003->0_-1_V02N0001;1;X4/Y12/V06N0003;X4/Y15/0_1_V02N0001->0_-3_V06N0003;1;X4/Y6/V06N0103;X4/Y9/0_3_V06N0003->0_-3_V06N0103;1;X5/Y3/H02E0101;X4/Y3/0_3_V06N0103->1_0_H02E0101;1;X5/Y2/V02N0101;X5/Y3/0_0_H02E0101->0_-1_V02N0101;1;X5/Y2/B0;X5/Y2/0_0_V02N0101->0_0_B0;1;X5/Y2/B0_SLICE;X5/Y2/0_0_B0->0_0_B0_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5612,7 +5612,7 @@
           "hide_name": 1,
           "bits": [ 2373 ] ,
           "attributes": {
-            "ROUTING": "X0/Y11/JPADDIB_PIO;;1;X0/Y11/JDIB;X0/Y11/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y11/JQ5;X0/Y11/0_0_JDIB->1_0_JQ5;1;X4/Y11/H06E0303;X1/Y11/0_0_JQ5->3_0_H06E0303;1;X4/Y8/V06N0303;X4/Y11/0_0_H06E0303->0_-3_V06N0303;1;X4/Y4/V02N0601;X4/Y5/0_3_V06N0303->0_-1_V02N0601;1;X4/Y2/V02N0701;X4/Y3/0_1_V02N0601->0_-1_V02N0701;1;X4/Y2/B6;X4/Y2/0_0_V02N0701->0_0_B6;1;X4/Y2/B6_SLICE;X4/Y2/0_0_B6->0_0_B6_SLICE;1",
+            "ROUTING": "X0/Y11/JPADDIB_PIO;;1;X0/Y11/JDIB;X0/Y11/0_0_JPADDIB_PIO->0_0_JDIB;1;X1/Y11/JQ5;X0/Y11/0_0_JDIB->1_0_JQ5;1;X1/Y8/V06N0303;X1/Y11/0_0_JQ5->0_-3_V06N0303;1;X4/Y5/H06E0303;X1/Y5/0_3_V06N0303->3_0_H06E0303;1;X7/Y4/V02N0501;X7/Y5/-3_0_H06E0303->0_-1_V02N0501;1;X6/Y3/H02W0501;X7/Y3/0_1_V02N0501->-1_0_H02W0501;1;X5/Y2/V02N0501;X5/Y3/1_0_H02W0501->0_-1_V02N0501;1;X5/Y2/B6;X5/Y2/0_0_V02N0501->0_0_B6;1;X5/Y2/B6_SLICE;X5/Y2/0_0_B6->0_0_B6_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5620,7 +5620,7 @@
           "hide_name": 1,
           "bits": [ 2371 ] ,
           "attributes": {
-            "ROUTING": "X0/Y11/JPADDIA_PIO;;1;X0/Y11/JDIA;X0/Y11/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y11/JF5;X0/Y11/0_0_JDIA->1_0_JF5;1;X1/Y8/V06N0303;X1/Y11/0_0_JF5->0_-3_V06N0303;1;X1/Y2/V06N0003;X1/Y5/0_3_V06N0303->0_-3_V06N0003;1;X4/Y2/H06E0003;X1/Y2/0_0_V06N0003->3_0_H06E0003;1;X6/Y2/H02W0301;X7/Y2/-3_0_H06E0003->-1_0_H02W0301;1;X5/Y2/B0;X5/Y2/1_0_H02W0301->0_0_B0;1;X5/Y2/B0_SLICE;X5/Y2/0_0_B0->0_0_B0_SLICE;1",
+            "ROUTING": "X0/Y11/JPADDIA_PIO;;1;X0/Y11/JDIA;X0/Y11/0_0_JPADDIA_PIO->0_0_JDIA;1;X1/Y11/JF5;X0/Y11/0_0_JDIA->1_0_JF5;1;X4/Y11/H06E0303;X1/Y11/0_0_JF5->3_0_H06E0303;1;X4/Y8/V06N0303;X4/Y11/0_0_H06E0303->0_-3_V06N0303;1;X4/Y2/V06N0303;X4/Y5/0_3_V06N0303->0_-3_V06N0303;1;X5/Y2/H02E0501;X4/Y2/0_0_V06N0303->1_0_H02E0501;1;X5/Y2/H00R0100;X5/Y2/0_0_H02E0501->0_0_H00R0100;1;X5/Y2/B2;X5/Y2/0_0_H00R0100->0_0_B2;1;X5/Y2/B2_SLICE;X5/Y2/0_0_B2->0_0_B2_SLICE;1",
             "src": "builds/.grouped/grouped.v:23.15-23.24"
           }
         },
@@ -5656,7 +5656,7 @@
           "hide_name": 0,
           "bits": [ 1705 ] ,
           "attributes": {
-            "ROUTING": "X8/Y2/H06E0003;X5/Y2/0_0_Q0->3_0_H06E0003;1;X14/Y2/H06E0103;X11/Y2/-3_0_H06E0003->3_0_H06E0103;1;X20/Y2/H06E0203;X17/Y2/-3_0_H06E0103->3_0_H06E0203;1;X26/Y2/H06E0203;X23/Y2/-3_0_H06E0203->3_0_H06E0203;1;X32/Y2/H06E0203;X29/Y2/-3_0_H06E0203->3_0_H06E0203;1;X38/Y2/H06E0203;X35/Y2/-3_0_H06E0203->3_0_H06E0203;1;X44/Y2/H06E0303;X41/Y2/-3_0_H06E0203->3_0_H06E0303;1;X50/Y2/H06E0303;X47/Y2/-3_0_H06E0303->3_0_H06E0303;1;X56/Y2/H06E0303;X53/Y2/-3_0_H06E0303->3_0_H06E0303;1;X62/Y2/H06E0303;X59/Y2/-3_0_H06E0303->3_0_H06E0303;1;X65/Y1/V02N0501;X65/Y2/-3_0_H06E0303->0_-1_V02N0501;1;X65/Y1/JA0;X65/Y1/0_0_V02N0501->0_0_JA0;1;X65/Y0/JPADDOA;X65/Y0/0_1_JA0->0_0_JPADDOA;1;X65/Y0/PADDOA_PIO;X65/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X5/Y2/B1;X5/Y2/0_0_V02S0301->0_0_B1;1;X5/Y2/B1_SLICE;X5/Y2/0_0_B1->0_0_B1_SLICE;1;X5/Y2/B3;X5/Y2/0_0_V02S0301->0_0_B3;1;X5/Y2/B3_SLICE;X5/Y2/0_0_B3->0_0_B3_SLICE;1;X5/Y2/B5;X5/Y2/0_0_H02W0301->0_0_B5;1;X5/Y2/B5_SLICE;X5/Y2/0_0_B5->0_0_B5_SLICE;1;X7/Y2/B3;X7/Y2/0_0_H02E0301->0_0_B3;1;X7/Y2/B3_SLICE;X7/Y2/0_0_B3->0_0_B3_SLICE;1;X7/Y2/H02E0101;X6/Y2/0_0_H01E0101->1_0_H02E0101;1;X7/Y2/B1;X7/Y2/0_0_H02E0101->0_0_B1;1;X7/Y2/B1_SLICE;X7/Y2/0_0_B1->0_0_B1_SLICE;1;X7/Y2/B7;X7/Y2/0_0_H02E0301->0_0_B7;1;X7/Y2/B7_SLICE;X7/Y2/0_0_B7->0_0_B7_SLICE;1;X4/Y2/B5;X4/Y2/1_0_H02W0301->0_0_B5;1;X4/Y2/B5_SLICE;X4/Y2/0_0_B5->0_0_B5_SLICE;1;X4/Y2/B3_SLICE;X4/Y2/0_0_B3->0_0_B3_SLICE;1;X7/Y2/B5;X7/Y2/0_0_H02E0301->0_0_B5;1;X7/Y2/B5_SLICE;X7/Y2/0_0_B5->0_0_B5_SLICE;1;X5/Y2/H02W0301;X6/Y2/0_0_H01E0101->-1_0_H02W0301;1;X4/Y2/B3;X4/Y2/1_0_H02W0301->0_0_B3;1;X4/Y2/B1;X4/Y2/0_0_V00T0000->0_0_B1;1;X4/Y2/B1_SLICE;X4/Y2/0_0_B1->0_0_B1_SLICE;1;X7/Y2/H02E0301;X6/Y2/0_0_H01E0101->1_0_H02E0301;1;X6/Y2/B3;X6/Y2/0_0_H02E0301->0_0_B3;1;X6/Y2/B3_SLICE;X6/Y2/0_0_B3->0_0_B3_SLICE;1;X6/Y2/B5;X6/Y2/0_0_H01E0101->0_0_B5;1;X6/Y2/B5_SLICE;X6/Y2/0_0_B5->0_0_B5_SLICE;1;X5/Y2/V00B0100;X5/Y2/0_0_V02S0301->0_0_V00B0100;1;X5/Y2/B7;X5/Y2/0_0_V00B0100->0_0_B7;1;X5/Y2/B7_SLICE;X5/Y2/0_0_B7->0_0_B7_SLICE;1;X4/Y2/H02W0001;X5/Y2/0_0_Q0->-1_0_H02W0001;1;X4/Y2/V00T0000;X4/Y2/0_0_H02W0001->0_0_V00T0000;1;X4/Y2/C7;X4/Y2/0_0_V00T0000->0_0_C7;1;X4/Y2/C7_SLICE;X4/Y2/0_0_C7->0_0_C7_SLICE;1;X5/Y1/V01N0101;X5/Y2/0_0_Q0->0_-1_V01N0101;1;X5/Y2/V02S0301;X5/Y1/0_0_V01N0101->0_1_V02S0301;1;X6/Y2/H02E0301;X5/Y2/0_0_V02S0301->1_0_H02E0301;1;X6/Y2/B1;X6/Y2/0_0_H02E0301->0_0_B1;1;X6/Y2/B1_SLICE;X6/Y2/0_0_B1->0_0_B1_SLICE;1;X6/Y2/H01E0101;X5/Y2/0_0_Q0->1_0_H01E0101;1;X6/Y2/B7;X6/Y2/0_0_H01E0101->0_0_B7;1;X6/Y2/B7_SLICE;X6/Y2/0_0_B7->0_0_B7_SLICE;1;X5/Y2/Q0_SLICE;;1;X5/Y2/Q0;X5/Y2/0_0_Q0_SLICE->0_0_Q0;1;X2/Y2/H06W0003;X5/Y2/0_0_Q0->-3_0_H06W0003;1;X2/Y3/V02S0001;X2/Y2/0_0_H06W0003->0_1_V02S0001;1;X2/Y3/V00B0000;X2/Y3/0_0_V02S0001->0_0_V00B0000;1;X2/Y3/D7;X2/Y3/0_0_V00B0000->0_0_D7;1;X2/Y3/D7_SLICE;X2/Y3/0_0_D7->0_0_D7_SLICE;1",
+            "ROUTING": "X8/Y2/H06E0103;X5/Y2/0_0_Q2->3_0_H06E0103;1;X14/Y2/H06E0203;X11/Y2/-3_0_H06E0103->3_0_H06E0203;1;X20/Y2/H06E0203;X17/Y2/-3_0_H06E0203->3_0_H06E0203;1;X26/Y2/H06E0303;X23/Y2/-3_0_H06E0203->3_0_H06E0303;1;X32/Y2/H06E0303;X29/Y2/-3_0_H06E0303->3_0_H06E0303;1;X38/Y2/H06E0303;X35/Y2/-3_0_H06E0303->3_0_H06E0303;1;X44/Y2/H06E0003;X41/Y2/-3_0_H06E0303->3_0_H06E0003;1;X50/Y2/H06E0103;X47/Y2/-3_0_H06E0003->3_0_H06E0103;1;X56/Y2/H06E0103;X53/Y2/-3_0_H06E0103->3_0_H06E0103;1;X62/Y2/H06E0103;X59/Y2/-3_0_H06E0103->3_0_H06E0103;1;X65/Y1/V02N0201;X65/Y2/-3_0_H06E0103->0_-1_V02N0201;1;X65/Y1/H00L0000;X65/Y1/0_0_V02N0201->0_0_H00L0000;1;X65/Y1/JA0;X65/Y1/0_0_H00L0000->0_0_JA0;1;X65/Y0/JPADDOA;X65/Y0/0_1_JA0->0_0_JPADDOA;1;X65/Y0/PADDOA_PIO;X65/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X5/Y2/B3;X5/Y2/0_0_H01W0100->0_0_B3;1;X5/Y2/B3_SLICE;X5/Y2/0_0_B3->0_0_B3_SLICE;1;X5/Y2/B5;X5/Y2/0_0_H02E0101->0_0_B5;1;X5/Y2/B5_SLICE;X5/Y2/0_0_B5->0_0_B5_SLICE;1;X6/Y2/B3;X6/Y2/-1_0_H02E0101->0_0_B3;1;X6/Y2/B3_SLICE;X6/Y2/0_0_B3->0_0_B3_SLICE;1;X6/Y2/B7;X6/Y2/-1_0_H02E0101->0_0_B7;1;X6/Y2/B7_SLICE;X6/Y2/0_0_B7->0_0_B7_SLICE;1;X4/Y2/B3;X4/Y2/1_0_H01W0100->0_0_B3;1;X4/Y2/B3_SLICE;X4/Y2/0_0_B3->0_0_B3_SLICE;1;X4/Y2/H00L0000;X4/Y2/0_0_H02W0201->0_0_H00L0000;1;X4/Y2/B5;X4/Y2/0_0_H00L0000->0_0_B5;1;X4/Y2/B5_SLICE;X4/Y2/0_0_B5->0_0_B5_SLICE;1;X4/Y2/H02W0201;X5/Y2/0_0_Q2->-1_0_H02W0201;1;X4/Y2/V00T0000;X4/Y2/0_0_H02W0201->0_0_V00T0000;1;X4/Y2/B7;X4/Y2/0_0_V00T0000->0_0_B7;1;X4/Y2/B7_SLICE;X4/Y2/0_0_B7->0_0_B7_SLICE;1;X4/Y2/B1;X4/Y2/1_0_H01W0100->0_0_B1;1;X4/Y2/B1_SLICE;X4/Y2/0_0_B1->0_0_B1_SLICE;1;X6/Y2/B1;X6/Y2/-1_0_H02E0101->0_0_B1;1;X6/Y2/B1_SLICE;X6/Y2/0_0_B1->0_0_B1_SLICE;1;X7/Y2/B1;X7/Y2/0_0_H02E0101->0_0_B1;1;X7/Y2/B1_SLICE;X7/Y2/0_0_B1->0_0_B1_SLICE;1;X7/Y2/B7;X7/Y2/0_0_H02E0101->0_0_B7;1;X7/Y2/B7_SLICE;X7/Y2/0_0_B7->0_0_B7_SLICE;1;X7/Y2/B3;X7/Y2/0_0_H02E0101->0_0_B3;1;X7/Y2/B3_SLICE;X7/Y2/0_0_B3->0_0_B3_SLICE;1;X5/Y2/V00T0000;X5/Y2/0_0_Q2->0_0_V00T0000;1;X5/Y2/C7;X5/Y2/0_0_V00T0000->0_0_C7;1;X5/Y2/C7_SLICE;X5/Y2/0_0_C7->0_0_C7_SLICE;1;X5/Y1/V01N0001;X5/Y2/0_0_Q2->0_-1_V01N0001;1;X5/Y2/C1;X5/Y2/0_-1_V01N0001->0_0_C1;1;X5/Y2/C1_SLICE;X5/Y2/0_0_C1->0_0_C1_SLICE;1;X6/Y2/B5;X6/Y2/-1_0_H02E0101->0_0_B5;1;X6/Y2/B5_SLICE;X6/Y2/0_0_B5->0_0_B5_SLICE;1;X5/Y2/H01W0100;X5/Y2/0_0_Q2->0_0_H01W0100;1;X5/Y2/H02E0101;X4/Y2/1_0_H01W0100->1_0_H02E0101;1;X7/Y2/H02E0101;X6/Y2/-1_0_H02E0101->1_0_H02E0101;1;X7/Y2/B5;X7/Y2/0_0_H02E0101->0_0_B5;1;X7/Y2/B5_SLICE;X7/Y2/0_0_B5->0_0_B5_SLICE;1;X5/Y2/Q2_SLICE;;1;X5/Y2/Q2;X5/Y2/0_0_Q2_SLICE->0_0_Q2;1;X2/Y2/H06W0103;X5/Y2/0_0_Q2->-3_0_H06W0103;1;X2/Y3/V02S0201;X2/Y2/0_0_H06W0103->0_1_V02S0201;1;X2/Y3/D3;X2/Y3/0_0_V02S0201->0_0_D3;1;X2/Y3/D3_SLICE;X2/Y3/0_0_D3->0_0_D3_SLICE;1",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
         },
@@ -5664,7 +5664,7 @@
           "hide_name": 0,
           "bits": [ 1704 ] ,
           "attributes": {
-            "ROUTING": "X6/Y4/F7_SLICE;;1;X6/Y4/F7;X6/Y4/0_0_F7_SLICE->0_0_F7;1;X6/Y4/H01W0000;X6/Y4/0_0_F7->0_0_H01W0000;1;X5/Y3/V02N0001;X5/Y4/1_0_H01W0000->0_-1_V02N0001;1;X5/Y2/D1;X5/Y2/0_1_V02N0001->0_0_D1;1;X5/Y2/D1_SLICE;X5/Y2/0_0_D1->0_0_D1_SLICE;1",
+            "ROUTING": "X5/Y4/F7_SLICE;;1;X5/Y4/F7;X5/Y4/0_0_F7_SLICE->0_0_F7;1;X5/Y3/V02N0701;X5/Y4/0_0_F7->0_-1_V02N0701;1;X5/Y2/V00T0100;X5/Y2/0_1_V02N0701->0_0_V00T0100;1;X5/Y2/D3;X5/Y2/0_0_V00T0100->0_0_D3;1;X5/Y2/D3_SLICE;X5/Y2/0_0_D3->0_0_D3_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5672,7 +5672,7 @@
           "hide_name": 0,
           "bits": [ 1703 ] ,
           "attributes": {
-            "ROUTING": "X6/Y4/F6_SLICE;;1;X6/Y4/F6;X6/Y4/0_0_F6_SLICE->0_0_F6;1;X7/Y4/H01E0001;X6/Y4/0_0_F6->1_0_H01E0001;1;X7/Y3/V02N0201;X7/Y4/0_0_H01E0001->0_-1_V02N0201;1;X6/Y2/H02W0201;X7/Y2/0_1_V02N0201->-1_0_H02W0201;1;X5/Y2/D3;X5/Y2/1_0_H02W0201->0_0_D3;1;X5/Y2/D3_SLICE;X5/Y2/0_0_D3->0_0_D3_SLICE;1",
+            "ROUTING": "X5/Y4/F6_SLICE;;1;X5/Y4/F6;X5/Y4/0_0_F6_SLICE->0_0_F6;1;X5/Y3/V02N0401;X5/Y4/0_0_F6->0_-1_V02N0401;1;X5/Y2/D5;X5/Y2/0_1_V02N0401->0_0_D5;1;X5/Y2/D5_SLICE;X5/Y2/0_0_D5->0_0_D5_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5680,7 +5680,7 @@
           "hide_name": 0,
           "bits": [ 1702 ] ,
           "attributes": {
-            "ROUTING": "X6/Y4/F3_SLICE;;1;X6/Y4/F3;X6/Y4/0_0_F3_SLICE->0_0_F3;1;X6/Y4/H01W0100;X6/Y4/0_0_F3->0_0_H01W0100;1;X5/Y3/V02N0501;X5/Y4/1_0_H01W0100->0_-1_V02N0501;1;X5/Y2/H00R0100;X5/Y2/0_1_V02N0501->0_0_H00R0100;1;X5/Y2/D5;X5/Y2/0_0_H00R0100->0_0_D5;1;X5/Y2/D5_SLICE;X5/Y2/0_0_D5->0_0_D5_SLICE;1",
+            "ROUTING": "X6/Y4/F3_SLICE;;1;X6/Y4/F3;X6/Y4/0_0_F3_SLICE->0_0_F3;1;X6/Y3/V02N0101;X6/Y4/0_0_F3->0_-1_V02N0101;1;X6/Y2/V00B0100;X6/Y2/0_1_V02N0101->0_0_V00B0100;1;X6/Y2/D3;X6/Y2/0_0_V00B0100->0_0_D3;1;X6/Y2/D3_SLICE;X6/Y2/0_0_D3->0_0_D3_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5688,7 +5688,7 @@
           "hide_name": 0,
           "bits": [ 1701 ] ,
           "attributes": {
-            "ROUTING": "X6/Y4/F0_SLICE;;1;X6/Y4/F0;X6/Y4/0_0_F0_SLICE->0_0_F0;1;X6/Y3/V02N0201;X6/Y4/0_0_F0->0_-1_V02N0201;1;X7/Y2/H02E0201;X6/Y2/0_1_V02N0201->1_0_H02E0201;1;X7/Y2/D3;X7/Y2/0_0_H02E0201->0_0_D3;1;X7/Y2/D3_SLICE;X7/Y2/0_0_D3->0_0_D3_SLICE;1",
+            "ROUTING": "X5/Y4/F4_SLICE;;1;X5/Y4/F4;X5/Y4/0_0_F4_SLICE->0_0_F4;1;X6/Y4/H02E0401;X5/Y4/0_0_F4->1_0_H02E0401;1;X6/Y3/V02N0401;X6/Y4/0_0_H02E0401->0_-1_V02N0401;1;X6/Y2/D7;X6/Y2/0_1_V02N0401->0_0_D7;1;X6/Y2/D7_SLICE;X6/Y2/0_0_D7->0_0_D7_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5696,7 +5696,7 @@
           "hide_name": 0,
           "bits": [ 1700 ] ,
           "attributes": {
-            "ROUTING": "X6/Y3/F1_SLICE;;1;X6/Y3/F1;X6/Y3/0_0_F1_SLICE->0_0_F1;1;X7/Y3/H01E0001;X6/Y3/0_0_F1->1_0_H01E0001;1;X7/Y2/V02N0001;X7/Y3/0_0_H01E0001->0_-1_V02N0001;1;X7/Y2/D1;X7/Y2/0_0_V02N0001->0_0_D1;1;X7/Y2/D1_SLICE;X7/Y2/0_0_D1->0_0_D1_SLICE;1",
+            "ROUTING": "X5/Y3/F1_SLICE;;1;X5/Y3/F1;X5/Y3/0_0_F1_SLICE->0_0_F1;1;X5/Y3/H01W0000;X5/Y3/0_0_F1->0_0_H01W0000;1;X4/Y2/V02N0601;X4/Y3/1_0_H01W0000->0_-1_V02N0601;1;X4/Y2/D5;X4/Y2/0_0_V02N0601->0_0_D5;1;X4/Y2/D5_SLICE;X4/Y2/0_0_D5->0_0_D5_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5704,7 +5704,7 @@
           "hide_name": 0,
           "bits": [ 1699 ] ,
           "attributes": {
-            "ROUTING": "X6/Y4/F4_SLICE;;1;X6/Y4/F4;X6/Y4/0_0_F4_SLICE->0_0_F4;1;X7/Y4/H02E0601;X6/Y4/0_0_F4->1_0_H02E0601;1;X7/Y3/V02N0601;X7/Y4/0_0_H02E0601->0_-1_V02N0601;1;X7/Y2/D7;X7/Y2/0_1_V02N0601->0_0_D7;1;X7/Y2/D7_SLICE;X7/Y2/0_0_D7->0_0_D7_SLICE;1",
+            "ROUTING": "X5/Y4/F2_SLICE;;1;X5/Y4/F2;X5/Y4/0_0_F2_SLICE->0_0_F2;1;X5/Y4/H01W0000;X5/Y4/0_0_F2->0_0_H01W0000;1;X4/Y3/V02N0001;X4/Y4/1_0_H01W0000->0_-1_V02N0001;1;X4/Y2/D3;X4/Y2/0_1_V02N0001->0_0_D3;1;X4/Y2/D3_SLICE;X4/Y2/0_0_D3->0_0_D3_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5712,7 +5712,7 @@
           "hide_name": 0,
           "bits": [ 1698 ] ,
           "attributes": {
-            "ROUTING": "X5/Y3/F5_SLICE;;1;X5/Y3/F5;X5/Y3/0_0_F5_SLICE->0_0_F5;1;X5/Y2/V01N0001;X5/Y3/0_0_F5->0_-1_V01N0001;1;X6/Y2/H02E0001;X5/Y2/0_0_V01N0001->1_0_H02E0001;1;X7/Y2/D5;X7/Y2/-1_0_H02E0001->0_0_D5;1;X7/Y2/D5_SLICE;X7/Y2/0_0_D5->0_0_D5_SLICE;1",
+            "ROUTING": "X5/Y3/F3_SLICE;;1;X5/Y3/F3;X5/Y3/0_0_F3_SLICE->0_0_F3;1;X5/Y2/V01N0001;X5/Y3/0_0_F3->0_-1_V01N0001;1;X4/Y2/H02W0001;X5/Y2/0_0_V01N0001->-1_0_H02W0001;1;X4/Y2/D7;X4/Y2/0_0_H02W0001->0_0_D7;1;X4/Y2/D7_SLICE;X4/Y2/0_0_D7->0_0_D7_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5720,7 +5720,7 @@
           "hide_name": 0,
           "bits": [ 1697 ] ,
           "attributes": {
-            "ROUTING": "X6/Y3/F6_SLICE;;1;X6/Y3/F6;X6/Y3/0_0_F6_SLICE->0_0_F6;1;X5/Y3/H02W0401;X6/Y3/0_0_F6->-1_0_H02W0401;1;X4/Y2/V02N0401;X4/Y3/1_0_H02W0401->0_-1_V02N0401;1;X4/Y2/H00R0000;X4/Y2/0_0_V02N0401->0_0_H00R0000;1;X4/Y2/D1;X4/Y2/0_0_H00R0000->0_0_D1;1;X4/Y2/D1_SLICE;X4/Y2/0_0_D1->0_0_D1_SLICE;1",
+            "ROUTING": "X5/Y3/F6_SLICE;;1;X5/Y3/F6;X5/Y3/0_0_F6_SLICE->0_0_F6;1;X6/Y3/H01E0001;X5/Y3/0_0_F6->1_0_H01E0001;1;X5/Y3/H02W0001;X6/Y3/0_0_H01E0001->-1_0_H02W0001;1;X4/Y2/V02N0001;X4/Y3/1_0_H02W0001->0_-1_V02N0001;1;X4/Y2/D1;X4/Y2/0_0_V02N0001->0_0_D1;1;X4/Y2/D1_SLICE;X4/Y2/0_0_D1->0_0_D1_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5728,7 +5728,7 @@
           "hide_name": 0,
           "bits": [ 1696 ] ,
           "attributes": {
-            "ROUTING": "X6/Y3/F2_SLICE;;1;X6/Y3/F2;X6/Y3/0_0_F2_SLICE->0_0_F2;1;X5/Y3/H02W0001;X6/Y3/0_0_F2->-1_0_H02W0001;1;X4/Y2/V02N0001;X4/Y3/1_0_H02W0001->0_-1_V02N0001;1;X4/Y2/D3;X4/Y2/0_0_V02N0001->0_0_D3;1;X4/Y2/D3_SLICE;X4/Y2/0_0_D3->0_0_D3_SLICE;1",
+            "ROUTING": "X6/Y3/F0_SLICE;;1;X6/Y3/F0;X6/Y3/0_0_F0_SLICE->0_0_F0;1;X6/Y2/V02N0001;X6/Y3/0_0_F0->0_-1_V02N0001;1;X6/Y2/D1;X6/Y2/0_0_V02N0001->0_0_D1;1;X6/Y2/D1_SLICE;X6/Y2/0_0_D1->0_0_D1_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5736,7 +5736,7 @@
           "hide_name": 0,
           "bits": [ 1695 ] ,
           "attributes": {
-            "ROUTING": "X6/Y3/F5_SLICE;;1;X6/Y3/F5;X6/Y3/0_0_F5_SLICE->0_0_F5;1;X6/Y2/V01N0101;X6/Y3/0_0_F5->0_-1_V01N0101;1;X5/Y2/H02W0701;X6/Y2/0_0_V01N0101->-1_0_H02W0701;1;X4/Y2/H00R0100;X4/Y2/1_0_H02W0701->0_0_H00R0100;1;X4/Y2/D5;X4/Y2/0_0_H00R0100->0_0_D5;1;X4/Y2/D5_SLICE;X4/Y2/0_0_D5->0_0_D5_SLICE;1",
+            "ROUTING": "X6/Y3/F7_SLICE;;1;X6/Y3/F7;X6/Y3/0_0_F7_SLICE->0_0_F7;1;X7/Y3/H01E0101;X6/Y3/0_0_F7->1_0_H01E0101;1;X7/Y2/V02N0301;X7/Y3/0_0_H01E0101->0_-1_V02N0301;1;X7/Y2/V00B0100;X7/Y2/0_0_V02N0301->0_0_V00B0100;1;X7/Y2/D1;X7/Y2/0_0_V00B0100->0_0_D1;1;X7/Y2/D1_SLICE;X7/Y2/0_0_D1->0_0_D1_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5744,7 +5744,7 @@
           "hide_name": 0,
           "bits": [ 1694 ] ,
           "attributes": {
-            "ROUTING": "X5/Y3/F7_SLICE;;1;X5/Y3/F7;X5/Y3/0_0_F7_SLICE->0_0_F7;1;X6/Y3/H01E0101;X5/Y3/0_0_F7->1_0_H01E0101;1;X6/Y2/V02N0701;X6/Y3/0_0_H01E0101->0_-1_V02N0701;1;X6/Y2/H00R0100;X6/Y2/0_0_V02N0701->0_0_H00R0100;1;X6/Y2/C3;X6/Y2/0_0_H00R0100->0_0_C3;1;X6/Y2/C3_SLICE;X6/Y2/0_0_C3->0_0_C3_SLICE;1",
+            "ROUTING": "X5/Y3/F5_SLICE;;1;X5/Y3/F5;X5/Y3/0_0_F5_SLICE->0_0_F5;1;X6/Y3/H02E0701;X5/Y3/0_0_F5->1_0_H02E0701;1;X7/Y2/V02N0701;X7/Y3/-1_0_H02E0701->0_-1_V02N0701;1;X7/Y2/H00R0100;X7/Y2/0_0_V02N0701->0_0_H00R0100;1;X7/Y2/C3;X7/Y2/0_0_H00R0100->0_0_C3;1;X7/Y2/C3_SLICE;X7/Y2/0_0_C3->0_0_C3_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5752,7 +5752,7 @@
           "hide_name": 0,
           "bits": [ 1693 ] ,
           "attributes": {
-            "ROUTING": "X5/Y3/F3_SLICE;;1;X5/Y3/F3;X5/Y3/0_0_F3_SLICE->0_0_F3;1;X5/Y3/H01W0000;X5/Y3/0_0_F3->0_0_H01W0000;1;X5/Y3/H02E0201;X4/Y3/1_0_H01W0000->1_0_H02E0201;1;X6/Y2/V02N0201;X6/Y3/-1_0_H02E0201->0_-1_V02N0201;1;X6/Y2/C5;X6/Y2/0_0_V02N0201->0_0_C5;1;X6/Y2/C5_SLICE;X6/Y2/0_0_C5->0_0_C5_SLICE;1",
+            "ROUTING": "X6/Y3/F5_SLICE;;1;X6/Y3/F5;X6/Y3/0_0_F5_SLICE->0_0_F5;1;X6/Y2/V01N0001;X6/Y3/0_0_F5->0_-1_V01N0001;1;X7/Y2/H02E0601;X6/Y2/0_0_V01N0001->1_0_H02E0601;1;X7/Y2/C7;X7/Y2/0_0_H02E0601->0_0_C7;1;X7/Y2/C7_SLICE;X7/Y2/0_0_C7->0_0_C7_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5760,7 +5760,7 @@
           "hide_name": 0,
           "bits": [ 1692 ] ,
           "attributes": {
-            "ROUTING": "X5/Y3/F1_SLICE;;1;X5/Y3/F1;X5/Y3/0_0_F1_SLICE->0_0_F1;1;X6/Y3/H01E0001;X5/Y3/0_0_F1->1_0_H01E0001;1;X6/Y2/V02N0601;X6/Y3/0_0_H01E0001->0_-1_V02N0601;1;X6/Y2/C1;X6/Y2/0_0_V02N0601->0_0_C1;1;X6/Y2/C1_SLICE;X6/Y2/0_0_C1->0_0_C1_SLICE;1",
+            "ROUTING": "X6/Y3/F3_SLICE;;1;X6/Y3/F3;X6/Y3/0_0_F3_SLICE->0_0_F3;1;X7/Y3/H01E0001;X6/Y3/0_0_F3->1_0_H01E0001;1;X7/Y2/V02N0201;X7/Y3/0_0_H01E0001->0_-1_V02N0201;1;X7/Y2/C5;X7/Y2/0_0_V02N0201->0_0_C5;1;X7/Y2/C5_SLICE;X7/Y2/0_0_C5->0_0_C5_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5768,7 +5768,7 @@
           "hide_name": 0,
           "bits": [ 1691 ] ,
           "attributes": {
-            "ROUTING": "X4/Y3/F1_SLICE;;1;X4/Y3/F1;X4/Y3/0_0_F1_SLICE->0_0_F1;1;X5/Y3/H01E0001;X4/Y3/0_0_F1->1_0_H01E0001;1;X5/Y2/V02N0601;X5/Y3/0_0_H01E0001->0_-1_V02N0601;1;X6/Y2/H02E0601;X5/Y2/0_0_V02N0601->1_0_H02E0601;1;X6/Y2/C7;X6/Y2/0_0_H02E0601->0_0_C7;1;X6/Y2/C7_SLICE;X6/Y2/0_0_C7->0_0_C7_SLICE;1",
+            "ROUTING": "X4/Y3/F5_SLICE;;1;X4/Y3/F5;X4/Y3/0_0_F5_SLICE->0_0_F5;1;X4/Y2/V01N0001;X4/Y3/0_0_F5->0_-1_V01N0001;1;X5/Y2/H02E0401;X4/Y2/0_0_V01N0001->1_0_H02E0401;1;X6/Y2/C5;X6/Y2/-1_0_H02E0401->0_0_C5;1;X6/Y2/C5_SLICE;X6/Y2/0_0_C5->0_0_C5_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5783,7 +5783,7 @@
           "hide_name": 0,
           "bits": [ 1688 ] ,
           "attributes": {
-            "ROUTING": "X4/Y3/F7_SLICE;;1;X4/Y3/F7;X4/Y3/0_0_F7_SLICE->0_0_F7;1;X5/Y3/H01E0101;X4/Y3/0_0_F7->1_0_H01E0101;1;X5/Y2/V02N0701;X5/Y3/0_0_H01E0101->0_-1_V02N0701;1;X4/Y2/H02W0701;X5/Y2/0_0_V02N0701->-1_0_H02W0701;1;X4/Y2/A7;X4/Y2/0_0_H02W0701->0_0_A7;1;X4/Y2/A7_SLICE;X4/Y2/0_0_A7->0_0_A7_SLICE;1",
+            "ROUTING": "X5/Y4/F1_SLICE;;1;X5/Y4/F1;X5/Y4/0_0_F1_SLICE->0_0_F1;1;X5/Y3/V02N0101;X5/Y4/0_0_F1->0_-1_V02N0101;1;X5/Y2/A7;X5/Y2/0_1_V02N0101->0_0_A7;1;X5/Y2/A7_SLICE;X5/Y2/0_0_A7->0_0_A7_SLICE;1",
             "src": "builds/.grouped/grouped.v:118.15-118.21"
           }
         },
@@ -5791,7 +5791,7 @@
           "hide_name": 0,
           "bits": [ 1687 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/C1;X5/Y2/0_0_V02N0401->0_0_C1;1;X5/Y2/C1_SLICE;X5/Y2/0_0_C1->0_0_C1_SLICE;1;X5/Y2/C3;X5/Y2/0_0_V02N0401->0_0_C3;1;X5/Y2/C3_SLICE;X5/Y2/0_0_C3->0_0_C3_SLICE;1;X5/Y2/V00T0000;X5/Y2/0_0_V02N0401->0_0_V00T0000;1;X5/Y2/C5;X5/Y2/0_0_V00T0000->0_0_C5;1;X5/Y2/C5_SLICE;X5/Y2/0_0_C5->0_0_C5_SLICE;1;X7/Y2/C3;X7/Y2/0_0_V02N0401->0_0_C3;1;X7/Y2/C3_SLICE;X7/Y2/0_0_C3->0_0_C3_SLICE;1;X4/Y2/C1;X4/Y2/0_0_H02E0401->0_0_C1;1;X4/Y2/C1_SLICE;X4/Y2/0_0_C1->0_0_C1_SLICE;1;X7/Y2/C7;X7/Y2/0_0_V00T0000->0_0_C7;1;X7/Y2/C7_SLICE;X7/Y2/0_0_C7->0_0_C7_SLICE;1;X7/Y2/C1;X7/Y2/0_0_V02N0401->0_0_C1;1;X7/Y2/C1_SLICE;X7/Y2/0_0_C1->0_0_C1_SLICE;1;X7/Y2/V02N0401;X7/Y3/0_0_H02W0401->0_-1_V02N0401;1;X7/Y2/V00T0000;X7/Y2/0_0_V02N0401->0_0_V00T0000;1;X7/Y2/C5;X7/Y2/0_0_V00T0000->0_0_C5;1;X7/Y2/C5_SLICE;X7/Y2/0_0_C5->0_0_C5_SLICE;1;X4/Y2/C5;X4/Y2/0_0_H02E0401->0_0_C5;1;X4/Y2/C5_SLICE;X4/Y2/0_0_C5->0_0_C5_SLICE;1;X3/Y2/V02N0401;X3/Y3/0_0_H01E0001->0_-1_V02N0401;1;X4/Y2/H02E0401;X3/Y2/0_0_V02N0401->1_0_H02E0401;1;X4/Y2/C3;X4/Y2/0_0_H02E0401->0_0_C3;1;X4/Y2/C3_SLICE;X4/Y2/0_0_C3->0_0_C3_SLICE;1;X6/Y2/D3;X6/Y2/0_0_H00R0000->0_0_D3;1;X6/Y2/D3_SLICE;X6/Y2/0_0_D3->0_0_D3_SLICE;1;X6/Y2/D5;X6/Y2/0_0_V02N0401->0_0_D5;1;X6/Y2/D5_SLICE;X6/Y2/0_0_D5->0_0_D5_SLICE;1;X3/Y3/H01E0001;X2/Y3/0_0_F7->1_0_H01E0001;1;X3/Y2/V02N0001;X3/Y3/0_0_H01E0001->0_-1_V02N0001;1;X4/Y2/H02E0001;X3/Y2/0_0_V02N0001->1_0_H02E0001;1;X4/Y2/D7;X4/Y2/0_0_H02E0001->0_0_D7;1;X4/Y2/D7_SLICE;X4/Y2/0_0_D7->0_0_D7_SLICE;1;X5/Y2/V02N0401;X5/Y3/0_0_H06E0203->0_-1_V02N0401;1;X5/Y2/D7;X5/Y2/0_0_V02N0401->0_0_D7;1;X5/Y2/D7_SLICE;X5/Y2/0_0_D7->0_0_D7_SLICE;1;X6/Y2/D7;X6/Y2/0_0_V02N0401->0_0_D7;1;X6/Y2/D7_SLICE;X6/Y2/0_0_D7->0_0_D7_SLICE;1;X2/Y3/F7_SLICE;;1;X2/Y3/F7;X2/Y3/0_0_F7_SLICE->0_0_F7;1;X5/Y3/H06E0203;X2/Y3/0_0_F7->3_0_H06E0203;1;X7/Y3/H02W0401;X8/Y3/-3_0_H06E0203->-1_0_H02W0401;1;X6/Y2/V02N0401;X6/Y3/1_0_H02W0401->0_-1_V02N0401;1;X6/Y2/H00R0000;X6/Y2/0_0_V02N0401->0_0_H00R0000;1;X6/Y2/D1;X6/Y2/0_0_H00R0000->0_0_D1;1;X6/Y2/D1_SLICE;X6/Y2/0_0_D1->0_0_D1_SLICE;1",
+            "ROUTING": "X7/Y1/H02W0001;X8/Y1/0_1_V02N0001->-1_0_H02W0001;1;X6/Y2/V02S0001;X6/Y1/1_0_H02W0001->0_1_V02S0001;1;X6/Y2/C7;X6/Y2/0_0_V02S0001->0_0_C7;1;X6/Y2/C7_SLICE;X6/Y2/0_0_C7->0_0_C7_SLICE;1;X7/Y2/C1;X7/Y2/1_0_H02W0401->0_0_C1;1;X7/Y2/C1_SLICE;X7/Y2/0_0_C1->0_0_C1_SLICE;1;X5/Y2/C3;X5/Y2/0_0_H02E0601->0_0_C3;1;X5/Y2/C3_SLICE;X5/Y2/0_0_C3->0_0_C3_SLICE;1;X4/Y2/C3;X4/Y2/-1_0_H02E0601->0_0_C3;1;X4/Y2/C3_SLICE;X4/Y2/0_0_C3->0_0_C3_SLICE;1;X4/Y2/C5;X4/Y2/-1_0_H02E0601->0_0_C5;1;X4/Y2/C5_SLICE;X4/Y2/0_0_C5->0_0_C5_SLICE;1;X9/Y3/H01E0001;X8/Y3/-3_0_H06E0003->1_0_H01E0001;1;X9/Y2/V02N0401;X9/Y3/0_0_H01E0001->0_-1_V02N0401;1;X8/Y2/H02W0401;X9/Y2/0_0_V02N0401->-1_0_H02W0401;1;X6/Y2/C3;X6/Y2/0_0_H00L0000->0_0_C3;1;X6/Y2/C3_SLICE;X6/Y2/0_0_C3->0_0_C3_SLICE;1;X4/Y2/C7;X4/Y2/-1_0_H02E0601->0_0_C7;1;X4/Y2/C7_SLICE;X4/Y2/0_0_C7->0_0_C7_SLICE;1;X2/Y2/V01N0001;X2/Y3/0_0_F3->0_-1_V01N0001;1;X3/Y2/H02E0601;X2/Y2/0_0_V01N0001->1_0_H02E0601;1;X4/Y2/C1;X4/Y2/-1_0_H02E0601->0_0_C1;1;X4/Y2/C1_SLICE;X4/Y2/0_0_C1->0_0_C1_SLICE;1;X6/Y2/H00L0000;X6/Y2/1_0_H02W0001->0_0_H00L0000;1;X6/Y2/C1;X6/Y2/0_0_H00L0000->0_0_C1;1;X6/Y2/C1_SLICE;X6/Y2/0_0_C1->0_0_C1_SLICE;1;X5/Y2/C5;X5/Y2/0_0_V00B0100->0_0_C5;1;X5/Y2/C5_SLICE;X5/Y2/0_0_C5->0_0_C5_SLICE;1;X5/Y2/H02E0601;X4/Y2/-1_0_H02E0601->1_0_H02E0601;1;X7/Y2/D7;X7/Y2/0_0_H02W0001->0_0_D7;1;X7/Y2/D7_SLICE;X7/Y2/0_0_D7->0_0_D7_SLICE;1;X7/Y2/D3;X7/Y2/0_0_H02W0001->0_0_D3;1;X7/Y2/D3_SLICE;X7/Y2/0_0_D3->0_0_D3_SLICE;1;X5/Y2/V02N0301;X5/Y3/0_0_H06E0003->0_-1_V02N0301;1;X5/Y2/V00B0100;X5/Y2/0_0_V02N0301->0_0_V00B0100;1;X5/Y2/D1;X5/Y2/0_0_V00B0100->0_0_D1;1;X5/Y2/D1_SLICE;X5/Y2/0_0_D1->0_0_D1_SLICE;1;X6/Y2/H02W0001;X7/Y2/0_0_V02N0001->-1_0_H02W0001;1;X5/Y2/D7;X5/Y2/1_0_H02W0001->0_0_D7;1;X5/Y2/D7_SLICE;X5/Y2/0_0_D7->0_0_D7_SLICE;1;X8/Y2/V02N0001;X8/Y3/-3_0_H06E0003->0_-1_V02N0001;1;X7/Y2/H02W0001;X8/Y2/0_0_V02N0001->-1_0_H02W0001;1;X6/Y2/D5;X6/Y2/1_0_H02W0001->0_0_D5;1;X6/Y2/D5_SLICE;X6/Y2/0_0_D5->0_0_D5_SLICE;1;X2/Y3/F3_SLICE;;1;X2/Y3/F3;X2/Y3/0_0_F3_SLICE->0_0_F3;1;X5/Y3/H06E0003;X2/Y3/0_0_F3->3_0_H06E0003;1;X7/Y3/H02W0001;X8/Y3/-3_0_H06E0003->-1_0_H02W0001;1;X7/Y2/V02N0001;X7/Y3/0_0_H02W0001->0_-1_V02N0001;1;X7/Y2/V00B0000;X7/Y2/0_0_V02N0001->0_0_V00B0000;1;X7/Y2/D5;X7/Y2/0_0_V00B0000->0_0_D5;1;X7/Y2/D5_SLICE;X7/Y2/0_0_D5->0_0_D5_SLICE;1",
             "src": "builds/.grouped/grouped.v:174.15-174.23"
           }
         },
@@ -5806,7 +5806,7 @@
           "hide_name": 0,
           "bits": [ 1685 ] ,
           "attributes": {
-            "ROUTING": "X5/Y1/V02N0201;X5/Y2/0_0_Q2->0_-1_V02N0201;1;X5/Y1/H00L0000;X5/Y1/0_0_V02N0201->0_0_H00L0000;1;X5/Y1/JA0;X5/Y1/0_0_H00L0000->0_0_JA0;1;X4/Y0/JPADDOB;X4/Y0/1_1_JA0->0_0_JPADDOB;1;X4/Y0/PADDOB_PIO;X4/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X6/Y2/H01E0001;X5/Y2/0_0_Q2->1_0_H01E0001;1;X5/Y2/A3;X5/Y2/1_0_H01E0001->0_0_A3;1;X5/Y2/A3_SLICE;X5/Y2/0_0_A3->0_0_A3_SLICE;1;X5/Y2/Q2_SLICE;;1;X5/Y2/Q2;X5/Y2/0_0_Q2_SLICE->0_0_Q2;1;X5/Y5/V06S0103;X5/Y2/0_0_Q2->0_3_V06S0103;1;X5/Y7/V02N0101;X5/Y8/0_-3_V06S0103->0_-1_V02N0101;1;X5/Y5/V02N0101;X5/Y6/0_1_V02N0101->0_-1_V02N0101;1;X6/Y4/H02E0101;X5/Y4/0_1_V02N0101->1_0_H02E0101;1;X6/Y4/B7;X6/Y4/0_0_H02E0101->0_0_B7;1;X6/Y4/B7_SLICE;X6/Y4/0_0_B7->0_0_B7_SLICE;1",
+            "ROUTING": "X5/Y1/JA0;X5/Y1/0_0_V01N0101->0_0_JA0;1;X4/Y0/JPADDOB;X4/Y0/1_1_JA0->0_0_JPADDOB;1;X4/Y0/PADDOB_PIO;X4/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X5/Y2/A5;X5/Y2/0_-1_V01N0101->0_0_A5;1;X5/Y2/A5_SLICE;X5/Y2/0_0_A5->0_0_A5_SLICE;1;X5/Y2/Q4_SLICE;;1;X5/Y2/Q4;X5/Y2/0_0_Q4_SLICE->0_0_Q4;1;X5/Y1/V01N0101;X5/Y2/0_0_Q4->0_-1_V01N0101;1;X5/Y2/V02S0301;X5/Y1/0_0_V01N0101->0_1_V02S0301;1;X5/Y4/V02S0301;X5/Y3/0_-1_V02S0301->0_1_V02S0301;1;X5/Y4/A7;X5/Y4/0_0_V02S0301->0_0_A7;1;X5/Y4/A7_SLICE;X5/Y4/0_0_A7->0_0_A7_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5815,7 +5815,7 @@
           "hide_name": 0,
           "bits": [ 1684 ] ,
           "attributes": {
-            "ROUTING": "X4/Y2/H02W0601;X5/Y2/0_0_Q4->-1_0_H02W0601;1;X4/Y1/V02N0601;X4/Y2/0_0_H02W0601->0_-1_V02N0601;1;X4/Y1/H00R0000;X4/Y1/0_0_V02N0601->0_0_H00R0000;1;X4/Y1/JA0;X4/Y1/0_0_H00R0000->0_0_JA0;1;X4/Y0/JPADDOA;X4/Y0/0_1_JA0->0_0_JPADDOA;1;X4/Y0/PADDOA_PIO;X4/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X5/Y2/V00B0000;X5/Y2/0_0_Q4->0_0_V00B0000;1;X5/Y2/A5;X5/Y2/0_0_V00B0000->0_0_A5;1;X5/Y2/A5_SLICE;X5/Y2/0_0_A5->0_0_A5_SLICE;1;X6/Y4/C6;X6/Y4/0_0_H02E0401->0_0_C6;1;X6/Y4/C6_SLICE;X6/Y4/0_0_C6->0_0_C6_SLICE;1;X5/Y2/Q4_SLICE;;1;X5/Y2/Q4;X5/Y2/0_0_Q4_SLICE->0_0_Q4;1;X5/Y5/V06S0203;X5/Y2/0_0_Q4->0_3_V06S0203;1;X5/Y7/V02N0401;X5/Y8/0_-3_V06S0203->0_-1_V02N0401;1;X5/Y5/V02N0401;X5/Y6/0_1_V02N0401->0_-1_V02N0401;1;X6/Y4/H02E0401;X5/Y4/0_1_V02N0401->1_0_H02E0401;1;X6/Y4/C7;X6/Y4/0_0_H02E0401->0_0_C7;1;X6/Y4/C7_SLICE;X6/Y4/0_0_C7->0_0_C7_SLICE;1",
+            "ROUTING": "X4/Y1/V02N0001;X4/Y2/1_0_H02W0001->0_-1_V02N0001;1;X4/Y1/H00L0000;X4/Y1/0_0_V02N0001->0_0_H00L0000;1;X4/Y1/JA0;X4/Y1/0_0_H00L0000->0_0_JA0;1;X4/Y0/JPADDOA;X4/Y0/0_1_JA0->0_0_JPADDOA;1;X4/Y0/PADDOA_PIO;X4/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X6/Y2/V00T0000;X6/Y2/0_0_Q2->0_0_V00T0000;1;X6/Y2/A3;X6/Y2/0_0_V00T0000->0_0_A3;1;X6/Y2/A3_SLICE;X6/Y2/0_0_A3->0_0_A3_SLICE;1;X5/Y4/C7;X5/Y4/0_-1_V02S0001->0_0_C7;1;X5/Y4/C7_SLICE;X5/Y4/0_0_C7->0_0_C7_SLICE;1;X6/Y2/Q2_SLICE;;1;X6/Y2/Q2;X6/Y2/0_0_Q2_SLICE->0_0_Q2;1;X5/Y2/H02W0001;X6/Y2/0_0_Q2->-1_0_H02W0001;1;X5/Y3/V02S0001;X5/Y2/0_0_H02W0001->0_1_V02S0001;1;X5/Y4/C6;X5/Y4/0_-1_V02S0001->0_0_C6;1;X5/Y4/C6_SLICE;X5/Y4/0_0_C6->0_0_C6_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5824,7 +5824,7 @@
           "hide_name": 0,
           "bits": [ 1683 ] ,
           "attributes": {
-            "ROUTING": "X10/Y1/H06E0303;X7/Y1/0_0_V01N0101->3_0_H06E0303;1;X12/Y1/H02W0501;X13/Y1/-3_0_H06E0303->-1_0_H02W0501;1;X12/Y1/JA0;X12/Y1/0_0_H02W0501->0_0_JA0;1;X11/Y0/JPADDOB;X11/Y0/1_1_JA0->0_0_JPADDOB;1;X11/Y0/PADDOB_PIO;X11/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X7/Y1/V01N0101;X7/Y2/0_0_Q2->0_-1_V01N0101;1;X7/Y2/V02S0701;X7/Y1/0_0_V01N0101->0_1_V02S0701;1;X7/Y2/A3;X7/Y2/0_0_V02S0701->0_0_A3;1;X7/Y2/A3_SLICE;X7/Y2/0_0_A3->0_0_A3_SLICE;1;X6/Y4/B6;X6/Y4/0_0_V00T0000->0_0_B6;1;X6/Y4/B6_SLICE;X6/Y4/0_0_B6->0_0_B6_SLICE;1;X6/Y4/A7;X6/Y4/0_0_V02N0101->0_0_A7;1;X6/Y4/A7_SLICE;X6/Y4/0_0_A7->0_0_A7_SLICE;1;X7/Y5/V06S0103;X7/Y2/0_0_Q2->0_3_V06S0103;1;X6/Y5/H02W0101;X7/Y5/0_0_V06S0103->-1_0_H02W0101;1;X6/Y4/V02N0101;X6/Y5/0_0_H02W0101->0_-1_V02N0101;1;X6/Y4/B3;X6/Y4/0_0_V02N0101->0_0_B3;1;X6/Y4/B3_SLICE;X6/Y4/0_0_B3->0_0_B3_SLICE;1;X7/Y2/Q2_SLICE;;1;X7/Y2/Q2;X7/Y2/0_0_Q2_SLICE->0_0_Q2;1;X7/Y3/V02S0001;X7/Y2/0_0_Q2->0_1_V02S0001;1;X6/Y4/H02W0001;X7/Y4/0_-1_V02S0001->-1_0_H02W0001;1;X6/Y4/V00T0000;X6/Y4/0_0_H02W0001->0_0_V00T0000;1;X6/Y4/B1;X6/Y4/0_0_V00T0000->0_0_B1;1;X6/Y4/B1_SLICE;X6/Y4/0_0_B1->0_0_B1_SLICE;1",
+            "ROUTING": "X9/Y2/H06E0303;X6/Y2/0_0_Q6->3_0_H06E0303;1;X12/Y1/V02N0501;X12/Y2/-3_0_H06E0303->0_-1_V02N0501;1;X12/Y1/JA0;X12/Y1/0_0_V02N0501->0_0_JA0;1;X11/Y0/JPADDOB;X11/Y0/1_1_JA0->0_0_JPADDOB;1;X11/Y0/PADDOB_PIO;X11/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X6/Y1/V01N0101;X6/Y2/0_0_Q6->0_-1_V01N0101;1;X6/Y2/A7;X6/Y2/0_-1_V01N0101->0_0_A7;1;X6/Y2/A7_SLICE;X6/Y2/0_0_A7->0_0_A7_SLICE;1;X5/Y4/B6;X5/Y4/0_0_V00T0000->0_0_B6;1;X5/Y4/B6_SLICE;X5/Y4/0_0_B6->0_0_B6_SLICE;1;X5/Y4/V00T0000;X5/Y4/0_0_V02S0401->0_0_V00T0000;1;X5/Y4/B7;X5/Y4/0_0_V00T0000->0_0_B7;1;X5/Y4/B7_SLICE;X5/Y4/0_0_B7->0_0_B7_SLICE;1;X6/Y4/V02S0201;X6/Y3/0_-1_V01S0000->0_1_V02S0201;1;X6/Y4/V00B0000;X6/Y4/0_0_V02S0201->0_0_V00B0000;1;X6/Y4/A3;X6/Y4/0_0_V00B0000->0_0_A3;1;X6/Y4/A3_SLICE;X6/Y4/0_0_A3->0_0_A3_SLICE;1;X6/Y2/Q6_SLICE;;1;X6/Y2/Q6;X6/Y2/0_0_Q6_SLICE->0_0_Q6;1;X6/Y2/V01S0000;X6/Y2/0_0_Q6->0_0_V01S0000;1;X5/Y3/H02W0401;X6/Y3/0_-1_V01S0000->-1_0_H02W0401;1;X5/Y4/V02S0401;X5/Y3/0_0_H02W0401->0_1_V02S0401;1;X5/Y4/H00R0000;X5/Y4/0_0_V02S0401->0_0_H00R0000;1;X5/Y4/B5;X5/Y4/0_0_H00R0000->0_0_B5;1;X5/Y4/B5_SLICE;X5/Y4/0_0_B5->0_0_B5_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5833,7 +5833,7 @@
           "hide_name": 0,
           "bits": [ 1682 ] ,
           "attributes": {
-            "ROUTING": "X11/Y2/H06E0203;X8/Y2/0_0_H01E0001->3_0_H06E0203;1;X11/Y1/V02N0701;X11/Y2/0_0_H06E0203->0_-1_V02N0701;1;X11/Y1/JA0;X11/Y1/0_0_V02N0701->0_0_JA0;1;X11/Y0/JPADDOA;X11/Y0/0_1_JA0->0_0_JPADDOA;1;X11/Y0/PADDOA_PIO;X11/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X8/Y2/H01E0001;X7/Y2/0_0_Q0->1_0_H01E0001;1;X7/Y2/A1;X7/Y2/1_0_H01E0001->0_0_A1;1;X7/Y2/A1_SLICE;X7/Y2/0_0_A1->0_0_A1_SLICE;1;X6/Y4/C3;X6/Y4/0_0_H00L0000->0_0_C3;1;X6/Y4/C3_SLICE;X6/Y4/0_0_C3->0_0_C3_SLICE;1;X6/Y4/C0;X6/Y4/0_0_H00L0000->0_0_C0;1;X6/Y4/C0_SLICE;X6/Y4/0_0_C0->0_0_C0_SLICE;1;X7/Y2/Q0_SLICE;;1;X7/Y2/Q0;X7/Y2/0_0_Q0_SLICE->0_0_Q0;1;X7/Y3/V02S0201;X7/Y2/0_0_Q0->0_1_V02S0201;1;X6/Y4/H02W0201;X7/Y4/0_-1_V02S0201->-1_0_H02W0201;1;X6/Y4/H00L0000;X6/Y4/0_0_H02W0201->0_0_H00L0000;1;X6/Y4/C1;X6/Y4/0_0_H00L0000->0_0_C1;1;X6/Y4/C1_SLICE;X6/Y4/0_0_C1->0_0_C1_SLICE;1",
+            "ROUTING": "X7/Y2/H06E0203;X4/Y2/0_0_Q4->3_0_H06E0203;1;X10/Y1/V02N0701;X10/Y2/-3_0_H06E0203->0_-1_V02N0701;1;X11/Y1/H02E0701;X10/Y1/0_0_V02N0701->1_0_H02E0701;1;X11/Y1/JA0;X11/Y1/0_0_H02E0701->0_0_JA0;1;X11/Y0/JPADDOA;X11/Y0/0_1_JA0->0_0_JPADDOA;1;X11/Y0/PADDOA_PIO;X11/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X4/Y2/V00B0000;X4/Y2/0_0_Q4->0_0_V00B0000;1;X4/Y2/A5;X4/Y2/0_0_V00B0000->0_0_A5;1;X4/Y2/A5_SLICE;X4/Y2/0_0_A5->0_0_A5_SLICE;1;X5/Y4/C4;X5/Y4/0_0_H02E0601->0_0_C4;1;X5/Y4/C4_SLICE;X5/Y4/0_0_C4->0_0_C4_SLICE;1;X6/Y4/C3;X6/Y4/-1_0_H02E0601->0_0_C3;1;X6/Y4/C3_SLICE;X6/Y4/0_0_C3->0_0_C3_SLICE;1;X4/Y2/Q4_SLICE;;1;X4/Y2/Q4;X4/Y2/0_0_Q4_SLICE->0_0_Q4;1;X4/Y3/V02S0601;X4/Y2/0_0_Q4->0_1_V02S0601;1;X5/Y4/H02E0601;X4/Y4/0_-1_V02S0601->1_0_H02E0601;1;X5/Y4/C5;X5/Y4/0_0_H02E0601->0_0_C5;1;X5/Y4/C5_SLICE;X5/Y4/0_0_C5->0_0_C5_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5842,7 +5842,7 @@
           "hide_name": 0,
           "bits": [ 1681 ] ,
           "attributes": {
-            "ROUTING": "X10/Y2/H06E0303;X7/Y2/0_0_Q6->3_0_H06E0303;1;X16/Y2/H06E0303;X13/Y2/-3_0_H06E0303->3_0_H06E0303;1;X16/Y1/V02N0501;X16/Y2/0_0_H06E0303->0_-1_V02N0501;1;X16/Y1/JA0;X16/Y1/0_0_V02N0501->0_0_JA0;1;X15/Y0/JPADDOB;X15/Y0/1_1_JA0->0_0_JPADDOB;1;X15/Y0/PADDOB_PIO;X15/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X7/Y2/H02E0701;X6/Y2/1_0_H01W0100->1_0_H02E0701;1;X7/Y2/A7;X7/Y2/0_0_H02E0701->0_0_A7;1;X7/Y2/A7_SLICE;X7/Y2/0_0_A7->0_0_A7_SLICE;1;X6/Y4/A3;X6/Y4/0_-1_V02S0701->0_0_A3;1;X6/Y4/A3_SLICE;X6/Y4/0_0_A3->0_0_A3_SLICE;1;X6/Y4/B0;X6/Y4/0_0_V00B0000->0_0_B0;1;X6/Y4/B0_SLICE;X6/Y4/0_0_B0->0_0_B0_SLICE;1;X6/Y3/A1;X6/Y3/0_0_V02S0701->0_0_A1;1;X6/Y3/A1_SLICE;X6/Y3/0_0_A1->0_0_A1_SLICE;1;X7/Y2/H01W0100;X7/Y2/0_0_Q6->0_0_H01W0100;1;X6/Y3/V02S0701;X6/Y2/1_0_H01W0100->0_1_V02S0701;1;X6/Y4/A1;X6/Y4/0_-1_V02S0701->0_0_A1;1;X6/Y4/A1_SLICE;X6/Y4/0_0_A1->0_0_A1_SLICE;1;X7/Y2/Q6_SLICE;;1;X7/Y2/Q6;X7/Y2/0_0_Q6_SLICE->0_0_Q6;1;X7/Y3/V02S0601;X7/Y2/0_0_Q6->0_1_V02S0601;1;X6/Y4/H02W0601;X7/Y4/0_-1_V02S0601->-1_0_H02W0601;1;X6/Y4/V00B0000;X6/Y4/0_0_H02W0601->0_0_V00B0000;1;X6/Y4/A5;X6/Y4/0_0_V00B0000->0_0_A5;1;X6/Y4/A5_SLICE;X6/Y4/0_0_A5->0_0_A5_SLICE;1",
+            "ROUTING": "X7/Y2/H06E0103;X4/Y2/0_0_Q2->3_0_H06E0103;1;X13/Y2/H06E0203;X10/Y2/-3_0_H06E0103->3_0_H06E0203;1;X16/Y1/V02N0701;X16/Y2/-3_0_H06E0203->0_-1_V02N0701;1;X16/Y1/JA0;X16/Y1/0_0_V02N0701->0_0_JA0;1;X15/Y0/JPADDOB;X15/Y0/1_1_JA0->0_0_JPADDOB;1;X15/Y0/PADDOB_PIO;X15/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X4/Y2/H01W0100;X4/Y2/0_0_Q2->0_0_H01W0100;1;X4/Y2/H02E0501;X3/Y2/1_0_H01W0100->1_0_H02E0501;1;X4/Y2/A3;X4/Y2/0_0_H02E0501->0_0_A3;1;X4/Y2/A3_SLICE;X4/Y2/0_0_A3->0_0_A3_SLICE;1;X5/Y4/V00B0100;X5/Y4/0_0_V02N0101->0_0_V00B0100;1;X5/Y4/B4;X5/Y4/0_0_V00B0100->0_0_B4;1;X5/Y4/B4_SLICE;X5/Y4/0_0_B4->0_0_B4_SLICE;1;X6/Y4/V02N0101;X6/Y5/-1_0_H02E0101->0_-1_V02N0101;1;X6/Y4/B3;X6/Y4/0_0_V02N0101->0_0_B3;1;X6/Y4/B3_SLICE;X6/Y4/0_0_B3->0_0_B3_SLICE;1;X5/Y3/B1;X5/Y3/0_1_V02N0101->0_0_B1;1;X5/Y3/B1_SLICE;X5/Y3/0_0_B1->0_0_B1_SLICE;1;X5/Y4/A5;X5/Y4/0_0_V02N0101->0_0_A5;1;X5/Y4/A5_SLICE;X5/Y4/0_0_A5->0_0_A5_SLICE;1;X4/Y2/Q2_SLICE;;1;X4/Y2/Q2;X4/Y2/0_0_Q2_SLICE->0_0_Q2;1;X4/Y5/V06S0103;X4/Y2/0_0_Q2->0_3_V06S0103;1;X5/Y5/H02E0101;X4/Y5/0_0_V06S0103->1_0_H02E0101;1;X5/Y4/V02N0101;X5/Y5/0_0_H02E0101->0_-1_V02N0101;1;X5/Y4/B3;X5/Y4/0_0_V02N0101->0_0_B3;1;X5/Y4/B3_SLICE;X5/Y4/0_0_B3->0_0_B3_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5851,7 +5851,7 @@
           "hide_name": 0,
           "bits": [ 1680 ] ,
           "attributes": {
-            "ROUTING": "X10/Y2/H06E0203;X7/Y2/0_0_Q4->3_0_H06E0203;1;X13/Y1/V02N0701;X13/Y2/-3_0_H06E0203->0_-1_V02N0701;1;X14/Y1/H02E0701;X13/Y1/0_0_V02N0701->1_0_H02E0701;1;X15/Y1/JA0;X15/Y1/-1_0_H02E0701->0_0_JA0;1;X15/Y0/JPADDOA;X15/Y0/0_1_JA0->0_0_JPADDOA;1;X15/Y0/PADDOA_PIO;X15/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X7/Y2/V00B0000;X7/Y2/0_0_Q4->0_0_V00B0000;1;X7/Y2/A5;X7/Y2/0_0_V00B0000->0_0_A5;1;X7/Y2/A5_SLICE;X7/Y2/0_0_A5->0_0_A5_SLICE;1;X7/Y2/V01S0100;X7/Y2/0_0_Q4->0_0_V01S0100;1;X6/Y3/H02W0101;X7/Y3/0_-1_V01S0100->-1_0_H02W0101;1;X6/Y3/B1;X6/Y3/0_0_H02W0101->0_0_B1;1;X6/Y3/B1_SLICE;X6/Y3/0_0_B1->0_0_B1_SLICE;1;X6/Y4/B4;X6/Y4/0_0_H00R0000->0_0_B4;1;X6/Y4/B4_SLICE;X6/Y4/0_0_B4->0_0_B4_SLICE;1;X7/Y2/Q4_SLICE;;1;X7/Y2/Q4;X7/Y2/0_0_Q4_SLICE->0_0_Q4;1;X7/Y3/V02S0401;X7/Y2/0_0_Q4->0_1_V02S0401;1;X6/Y4/H02W0401;X7/Y4/0_-1_V02S0401->-1_0_H02W0401;1;X6/Y4/H00R0000;X6/Y4/0_0_H02W0401->0_0_H00R0000;1;X6/Y4/B5;X6/Y4/0_0_H00R0000->0_0_B5;1;X6/Y4/B5_SLICE;X6/Y4/0_0_B5->0_0_B5_SLICE;1",
+            "ROUTING": "X7/Y2/H06E0303;X4/Y2/0_0_Q6->3_0_H06E0303;1;X13/Y2/H06E0303;X10/Y2/-3_0_H06E0303->3_0_H06E0303;1;X16/Y1/V02N0501;X16/Y2/-3_0_H06E0303->0_-1_V02N0501;1;X15/Y1/H02W0501;X16/Y1/0_0_V02N0501->-1_0_H02W0501;1;X15/Y1/JA0;X15/Y1/0_0_H02W0501->0_0_JA0;1;X15/Y0/JPADDOA;X15/Y0/0_1_JA0->0_0_JPADDOA;1;X15/Y0/PADDOA_PIO;X15/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X4/Y1/V01N0101;X4/Y2/0_0_Q6->0_-1_V01N0101;1;X4/Y2/A7;X4/Y2/0_-1_V01N0101->0_0_A7;1;X4/Y2/A7_SLICE;X4/Y2/0_0_A7->0_0_A7_SLICE;1;X5/Y3/H02E0401;X4/Y3/0_0_V02S0401->1_0_H02E0401;1;X5/Y3/C1;X5/Y3/0_0_H02E0401->0_0_C1;1;X5/Y3/C1_SLICE;X5/Y3/0_0_C1->0_0_C1_SLICE;1;X5/Y4/C2;X5/Y4/0_0_H02E0401->0_0_C2;1;X5/Y4/C2_SLICE;X5/Y4/0_0_C2->0_0_C2_SLICE;1;X4/Y2/Q6_SLICE;;1;X4/Y2/Q6;X4/Y2/0_0_Q6_SLICE->0_0_Q6;1;X4/Y3/V02S0401;X4/Y2/0_0_Q6->0_1_V02S0401;1;X5/Y4/H02E0401;X4/Y4/0_-1_V02S0401->1_0_H02E0401;1;X5/Y4/C3;X5/Y4/0_0_H02E0401->0_0_C3;1;X5/Y4/C3_SLICE;X5/Y4/0_0_C3->0_0_C3_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5860,7 +5860,7 @@
           "hide_name": 0,
           "bits": [ 1679 ] ,
           "attributes": {
-            "ROUTING": "X13/Y2/H06E0003;X10/Y2/-3_0_H06E0003->3_0_H06E0003;1;X19/Y2/H06E0103;X16/Y2/-3_0_H06E0003->3_0_H06E0103;1;X19/Y1/V02N0101;X19/Y2/0_0_H06E0103->0_-1_V02N0101;1;X19/Y1/H00L0100;X19/Y1/0_0_V02N0101->0_0_H00L0100;1;X19/Y1/JA0;X19/Y1/0_0_H00L0100->0_0_JA0;1;X18/Y0/JPADDOB;X18/Y0/1_1_JA0->0_0_JPADDOB;1;X18/Y0/PADDOB_PIO;X18/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X4/Y2/H00L0000;X4/Y2/0_0_Q0->0_0_H00L0000;1;X4/Y2/A1;X4/Y2/0_0_H00L0000->0_0_A1;1;X4/Y2/A1_SLICE;X4/Y2/0_0_A1->0_0_A1_SLICE;1;X6/Y3/H00L0100;X6/Y3/0_0_H02W0301->0_0_H00L0100;1;X6/Y3/C1;X6/Y3/0_0_H00L0100->0_0_C1;1;X6/Y3/C1_SLICE;X6/Y3/0_0_C1->0_0_C1_SLICE;1;X6/Y4/C4;X6/Y4/0_0_V00T0100->0_0_C4;1;X6/Y4/C4_SLICE;X6/Y4/0_0_C4->0_0_C4_SLICE;1;X5/Y3/B5;X5/Y3/1_0_H02W0301->0_0_B5;1;X5/Y3/B5_SLICE;X5/Y3/0_0_B5->0_0_B5_SLICE;1;X6/Y4/H02W0301;X7/Y4/0_-1_V02S0301->-1_0_H02W0301;1;X6/Y4/V00T0100;X6/Y4/0_0_H02W0301->0_0_V00T0100;1;X6/Y4/C5;X6/Y4/0_0_V00T0100->0_0_C5;1;X6/Y4/C5_SLICE;X6/Y4/0_0_C5->0_0_C5_SLICE;1;X4/Y2/Q0_SLICE;;1;X4/Y2/Q0;X4/Y2/0_0_Q0_SLICE->0_0_Q0;1;X7/Y2/H06E0003;X4/Y2/0_0_Q0->3_0_H06E0003;1;X7/Y3/V02S0301;X7/Y2/0_0_H06E0003->0_1_V02S0301;1;X6/Y3/H02W0301;X7/Y3/0_0_V02S0301->-1_0_H02W0301;1;X6/Y3/B7;X6/Y3/0_0_H02W0301->0_0_B7;1;X6/Y3/B7_SLICE;X6/Y3/0_0_B7->0_0_B7_SLICE;1",
+            "ROUTING": "X7/Y2/H06E0003;X4/Y2/0_0_Q0->3_0_H06E0003;1;X13/Y2/H06E0103;X10/Y2/-3_0_H06E0003->3_0_H06E0103;1;X19/Y2/H06E0203;X16/Y2/-3_0_H06E0103->3_0_H06E0203;1;X19/Y1/V02N0701;X19/Y2/0_0_H06E0203->0_-1_V02N0701;1;X19/Y1/JA0;X19/Y1/0_0_V02N0701->0_0_JA0;1;X18/Y0/JPADDOB;X18/Y0/1_1_JA0->0_0_JPADDOB;1;X18/Y0/PADDOB_PIO;X18/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X5/Y2/H01E0001;X4/Y2/0_0_Q0->1_0_H01E0001;1;X4/Y2/A1;X4/Y2/1_0_H01E0001->0_0_A1;1;X4/Y2/A1_SLICE;X4/Y2/0_0_A1->0_0_A1_SLICE;1;X5/Y3/A1;X5/Y3/0_0_V02S0701->0_0_A1;1;X5/Y3/A1_SLICE;X5/Y3/0_0_A1->0_0_A1_SLICE;1;X5/Y4/B2;X5/Y4/0_-1_V02S0101->0_0_B2;1;X5/Y4/B2_SLICE;X5/Y4/0_0_B2->0_0_B2_SLICE;1;X5/Y3/A3;X5/Y3/0_0_V02S0701->0_0_A3;1;X5/Y3/A3_SLICE;X5/Y3/0_0_A3->0_0_A3_SLICE;1;X5/Y3/V02S0701;X5/Y2/0_0_H01E0101->0_1_V02S0701;1;X5/Y4/A3;X5/Y4/0_-1_V02S0701->0_0_A3;1;X5/Y4/A3_SLICE;X5/Y4/0_0_A3->0_0_A3_SLICE;1;X4/Y2/Q0_SLICE;;1;X4/Y2/Q0;X4/Y2/0_0_Q0_SLICE->0_0_Q0;1;X5/Y2/H01E0101;X4/Y2/0_0_Q0->1_0_H01E0101;1;X5/Y3/V02S0101;X5/Y2/0_0_H01E0101->0_1_V02S0101;1;X5/Y3/A7;X5/Y3/0_0_V02S0101->0_0_A7;1;X5/Y3/A7_SLICE;X5/Y3/0_0_A7->0_0_A7_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5869,7 +5869,7 @@
           "hide_name": 0,
           "bits": [ 1678 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/H06E0103;X4/Y2/0_0_Q2->3_0_H06E0103;1;X13/Y2/H06E0103;X10/Y2/-3_0_H06E0103->3_0_H06E0103;1;X17/Y2/H02E0101;X16/Y2/-3_0_H06E0103->1_0_H02E0101;1;X18/Y1/V02N0101;X18/Y2/-1_0_H02E0101->0_-1_V02N0101;1;X18/Y1/H00L0100;X18/Y1/0_0_V02N0101->0_0_H00L0100;1;X18/Y1/JA0;X18/Y1/0_0_H00L0100->0_0_JA0;1;X18/Y0/JPADDOA;X18/Y0/0_1_JA0->0_0_JPADDOA;1;X18/Y0/PADDOA_PIO;X18/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X4/Y1/V01N0101;X4/Y2/0_0_Q2->0_-1_V01N0101;1;X4/Y2/V02S0701;X4/Y1/0_0_V01N0101->0_1_V02S0701;1;X4/Y2/A3;X4/Y2/0_0_V02S0701->0_0_A3;1;X4/Y2/A3_SLICE;X4/Y2/0_0_A3->0_0_A3_SLICE;1;X4/Y2/V01S0000;X4/Y2/0_0_Q2->0_0_V01S0000;1;X5/Y3/H02E0601;X4/Y3/0_-1_V01S0000->1_0_H02E0601;1;X5/Y3/C5;X5/Y3/0_0_H02E0601->0_0_C5;1;X5/Y3/C5_SLICE;X5/Y3/0_0_C5->0_0_C5_SLICE;1;X6/Y3/C6;X6/Y3/0_0_V02S0001->0_0_C6;1;X6/Y3/C6_SLICE;X6/Y3/0_0_C6->0_0_C6_SLICE;1;X4/Y2/Q2_SLICE;;1;X4/Y2/Q2;X4/Y2/0_0_Q2_SLICE->0_0_Q2;1;X5/Y2/H02E0001;X4/Y2/0_0_Q2->1_0_H02E0001;1;X6/Y3/V02S0001;X6/Y2/-1_0_H02E0001->0_1_V02S0001;1;X6/Y3/C7;X6/Y3/0_0_V02S0001->0_0_C7;1;X6/Y3/C7_SLICE;X6/Y3/0_0_C7->0_0_C7_SLICE;1",
+            "ROUTING": "X9/Y2/H06E0003;X6/Y2/0_0_Q0->3_0_H06E0003;1;X15/Y2/H06E0103;X12/Y2/-3_0_H06E0003->3_0_H06E0103;1;X18/Y1/V02N0201;X18/Y2/-3_0_H06E0103->0_-1_V02N0201;1;X18/Y1/H00L0000;X18/Y1/0_0_V02N0201->0_0_H00L0000;1;X18/Y1/JA0;X18/Y1/0_0_H00L0000->0_0_JA0;1;X18/Y0/JPADDOA;X18/Y0/0_1_JA0->0_0_JPADDOA;1;X18/Y0/PADDOA_PIO;X18/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X6/Y2/H02E0501;X5/Y2/1_0_H01W0100->1_0_H02E0501;1;X6/Y2/A1;X6/Y2/0_0_H02E0501->0_0_A1;1;X6/Y2/A1_SLICE;X6/Y2/0_0_A1->0_0_A1_SLICE;1;X5/Y3/B6;X5/Y3/0_0_V02S0501->0_0_B6;1;X5/Y3/B6_SLICE;X5/Y3/0_0_B6->0_0_B6_SLICE;1;X5/Y3/V02S0301;X5/Y2/1_0_H01W0100->0_1_V02S0301;1;X5/Y3/B3;X5/Y3/0_0_V02S0301->0_0_B3;1;X5/Y3/B3_SLICE;X5/Y3/0_0_B3->0_0_B3_SLICE;1;X6/Y2/Q0_SLICE;;1;X6/Y2/Q0;X6/Y2/0_0_Q0_SLICE->0_0_Q0;1;X6/Y2/H01W0100;X6/Y2/0_0_Q0->0_0_H01W0100;1;X5/Y3/V02S0501;X5/Y2/1_0_H01W0100->0_1_V02S0501;1;X5/Y3/B7;X5/Y3/0_0_V02S0501->0_0_B7;1;X5/Y3/B7_SLICE;X5/Y3/0_0_B7->0_0_B7_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5878,7 +5878,7 @@
           "hide_name": 0,
           "bits": [ 1677 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/H06E0203;X4/Y2/0_0_Q4->3_0_H06E0203;1;X13/Y2/H06E0203;X10/Y2/-3_0_H06E0203->3_0_H06E0203;1;X19/Y2/H06E0203;X16/Y2/-3_0_H06E0203->3_0_H06E0203;1;X25/Y2/H06E0203;X22/Y2/-3_0_H06E0203->3_0_H06E0203;1;X31/Y2/H06E0303;X28/Y2/-3_0_H06E0203->3_0_H06E0303;1;X37/Y2/H06E0003;X34/Y2/-3_0_H06E0303->3_0_H06E0003;1;X43/Y2/H06E0103;X40/Y2/-3_0_H06E0003->3_0_H06E0103;1;X49/Y2/H06E0203;X46/Y2/-3_0_H06E0103->3_0_H06E0203;1;X55/Y2/H06E0203;X52/Y2/-3_0_H06E0203->3_0_H06E0203;1;X59/Y2/H01E0101;X58/Y2/-3_0_H06E0203->1_0_H01E0101;1;X59/Y1/V02N0701;X59/Y2/0_0_H01E0101->0_-1_V02N0701;1;X59/Y1/JA0;X59/Y1/0_0_V02N0701->0_0_JA0;1;X58/Y0/JPADDOB;X58/Y0/1_1_JA0->0_0_JPADDOB;1;X58/Y0/PADDOB_PIO;X58/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X4/Y2/H02E0701;X3/Y2/1_0_H01W0100->1_0_H02E0701;1;X4/Y2/A5;X4/Y2/0_0_H02E0701->0_0_A5;1;X4/Y2/A5_SLICE;X4/Y2/0_0_A5->0_0_A5_SLICE;1;X4/Y2/H01W0100;X4/Y2/0_0_Q4->0_0_H01W0100;1;X4/Y2/H02E0101;X3/Y2/1_0_H01W0100->1_0_H02E0101;1;X5/Y3/V02S0101;X5/Y2/-1_0_H02E0101->0_1_V02S0101;1;X5/Y3/A5;X5/Y3/0_0_V02S0101->0_0_A5;1;X5/Y3/A5_SLICE;X5/Y3/0_0_A5->0_0_A5_SLICE;1;X6/Y3/V00T0000;X6/Y3/0_0_V02S0401->0_0_V00T0000;1;X6/Y3/B6;X6/Y3/0_0_V00T0000->0_0_B6;1;X6/Y3/B6_SLICE;X6/Y3/0_0_B6->0_0_B6_SLICE;1;X6/Y3/C2;X6/Y3/0_0_V02S0401->0_0_C2;1;X6/Y3/C2_SLICE;X6/Y3/0_0_C2->0_0_C2_SLICE;1;X6/Y3/H00R0000;X6/Y3/0_0_V02S0401->0_0_H00R0000;1;X6/Y3/A7;X6/Y3/0_0_H00R0000->0_0_A7;1;X6/Y3/A7_SLICE;X6/Y3/0_0_A7->0_0_A7_SLICE;1;X4/Y2/Q4_SLICE;;1;X4/Y2/Q4;X4/Y2/0_0_Q4_SLICE->0_0_Q4;1;X5/Y2/H02E0401;X4/Y2/0_0_Q4->1_0_H02E0401;1;X6/Y3/V02S0401;X6/Y2/-1_0_H02E0401->0_1_V02S0401;1;X6/Y3/C3;X6/Y3/0_0_V02S0401->0_0_C3;1;X6/Y3/C3_SLICE;X6/Y3/0_0_C3->0_0_C3_SLICE;1",
+            "ROUTING": "X10/Y2/H06E0003;X7/Y2/0_0_Q0->3_0_H06E0003;1;X16/Y2/H06E0003;X13/Y2/-3_0_H06E0003->3_0_H06E0003;1;X22/Y2/H06E0003;X19/Y2/-3_0_H06E0003->3_0_H06E0003;1;X28/Y2/H06E0003;X25/Y2/-3_0_H06E0003->3_0_H06E0003;1;X34/Y2/H06E0103;X31/Y2/-3_0_H06E0003->3_0_H06E0103;1;X40/Y2/H06E0103;X37/Y2/-3_0_H06E0103->3_0_H06E0103;1;X46/Y2/H06E0203;X43/Y2/-3_0_H06E0103->3_0_H06E0203;1;X52/Y2/H06E0303;X49/Y2/-3_0_H06E0203->3_0_H06E0303;1;X56/Y2/H02E0501;X55/Y2/-3_0_H06E0303->1_0_H02E0501;1;X57/Y1/V02N0501;X57/Y2/-1_0_H02E0501->0_-1_V02N0501;1;X58/Y1/H02E0501;X57/Y1/0_0_V02N0501->1_0_H02E0501;1;X59/Y1/JA0;X59/Y1/-1_0_H02E0501->0_0_JA0;1;X58/Y0/JPADDOB;X58/Y0/1_1_JA0->0_0_JPADDOB;1;X58/Y0/PADDOB_PIO;X58/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X7/Y2/H00L0000;X7/Y2/0_0_Q0->0_0_H00L0000;1;X7/Y2/A1;X7/Y2/0_0_H00L0000->0_0_A1;1;X7/Y2/A1_SLICE;X7/Y2/0_0_A1->0_0_A1_SLICE;1;X5/Y3/C6;X5/Y3/0_0_V00T0000->0_0_C6;1;X5/Y3/C6_SLICE;X5/Y3/0_0_C6->0_0_C6_SLICE;1;X6/Y3/H02W0301;X7/Y3/0_-1_V01S0100->-1_0_H02W0301;1;X5/Y3/H00L0100;X5/Y3/1_0_H02W0301->0_0_H00L0100;1;X5/Y3/C3;X5/Y3/0_0_H00L0100->0_0_C3;1;X5/Y3/C3_SLICE;X5/Y3/0_0_C3->0_0_C3_SLICE;1;X6/Y3/B0;X6/Y3/0_0_H02W0101->0_0_B0;1;X6/Y3/B0_SLICE;X6/Y3/0_0_B0->0_0_B0_SLICE;1;X7/Y3/V02S0201;X7/Y2/0_0_Q0->0_1_V02S0201;1;X6/Y3/H02W0201;X7/Y3/0_0_V02S0201->-1_0_H02W0201;1;X5/Y3/V00T0000;X5/Y3/1_0_H02W0201->0_0_V00T0000;1;X5/Y3/C7;X5/Y3/0_0_V00T0000->0_0_C7;1;X5/Y3/C7_SLICE;X5/Y3/0_0_C7->0_0_C7_SLICE;1;X7/Y2/Q0_SLICE;;1;X7/Y2/Q0;X7/Y2/0_0_Q0_SLICE->0_0_Q0;1;X7/Y2/V01S0100;X7/Y2/0_0_Q0->0_0_V01S0100;1;X6/Y3/H02W0101;X7/Y3/0_-1_V01S0100->-1_0_H02W0101;1;X6/Y3/B1;X6/Y3/0_0_H02W0101->0_0_B1;1;X6/Y3/B1_SLICE;X6/Y3/0_0_B1->0_0_B1_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5887,7 +5887,7 @@
           "hide_name": 0,
           "bits": [ 1676 ] ,
           "attributes": {
-            "ROUTING": "X9/Y2/H06E0103;X6/Y2/0_0_Q2->3_0_H06E0103;1;X15/Y2/H06E0203;X12/Y2/-3_0_H06E0103->3_0_H06E0203;1;X21/Y2/H06E0203;X18/Y2/-3_0_H06E0203->3_0_H06E0203;1;X27/Y2/H06E0203;X24/Y2/-3_0_H06E0203->3_0_H06E0203;1;X33/Y2/H06E0303;X30/Y2/-3_0_H06E0203->3_0_H06E0303;1;X39/Y2/H06E0303;X36/Y2/-3_0_H06E0303->3_0_H06E0303;1;X45/Y2/H06E0303;X42/Y2/-3_0_H06E0303->3_0_H06E0303;1;X51/Y2/H06E0003;X48/Y2/-3_0_H06E0303->3_0_H06E0003;1;X55/Y2/H02E0001;X54/Y2/-3_0_H06E0003->1_0_H02E0001;1;X57/Y2/H02E0101;X56/Y2/-1_0_H02E0001->1_0_H02E0101;1;X58/Y1/V02N0101;X58/Y2/-1_0_H02E0101->0_-1_V02N0101;1;X58/Y1/H00L0100;X58/Y1/0_0_V02N0101->0_0_H00L0100;1;X58/Y1/JA0;X58/Y1/0_0_H00L0100->0_0_JA0;1;X58/Y0/JPADDOA;X58/Y0/0_1_JA0->0_0_JPADDOA;1;X58/Y0/PADDOA_PIO;X58/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X6/Y2/V00T0000;X6/Y2/0_0_Q2->0_0_V00T0000;1;X6/Y2/A3;X6/Y2/0_0_V00T0000->0_0_A3;1;X6/Y2/A3_SLICE;X6/Y2/0_0_A3->0_0_A3_SLICE;1;X6/Y2/V02S0501;X6/Y1/0_0_V01N0101->0_1_V02S0501;1;X6/Y3/V00T0100;X6/Y3/0_-1_V02S0501->0_0_V00T0100;1;X6/Y3/C5;X6/Y3/0_0_V00T0100->0_0_C5;1;X6/Y3/C5_SLICE;X6/Y3/0_0_C5->0_0_C5_SLICE;1;X6/Y3/B2;X6/Y3/0_-1_V02S0301->0_0_B2;1;X6/Y3/B2_SLICE;X6/Y3/0_0_B2->0_0_B2_SLICE;1;X6/Y2/Q2_SLICE;;1;X6/Y2/Q2;X6/Y2/0_0_Q2_SLICE->0_0_Q2;1;X6/Y1/V01N0101;X6/Y2/0_0_Q2->0_-1_V01N0101;1;X6/Y2/V02S0301;X6/Y1/0_0_V01N0101->0_1_V02S0301;1;X6/Y3/B3;X6/Y3/0_-1_V02S0301->0_0_B3;1;X6/Y3/B3_SLICE;X6/Y3/0_0_B3->0_0_B3_SLICE;1",
+            "ROUTING": "X10/Y2/H06E0103;X7/Y2/0_0_Q2->3_0_H06E0103;1;X16/Y2/H06E0103;X13/Y2/-3_0_H06E0103->3_0_H06E0103;1;X22/Y2/H06E0103;X19/Y2/-3_0_H06E0103->3_0_H06E0103;1;X28/Y2/H06E0103;X25/Y2/-3_0_H06E0103->3_0_H06E0103;1;X34/Y2/H06E0203;X31/Y2/-3_0_H06E0103->3_0_H06E0203;1;X40/Y2/H06E0203;X37/Y2/-3_0_H06E0203->3_0_H06E0203;1;X46/Y2/H06E0303;X43/Y2/-3_0_H06E0203->3_0_H06E0303;1;X52/Y2/H06E0003;X49/Y2/-3_0_H06E0303->3_0_H06E0003;1;X58/Y2/H06E0103;X55/Y2/-3_0_H06E0003->3_0_H06E0103;1;X58/Y1/V02N0101;X58/Y2/0_0_H06E0103->0_-1_V02N0101;1;X58/Y1/H00L0100;X58/Y1/0_0_V02N0101->0_0_H00L0100;1;X58/Y1/JA0;X58/Y1/0_0_H00L0100->0_0_JA0;1;X58/Y0/JPADDOA;X58/Y0/0_1_JA0->0_0_JPADDOA;1;X58/Y0/PADDOA_PIO;X58/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X7/Y2/V00T0000;X7/Y2/0_0_Q2->0_0_V00T0000;1;X7/Y2/A3;X7/Y2/0_0_V00T0000->0_0_A3;1;X7/Y2/A3_SLICE;X7/Y2/0_0_A3->0_0_A3_SLICE;1;X6/Y3/C0;X6/Y3/0_0_H00L0000->0_0_C0;1;X6/Y3/C0_SLICE;X6/Y3/0_0_C0->0_0_C0_SLICE;1;X6/Y3/V00T0000;X6/Y3/0_0_H02W0001->0_0_V00T0000;1;X6/Y3/C7;X6/Y3/0_0_V00T0000->0_0_C7;1;X6/Y3/C7_SLICE;X6/Y3/0_0_C7->0_0_C7_SLICE;1;X7/Y2/Q2_SLICE;;1;X7/Y2/Q2;X7/Y2/0_0_Q2_SLICE->0_0_Q2;1;X7/Y3/V02S0001;X7/Y2/0_0_Q2->0_1_V02S0001;1;X6/Y3/H02W0001;X7/Y3/0_0_V02S0001->-1_0_H02W0001;1;X6/Y3/H00L0000;X6/Y3/0_0_H02W0001->0_0_H00L0000;1;X6/Y3/C1;X6/Y3/0_0_H00L0000->0_0_C1;1;X6/Y3/C1_SLICE;X6/Y3/0_0_C1->0_0_C1_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5896,7 +5896,7 @@
           "hide_name": 0,
           "bits": [ 1675 ] ,
           "attributes": {
-            "ROUTING": "X9/Y2/H06E0203;X6/Y2/0_0_Q4->3_0_H06E0203;1;X15/Y2/H06E0303;X12/Y2/-3_0_H06E0203->3_0_H06E0303;1;X19/Y2/H02E0501;X18/Y2/-3_0_H06E0303->1_0_H02E0501;1;X23/Y2/H06E0303;X20/Y2/-1_0_H02E0501->3_0_H06E0303;1;X29/Y2/H06E0003;X26/Y2/-3_0_H06E0303->3_0_H06E0003;1;X35/Y2/H06E0003;X32/Y2/-3_0_H06E0003->3_0_H06E0003;1;X41/Y2/H06E0103;X38/Y2/-3_0_H06E0003->3_0_H06E0103;1;X47/Y2/H06E0103;X44/Y2/-3_0_H06E0103->3_0_H06E0103;1;X53/Y2/H06E0203;X50/Y2/-3_0_H06E0103->3_0_H06E0203;1;X59/Y2/H06E0303;X56/Y2/-3_0_H06E0203->3_0_H06E0303;1;X62/Y1/V02N0501;X62/Y2/-3_0_H06E0303->0_-1_V02N0501;1;X61/Y1/H02W0501;X62/Y1/0_0_V02N0501->-1_0_H02W0501;1;X61/Y1/JA0;X61/Y1/0_0_H02W0501->0_0_JA0;1;X60/Y0/JPADDOB;X60/Y0/1_1_JA0->0_0_JPADDOB;1;X60/Y0/PADDOB_PIO;X60/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X6/Y2/A5;X6/Y2/0_0_H02W0501->0_0_A5;1;X6/Y2/A5_SLICE;X6/Y2/0_0_A5->0_0_A5_SLICE;1;X6/Y3/A2;X6/Y3/0_0_V02S0501->0_0_A2;1;X6/Y3/A2_SLICE;X6/Y3/0_0_A2->0_0_A2_SLICE;1;X6/Y3/B5_SLICE;X6/Y3/0_0_B5->0_0_B5_SLICE;1;X7/Y2/H01E0101;X6/Y2/0_0_Q4->1_0_H01E0101;1;X6/Y2/H02W0501;X7/Y2/0_0_H01E0101->-1_0_H02W0501;1;X5/Y3/V02S0501;X5/Y2/1_0_H02W0501->0_1_V02S0501;1;X5/Y3/B7;X5/Y3/0_0_V02S0501->0_0_B7;1;X5/Y3/B7_SLICE;X5/Y3/0_0_B7->0_0_B7_SLICE;1;X6/Y3/V02S0501;X6/Y2/0_0_H02W0501->0_1_V02S0501;1;X6/Y3/A3;X6/Y3/0_0_V02S0501->0_0_A3;1;X6/Y3/A3_SLICE;X6/Y3/0_0_A3->0_0_A3_SLICE;1;X6/Y3/B5;X6/Y3/0_-1_V01S0000->0_0_B5;1;X6/Y2/Q4_SLICE;;1;X6/Y2/Q4;X6/Y2/0_0_Q4_SLICE->0_0_Q4;1;X6/Y2/V01S0000;X6/Y2/0_0_Q4->0_0_V01S0000;1;X6/Y3/B4;X6/Y3/0_-1_V01S0000->0_0_B4;1;X6/Y3/B4_SLICE;X6/Y3/0_0_B4->0_0_B4_SLICE;1",
+            "ROUTING": "X10/Y2/H06E0303;X7/Y2/0_0_Q6->3_0_H06E0303;1;X16/Y2/H06E0303;X13/Y2/-3_0_H06E0303->3_0_H06E0303;1;X22/Y2/H06E0303;X19/Y2/-3_0_H06E0303->3_0_H06E0303;1;X28/Y2/H06E0303;X25/Y2/-3_0_H06E0303->3_0_H06E0303;1;X34/Y2/H06E0003;X31/Y2/-3_0_H06E0303->3_0_H06E0003;1;X40/Y2/H06E0003;X37/Y2/-3_0_H06E0003->3_0_H06E0003;1;X46/Y2/H06E0103;X43/Y2/-3_0_H06E0003->3_0_H06E0103;1;X52/Y2/H06E0203;X49/Y2/-3_0_H06E0103->3_0_H06E0203;1;X58/Y2/H06E0303;X55/Y2/-3_0_H06E0203->3_0_H06E0303;1;X61/Y1/V02N0501;X61/Y2/-3_0_H06E0303->0_-1_V02N0501;1;X61/Y1/JA0;X61/Y1/0_0_V02N0501->0_0_JA0;1;X60/Y0/JPADDOB;X60/Y0/1_1_JA0->0_0_JPADDOB;1;X60/Y0/PADDOB_PIO;X60/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X7/Y2/H02E0701;X6/Y2/1_0_H01W0100->1_0_H02E0701;1;X7/Y2/A7;X7/Y2/0_0_H02E0701->0_0_A7;1;X7/Y2/A7_SLICE;X7/Y2/0_0_A7->0_0_A7_SLICE;1;X6/Y3/B7;X6/Y3/0_0_V02S0701->0_0_B7;1;X6/Y3/B7_SLICE;X6/Y3/0_0_B7->0_0_B7_SLICE;1;X6/Y3/A0;X6/Y3/0_0_V02S0701->0_0_A0;1;X6/Y3/A0_SLICE;X6/Y3/0_0_A0->0_0_A0_SLICE;1;X6/Y2/H02W0601;X7/Y2/0_0_Q6->-1_0_H02W0601;1;X5/Y3/V02S0601;X5/Y2/1_0_H02W0601->0_1_V02S0601;1;X5/Y3/H00R0000;X5/Y3/0_0_V02S0601->0_0_H00R0000;1;X5/Y3/B5;X5/Y3/0_0_H00R0000->0_0_B5;1;X5/Y3/B5_SLICE;X5/Y3/0_0_B5->0_0_B5_SLICE;1;X6/Y3/A1;X6/Y3/0_0_V02S0701->0_0_A1;1;X6/Y3/A1_SLICE;X6/Y3/0_0_A1->0_0_A1_SLICE;1;X7/Y2/Q6_SLICE;;1;X7/Y2/Q6;X7/Y2/0_0_Q6_SLICE->0_0_Q6;1;X7/Y2/H01W0100;X7/Y2/0_0_Q6->0_0_H01W0100;1;X6/Y3/V02S0701;X6/Y2/1_0_H01W0100->0_1_V02S0701;1;X6/Y3/B6;X6/Y3/0_0_V02S0701->0_0_B6;1;X6/Y3/B6_SLICE;X6/Y3/0_0_B6->0_0_B6_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5905,7 +5905,7 @@
           "hide_name": 0,
           "bits": [ 1674 ] ,
           "attributes": {
-            "ROUTING": "X9/Y2/H06E0003;X6/Y2/0_0_Q0->3_0_H06E0003;1;X15/Y2/H06E0103;X12/Y2/-3_0_H06E0003->3_0_H06E0103;1;X21/Y2/H06E0103;X18/Y2/-3_0_H06E0103->3_0_H06E0103;1;X27/Y2/H06E0103;X24/Y2/-3_0_H06E0103->3_0_H06E0103;1;X33/Y2/H06E0203;X30/Y2/-3_0_H06E0103->3_0_H06E0203;1;X39/Y2/H06E0203;X36/Y2/-3_0_H06E0203->3_0_H06E0203;1;X45/Y2/H06E0203;X42/Y2/-3_0_H06E0203->3_0_H06E0203;1;X51/Y2/H06E0203;X48/Y2/-3_0_H06E0203->3_0_H06E0203;1;X57/Y2/H06E0303;X54/Y2/-3_0_H06E0203->3_0_H06E0303;1;X60/Y1/V02N0501;X60/Y2/-3_0_H06E0303->0_-1_V02N0501;1;X60/Y1/JA0;X60/Y1/0_0_V02N0501->0_0_JA0;1;X60/Y0/JPADDOA;X60/Y0/0_1_JA0->0_0_JPADDOA;1;X60/Y0/PADDOA_PIO;X60/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X6/Y2/H00L0000;X6/Y2/0_0_Q0->0_0_H00L0000;1;X6/Y2/A1;X6/Y2/0_0_H00L0000->0_0_A1;1;X6/Y2/A1_SLICE;X6/Y2/0_0_A1->0_0_A1_SLICE;1;X5/Y2/H02W0001;X6/Y2/0_0_Q0->-1_0_H02W0001;1;X5/Y3/V02S0001;X5/Y2/0_0_H02W0001->0_1_V02S0001;1;X5/Y3/C7;X5/Y3/0_0_V02S0001->0_0_C7;1;X5/Y3/C7_SLICE;X5/Y3/0_0_C7->0_0_C7_SLICE;1;X5/Y3/H02W0201;X6/Y3/0_0_V02S0201->-1_0_H02W0201;1;X5/Y3/H00L0000;X5/Y3/0_0_H02W0201->0_0_H00L0000;1;X5/Y3/C3;X5/Y3/0_0_H00L0000->0_0_C3;1;X5/Y3/C3_SLICE;X5/Y3/0_0_C3->0_0_C3_SLICE;1;X6/Y2/Q0_SLICE;;1;X6/Y2/Q0;X6/Y2/0_0_Q0_SLICE->0_0_Q0;1;X6/Y3/V02S0201;X6/Y2/0_0_Q0->0_1_V02S0201;1;X6/Y3/C4;X6/Y3/0_0_V02S0201->0_0_C4;1;X6/Y3/C4_SLICE;X6/Y3/0_0_C4->0_0_C4_SLICE;1",
+            "ROUTING": "X10/Y2/H06E0203;X7/Y2/0_0_Q4->3_0_H06E0203;1;X16/Y2/H06E0203;X13/Y2/-3_0_H06E0203->3_0_H06E0203;1;X22/Y2/H06E0203;X19/Y2/-3_0_H06E0203->3_0_H06E0203;1;X28/Y2/H06E0203;X25/Y2/-3_0_H06E0203->3_0_H06E0203;1;X34/Y2/H06E0303;X31/Y2/-3_0_H06E0203->3_0_H06E0303;1;X40/Y2/H06E0303;X37/Y2/-3_0_H06E0303->3_0_H06E0303;1;X46/Y2/H06E0003;X43/Y2/-3_0_H06E0303->3_0_H06E0003;1;X52/Y2/H06E0103;X49/Y2/-3_0_H06E0003->3_0_H06E0103;1;X56/Y2/H02E0201;X55/Y2/-3_0_H06E0103->1_0_H02E0201;1;X60/Y2/H06E0103;X57/Y2/-1_0_H02E0201->3_0_H06E0103;1;X60/Y1/V02N0101;X60/Y2/0_0_H06E0103->0_-1_V02N0101;1;X60/Y1/H00L0100;X60/Y1/0_0_V02N0101->0_0_H00L0100;1;X60/Y1/JA0;X60/Y1/0_0_H00L0100->0_0_JA0;1;X60/Y0/JPADDOA;X60/Y0/0_1_JA0->0_0_JPADDOA;1;X60/Y0/PADDOA_PIO;X60/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X7/Y1/V01N0101;X7/Y2/0_0_Q4->0_-1_V01N0101;1;X7/Y2/A5;X7/Y2/0_-1_V01N0101->0_0_A5;1;X7/Y2/A5_SLICE;X7/Y2/0_0_A5->0_0_A5_SLICE;1;X6/Y3/C5;X6/Y3/0_0_V02S0201->0_0_C5;1;X6/Y3/C5_SLICE;X6/Y3/0_0_C5->0_0_C5_SLICE;1;X6/Y3/V02S0601;X6/Y2/1_0_H01W0000->0_1_V02S0601;1;X5/Y3/H02W0601;X6/Y3/0_0_V02S0601->-1_0_H02W0601;1;X5/Y3/C5;X5/Y3/0_0_H02W0601->0_0_C5;1;X5/Y3/C5_SLICE;X5/Y3/0_0_C5->0_0_C5_SLICE;1;X7/Y2/Q4_SLICE;;1;X7/Y2/Q4;X7/Y2/0_0_Q4_SLICE->0_0_Q4;1;X7/Y2/H01W0000;X7/Y2/0_0_Q4->0_0_H01W0000;1;X6/Y3/V02S0201;X6/Y2/1_0_H01W0000->0_1_V02S0201;1;X6/Y3/C6;X6/Y3/0_0_V02S0201->0_0_C6;1;X6/Y3/C6_SLICE;X6/Y3/0_0_C6->0_0_C6_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5914,7 +5914,7 @@
           "hide_name": 0,
           "bits": [ 1673 ] ,
           "attributes": {
-            "ROUTING": "X9/Y2/H06E0303;X6/Y2/0_0_Q6->3_0_H06E0303;1;X15/Y2/H06E0003;X12/Y2/-3_0_H06E0303->3_0_H06E0003;1;X21/Y2/H06E0003;X18/Y2/-3_0_H06E0003->3_0_H06E0003;1;X27/Y2/H06E0003;X24/Y2/-3_0_H06E0003->3_0_H06E0003;1;X33/Y2/H06E0003;X30/Y2/-3_0_H06E0003->3_0_H06E0003;1;X39/Y2/H06E0003;X36/Y2/-3_0_H06E0003->3_0_H06E0003;1;X45/Y2/H06E0003;X42/Y2/-3_0_H06E0003->3_0_H06E0003;1;X51/Y2/H06E0103;X48/Y2/-3_0_H06E0003->3_0_H06E0103;1;X57/Y2/H06E0203;X54/Y2/-3_0_H06E0103->3_0_H06E0203;1;X60/Y1/V02N0401;X60/Y2/-3_0_H06E0203->0_-1_V02N0401;1;X61/Y1/H02E0401;X60/Y1/0_0_V02N0401->1_0_H02E0401;1;X63/Y1/H02E0501;X62/Y1/-1_0_H02E0401->1_0_H02E0501;1;X64/Y1/JA0;X64/Y1/-1_0_H02E0501->0_0_JA0;1;X63/Y0/JPADDOB;X63/Y0/1_1_JA0->0_0_JPADDOB;1;X63/Y0/PADDOB_PIO;X63/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X6/Y2/V02N0101;X6/Y3/0_-1_V01S0100->0_-1_V02N0101;1;X6/Y2/A7;X6/Y2/0_0_V02N0101->0_0_A7;1;X6/Y2/A7_SLICE;X6/Y2/0_0_A7->0_0_A7_SLICE;1;X5/Y3/B3;X5/Y3/0_0_H00R0000->0_0_B3;1;X5/Y3/B3_SLICE;X5/Y3/0_0_B3->0_0_B3_SLICE;1;X5/Y3/H00R0000;X5/Y3/0_0_V02S0601->0_0_H00R0000;1;X5/Y3/A7;X5/Y3/0_0_H00R0000->0_0_A7;1;X5/Y3/A7_SLICE;X5/Y3/0_0_A7->0_0_A7_SLICE;1;X5/Y3/V02S0201;X5/Y2/1_0_H01W0000->0_1_V02S0201;1;X5/Y3/D1;X5/Y3/0_0_V02S0201->0_0_D1;1;X5/Y3/D1_SLICE;X5/Y3/0_0_D1->0_0_D1_SLICE;1;X6/Y2/V01S0100;X6/Y2/0_0_Q6->0_0_V01S0100;1;X6/Y3/A4;X6/Y3/0_-1_V01S0100->0_0_A4;1;X6/Y3/A4_SLICE;X6/Y3/0_0_A4->0_0_A4_SLICE;1;X6/Y2/Q6_SLICE;;1;X6/Y2/Q6;X6/Y2/0_0_Q6_SLICE->0_0_Q6;1;X6/Y2/H01W0000;X6/Y2/0_0_Q6->0_0_H01W0000;1;X5/Y3/V02S0601;X5/Y2/1_0_H01W0000->0_1_V02S0601;1;X5/Y3/D6;X5/Y3/0_0_V02S0601->0_0_D6;1;X5/Y3/D6_SLICE;X5/Y3/0_0_D6->0_0_D6_SLICE;1",
+            "ROUTING": "X9/Y2/H06E0203;X6/Y2/0_0_Q4->3_0_H06E0203;1;X15/Y2/H06E0303;X12/Y2/-3_0_H06E0203->3_0_H06E0303;1;X21/Y2/H06E0003;X18/Y2/-3_0_H06E0303->3_0_H06E0003;1;X27/Y2/H06E0003;X24/Y2/-3_0_H06E0003->3_0_H06E0003;1;X33/Y2/H06E0103;X30/Y2/-3_0_H06E0003->3_0_H06E0103;1;X39/Y2/H06E0103;X36/Y2/-3_0_H06E0103->3_0_H06E0103;1;X45/Y2/H06E0203;X42/Y2/-3_0_H06E0103->3_0_H06E0203;1;X51/Y2/H06E0303;X48/Y2/-3_0_H06E0203->3_0_H06E0303;1;X57/Y2/H06E0003;X54/Y2/-3_0_H06E0303->3_0_H06E0003;1;X61/Y2/H01E0001;X60/Y2/-3_0_H06E0003->1_0_H01E0001;1;X64/Y2/H06E0203;X61/Y2/0_0_H01E0001->3_0_H06E0203;1;X64/Y1/V02N0701;X64/Y2/0_0_H06E0203->0_-1_V02N0701;1;X64/Y1/JA0;X64/Y1/0_0_V02N0701->0_0_JA0;1;X63/Y0/JPADDOB;X63/Y0/1_1_JA0->0_0_JPADDOB;1;X63/Y0/PADDOB_PIO;X63/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X6/Y2/V00B0000;X6/Y2/0_0_Q4->0_0_V00B0000;1;X6/Y2/A5;X6/Y2/0_0_V00B0000->0_0_A5;1;X6/Y2/A5_SLICE;X6/Y2/0_0_A5->0_0_A5_SLICE;1;X6/Y3/B5;X6/Y3/0_0_H00R0000->0_0_B5;1;X6/Y3/B5_SLICE;X6/Y3/0_0_B5->0_0_B5_SLICE;1;X5/Y3/H02W0701;X6/Y3/0_-1_V01S0100->-1_0_H02W0701;1;X5/Y3/A5;X5/Y3/0_0_H02W0701->0_0_A5;1;X5/Y3/A5_SLICE;X5/Y3/0_0_A5->0_0_A5_SLICE;1;X6/Y3/V02S0401;X6/Y2/0_0_Q4->0_1_V02S0401;1;X6/Y3/H00R0000;X6/Y3/0_0_V02S0401->0_0_H00R0000;1;X6/Y3/B3;X6/Y3/0_0_H00R0000->0_0_B3;1;X6/Y3/B3_SLICE;X6/Y3/0_0_B3->0_0_B3_SLICE;1;X6/Y2/V01S0100;X6/Y2/0_0_Q4->0_0_V01S0100;1;X6/Y3/A6;X6/Y3/0_-1_V01S0100->0_0_A6;1;X6/Y3/A6_SLICE;X6/Y3/0_0_A6->0_0_A6_SLICE;1;X6/Y2/Q4_SLICE;;1;X6/Y2/Q4;X6/Y2/0_0_Q4_SLICE->0_0_Q4;1;X6/Y2/H01W0000;X6/Y2/0_0_Q4->0_0_H01W0000;1;X5/Y3/V02S0401;X5/Y2/1_0_H01W0000->0_1_V02S0401;1;X5/Y3/D4;X5/Y3/0_0_V02S0401->0_0_D4;1;X5/Y3/D4_SLICE;X5/Y3/0_0_D4->0_0_D4_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5923,7 +5923,7 @@
           "hide_name": 0,
           "bits": [ 1672 ] ,
           "attributes": {
-            "ROUTING": "X8/Y2/H06E0303;X5/Y2/0_0_Q6->3_0_H06E0303;1;X14/Y2/H06E0003;X11/Y2/-3_0_H06E0303->3_0_H06E0003;1;X20/Y2/H06E0103;X17/Y2/-3_0_H06E0003->3_0_H06E0103;1;X26/Y2/H06E0103;X23/Y2/-3_0_H06E0103->3_0_H06E0103;1;X32/Y2/H06E0103;X29/Y2/-3_0_H06E0103->3_0_H06E0103;1;X38/Y2/H06E0103;X35/Y2/-3_0_H06E0103->3_0_H06E0103;1;X44/Y2/H06E0103;X41/Y2/-3_0_H06E0103->3_0_H06E0103;1;X50/Y2/H06E0203;X47/Y2/-3_0_H06E0103->3_0_H06E0203;1;X56/Y2/H06E0203;X53/Y2/-3_0_H06E0203->3_0_H06E0203;1;X62/Y2/H06E0203;X59/Y2/-3_0_H06E0203->3_0_H06E0203;1;X62/Y1/V02N0701;X62/Y2/0_0_H06E0203->0_-1_V02N0701;1;X63/Y1/H02E0701;X62/Y1/0_0_V02N0701->1_0_H02E0701;1;X63/Y1/JA0;X63/Y1/0_0_H02E0701->0_0_JA0;1;X63/Y0/JPADDOA;X63/Y0/0_1_JA0->0_0_JPADDOA;1;X63/Y0/PADDOA_PIO;X63/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X5/Y2/H00R0000;X5/Y2/0_0_Q6->0_0_H00R0000;1;X5/Y2/A7;X5/Y2/0_0_H00R0000->0_0_A7;1;X5/Y2/A7_SLICE;X5/Y2/0_0_A7->0_0_A7_SLICE;1;X5/Y3/B1;X5/Y3/0_0_V00T0000->0_0_B1;1;X5/Y3/B1_SLICE;X5/Y3/0_0_B1->0_0_B1_SLICE;1;X5/Y2/H01W0000;X5/Y2/0_0_Q6->0_0_H01W0000;1;X4/Y3/V02S0001;X4/Y2/1_0_H01W0000->0_1_V02S0001;1;X4/Y3/D1;X4/Y3/0_0_V02S0001->0_0_D1;1;X4/Y3/D1_SLICE;X4/Y3/0_0_D1->0_0_D1_SLICE;1;X5/Y2/Q6_SLICE;;1;X5/Y2/Q6;X5/Y2/0_0_Q6_SLICE->0_0_Q6;1;X5/Y3/V02S0401;X5/Y2/0_0_Q6->0_1_V02S0401;1;X5/Y3/V00T0000;X5/Y3/0_0_V02S0401->0_0_V00T0000;1;X5/Y3/B6;X5/Y3/0_0_V00T0000->0_0_B6;1;X5/Y3/B6_SLICE;X5/Y3/0_0_B6->0_0_B6_SLICE;1",
+            "ROUTING": "X8/Y2/H06E0003;X5/Y2/0_0_Q0->3_0_H06E0003;1;X14/Y2/H06E0103;X11/Y2/-3_0_H06E0003->3_0_H06E0103;1;X20/Y2/H06E0103;X17/Y2/-3_0_H06E0103->3_0_H06E0103;1;X26/Y2/H06E0203;X23/Y2/-3_0_H06E0103->3_0_H06E0203;1;X32/Y2/H06E0203;X29/Y2/-3_0_H06E0203->3_0_H06E0203;1;X38/Y2/H06E0203;X35/Y2/-3_0_H06E0203->3_0_H06E0203;1;X44/Y2/H06E0303;X41/Y2/-3_0_H06E0203->3_0_H06E0303;1;X50/Y2/H06E0003;X47/Y2/-3_0_H06E0303->3_0_H06E0003;1;X56/Y2/H06E0003;X53/Y2/-3_0_H06E0003->3_0_H06E0003;1;X60/Y2/H02E0001;X59/Y2/-3_0_H06E0003->1_0_H02E0001;1;X62/Y2/H02E0101;X61/Y2/-1_0_H02E0001->1_0_H02E0101;1;X63/Y1/V02N0101;X63/Y2/-1_0_H02E0101->0_-1_V02N0101;1;X63/Y1/H00L0100;X63/Y1/0_0_V02N0101->0_0_H00L0100;1;X63/Y1/JA0;X63/Y1/0_0_H00L0100->0_0_JA0;1;X63/Y0/JPADDOA;X63/Y0/0_1_JA0->0_0_JPADDOA;1;X63/Y0/PADDOA_PIO;X63/Y0/0_0_JPADDOA->0_0_PADDOA_PIO;1;X6/Y2/H01E0001;X5/Y2/0_0_Q0->1_0_H01E0001;1;X5/Y2/A1;X5/Y2/1_0_H01E0001->0_0_A1;1;X5/Y2/A1_SLICE;X5/Y2/0_0_A1->0_0_A1_SLICE;1;X4/Y3/H02W0201;X5/Y3/0_0_V02S0201->-1_0_H02W0201;1;X4/Y3/D5;X4/Y3/0_0_H02W0201->0_0_D5;1;X4/Y3/D5_SLICE;X4/Y3/0_0_D5->0_0_D5_SLICE;1;X6/Y3/H02E0201;X5/Y3/0_0_V02S0201->1_0_H02E0201;1;X6/Y3/D3;X6/Y3/0_0_H02E0201->0_0_D3;1;X6/Y3/D3_SLICE;X6/Y3/0_0_D3->0_0_D3_SLICE;1;X5/Y2/Q0_SLICE;;1;X5/Y2/Q0;X5/Y2/0_0_Q0_SLICE->0_0_Q0;1;X5/Y3/V02S0201;X5/Y2/0_0_Q0->0_1_V02S0201;1;X5/Y3/C4;X5/Y3/0_0_V02S0201->0_0_C4;1;X5/Y3/C4_SLICE;X5/Y3/0_0_C4->0_0_C4_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5932,7 +5932,7 @@
           "hide_name": 0,
           "bits": [ 1670 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/H06E0303;X4/Y2/0_0_Q6->3_0_H06E0303;1;X13/Y2/H06E0303;X10/Y2/-3_0_H06E0303->3_0_H06E0303;1;X19/Y2/H06E0003;X16/Y2/-3_0_H06E0303->3_0_H06E0003;1;X25/Y2/H06E0103;X22/Y2/-3_0_H06E0003->3_0_H06E0103;1;X31/Y2/H06E0203;X28/Y2/-3_0_H06E0103->3_0_H06E0203;1;X37/Y2/H06E0303;X34/Y2/-3_0_H06E0203->3_0_H06E0303;1;X43/Y2/H06E0303;X40/Y2/-3_0_H06E0303->3_0_H06E0303;1;X49/Y2/H06E0303;X46/Y2/-3_0_H06E0303->3_0_H06E0303;1;X55/Y2/H06E0003;X52/Y2/-3_0_H06E0303->3_0_H06E0003;1;X61/Y2/H06E0103;X58/Y2/-3_0_H06E0003->3_0_H06E0103;1;X67/Y2/H06E0203;X64/Y2/-3_0_H06E0103->3_0_H06E0203;1;X67/Y1/V02N0701;X67/Y2/0_0_H06E0203->0_-1_V02N0701;1;X66/Y1/H02W0701;X67/Y1/0_0_V02N0701->-1_0_H02W0701;1;X66/Y1/JA0;X66/Y1/0_0_H02W0701->0_0_JA0;1;X65/Y0/JPADDOB;X65/Y0/1_1_JA0->0_0_JPADDOB;1;X65/Y0/PADDOB_PIO;X65/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X5/Y3/H00R0100;X5/Y3/0_0_H02E0501->0_0_H00R0100;1;X5/Y3/C1;X5/Y3/0_0_H00R0100->0_0_C1;1;X5/Y3/C1_SLICE;X5/Y3/0_0_C1->0_0_C1_SLICE;1;X5/Y3/C6_SLICE;X5/Y3/0_0_C6->0_0_C6_SLICE;1;X5/Y2/H01E0001;X4/Y2/0_0_Q6->1_0_H01E0001;1;X5/Y2/C7;X5/Y2/0_0_H01E0001->0_0_C7;1;X5/Y2/C7_SLICE;X5/Y2/0_0_C7->0_0_C7_SLICE;1;X4/Y2/V01S0100;X4/Y2/0_0_Q6->0_0_V01S0100;1;X4/Y3/C1;X4/Y3/0_-1_V01S0100->0_0_C1;1;X4/Y3/C1_SLICE;X4/Y3/0_0_C1->0_0_C1_SLICE;1;X5/Y3/V00B0100;X5/Y3/0_0_H02E0501->0_0_V00B0100;1;X5/Y3/C6;X5/Y3/0_0_V00B0100->0_0_C6;1;X4/Y2/Q6_SLICE;;1;X4/Y2/Q6;X4/Y2/0_0_Q6_SLICE->0_0_Q6;1;X4/Y2/V00B0000;X4/Y2/0_0_Q6->0_0_V00B0000;1;X5/Y3/H02E0501;X4/Y3/0_-1_V01S0100->1_0_H02E0501;1;X4/Y2/B7;X4/Y2/0_0_V00B0000->0_0_B7;1;X4/Y2/B7_SLICE;X4/Y2/0_0_B7->0_0_B7_SLICE;1",
+            "ROUTING": "X8/Y2/H06E0303;X5/Y2/0_0_Q6->3_0_H06E0303;1;X14/Y2/H06E0003;X11/Y2/-3_0_H06E0303->3_0_H06E0003;1;X20/Y2/H06E0003;X17/Y2/-3_0_H06E0003->3_0_H06E0003;1;X26/Y2/H06E0003;X23/Y2/-3_0_H06E0003->3_0_H06E0003;1;X32/Y2/H06E0003;X29/Y2/-3_0_H06E0003->3_0_H06E0003;1;X38/Y2/H06E0003;X35/Y2/-3_0_H06E0003->3_0_H06E0003;1;X44/Y2/H06E0103;X41/Y2/-3_0_H06E0003->3_0_H06E0103;1;X50/Y2/H06E0203;X47/Y2/-3_0_H06E0103->3_0_H06E0203;1;X56/Y2/H06E0203;X53/Y2/-3_0_H06E0203->3_0_H06E0203;1;X62/Y2/H06E0203;X59/Y2/-3_0_H06E0203->3_0_H06E0203;1;X66/Y2/H01E0101;X65/Y2/-3_0_H06E0203->1_0_H01E0101;1;X66/Y1/V02N0501;X66/Y2/0_0_H01E0101->0_-1_V02N0501;1;X66/Y1/JA0;X66/Y1/0_0_V02N0501->0_0_JA0;1;X65/Y0/JPADDOB;X65/Y0/1_1_JA0->0_0_JPADDOB;1;X65/Y0/PADDOB_PIO;X65/Y0/0_0_JPADDOB->0_0_PADDOB_PIO;1;X5/Y2/B1;X5/Y2/0_0_V00B0000->0_0_B1;1;X5/Y2/B1_SLICE;X5/Y2/0_0_B1->0_0_B1_SLICE;1;X5/Y2/V00B0000;X5/Y2/0_0_Q6->0_0_V00B0000;1;X5/Y2/B7;X5/Y2/0_0_V00B0000->0_0_B7;1;X5/Y2/B7_SLICE;X5/Y2/0_0_B7->0_0_B7_SLICE;1;X4/Y3/H02W0401;X5/Y3/0_-1_V01S0000->-1_0_H02W0401;1;X4/Y3/C5;X4/Y3/0_0_H02W0401->0_0_C5;1;X4/Y3/C5_SLICE;X4/Y3/0_0_C5->0_0_C5_SLICE;1;X6/Y3/H02E0601;X5/Y3/0_-1_V01S0000->1_0_H02E0601;1;X6/Y3/C3;X6/Y3/0_0_H02E0601->0_0_C3;1;X6/Y3/C3_SLICE;X6/Y3/0_0_C3->0_0_C3_SLICE;1;X5/Y2/Q6_SLICE;;1;X5/Y2/Q6;X5/Y2/0_0_Q6_SLICE->0_0_Q6;1;X5/Y2/V01S0000;X5/Y2/0_0_Q6->0_0_V01S0000;1;X5/Y3/B4;X5/Y3/0_-1_V01S0000->0_0_B4;1;X5/Y3/B4_SLICE;X5/Y3/0_0_B4->0_0_B4_SLICE;1",
             "unused_bits": "0 ",
             "src": "builds/.grouped/grouped.v:14.26-14.38"
           }
@@ -5941,7 +5941,7 @@
           "hide_name": 1,
           "bits": [ 1665 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/F1_SLICE;;1;X5/Y2/F1;X5/Y2/0_0_F1_SLICE->0_0_F1;1;X5/Y2/V00T0100;X5/Y2/0_0_F1->0_0_V00T0100;1;X5/Y2/D2;X5/Y2/0_0_V00T0100->0_0_D2;1;X5/Y2/D2_SLICE;X5/Y2/0_0_D2->0_0_D2_SLICE;1",
+            "ROUTING": "X5/Y2/F3_SLICE;;1;X5/Y2/F3;X5/Y2/0_0_F3_SLICE->0_0_F3;1;X5/Y2/H00L0100;X5/Y2/0_0_F3->0_0_H00L0100;1;X5/Y2/D4;X5/Y2/0_0_H00L0100->0_0_D4;1;X5/Y2/D4_SLICE;X5/Y2/0_0_D4->0_0_D4_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -5949,7 +5949,7 @@
           "hide_name": 1,
           "bits": [ 1664 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/F3_SLICE;;1;X5/Y2/F3;X5/Y2/0_0_F3_SLICE->0_0_F3;1;X5/Y2/H00L0100;X5/Y2/0_0_F3->0_0_H00L0100;1;X5/Y2/D4;X5/Y2/0_0_H00L0100->0_0_D4;1;X5/Y2/D4_SLICE;X5/Y2/0_0_D4->0_0_D4_SLICE;1",
+            "ROUTING": "X5/Y2/F5_SLICE;;1;X5/Y2/F5;X5/Y2/0_0_F5_SLICE->0_0_F5;1;X6/Y2/H01E0101;X5/Y2/0_0_F5->1_0_H01E0101;1;X6/Y2/D2;X6/Y2/0_0_H01E0101->0_0_D2;1;X6/Y2/D2_SLICE;X6/Y2/0_0_D2->0_0_D2_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -5957,7 +5957,7 @@
           "hide_name": 1,
           "bits": [ 1663 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/F5_SLICE;;1;X5/Y2/F5;X5/Y2/0_0_F5_SLICE->0_0_F5;1;X6/Y2/H02E0701;X5/Y2/0_0_F5->1_0_H02E0701;1;X7/Y2/V00B0100;X7/Y2/-1_0_H02E0701->0_0_V00B0100;1;X7/Y2/D2;X7/Y2/0_0_V00B0100->0_0_D2;1;X7/Y2/D2_SLICE;X7/Y2/0_0_D2->0_0_D2_SLICE;1",
+            "ROUTING": "X6/Y2/F3_SLICE;;1;X6/Y2/F3;X6/Y2/0_0_F3_SLICE->0_0_F3;1;X6/Y2/H00L0100;X6/Y2/0_0_F3->0_0_H00L0100;1;X6/Y2/D6;X6/Y2/0_0_H00L0100->0_0_D6;1;X6/Y2/D6_SLICE;X6/Y2/0_0_D6->0_0_D6_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -5965,7 +5965,7 @@
           "hide_name": 1,
           "bits": [ 1662 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/F3_SLICE;;1;X7/Y2/F3;X7/Y2/0_0_F3_SLICE->0_0_F3;1;X7/Y2/V00T0100;X7/Y2/0_0_F3->0_0_V00T0100;1;X7/Y2/D0;X7/Y2/0_0_V00T0100->0_0_D0;1;X7/Y2/D0_SLICE;X7/Y2/0_0_D0->0_0_D0_SLICE;1",
+            "ROUTING": "X6/Y2/F7_SLICE;;1;X6/Y2/F7;X6/Y2/0_0_F7_SLICE->0_0_F7;1;X5/Y2/H02W0701;X6/Y2/0_0_F7->-1_0_H02W0701;1;X4/Y2/H00R0100;X4/Y2/1_0_H02W0701->0_0_H00R0100;1;X4/Y2/D4;X4/Y2/0_0_H00R0100->0_0_D4;1;X4/Y2/D4_SLICE;X4/Y2/0_0_D4->0_0_D4_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -5973,7 +5973,7 @@
           "hide_name": 1,
           "bits": [ 1661 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/F1_SLICE;;1;X7/Y2/F1;X7/Y2/0_0_F1_SLICE->0_0_F1;1;X7/Y2/H00L0100;X7/Y2/0_0_F1->0_0_H00L0100;1;X7/Y2/D6;X7/Y2/0_0_H00L0100->0_0_D6;1;X7/Y2/D6_SLICE;X7/Y2/0_0_D6->0_0_D6_SLICE;1",
+            "ROUTING": "X4/Y2/F5_SLICE;;1;X4/Y2/F5;X4/Y2/0_0_F5_SLICE->0_0_F5;1;X4/Y2/V00B0100;X4/Y2/0_0_F5->0_0_V00B0100;1;X4/Y2/D2;X4/Y2/0_0_V00B0100->0_0_D2;1;X4/Y2/D2_SLICE;X4/Y2/0_0_D2->0_0_D2_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -5981,7 +5981,7 @@
           "hide_name": 1,
           "bits": [ 1660 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/F7_SLICE;;1;X7/Y2/F7;X7/Y2/0_0_F7_SLICE->0_0_F7;1;X7/Y2/H01W0000;X7/Y2/0_0_F7->0_0_H01W0000;1;X7/Y2/D4;X7/Y2/0_0_H01W0000->0_0_D4;1;X7/Y2/D4_SLICE;X7/Y2/0_0_D4->0_0_D4_SLICE;1",
+            "ROUTING": "X4/Y2/F3_SLICE;;1;X4/Y2/F3;X4/Y2/0_0_F3_SLICE->0_0_F3;1;X4/Y2/H01W0000;X4/Y2/0_0_F3->0_0_H01W0000;1;X4/Y2/D6;X4/Y2/0_0_H01W0000->0_0_D6;1;X4/Y2/D6_SLICE;X4/Y2/0_0_D6->0_0_D6_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -5989,7 +5989,7 @@
           "hide_name": 1,
           "bits": [ 1659 ] ,
           "attributes": {
-            "ROUTING": "X7/Y2/F5_SLICE;;1;X7/Y2/F5;X7/Y2/0_0_F5_SLICE->0_0_F5;1;X6/Y2/H02W0701;X7/Y2/0_0_F5->-1_0_H02W0701;1;X4/Y2/H02W0201;X5/Y2/1_0_H02W0701->-1_0_H02W0201;1;X4/Y2/D0;X4/Y2/0_0_H02W0201->0_0_D0;1;X4/Y2/D0_SLICE;X4/Y2/0_0_D0->0_0_D0_SLICE;1",
+            "ROUTING": "X4/Y2/F7_SLICE;;1;X4/Y2/F7;X4/Y2/0_0_F7_SLICE->0_0_F7;1;X4/Y2/V01S0100;X4/Y2/0_0_F7->0_0_V01S0100;1;X4/Y2/D0;X4/Y2/0_0_V01S0100->0_0_D0;1;X4/Y2/D0_SLICE;X4/Y2/0_0_D0->0_0_D0_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -5997,7 +5997,7 @@
           "hide_name": 1,
           "bits": [ 1658 ] ,
           "attributes": {
-            "ROUTING": "X4/Y2/F1_SLICE;;1;X4/Y2/F1;X4/Y2/0_0_F1_SLICE->0_0_F1;1;X4/Y2/V00T0100;X4/Y2/0_0_F1->0_0_V00T0100;1;X4/Y2/D2;X4/Y2/0_0_V00T0100->0_0_D2;1;X4/Y2/D2_SLICE;X4/Y2/0_0_D2->0_0_D2_SLICE;1",
+            "ROUTING": "X4/Y2/F1_SLICE;;1;X4/Y2/F1;X4/Y2/0_0_F1_SLICE->0_0_F1;1;X5/Y2/H02E0301;X4/Y2/0_0_F1->1_0_H02E0301;1;X6/Y2/V00T0100;X6/Y2/-1_0_H02E0301->0_0_V00T0100;1;X6/Y2/D0;X6/Y2/0_0_V00T0100->0_0_D0;1;X6/Y2/D0_SLICE;X6/Y2/0_0_D0->0_0_D0_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6005,7 +6005,7 @@
           "hide_name": 1,
           "bits": [ 1657 ] ,
           "attributes": {
-            "ROUTING": "X4/Y2/F3_SLICE;;1;X4/Y2/F3;X4/Y2/0_0_F3_SLICE->0_0_F3;1;X4/Y2/H00L0100;X4/Y2/0_0_F3->0_0_H00L0100;1;X4/Y2/D4;X4/Y2/0_0_H00L0100->0_0_D4;1;X4/Y2/D4_SLICE;X4/Y2/0_0_D4->0_0_D4_SLICE;1",
+            "ROUTING": "X6/Y2/F1_SLICE;;1;X6/Y2/F1;X6/Y2/0_0_F1_SLICE->0_0_F1;1;X7/Y2/H01E0101;X6/Y2/0_0_F1->1_0_H01E0101;1;X7/Y2/D0;X7/Y2/0_0_H01E0101->0_0_D0;1;X7/Y2/D0_SLICE;X7/Y2/0_0_D0->0_0_D0_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6013,7 +6013,7 @@
           "hide_name": 1,
           "bits": [ 1656 ] ,
           "attributes": {
-            "ROUTING": "X4/Y2/F5_SLICE;;1;X4/Y2/F5;X4/Y2/0_0_F5_SLICE->0_0_F5;1;X5/Y2/H02E0501;X4/Y2/0_0_F5->1_0_H02E0501;1;X6/Y2/V00B0100;X6/Y2/-1_0_H02E0501->0_0_V00B0100;1;X6/Y2/D2;X6/Y2/0_0_V00B0100->0_0_D2;1;X6/Y2/D2_SLICE;X6/Y2/0_0_D2->0_0_D2_SLICE;1",
+            "ROUTING": "X7/Y2/F1_SLICE;;1;X7/Y2/F1;X7/Y2/0_0_F1_SLICE->0_0_F1;1;X7/Y2/V00T0100;X7/Y2/0_0_F1->0_0_V00T0100;1;X7/Y2/D2;X7/Y2/0_0_V00T0100->0_0_D2;1;X7/Y2/D2_SLICE;X7/Y2/0_0_D2->0_0_D2_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6021,7 +6021,7 @@
           "hide_name": 1,
           "bits": [ 1655 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/F3_SLICE;;1;X6/Y2/F3;X6/Y2/0_0_F3_SLICE->0_0_F3;1;X6/Y2/H00L0100;X6/Y2/0_0_F3->0_0_H00L0100;1;X6/Y2/D4;X6/Y2/0_0_H00L0100->0_0_D4;1;X6/Y2/D4_SLICE;X6/Y2/0_0_D4->0_0_D4_SLICE;1",
+            "ROUTING": "X7/Y2/F3_SLICE;;1;X7/Y2/F3;X7/Y2/0_0_F3_SLICE->0_0_F3;1;X7/Y2/H00L0100;X7/Y2/0_0_F3->0_0_H00L0100;1;X7/Y2/D6;X7/Y2/0_0_H00L0100->0_0_D6;1;X7/Y2/D6_SLICE;X7/Y2/0_0_D6->0_0_D6_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6029,7 +6029,7 @@
           "hide_name": 1,
           "bits": [ 1654 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/F5_SLICE;;1;X6/Y2/F5;X6/Y2/0_0_F5_SLICE->0_0_F5;1;X6/Y1/V01N0001;X6/Y2/0_0_F5->0_-1_V01N0001;1;X6/Y2/V02S0201;X6/Y1/0_0_V01N0001->0_1_V02S0201;1;X6/Y2/D0;X6/Y2/0_0_V02S0201->0_0_D0;1;X6/Y2/D0_SLICE;X6/Y2/0_0_D0->0_0_D0_SLICE;1",
+            "ROUTING": "X7/Y2/F7_SLICE;;1;X7/Y2/F7;X7/Y2/0_0_F7_SLICE->0_0_F7;1;X7/Y2/V01S0000;X7/Y2/0_0_F7->0_0_V01S0000;1;X7/Y2/V02N0401;X7/Y3/0_-1_V01S0000->0_-1_V02N0401;1;X7/Y2/D4;X7/Y2/0_0_V02N0401->0_0_D4;1;X7/Y2/D4_SLICE;X7/Y2/0_0_D4->0_0_D4_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6037,7 +6037,7 @@
           "hide_name": 1,
           "bits": [ 1653 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/F1_SLICE;;1;X6/Y2/F1;X6/Y2/0_0_F1_SLICE->0_0_F1;1;X7/Y2/H01E0001;X6/Y2/0_0_F1->1_0_H01E0001;1;X6/Y2/H02W0001;X7/Y2/0_0_H01E0001->-1_0_H02W0001;1;X6/Y2/D6;X6/Y2/0_0_H02W0001->0_0_D6;1;X6/Y2/D6_SLICE;X6/Y2/0_0_D6->0_0_D6_SLICE;1",
+            "ROUTING": "X7/Y2/F5_SLICE;;1;X7/Y2/F5;X7/Y2/0_0_F5_SLICE->0_0_F5;1;X8/Y2/H01E0001;X7/Y2/0_0_F5->1_0_H01E0001;1;X7/Y2/H02W0201;X8/Y2/0_0_H01E0001->-1_0_H02W0201;1;X6/Y2/D4;X6/Y2/1_0_H02W0201->0_0_D4;1;X6/Y2/D4_SLICE;X6/Y2/0_0_D4->0_0_D4_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6045,7 +6045,7 @@
           "hide_name": 1,
           "bits": [ 1652 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/F7_SLICE;;1;X6/Y2/F7;X6/Y2/0_0_F7_SLICE->0_0_F7;1;X6/Y2/H01W0100;X6/Y2/0_0_F7->0_0_H01W0100;1;X5/Y2/D6;X5/Y2/1_0_H01W0100->0_0_D6;1;X5/Y2/D6_SLICE;X5/Y2/0_0_D6->0_0_D6_SLICE;1",
+            "ROUTING": "X6/Y2/F5_SLICE;;1;X6/Y2/F5;X6/Y2/0_0_F5_SLICE->0_0_F5;1;X7/Y2/H01E0001;X6/Y2/0_0_F5->1_0_H01E0001;1;X6/Y2/H02W0201;X7/Y2/0_0_H01E0001->-1_0_H02W0201;1;X5/Y2/D0;X5/Y2/1_0_H02W0201->0_0_D0;1;X5/Y2/D0_SLICE;X5/Y2/0_0_D0->0_0_D0_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6053,7 +6053,7 @@
           "hide_name": 1,
           "bits": [ 1651 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/F7_SLICE;;1;X5/Y2/F7;X5/Y2/0_0_F7_SLICE->0_0_F7;1;X5/Y2/H01W0100;X5/Y2/0_0_F7->0_0_H01W0100;1;X4/Y2/D6;X4/Y2/1_0_H01W0100->0_0_D6;1;X4/Y2/D6_SLICE;X4/Y2/0_0_D6->0_0_D6_SLICE;1",
+            "ROUTING": "X5/Y2/F1_SLICE;;1;X5/Y2/F1;X5/Y2/0_0_F1_SLICE->0_0_F1;1;X5/Y2/H01W0000;X5/Y2/0_0_F1->0_0_H01W0000;1;X5/Y2/D6;X5/Y2/0_0_H01W0000->0_0_D6;1;X5/Y2/D6_SLICE;X5/Y2/0_0_D6->0_0_D6_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6061,7 +6061,7 @@
           "hide_name": 1,
           "bits": [ 1649 ] ,
           "attributes": {
-            "ROUTING": "X4/Y2/F7_SLICE;;1;X4/Y2/F7;X4/Y2/0_0_F7_SLICE->0_0_F7;1;X5/Y2/H01E0101;X4/Y2/0_0_F7->1_0_H01E0101;1;X5/Y2/D0;X5/Y2/0_0_H01E0101->0_0_D0;1;X5/Y2/D0_SLICE;X5/Y2/0_0_D0->0_0_D0_SLICE;1",
+            "ROUTING": "X5/Y2/F7_SLICE;;1;X5/Y2/F7;X5/Y2/0_0_F7_SLICE->0_0_F7;1;X5/Y2/V01S0100;X5/Y2/0_0_F7->0_0_V01S0100;1;X5/Y2/D2;X5/Y2/0_0_V01S0100->0_0_D2;1;X5/Y2/D2_SLICE;X5/Y2/0_0_D2->0_0_D2_SLICE;1",
             "src": "builds/.grouped/grouped.v:21.15-21.25"
           }
         },
@@ -6083,7 +6083,7 @@
           "hide_name": 0,
           "bits": [ 2178 ] ,
           "attributes": {
-            "ROUTING": "X6/Y3/D6;X6/Y3/0_0_H01W0000->0_0_D6;1;X6/Y3/D6_SLICE;X6/Y3/0_0_D6->0_0_D6_SLICE;1;X6/Y3/H01W0100;X6/Y3/0_0_F3->0_0_H01W0100;1;X5/Y3/D5;X5/Y3/1_0_H01W0100->0_0_D5;1;X5/Y3/D5_SLICE;X5/Y3/0_0_D5->0_0_D5_SLICE;1;X6/Y3/F3_SLICE;;1;X6/Y3/F3;X6/Y3/0_0_F3_SLICE->0_0_F3;1;X6/Y3/H01W0000;X6/Y3/0_0_F3->0_0_H01W0000;1;X6/Y3/D7;X6/Y3/0_0_H01W0000->0_0_D7;1;X6/Y3/D7_SLICE;X6/Y3/0_0_D7->0_0_D7_SLICE;1",
+            "ROUTING": "X5/Y3/H02W0101;X6/Y3/0_0_F1->-1_0_H02W0101;1;X5/Y3/V00T0100;X5/Y3/0_0_H02W0101->0_0_V00T0100;1;X5/Y3/D3;X5/Y3/0_0_V00T0100->0_0_D3;1;X5/Y3/D3_SLICE;X5/Y3/0_0_D3->0_0_D3_SLICE;1;X5/Y3/D6;X5/Y3/1_0_H01W0100->0_0_D6;1;X5/Y3/D6_SLICE;X5/Y3/0_0_D6->0_0_D6_SLICE;1;X6/Y3/F1_SLICE;;1;X6/Y3/F1;X6/Y3/0_0_F1_SLICE->0_0_F1;1;X6/Y3/H01W0100;X6/Y3/0_0_F1->0_0_H01W0100;1;X5/Y3/D7;X5/Y3/1_0_H01W0100->0_0_D7;1;X5/Y3/D7_SLICE;X5/Y3/0_0_D7->0_0_D7_SLICE;1",
             "src": "/usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24",
             "force_downto": "00000000000000000000000000000001"
           }
@@ -6099,7 +6099,7 @@
           "hide_name": 0,
           "bits": [ 2170 ] ,
           "attributes": {
-            "ROUTING": "X6/Y3/V00B0100;X6/Y3/0_0_F7->0_0_V00B0100;1;X6/Y3/D1;X6/Y3/0_0_V00B0100->0_0_D1;1;X6/Y3/D1_SLICE;X6/Y3/0_0_D1->0_0_D1_SLICE;1;X6/Y4/D4;X6/Y4/0_0_H00R0100->0_0_D4;1;X6/Y4/D4_SLICE;X6/Y4/0_0_D4->0_0_D4_SLICE;1;X6/Y3/F7_SLICE;;1;X6/Y3/F7;X6/Y3/0_0_F7_SLICE->0_0_F7;1;X6/Y4/V02S0501;X6/Y3/0_0_F7->0_1_V02S0501;1;X6/Y4/H00R0100;X6/Y4/0_0_V02S0501->0_0_H00R0100;1;X6/Y4/D5;X6/Y4/0_0_H00R0100->0_0_D5;1;X6/Y4/D5_SLICE;X6/Y4/0_0_D5->0_0_D5_SLICE;1",
+            "ROUTING": "X5/Y3/V00B0100;X5/Y3/0_0_F7->0_0_V00B0100;1;X5/Y3/D1;X5/Y3/0_0_V00B0100->0_0_D1;1;X5/Y3/D1_SLICE;X5/Y3/0_0_D1->0_0_D1_SLICE;1;X5/Y4/D2;X5/Y4/0_-1_V01S0000->0_0_D2;1;X5/Y4/D2_SLICE;X5/Y4/0_0_D2->0_0_D2_SLICE;1;X5/Y3/F7_SLICE;;1;X5/Y3/F7;X5/Y3/0_0_F7_SLICE->0_0_F7;1;X5/Y3/V01S0000;X5/Y3/0_0_F7->0_0_V01S0000;1;X5/Y4/D3;X5/Y4/0_-1_V01S0000->0_0_D3;1;X5/Y4/D3_SLICE;X5/Y4/0_0_D3->0_0_D3_SLICE;1",
             "src": "/usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24",
             "force_downto": "00000000000000000000000000000001"
           }
@@ -6115,7 +6115,7 @@
           "hide_name": 0,
           "bits": [ 2162 ] ,
           "attributes": {
-            "ROUTING": "X6/Y4/D0;X6/Y4/0_0_V00B0100->0_0_D0;1;X6/Y4/D0_SLICE;X6/Y4/0_0_D0->0_0_D0_SLICE;1;X6/Y4/D3;X6/Y4/0_0_V00B0100->0_0_D3;1;X6/Y4/D3_SLICE;X6/Y4/0_0_D3->0_0_D3_SLICE;1;X6/Y4/F5_SLICE;;1;X6/Y4/F5;X6/Y4/0_0_F5_SLICE->0_0_F5;1;X6/Y4/V00B0100;X6/Y4/0_0_F5->0_0_V00B0100;1;X6/Y4/D1;X6/Y4/0_0_V00B0100->0_0_D1;1;X6/Y4/D1_SLICE;X6/Y4/0_0_D1->0_0_D1_SLICE;1",
+            "ROUTING": "X5/Y4/D4;X5/Y4/0_0_H00L0100->0_0_D4;1;X5/Y4/D4_SLICE;X5/Y4/0_0_D4->0_0_D4_SLICE;1;X6/Y4/H01E0101;X5/Y4/0_0_F3->1_0_H01E0101;1;X6/Y4/D3;X6/Y4/0_0_H01E0101->0_0_D3;1;X6/Y4/D3_SLICE;X6/Y4/0_0_D3->0_0_D3_SLICE;1;X5/Y4/F3_SLICE;;1;X5/Y4/F3;X5/Y4/0_0_F3_SLICE->0_0_F3;1;X5/Y4/H00L0100;X5/Y4/0_0_F3->0_0_H00L0100;1;X5/Y4/D5;X5/Y4/0_0_H00L0100->0_0_D5;1;X5/Y4/D5_SLICE;X5/Y4/0_0_D5->0_0_D5_SLICE;1",
             "src": "/usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24",
             "force_downto": "00000000000000000000000000000001"
           }
@@ -6145,7 +6145,7 @@
           "hide_name": 0,
           "bits": [ 2146 ] ,
           "attributes": {
-            "ROUTING": "X5/Y3/V00B0000;X5/Y3/0_0_F6->0_0_V00B0000;1;X5/Y3/D7;X5/Y3/0_0_V00B0000->0_0_D7;1;X5/Y3/D7_SLICE;X5/Y3/0_0_D7->0_0_D7_SLICE;1;X5/Y3/V01S0100;X5/Y3/0_0_F6->0_0_V01S0100;1;X5/Y3/D3;X5/Y3/0_0_V01S0100->0_0_D3;1;X5/Y3/D3_SLICE;X5/Y3/0_0_D3->0_0_D3_SLICE;1;X5/Y3/F6_SLICE;;1;X5/Y3/F6;X5/Y3/0_0_F6_SLICE->0_0_F6;1;X6/Y3/H02E0401;X5/Y3/0_0_F6->1_0_H02E0401;1;X6/Y3/V00B0000;X6/Y3/0_0_H02E0401->0_0_V00B0000;1;X6/Y3/D4;X6/Y3/0_0_V00B0000->0_0_D4;1;X6/Y3/D4_SLICE;X6/Y3/0_0_D4->0_0_D4_SLICE;1",
+            "ROUTING": "X5/Y3/V00B0000;X5/Y3/0_0_F4->0_0_V00B0000;1;X5/Y3/D5;X5/Y3/0_0_V00B0000->0_0_D5;1;X5/Y3/D5_SLICE;X5/Y3/0_0_D5->0_0_D5_SLICE;1;X6/Y3/D5;X6/Y3/0_0_V00B0000->0_0_D5;1;X6/Y3/D5_SLICE;X6/Y3/0_0_D5->0_0_D5_SLICE;1;X5/Y3/F4_SLICE;;1;X5/Y3/F4;X5/Y3/0_0_F4_SLICE->0_0_F4;1;X6/Y3/H02E0401;X5/Y3/0_0_F4->1_0_H02E0401;1;X6/Y3/V00B0000;X6/Y3/0_0_H02E0401->0_0_V00B0000;1;X6/Y3/D6;X6/Y3/0_0_V00B0000->0_0_D6;1;X6/Y3/D6_SLICE;X6/Y3/0_0_D6->0_0_D6_SLICE;1",
             "src": "/usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24",
             "force_downto": "00000000000000000000000000000001"
           }
@@ -6154,7 +6154,7 @@
           "hide_name": 0,
           "bits": [ 2143 ] ,
           "attributes": {
-            "ROUTING": "X6/Y3/D2;X6/Y3/0_0_V01S0100->0_0_D2;1;X6/Y3/D2_SLICE;X6/Y3/0_0_D2->0_0_D2_SLICE;1;X6/Y3/D3_SLICE;X6/Y3/0_0_D3->0_0_D3_SLICE;1;X6/Y3/D5_SLICE;X6/Y3/0_0_D5->0_0_D5_SLICE;1;X6/Y3/V01S0100;X6/Y3/0_0_F4->0_0_V01S0100;1;X6/Y3/D3;X6/Y3/0_0_V01S0100->0_0_D3;1;X6/Y3/F4_SLICE;;1;X6/Y3/F4;X6/Y3/0_0_F4_SLICE->0_0_F4;1;X6/Y3/V01S0000;X6/Y3/0_0_F4->0_0_V01S0000;1;X6/Y3/V02N0401;X6/Y4/0_-1_V01S0000->0_-1_V02N0401;1;X6/Y3/D5;X6/Y3/0_0_V02N0401->0_0_D5;1",
+            "ROUTING": "X6/Y3/D0;X6/Y3/0_0_V01S0100->0_0_D0;1;X6/Y3/D0_SLICE;X6/Y3/0_0_D0->0_0_D0_SLICE;1;X6/Y3/H01W0000;X6/Y3/0_0_F6->0_0_H01W0000;1;X6/Y3/D7;X6/Y3/0_0_H01W0000->0_0_D7;1;X6/Y3/D7_SLICE;X6/Y3/0_0_D7->0_0_D7_SLICE;1;X6/Y3/F6_SLICE;;1;X6/Y3/F6;X6/Y3/0_0_F6_SLICE->0_0_F6;1;X6/Y3/V01S0100;X6/Y3/0_0_F6->0_0_V01S0100;1;X6/Y3/D1;X6/Y3/0_0_V01S0100->0_0_D1;1;X6/Y3/D1_SLICE;X6/Y3/0_0_D1->0_0_D1_SLICE;1",
             "src": "/usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24",
             "force_downto": "00000000000000000000000000000001"
           }
@@ -6170,7 +6170,7 @@
           "hide_name": 0,
           "bits": [ 2138 ] ,
           "attributes": {
-            "ROUTING": "X6/Y4/D6;X6/Y4/0_0_H00L0100->0_0_D6;1;X6/Y4/D6_SLICE;X6/Y4/0_0_D6->0_0_D6_SLICE;1;X6/Y4/F1_SLICE;;1;X6/Y4/F1;X6/Y4/0_0_F1_SLICE->0_0_F1;1;X6/Y4/H00L0100;X6/Y4/0_0_F1->0_0_H00L0100;1;X6/Y4/D7;X6/Y4/0_0_H00L0100->0_0_D7;1;X6/Y4/D7_SLICE;X6/Y4/0_0_D7->0_0_D7_SLICE;1",
+            "ROUTING": "X5/Y4/D7;X5/Y4/0_0_H00R0100->0_0_D7;1;X5/Y4/D7_SLICE;X5/Y4/0_0_D7->0_0_D7_SLICE;1;X5/Y4/F5_SLICE;;1;X5/Y4/F5;X5/Y4/0_0_F5_SLICE->0_0_F5;1;X5/Y4/H00R0100;X5/Y4/0_0_F5->0_0_H00R0100;1;X5/Y4/D6;X5/Y4/0_0_H00R0100->0_0_D6;1;X5/Y4/D6_SLICE;X5/Y4/0_0_D6->0_0_D6_SLICE;1",
             "src": "/usr/bin/../share/yosys/ecp5/cells_map.v:109.23-109.24",
             "force_downto": "00000000000000000000000000000001"
           }
@@ -6193,7 +6193,7 @@
           "hide_name": 1,
           "bits": [ 1631 ] ,
           "attributes": {
-            "ROUTING": "X6/Y2/MUXLSR2;X6/Y2/0_0_LSR1->0_0_MUXLSR2;1;X6/Y2/LSR2_SLICE;X6/Y2/0_0_MUXLSR2->0_0_LSR2_SLICE;1;X6/Y2/MUXLSR1;X6/Y2/0_0_LSR0->0_0_MUXLSR1;1;X6/Y2/LSR1_SLICE;X6/Y2/0_0_MUXLSR1->0_0_LSR1_SLICE;1;X6/Y2/LSR1;X6/Y2/1_0_H02W0301->0_0_LSR1;1;X6/Y2/MUXLSR0;X6/Y2/0_0_LSR1->0_0_MUXLSR0;1;X6/Y2/LSR0_SLICE;X6/Y2/0_0_MUXLSR0->0_0_LSR0_SLICE;1;X6/Y2/LSR0;X6/Y2/1_0_H02W0301->0_0_LSR0;1;X6/Y2/MUXLSR3;X6/Y2/0_0_LSR0->0_0_MUXLSR3;1;X6/Y2/LSR3_SLICE;X6/Y2/0_0_MUXLSR3->0_0_LSR3_SLICE;1;X5/Y2/MUXLSR3;X5/Y2/0_0_LSR1->0_0_MUXLSR3;1;X5/Y2/LSR3_SLICE;X5/Y2/0_0_MUXLSR3->0_0_LSR3_SLICE;1;X5/Y2/MUXLSR0;X5/Y2/0_0_LSR0->0_0_MUXLSR0;1;X5/Y2/LSR0_SLICE;X5/Y2/0_0_MUXLSR0->0_0_LSR0_SLICE;1;X7/Y2/MUXLSR0;X7/Y2/0_0_LSR0->0_0_MUXLSR0;1;X7/Y2/LSR0_SLICE;X7/Y2/0_0_MUXLSR0->0_0_LSR0_SLICE;1;X5/Y2/LSR1;X5/Y2/-1_0_H02E0301->0_0_LSR1;1;X5/Y2/MUXLSR1;X5/Y2/0_0_LSR1->0_0_MUXLSR1;1;X5/Y2/LSR1_SLICE;X5/Y2/0_0_MUXLSR1->0_0_LSR1_SLICE;1;X7/Y2/MUXLSR3;X7/Y2/0_0_LSR1->0_0_MUXLSR3;1;X7/Y2/LSR3_SLICE;X7/Y2/0_0_MUXLSR3->0_0_LSR3_SLICE;1;X7/Y2/LSR0;X7/Y2/0_0_H02W0301->0_0_LSR0;1;X7/Y2/MUXLSR2;X7/Y2/0_0_LSR0->0_0_MUXLSR2;1;X7/Y2/LSR2_SLICE;X7/Y2/0_0_MUXLSR2->0_0_LSR2_SLICE;1;X7/Y4/H02E0301;X6/Y4/0_3_V06N0003->1_0_H02E0301;1;X8/Y3/V02N0301;X8/Y4/-1_0_H02E0301->0_-1_V02N0301;1;X7/Y2/H02W0301;X8/Y2/0_1_V02N0301->-1_0_H02W0301;1;X7/Y2/LSR1;X7/Y2/0_0_H02W0301->0_0_LSR1;1;X7/Y2/MUXLSR1;X7/Y2/0_0_LSR1->0_0_MUXLSR1;1;X7/Y2/LSR1_SLICE;X7/Y2/0_0_MUXLSR1->0_0_LSR1_SLICE;1;X5/Y2/LSR0;X5/Y2/-1_0_H02E0301->0_0_LSR0;1;X5/Y2/MUXLSR2;X5/Y2/0_0_LSR0->0_0_MUXLSR2;1;X5/Y2/LSR2_SLICE;X5/Y2/0_0_MUXLSR2->0_0_LSR2_SLICE;1;X4/Y2/MUXLSR2;X4/Y2/0_0_LSR0->0_0_MUXLSR2;1;X4/Y2/LSR2_SLICE;X4/Y2/0_0_MUXLSR2->0_0_LSR2_SLICE;1;X4/Y2/MUXLSR0;X4/Y2/0_0_LSR1->0_0_MUXLSR0;1;X4/Y2/LSR0_SLICE;X4/Y2/0_0_MUXLSR0->0_0_LSR0_SLICE;1;X4/Y2/LSR1;X4/Y2/0_0_H02E0301->0_0_LSR1;1;X4/Y2/MUXLSR3;X4/Y2/0_0_LSR1->0_0_MUXLSR3;1;X4/Y2/LSR3_SLICE;X4/Y2/0_0_MUXLSR3->0_0_LSR3_SLICE;1;X6/Y95/JPADDIA_PIO;;1;X6/Y95/JDIA;X6/Y95/0_0_JPADDIA_PIO->0_0_JDIA;1;X6/Y94/JQ0;X6/Y95/0_0_JDIA->0_-1_JQ0;1;X6/Y91/V06N0003;X6/Y94/0_0_JQ0->0_-3_V06N0003;1;X6/Y85/V06N0003;X6/Y88/0_3_V06N0003->0_-3_V06N0003;1;X6/Y79/V06N0003;X6/Y82/0_3_V06N0003->0_-3_V06N0003;1;X6/Y73/V06N0003;X6/Y76/0_3_V06N0003->0_-3_V06N0003;1;X6/Y67/V06N0103;X6/Y70/0_3_V06N0003->0_-3_V06N0103;1;X6/Y61/V06N0203;X6/Y64/0_3_V06N0103->0_-3_V06N0203;1;X6/Y55/V06N0303;X6/Y58/0_3_V06N0203->0_-3_V06N0303;1;X6/Y49/V06N0303;X6/Y52/0_3_V06N0303->0_-3_V06N0303;1;X6/Y43/V06N0303;X6/Y46/0_3_V06N0303->0_-3_V06N0303;1;X6/Y37/V06N0303;X6/Y40/0_3_V06N0303->0_-3_V06N0303;1;X6/Y31/V06N0003;X6/Y34/0_3_V06N0303->0_-3_V06N0003;1;X6/Y25/V06N0003;X6/Y28/0_3_V06N0003->0_-3_V06N0003;1;X6/Y19/V06N0003;X6/Y22/0_3_V06N0003->0_-3_V06N0003;1;X6/Y13/V06N0003;X6/Y16/0_3_V06N0003->0_-3_V06N0003;1;X6/Y7/V06N0003;X6/Y10/0_3_V06N0003->0_-3_V06N0003;1;X3/Y4/H06W0003;X6/Y4/0_3_V06N0003->-3_0_H06W0003;1;X3/Y3/V02N0301;X3/Y4/0_0_H06W0003->0_-1_V02N0301;1;X4/Y2/H02E0301;X3/Y2/0_1_V02N0301->1_0_H02E0301;1;X4/Y2/LSR0;X4/Y2/0_0_H02E0301->0_0_LSR0;1;X4/Y2/MUXLSR1;X4/Y2/0_0_LSR0->0_0_MUXLSR1;1;X4/Y2/LSR1_SLICE;X4/Y2/0_0_MUXLSR1->0_0_LSR1_SLICE;1",
+            "ROUTING": "X6/Y2/MUXLSR0;X6/Y2/0_0_LSR0->0_0_MUXLSR0;1;X6/Y2/LSR0_SLICE;X6/Y2/0_0_MUXLSR0->0_0_LSR0_SLICE;1;X6/Y2/MUXLSR1;X6/Y2/0_0_LSR1->0_0_MUXLSR1;1;X6/Y2/LSR1_SLICE;X6/Y2/0_0_MUXLSR1->0_0_LSR1_SLICE;1;X6/Y2/LSR0;X6/Y2/1_0_H02W0501->0_0_LSR0;1;X6/Y2/MUXLSR2;X6/Y2/0_0_LSR0->0_0_MUXLSR2;1;X6/Y2/LSR2_SLICE;X6/Y2/0_0_MUXLSR2->0_0_LSR2_SLICE;1;X7/Y4/H02E0501;X6/Y4/0_3_V06N0303->1_0_H02E0501;1;X8/Y3/V02N0501;X8/Y4/-1_0_H02E0501->0_-1_V02N0501;1;X7/Y2/H02W0501;X8/Y2/0_1_V02N0501->-1_0_H02W0501;1;X6/Y2/LSR1;X6/Y2/1_0_H02W0501->0_0_LSR1;1;X6/Y2/MUXLSR3;X6/Y2/0_0_LSR1->0_0_MUXLSR3;1;X6/Y2/LSR3_SLICE;X6/Y2/0_0_MUXLSR3->0_0_LSR3_SLICE;1;X7/Y2/MUXLSR2;X7/Y2/0_0_LSR1->0_0_MUXLSR2;1;X7/Y2/LSR2_SLICE;X7/Y2/0_0_MUXLSR2->0_0_LSR2_SLICE;1;X5/Y2/MUXLSR3;X5/Y2/0_0_LSR0->0_0_MUXLSR3;1;X5/Y2/LSR3_SLICE;X5/Y2/0_0_MUXLSR3->0_0_LSR3_SLICE;1;X7/Y2/MUXLSR1;X7/Y2/0_0_LSR0->0_0_MUXLSR1;1;X7/Y2/LSR1_SLICE;X7/Y2/0_0_MUXLSR1->0_0_LSR1_SLICE;1;X7/Y2/LSR0;X7/Y2/0_0_H02E0501->0_0_LSR0;1;X7/Y2/MUXLSR0;X7/Y2/0_0_LSR0->0_0_MUXLSR0;1;X7/Y2/LSR0_SLICE;X7/Y2/0_0_MUXLSR0->0_0_LSR0_SLICE;1;X5/Y2/MUXLSR2;X5/Y2/0_0_LSR1->0_0_MUXLSR2;1;X5/Y2/LSR2_SLICE;X5/Y2/0_0_MUXLSR2->0_0_LSR2_SLICE;1;X5/Y2/LSR0;X5/Y2/0_0_H02W0501->0_0_LSR0;1;X5/Y2/MUXLSR1;X5/Y2/0_0_LSR0->0_0_MUXLSR1;1;X5/Y2/LSR1_SLICE;X5/Y2/0_0_MUXLSR1->0_0_LSR1_SLICE;1;X5/Y2/LSR1;X5/Y2/0_0_H02W0501->0_0_LSR1;1;X5/Y2/MUXLSR0;X5/Y2/0_0_LSR1->0_0_MUXLSR0;1;X5/Y2/LSR0_SLICE;X5/Y2/0_0_MUXLSR0->0_0_LSR0_SLICE;1;X7/Y2/H02E0501;X6/Y2/0_1_V02N0501->1_0_H02E0501;1;X7/Y2/LSR1;X7/Y2/0_0_H02E0501->0_0_LSR1;1;X7/Y2/MUXLSR3;X7/Y2/0_0_LSR1->0_0_MUXLSR3;1;X7/Y2/LSR3_SLICE;X7/Y2/0_0_MUXLSR3->0_0_LSR3_SLICE;1;X4/Y2/MUXLSR2;X4/Y2/0_0_LSR1->0_0_MUXLSR2;1;X4/Y2/LSR2_SLICE;X4/Y2/0_0_MUXLSR2->0_0_LSR2_SLICE;1;X4/Y2/MUXLSR0;X4/Y2/0_0_LSR0->0_0_MUXLSR0;1;X4/Y2/LSR0_SLICE;X4/Y2/0_0_MUXLSR0->0_0_LSR0_SLICE;1;X4/Y2/LSR0;X4/Y2/1_0_H02W0501->0_0_LSR0;1;X4/Y2/MUXLSR1;X4/Y2/0_0_LSR0->0_0_MUXLSR1;1;X4/Y2/LSR1_SLICE;X4/Y2/0_0_MUXLSR1->0_0_LSR1_SLICE;1;X6/Y95/JPADDIA_PIO;;1;X6/Y95/JDIA;X6/Y95/0_0_JPADDIA_PIO->0_0_JDIA;1;X6/Y94/JQ0;X6/Y95/0_0_JDIA->0_-1_JQ0;1;X6/Y91/V06N0003;X6/Y94/0_0_JQ0->0_-3_V06N0003;1;X6/Y85/V06N0003;X6/Y88/0_3_V06N0003->0_-3_V06N0003;1;X6/Y79/V06N0003;X6/Y82/0_3_V06N0003->0_-3_V06N0003;1;X6/Y73/V06N0103;X6/Y76/0_3_V06N0003->0_-3_V06N0103;1;X6/Y67/V06N0103;X6/Y70/0_3_V06N0103->0_-3_V06N0103;1;X6/Y61/V06N0203;X6/Y64/0_3_V06N0103->0_-3_V06N0203;1;X6/Y55/V06N0203;X6/Y58/0_3_V06N0203->0_-3_V06N0203;1;X6/Y49/V06N0303;X6/Y52/0_3_V06N0203->0_-3_V06N0303;1;X6/Y43/V06N0003;X6/Y46/0_3_V06N0303->0_-3_V06N0003;1;X6/Y37/V06N0103;X6/Y40/0_3_V06N0003->0_-3_V06N0103;1;X6/Y31/V06N0203;X6/Y34/0_3_V06N0103->0_-3_V06N0203;1;X6/Y25/V06N0203;X6/Y28/0_3_V06N0203->0_-3_V06N0203;1;X6/Y19/V06N0203;X6/Y22/0_3_V06N0203->0_-3_V06N0203;1;X6/Y13/V06N0303;X6/Y16/0_3_V06N0203->0_-3_V06N0303;1;X6/Y7/V06N0303;X6/Y10/0_3_V06N0303->0_-3_V06N0303;1;X6/Y3/V02N0501;X6/Y4/0_3_V06N0303->0_-1_V02N0501;1;X5/Y2/H02W0501;X6/Y2/0_1_V02N0501->-1_0_H02W0501;1;X4/Y2/LSR1;X4/Y2/1_0_H02W0501->0_0_LSR1;1;X4/Y2/MUXLSR3;X4/Y2/0_0_LSR1->0_0_MUXLSR3;1;X4/Y2/LSR3_SLICE;X4/Y2/0_0_MUXLSR3->0_0_LSR3_SLICE;1",
             "src": "builds/.grouped/grouped.v:8.14-8.17"
           }
         },
@@ -6201,7 +6201,7 @@
           "hide_name": 1,
           "bits": [ 1630 ] ,
           "attributes": {
-            "ROUTING": "X5/Y2/CE1;X5/Y2/0_1_V02N0201->0_0_CE1;1;X5/Y2/CE1_SLICE;X5/Y2/0_0_CE1->0_0_CE1_SLICE;1;X5/Y2/CE0_SLICE;X5/Y2/0_0_CE0->0_0_CE0_SLICE;1;X7/Y2/CE1;X7/Y2/0_0_H00L0000->0_0_CE1;1;X7/Y2/CE1_SLICE;X7/Y2/0_0_CE1->0_0_CE1_SLICE;1;X8/Y50/V06N0303;X8/Y53/0_0_H06W0303->0_-3_V06N0303;1;X8/Y44/V06N0003;X8/Y47/0_3_V06N0303->0_-3_V06N0003;1;X8/Y38/V06N0103;X8/Y41/0_3_V06N0003->0_-3_V06N0103;1;X8/Y32/V06N0103;X8/Y35/0_3_V06N0103->0_-3_V06N0103;1;X8/Y26/V06N0103;X8/Y29/0_3_V06N0103->0_-3_V06N0103;1;X8/Y20/V06N0103;X8/Y23/0_3_V06N0103->0_-3_V06N0103;1;X8/Y14/V06N0103;X8/Y17/0_3_V06N0103->0_-3_V06N0103;1;X8/Y8/V06N0103;X8/Y11/0_3_V06N0103->0_-3_V06N0103;1;X8/Y2/V06N0103;X8/Y5/0_3_V06N0103->0_-3_V06N0103;1;X7/Y2/H02W0201;X8/Y2/0_0_V06N0103->-1_0_H02W0201;1;X7/Y2/H00L0000;X7/Y2/0_0_H02W0201->0_0_H00L0000;1;X7/Y2/CE3;X7/Y2/0_0_H00L0000->0_0_CE3;1;X7/Y2/CE3_SLICE;X7/Y2/0_0_CE3->0_0_CE3_SLICE;1;X7/Y2/CE0_SLICE;X7/Y2/0_0_CE0->0_0_CE0_SLICE;1;X7/Y2/CE2;X7/Y2/0_0_H00L0000->0_0_CE2;1;X6/Y2/H02E0101;X5/Y2/0_0_V06N0103->1_0_H02E0101;1;X6/Y2/CE1;X6/Y2/0_0_H02E0101->0_0_CE1;1;X6/Y2/CE3;X6/Y2/0_0_H02E0101->0_0_CE3;1;X6/Y2/CE3_SLICE;X6/Y2/0_0_CE3->0_0_CE3_SLICE;1;X6/Y2/CE2;X6/Y2/0_0_H02E0101->0_0_CE2;1;X7/Y2/CE0;X7/Y2/0_0_H00L0000->0_0_CE0;1;X6/Y2/CE2_SLICE;X6/Y2/0_0_CE2->0_0_CE2_SLICE;1;X6/Y2/CE1_SLICE;X6/Y2/0_0_CE1->0_0_CE1_SLICE;1;X5/Y3/V02N0201;X5/Y4/0_0_V01N0001->0_-1_V02N0201;1;X5/Y2/CE0;X5/Y2/0_1_V02N0201->0_0_CE0;1;X5/Y2/CE3;X5/Y2/0_1_V02N0601->0_0_CE3;1;X5/Y2/CE3_SLICE;X5/Y2/0_0_CE3->0_0_CE3_SLICE;1;X6/Y2/CE0;X6/Y2/0_0_H02E0101->0_0_CE0;1;X6/Y2/CE0_SLICE;X6/Y2/0_0_CE0->0_0_CE0_SLICE;1;X7/Y2/CE2_SLICE;X7/Y2/0_0_CE2->0_0_CE2_SLICE;1;X5/Y4/V01N0001;X5/Y5/0_3_V06N0003->0_-1_V01N0001;1;X5/Y3/V02N0601;X5/Y4/0_0_V01N0001->0_-1_V02N0601;1;X5/Y2/CE2;X5/Y2/0_1_V02N0601->0_0_CE2;1;X5/Y2/CE2_SLICE;X5/Y2/0_0_CE2->0_0_CE2_SLICE;1;X4/Y2/CE3;X4/Y2/0_0_H02W0101->0_0_CE3;1;X4/Y2/CE3_SLICE;X4/Y2/0_0_CE3->0_0_CE3_SLICE;1;X4/Y2/CE0;X4/Y2/0_0_H02W0101->0_0_CE0;1;X4/Y2/CE0_SLICE;X4/Y2/0_0_CE0->0_0_CE0_SLICE;1;X4/Y2/CE1;X4/Y2/0_0_H02W0101->0_0_CE1;1;X4/Y2/CE1_SLICE;X4/Y2/0_0_CE1->0_0_CE1_SLICE;1;X126/Y53/JPADDIB_PIO;;1;X126/Y53/JDIB;X126/Y53/0_0_JPADDIB_PIO->0_0_JDIB;1;X125/Y53/JQ5;X126/Y53/0_0_JDIB->-1_0_JQ5;1;X122/Y53/H06W0303;X125/Y53/0_0_JQ5->-3_0_H06W0303;1;X116/Y53/H06W0303;X119/Y53/3_0_H06W0303->-3_0_H06W0303;1;X110/Y53/H06W0303;X113/Y53/3_0_H06W0303->-3_0_H06W0303;1;X104/Y53/H06W0303;X107/Y53/3_0_H06W0303->-3_0_H06W0303;1;X98/Y53/H06W0003;X101/Y53/3_0_H06W0303->-3_0_H06W0003;1;X92/Y53/H06W0003;X95/Y53/3_0_H06W0003->-3_0_H06W0003;1;X86/Y53/H06W0003;X89/Y53/3_0_H06W0003->-3_0_H06W0003;1;X80/Y53/H06W0003;X83/Y53/3_0_H06W0003->-3_0_H06W0003;1;X74/Y53/H06W0103;X77/Y53/3_0_H06W0003->-3_0_H06W0103;1;X68/Y53/H06W0203;X71/Y53/3_0_H06W0103->-3_0_H06W0203;1;X62/Y53/H06W0303;X65/Y53/3_0_H06W0203->-3_0_H06W0303;1;X56/Y53/H06W0003;X59/Y53/3_0_H06W0303->-3_0_H06W0003;1;X50/Y53/H06W0103;X53/Y53/3_0_H06W0003->-3_0_H06W0103;1;X44/Y53/H06W0103;X47/Y53/3_0_H06W0103->-3_0_H06W0103;1;X38/Y53/H06W0103;X41/Y53/3_0_H06W0103->-3_0_H06W0103;1;X32/Y53/H06W0103;X35/Y53/3_0_H06W0103->-3_0_H06W0103;1;X26/Y53/H06W0103;X29/Y53/3_0_H06W0103->-3_0_H06W0103;1;X20/Y53/H06W0203;X23/Y53/3_0_H06W0103->-3_0_H06W0203;1;X14/Y53/H06W0203;X17/Y53/3_0_H06W0203->-3_0_H06W0203;1;X8/Y53/H06W0303;X11/Y53/3_0_H06W0203->-3_0_H06W0303;1;X5/Y50/V06N0303;X5/Y53/3_0_H06W0303->0_-3_V06N0303;1;X5/Y44/V06N0003;X5/Y47/0_3_V06N0303->0_-3_V06N0003;1;X5/Y38/V06N0003;X5/Y41/0_3_V06N0003->0_-3_V06N0003;1;X5/Y32/V06N0003;X5/Y35/0_3_V06N0003->0_-3_V06N0003;1;X5/Y26/V06N0103;X5/Y29/0_3_V06N0003->0_-3_V06N0103;1;X5/Y20/V06N0203;X5/Y23/0_3_V06N0103->0_-3_V06N0203;1;X5/Y14/V06N0303;X5/Y17/0_3_V06N0203->0_-3_V06N0303;1;X5/Y8/V06N0003;X5/Y11/0_3_V06N0303->0_-3_V06N0003;1;X5/Y2/V06N0103;X5/Y5/0_3_V06N0003->0_-3_V06N0103;1;X4/Y2/H02W0101;X5/Y2/0_0_V06N0103->-1_0_H02W0101;1;X4/Y2/CE2;X4/Y2/0_0_H02W0101->0_0_CE2;1;X4/Y2/CE2_SLICE;X4/Y2/0_0_CE2->0_0_CE2_SLICE;1",
+            "ROUTING": "X7/Y2/CE1;X7/Y2/0_0_H00R0000->0_0_CE1;1;X7/Y2/CE1_SLICE;X7/Y2/0_0_CE1->0_0_CE1_SLICE;1;X7/Y2/CE3;X7/Y2/0_0_H00R0000->0_0_CE3;1;X7/Y2/CE3_SLICE;X7/Y2/0_0_CE3->0_0_CE3_SLICE;1;X8/Y2/V06N0303;X8/Y5/0_3_V06N0303->0_-3_V06N0303;1;X7/Y2/H02W0601;X8/Y2/0_0_V06N0303->-1_0_H02W0601;1;X7/Y2/H00R0000;X7/Y2/0_0_H02W0601->0_0_H00R0000;1;X7/Y2/CE0;X7/Y2/0_0_H00R0000->0_0_CE0;1;X7/Y2/CE0_SLICE;X7/Y2/0_0_CE0->0_0_CE0_SLICE;1;X8/Y50/V06N0003;X8/Y53/0_0_H06W0003->0_-3_V06N0003;1;X8/Y44/V06N0003;X8/Y47/0_3_V06N0003->0_-3_V06N0003;1;X8/Y38/V06N0103;X8/Y41/0_3_V06N0003->0_-3_V06N0103;1;X8/Y32/V06N0103;X8/Y35/0_3_V06N0103->0_-3_V06N0103;1;X8/Y26/V06N0103;X8/Y29/0_3_V06N0103->0_-3_V06N0103;1;X8/Y20/V06N0203;X8/Y23/0_3_V06N0103->0_-3_V06N0203;1;X8/Y14/V06N0203;X8/Y17/0_3_V06N0203->0_-3_V06N0203;1;X8/Y8/V06N0303;X8/Y11/0_3_V06N0203->0_-3_V06N0303;1;X8/Y4/V02N0601;X8/Y5/0_3_V06N0303->0_-1_V02N0601;1;X7/Y3/H02W0601;X8/Y3/0_1_V02N0601->-1_0_H02W0601;1;X7/Y2/V02N0601;X7/Y3/0_0_H02W0601->0_-1_V02N0601;1;X7/Y2/CE2;X7/Y2/0_0_V02N0601->0_0_CE2;1;X7/Y2/CE2_SLICE;X7/Y2/0_0_CE2->0_0_CE2_SLICE;1;X6/Y2/CE1;X6/Y2/0_0_H00R0000->0_0_CE1;1;X6/Y2/CE1_SLICE;X6/Y2/0_0_CE1->0_0_CE1_SLICE;1;X6/Y2/CE0;X6/Y2/0_0_H00R0000->0_0_CE0;1;X6/Y2/CE0_SLICE;X6/Y2/0_0_CE0->0_0_CE0_SLICE;1;X6/Y2/CE3;X6/Y2/0_0_H00R0000->0_0_CE3;1;X6/Y2/CE3_SLICE;X6/Y2/0_0_CE3->0_0_CE3_SLICE;1;X6/Y2/H02E0401;X5/Y2/0_0_V06N0203->1_0_H02E0401;1;X6/Y2/H00R0000;X6/Y2/0_0_H02E0401->0_0_H00R0000;1;X6/Y2/CE2;X6/Y2/0_0_H00R0000->0_0_CE2;1;X6/Y2/CE2_SLICE;X6/Y2/0_0_CE2->0_0_CE2_SLICE;1;X5/Y2/CE2;X5/Y2/0_0_H00L0000->0_0_CE2;1;X5/Y2/CE2_SLICE;X5/Y2/0_0_CE2->0_0_CE2_SLICE;1;X5/Y2/CE1;X5/Y2/0_0_V02N0201->0_0_CE1;1;X5/Y2/CE1_SLICE;X5/Y2/0_0_CE1->0_0_CE1_SLICE;1;X5/Y2/H00L0000;X5/Y2/0_0_V02N0201->0_0_H00L0000;1;X5/Y2/CE3;X5/Y2/0_0_H00L0000->0_0_CE3;1;X5/Y2/CE3_SLICE;X5/Y2/0_0_CE3->0_0_CE3_SLICE;1;X5/Y4/V02N0701;X5/Y5/0_3_V06N0203->0_-1_V02N0701;1;X5/Y2/V02N0201;X5/Y3/0_1_V02N0701->0_-1_V02N0201;1;X5/Y2/CE0;X5/Y2/0_0_V02N0201->0_0_CE0;1;X5/Y2/CE0_SLICE;X5/Y2/0_0_CE0->0_0_CE0_SLICE;1;X4/Y2/CE0;X4/Y2/0_0_H00R0000->0_0_CE0;1;X4/Y2/CE0_SLICE;X4/Y2/0_0_CE0->0_0_CE0_SLICE;1;X4/Y2/CE3;X4/Y2/0_0_H00R0000->0_0_CE3;1;X4/Y2/CE3_SLICE;X4/Y2/0_0_CE3->0_0_CE3_SLICE;1;X4/Y2/CE1;X4/Y2/0_0_H00R0000->0_0_CE1;1;X4/Y2/CE1_SLICE;X4/Y2/0_0_CE1->0_0_CE1_SLICE;1;X126/Y53/JPADDIB_PIO;;1;X126/Y53/JDIB;X126/Y53/0_0_JPADDIB_PIO->0_0_JDIB;1;X125/Y53/JQ5;X126/Y53/0_0_JDIB->-1_0_JQ5;1;X122/Y53/H06W0303;X125/Y53/0_0_JQ5->-3_0_H06W0303;1;X116/Y53/H06W0003;X119/Y53/3_0_H06W0303->-3_0_H06W0003;1;X110/Y53/H06W0003;X113/Y53/3_0_H06W0003->-3_0_H06W0003;1;X104/Y53/H06W0003;X107/Y53/3_0_H06W0003->-3_0_H06W0003;1;X98/Y53/H06W0103;X101/Y53/3_0_H06W0003->-3_0_H06W0103;1;X92/Y53/H06W0103;X95/Y53/3_0_H06W0103->-3_0_H06W0103;1;X86/Y53/H06W0203;X89/Y53/3_0_H06W0103->-3_0_H06W0203;1;X80/Y53/H06W0303;X83/Y53/3_0_H06W0203->-3_0_H06W0303;1;X74/Y53/H06W0003;X77/Y53/3_0_H06W0303->-3_0_H06W0003;1;X68/Y53/H06W0103;X71/Y53/3_0_H06W0003->-3_0_H06W0103;1;X62/Y53/H06W0103;X65/Y53/3_0_H06W0103->-3_0_H06W0103;1;X56/Y53/H06W0203;X59/Y53/3_0_H06W0103->-3_0_H06W0203;1;X50/Y53/H06W0203;X53/Y53/3_0_H06W0203->-3_0_H06W0203;1;X44/Y53/H06W0203;X47/Y53/3_0_H06W0203->-3_0_H06W0203;1;X38/Y53/H06W0203;X41/Y53/3_0_H06W0203->-3_0_H06W0203;1;X32/Y53/H06W0203;X35/Y53/3_0_H06W0203->-3_0_H06W0203;1;X26/Y53/H06W0203;X29/Y53/3_0_H06W0203->-3_0_H06W0203;1;X20/Y53/H06W0303;X23/Y53/3_0_H06W0203->-3_0_H06W0303;1;X14/Y53/H06W0003;X17/Y53/3_0_H06W0303->-3_0_H06W0003;1;X8/Y53/H06W0003;X11/Y53/3_0_H06W0003->-3_0_H06W0003;1;X5/Y50/V06N0003;X5/Y53/3_0_H06W0003->0_-3_V06N0003;1;X5/Y44/V06N0003;X5/Y47/0_3_V06N0003->0_-3_V06N0003;1;X5/Y38/V06N0103;X5/Y41/0_3_V06N0003->0_-3_V06N0103;1;X5/Y32/V06N0103;X5/Y35/0_3_V06N0103->0_-3_V06N0103;1;X5/Y26/V06N0203;X5/Y29/0_3_V06N0103->0_-3_V06N0203;1;X5/Y20/V06N0203;X5/Y23/0_3_V06N0203->0_-3_V06N0203;1;X5/Y14/V06N0203;X5/Y17/0_3_V06N0203->0_-3_V06N0203;1;X5/Y8/V06N0203;X5/Y11/0_3_V06N0203->0_-3_V06N0203;1;X5/Y2/V06N0203;X5/Y5/0_3_V06N0203->0_-3_V06N0203;1;X4/Y2/H02W0401;X5/Y2/0_0_V06N0203->-1_0_H02W0401;1;X4/Y2/H00R0000;X4/Y2/0_0_H02W0401->0_0_H00R0000;1;X4/Y2/CE2;X4/Y2/0_0_H00R0000->0_0_CE2;1;X4/Y2/CE2_SLICE;X4/Y2/0_0_CE2->0_0_CE2_SLICE;1",
             "src": "builds/.grouped/grouped.v:9.14-9.16"
           }
         },
